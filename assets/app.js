@@ -22,14 +22,14 @@
     document.querySelector('[data-actual-total]').textContent = yen.format(actual);
     document.querySelector('[data-diff-total]').textContent = yen.format(actual - planned);
     document.querySelector('[data-per-person]').textContent = yen.format(actual / 3);
-    localStorage.setItem('spain-trip-budget', JSON.stringify(Object.fromEntries(rows.map(row => {
+    localStorage.setItem('spain-trip-budget-v2', JSON.stringify(Object.fromEntries(rows.map(row => {
       const input = row.querySelector('.budget-input');
       return [input.id, Number(input.value || 0)];
     }))));
   };
 
   try {
-    const saved = JSON.parse(localStorage.getItem('spain-trip-budget') || '{}');
+    const saved = JSON.parse(localStorage.getItem('spain-trip-budget-v2') || '{}');
     rows.forEach(row => {
       const input = row.querySelector('.budget-input');
       if (Object.hasOwn(saved, input.id)) input.value = saved[input.id];
