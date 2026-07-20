@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="スペイン旅行2026–27の3人分予算と実績管理。"><meta name="robots" content="noindex, nofollow, noarchive"><meta name="theme-color" content="#18204a"><title>予算｜Spain Trip 2026–27</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Parisienne&display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<a class="skip-link" href="#content">本文へ移動</a>
+<header class="site-header"><div class="hero"><p class="eyebrow">Plan · Pay · Track</p><h1><span>Presupuesto de</span>Viaje</h1><p class="hero-copy">予定と実績を3人分で管理。入力内容はこの端末のブラウザに保存されます。</p></div></header>
+<nav class="site-nav" aria-label="メインナビゲーション"><div class="nav-inner"><a href="index.html">概要</a><a href="spots.html">スポット</a><a href="food.html">グルメ</a><a href="schedule.html">日程</a><a href="budget.html" aria-current="page">予算</a></div></nav>
+<main id="content">
+  <section class="page-lead"><span class="kicker">Budget tracker</span><h2>予算</h2><p class="lead">金額は3人合計・日本円。実績額を入力すると、合計・差分・1人あたりを自動計算します。</p></section>
+  <div class="note"><strong>支払方針</strong><br>可能な支払いは Marriott Bonvoy® アメリカン・エキスプレス®・カードへ集約し、ポイント獲得を最大化します。現地通貨決済を基本とし、DCC（円建て決済）は避けます。</div>
+  <div class="summary-grid" aria-live="polite">
+    <div class="summary"><span>予定額 合計</span><strong data-planned-total>—</strong></div>
+    <div class="summary"><span>実績額 合計</span><strong data-actual-total>—</strong></div>
+    <div class="summary"><span>予定との差</span><strong data-diff-total>—</strong></div>
+    <div class="summary"><span>実績 1人あたり</span><strong data-per-person>—</strong></div>
+  </div>
+  <div class="section-title"><h3>費用明細</h3><button class="reset-btn" type="button" data-reset-budget>初期値に戻す</button></div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>カテゴリ</th><th>項目</th><th class="money">予定額</th><th class="money">実績額</th><th class="money">差分</th><th>支払方法</th></tr></thead>
+      <tbody>
+        <tr data-budget-row data-planned="1337490"><td>航空券</td><td>国際線 3人分 <span class="tag confirmed">確定</span></td><td class="money">¥1,337,490</td><td class="money"><input class="budget-input" id="actual-flight" type="number" min="0" step="1" value="1337490" aria-label="航空券の実績額"></td><td class="money" data-diff>—</td><td>Marriott Amex</td></tr>
+        <tr data-budget-row data-planned="80202"><td>列車</td><td>Barcelona ↔ Madrid iryo（参考価格）</td><td class="money">¥80,202</td><td class="money"><input class="budget-input" id="actual-iryo" type="number" min="0" step="1" value="0" aria-label="iryoの実績額"></td><td class="money" data-diff>—</td><td>Marriott Amex</td></tr>
+        <tr data-budget-row data-planned="0"><td>列車</td><td>Tarragona・Toledo・Montserrat <span class="tag pending">発売待ち</span></td><td class="money">未定</td><td class="money"><input class="budget-input" id="actual-local-train" type="number" min="0" step="1" value="0" aria-label="近郊列車の実績額"></td><td class="money" data-diff>—</td><td>Marriott Amex</td></tr>
+        <tr data-budget-row data-planned="0"><td>宿泊</td><td>Barcelona 計5泊</td><td class="money">未定</td><td class="money"><input class="budget-input" id="actual-hotel-bcn" type="number" min="0" step="1" value="0" aria-label="バルセロナ宿泊の実績額"></td><td class="money" data-diff>—</td><td>Marriott Amex</td></tr>
+        <tr data-budget-row data-planned="0"><td>宿泊</td><td>Madrid 4泊</td><td class="money">未定</td><td class="money"><input class="budget-input" id="actual-hotel-mad" type="number" min="0" step="1" value="0" aria-label="マドリード宿泊の実績額"></td><td class="money" data-diff>—</td><td>Marriott Amex</td></tr>
+        <tr data-budget-row data-planned="49242"><td>観光チケット</td><td>サグラダ・ファミリア 鐘塔付き 3人分</td><td class="money">¥49,242</td><td class="money"><input class="budget-input" id="actual-sagrada" type="number" min="0" step="1" value="49242" aria-label="サグラダファミリアの実績額"></td><td class="money" data-diff>—</td><td>Marriott Amex</td></tr>
+        <tr data-budget-row data-planned="40416"><td>観光チケット</td><td>セゴビア＋トレド 8時間ツアー候補</td><td class="money">¥40,416</td><td class="money"><input class="budget-input" id="actual-tour" type="number" min="0" step="1" value="0" aria-label="セゴビアとトレドツアーの実績額"></td><td class="money" data-diff>—</td><td>Marriott Amex</td></tr>
+        <tr data-budget-row data-planned="0"><td>観光チケット</td><td>その他施設・フラメンコ</td><td class="money">未定</td><td class="money"><input class="budget-input" id="actual-tickets" type="number" min="0" step="1" value="0" aria-label="その他観光チケットの実績額"></td><td class="money" data-diff>—</td><td>Marriott Amex</td></tr>
+        <tr data-budget-row data-planned="0"><td>食事</td><td>通常食＋大晦日ディナー</td><td class="money">未定</td><td class="money"><input class="budget-input" id="actual-food" type="number" min="0" step="1" value="0" aria-label="食事の実績額"></td><td class="money" data-diff>—</td><td>カード／現金</td></tr>
+        <tr data-budget-row data-planned="0"><td>その他</td><td>空港移動・市内交通・保険・通信</td><td class="money">未定</td><td class="money"><input class="budget-input" id="actual-other" type="number" min="0" step="1" value="0" aria-label="その他の実績額"></td><td class="money" data-diff>—</td><td>カード／現金</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="subtle" style="margin-top:12px;font-size:.78rem">※ iryo予定額は旧計画の往路 ¥11,286 × 3人＋復路 ¥15,448 × 3人。未発売のため、予約時に更新します。未定項目は予定額0円として集計しています。</p>
+</main>
+<footer><strong>Spain Trip 2026–27</strong><br>予算データはブラウザの localStorage に保存され、サーバーには送信されません。</footer>
+<script src="assets/app.js"></script>
+</body>
+</html>
