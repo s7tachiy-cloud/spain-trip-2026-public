@@ -1,0 +1,14 @@
+{
+  "name": "Spain Trip 2026–27",
+  "short_name": "Spain Trip",
+  "description": "家族3人のスペイン旅行ダッシュボード",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fbf6e9",
+  "theme_color": "#18204a",
+  "icons": [
+    { "src": "assets/app-icon-180.png", "sizes": "180x180", "type": "image/png", "purpose": "any" },
+    { "src": "assets/app-icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
