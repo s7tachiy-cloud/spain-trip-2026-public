@@ -4,11 +4,13 @@
 
 ## Pages
 
-- `index.html` — 概要
-- `spots.html` — 観光スポット
-- `food.html` — グルメ（調査中）
-- `schedule.html` — 日程
-- `budget.html` — 予算・実績管理
+- `index.html` — ホーム（旅行前はカウントダウン＋残タスク、旅行中は今日の予定を自動表示）
+- `schedule.html` — 日程（日付チップ・今日へジャンプ）
+- `spots.html` — 観光スポット（実用情報＋折りたたみ解説・都市フィルタ）
+- `budget.html` — お金（為替・予算・精算）
+- `prep.html` — 準備（持ち物・気温・食べたいもの・書類）
+- `food.html` — `prep.html` へのリダイレクト（旧リンク対策）
+- `assets/data.js` — 旅程・タスクの一元管理（`window.TRIP`）
 
 GitHub Pages 用の静的サイトで、ビルド工程はありません。ローカルでは任意の静的HTTPサーバーで確認できます。
 

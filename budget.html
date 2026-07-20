@@ -2,12 +2,18 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="スペイン旅行2026–27の予算、為替換算、親と自分の支払い管理。"><meta name="robots" content="noindex, nofollow, noarchive"><meta name="theme-color" content="#18204a"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Spain Trip"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="assets/app-icon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="assets/app-icon-180.png"><title>予算・精算｜Spain Trip 2026–27</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Parisienne&display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
 <a class="skip-link" href="#content">本文へ移動</a>
-<header class="site-header"><div class="hero"><p class="eyebrow">Plan · Pay · Settle</p><h1><span>Presupuesto de</span>Viaje</h1><p class="hero-copy">いくらかかるか、誰が払うか、あとで迷わない。</p></div></header>
-<nav class="site-nav" aria-label="メインナビゲーション"><div class="nav-inner"><a href="index.html">概要</a><a href="spots.html">スポット</a><a href="food.html">グルメ</a><a href="schedule.html">日程</a><a href="budget.html" aria-current="page">予算</a></div></nav>
+<header class="site-header compact"><div class="hero-compact"><p class="page-name">お金</p><p class="page-range">2026.12.25 — 2027.01.05 · 為替・予算・精算</p></div></header>
+<nav class="site-nav" aria-label="メインナビゲーション"><div class="nav-inner">
+<a href="index.html"><span class="nav-ico" aria-hidden="true">🏠</span><span class="nav-label">ホーム</span></a>
+<a href="schedule.html"><span class="nav-ico" aria-hidden="true">🗓️</span><span class="nav-label">日程</span></a>
+<a href="spots.html"><span class="nav-ico" aria-hidden="true">📍</span><span class="nav-label">スポット</span></a>
+<a href="budget.html" aria-current="page"><span class="nav-ico" aria-hidden="true">💶</span><span class="nav-label">お金</span></a>
+<a href="prep.html"><span class="nav-ico" aria-hidden="true">🎒</span><span class="nav-label">準備</span></a>
+</div></nav>
 <main id="content">
   <section class="page-lead"><span class="kicker">Budget & settlement</span><h2>予算・支払い</h2><p class="lead">3人分の予定と実績に加え、「支払う予定の人」と「実際に払った人」を記録します。入力はこの端末に保存されます。</p><div class="jump-nav"><a href="#exchange">€換算</a><a href="#summary">集計</a><a href="#details">明細入力</a></div></section>
 
@@ -41,7 +47,8 @@
       <tr data-budget-row data-planned="0"><td>その他</td><td>空港・市内交通・保険・通信</td><td class="money">未定</td><td><select class="form-control payer-select planned-payer"><option>未定</option><option>親</option><option>自分</option></select></td><td class="money"><input class="budget-input" id="actual-other" type="number" min="0" value="0"></td><td><select class="form-control payer-select actual-payer"><option>未設定</option><option>親</option><option>自分</option></select></td><td class="money" data-diff>—</td><td>カード／現金</td></tr>
     </tbody>
   </table></div>
-  <p class="subtle" style="font-size:.72rem">※ 未定項目は予定額0円で集計。セゴビア＋Toledoツアー候補 ¥40,416は現行日程に含めていません。CSVを共有すれば別端末でも支払状況を確認できます。</p></section>
+  <p class="subtle" style="font-size:.72rem">※ 未定項目は予定額0円で集計。セゴビア＋Toledoツアー候補 ¥40,416は現行日程に含めていません。CSVを共有すれば別端末でも支払状況を確認できます。</p>
+  <div class="note">入力は各端末に保存されます。共有するときは <strong>CSV出力</strong> を家族LINE等へ送ってください（この端末が正）。</div></section>
 </main>
 <footer><strong>Spain Trip 2026–27</strong><br>入力内容はこのブラウザだけに保存され、サーバーには送信されません。</footer>
 <script src="assets/app.js"></script>

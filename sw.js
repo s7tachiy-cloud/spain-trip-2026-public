@@ -1,7 +1,7 @@
-const CACHE = 'spain-trip-v3';
+const CACHE = 'spain-trip-v4';
 const ASSETS = [
-  './', './index.html', './spots.html', './food.html', './schedule.html', './budget.html',
-  './assets/style.css', './assets/app.js', './assets/app-icon.svg', './assets/app-icon-180.png',
+  './', './index.html', './spots.html', './schedule.html', './budget.html', './prep.html',
+  './assets/style.css', './assets/app.js', './assets/data.js', './assets/app-icon.svg', './assets/app-icon-180.png',
   './assets/sagrada-interior.jpg', './assets/park-guell-dragon.jpg'
 ];
 self.addEventListener('install', event => event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS))));

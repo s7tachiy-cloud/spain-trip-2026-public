@@ -120,9 +120,90 @@
     update();
   };
 
+  const dateKey = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  const anchorOf = date => 'd' + date.slice(5).replace('-', '');
+  const parseDate = s => { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d); };
+
+  const taskHTML = t => {
+    const action = t.href
+      ? `<a href="${t.href}"${t.external ? ' target="_blank" rel="noopener"' : ''}>${t.action}</a>`
+      : `<span>${t.action}</span>`;
+    return `<article class="task${t.priority === 'urgent' ? ' urgent' : ''}"><div class="task-status">${t.label}</div><div><h4>${t.title}</h4><p>${t.note}</p></div>${action}</article>`;
+  };
+
+  const initHome = () => {
+    const host = document.querySelector('[data-home-dynamic]');
+    if (!host || !window.TRIP) return;
+    const trip = window.TRIP;
+    const now = new Date();
+    const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const start = parseDate(trip.start);
+    const end = parseDate(trip.end);
+
+    if (midnight < start) {
+      const days = Math.ceil((start - midnight) / 86400000);
+      host.innerHTML =
+        `<div class="countdown"><span>出発まであと</span><strong>${days}</strong><span>日</span></div>` +
+        `<div class="section-title"><h3>残タスク</h3><small>優先順</small></div>` +
+        `<div class="task-list">${trip.tasks.map(taskHTML).join('')}</div>`;
+    } else if (midnight <= end) {
+      const key = dateKey(now);
+      const day = trip.days.find(d => d.date === key) || trip.days[0];
+      const label = day.date.slice(5).replace('-', '/');
+      host.innerHTML =
+        `<div class="today-card"><span class="today-label">今日の予定 · ${label}（${day.dow}）</span>` +
+        `<div class="today-head"><h3>${day.title}</h3><span class="tag ${day.status === 'confirmed' ? 'confirmed' : 'pending'}">${day.statusLabel}</span></div>` +
+        `<div class="action-row"><a class="action-link primary" href="schedule.html#${anchorOf(day.date)}">今日の行程を見る</a><a class="action-link" href="spots.html">予約・チケット</a></div></div>`;
+    } else {
+      host.innerHTML =
+        `<div class="today-card"><span class="today-label">おかえりなさい</span>` +
+        `<div class="today-head"><h3>旅のあとに</h3></div>` +
+        `<p class="subtle">立替の精算はお金ページでまとめられます。CSVを家族で共有して最終確認を。</p>` +
+        `<div class="action-row"><a class="action-link primary" href="budget.html">精算を確認する</a></div></div>`;
+    }
+  };
+
+  const initScheduleChips = () => {
+    const host = document.querySelector('[data-date-chips]');
+    if (!host || !window.TRIP) return;
+    const trip = window.TRIP;
+    const key = dateKey(new Date());
+    let todayAnchor = null;
+    host.innerHTML = trip.days.map(d => {
+      const dayNum = Number(d.date.slice(8, 10));
+      const isToday = d.date === key;
+      if (isToday) todayAnchor = anchorOf(d.date);
+      return `<a class="date-chip${isToday ? ' current' : ''}" href="#${anchorOf(d.date)}">${dayNum}</a>`;
+    }).join('');
+    const btn = document.querySelector('[data-today-btn]');
+    if (btn) {
+      const target = todayAnchor || anchorOf(trip.days[0].date);
+      if (!todayAnchor) btn.textContent = '先頭へ';
+      btn.addEventListener('click', () => {
+        document.getElementById(target)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+  };
+
+  const initSpotFilter = () => {
+    const bar = document.querySelector('[data-spot-filter]');
+    if (!bar) return;
+    const sections = [...document.querySelectorAll('[data-city]')];
+    bar.addEventListener('click', event => {
+      const chip = event.target.closest('.filter-chip');
+      if (!chip) return;
+      const city = chip.dataset.filter;
+      bar.querySelectorAll('.filter-chip').forEach(c => c.classList.toggle('active', c === chip));
+      sections.forEach(sec => { sec.hidden = city !== 'all' && sec.dataset.city !== city; });
+    });
+  };
+
   initExchange();
   initBudget();
   initPacking();
+  initHome();
+  initScheduleChips();
+  initSpotFilter();
   if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
     navigator.serviceWorker.register('./sw.js').catch(() => {});
   }
