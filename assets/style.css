@@ -229,6 +229,9 @@ tbody tr:last-child td { border-bottom: 0; }
 .agenda { margin-top: 10px; }
 .agenda p { display: grid; grid-template-columns: 5.5em 1fr; gap: 8px; margin: 0; border-top: 1px solid #eee7d7; padding: 7px 0; font-size: .78rem; }
 .agenda time { color: var(--indigo-700); font-weight: 800; font-variant-numeric: tabular-nums; }
+.agenda p.ref-time time { color: #9a7b12; }
+.ref-badge { display: inline-block; margin-left: 6px; padding: 1px 7px; border-radius: 999px; background: var(--saffron-light); color: var(--indigo-950); font-size: .62rem; font-weight: 700; vertical-align: middle; }
+.agenda .fee-check { color: #9a7b12; font-weight: 700; }
 .day-note { margin: 8px 0 0; border-radius: 8px; background: #fff5ce; padding: 7px 9px; color: #654f14; font-size: .68rem; }
 .transfer { border-color: #ddbaa9; }
 .transfer .date-tile { background: var(--terracotta); }
