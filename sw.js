@@ -1,16 +1,6 @@
-const CACHE = 'spain-trip-v4';
-const ASSETS = [
-  './', './index.html', './spots.html', './schedule.html', './budget.html', './prep.html',
-  './assets/style.css', './assets/app.js', './assets/data.js', './assets/app-icon.svg', './assets/app-icon-180.png',
-  './assets/sagrada-interior.jpg', './assets/park-guell-dragon.jpg'
-];
-self.addEventListener('install', event => event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS))));
-self.addEventListener('activate', event => event.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(key => key !== CACHE).map(key => caches.delete(key))))));
-self.addEventListener('fetch', event => {
-  if (event.request.method !== 'GET') return;
-  event.respondWith(fetch(event.request).then(response => {
-    const copy = response.clone();
-    caches.open(CACHE).then(cache => cache.put(event.request, copy));
-    return response;
-  }).catch(() => caches.match(event.request).then(response => response || caches.match('./index.html'))));
-});
+const CACHE="spain-trip-public-rc-01-v1";
+const PRECACHE=["./","./index.html","./decision.html","./schedule.html","./today.html","./learn.html","./prep.html","./spots.html","./info.html","./budget.html","./records.html","./explore.html","./food.html","./manifest.webmanifest","./assets/app-icon-180.png","./assets/app-icon.svg","./assets/app.js","./assets/style.css","./assets/phase1-canonical.js","./assets/phase1-contract.js","./assets/phase1-utils-1-3-1.js","./assets/phase1-runtime.js","./assets/hotel-candidates-3p-01.js","./assets/hotel-candidates-3p-01-runtime.js","./assets/parent-ready-01-runtime.js","./assets/bootstrap.js","./assets/sagrada-interior.jpg","./assets/park-guell-dragon.jpg"];
+const SHELLS=["./index.html","./decision.html","./schedule.html","./today.html","./learn.html","./prep.html","./spots.html","./info.html","./budget.html","./records.html","./explore.html","./food.html"];
+self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(PRECACHE)).then(()=>self.skipWaiting())));
+self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE&&key.startsWith('spain-trip-')).map(key=>caches.delete(key)))) .then(()=>self.clients.claim())));
+self.addEventListener('fetch',event=>{if(event.request.method!=='GET')return;const url=new URL(event.request.url);if(url.origin!==location.origin)return;event.respondWith((async()=>{try{const response=await fetch(event.request);if(response&&response.ok){const copy=response.clone();event.waitUntil(caches.open(CACHE).then(cache=>cache.put(event.request,copy)));}return response;}catch(error){const exact=await caches.match(event.request,{ignoreSearch:true});if(exact)return exact;if(event.request.mode==='navigate'){const base=new URL(self.registration.scope).pathname;const relative='./'+url.pathname.slice(base.length);const known=SHELLS.find(file=>file===relative);if(known){const shell=await caches.match(known,{ignoreSearch:true});if(shell)return shell;}return caches.match('./index.html');}throw error;}})());});
