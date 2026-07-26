@@ -1,49 +1,50 @@
 <!doctype html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="スペイン旅行2026–27の予算、為替換算、親と自分の支払い管理。"><meta name="robots" content="noindex,nofollow,noarchive,nosnippet,noimageindex"><meta name="theme-color" content="#18204a"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Spain Trip"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="assets/app-icon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="assets/app-icon-180.png"><title>予算・精算｜Spain Trip 2026–27</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="assets/style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="支出、支払者、3人分割、精算状態">
+  <meta name="robots" content="noindex,nofollow,noarchive,nosnippet,noimageindex">
+  <meta name="theme-color" content="#15342f">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/app-icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/app-icon-180.png">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="stylesheet" href="assets/ux-rebuild-01.css">
+  <link rel="stylesheet" href="assets/ux-rebuild-03.css">
+  <title>予算・精算｜Spain Trip 2026–27</title>
 </head>
-<body data-view="records">
-<a class="skip-link" href="#content">本文へ移動</a>
-<header class="phase1-header"><div class="phase1-header-inner"><a class="brand" href="index.html"><strong>Spain Trip 2026–27</strong><span>既存の予算・精算</span></a><nav class="desktop-nav" data-desktop-nav aria-label="主要ナビゲーション"></nav></div></header><nav class="mobile-nav" data-mobile-nav aria-label="モバイル主要ナビゲーション"></nav>
-<main id="content">
-  <section class="page-lead"><span class="kicker">Budget & settlement</span><h2>予算・支払い</h2><p class="lead">3人分の予定と実績に加え、「支払う予定の人」と「実際に払った人」を記録します。入力はこの端末に保存されます。</p><div class="jump-nav"><a href="#exchange">€換算</a><a href="#summary">集計</a><a href="#details">明細入力</a></div></section>
-
-  <section class="section" id="exchange"><div class="section-title"><h3>ユーロ換算</h3><small>レートは手入力</small></div><div class="card exchange-panel">
-    <div><label for="eur-rate"><strong>基準レート</strong></label><div class="rate-input"><span>€1 = ¥</span><input id="eur-rate" type="number" min="1" step="0.01" value="186" inputmode="decimal"></div><p class="subtle" style="font-size:.7rem">ECB 2026/7/17参考値 €1＝¥185.65を丸めた初期値。カード請求には海外事務手数料等が加わります。</p><a class="map-link" href="https://www.ecb.europa.eu/stats/policy_and_exchange_rates/euro_reference_exchange_rates/html/eurofxref-graph-jpy.en.html" target="_blank" rel="noopener">ECB最新レートを確認</a></div>
-    <div><label for="eur-amount"><strong>金額を換算</strong></label><div class="rate-input"><span>€</span><input id="eur-amount" type="number" min="0" step="0.01" value="100" inputmode="decimal"><span>→</span><strong data-eur-result>¥18,600</strong></div><div class="conversion-grid"><div class="conversion">€10<strong data-eur-quick="10">—</strong></div><div class="conversion">€25<strong data-eur-quick="25">—</strong></div><div class="conversion">€50<strong data-eur-quick="50">—</strong></div><div class="conversion">€100<strong data-eur-quick="100">—</strong></div></div></div>
-  </div></section>
-
-  <section class="section" id="summary"><div class="section-title"><h3>いまの集計</h3><small>実績は入力に連動</small></div><div class="summary-grid" aria-live="polite">
-    <div class="summary"><span>予定額 合計</span><strong data-planned-total>—</strong></div>
-    <div class="summary"><span>実績額 合計</span><strong data-actual-total>—</strong></div>
-    <div class="summary"><span>予定との差</span><strong data-diff-total>—</strong></div>
-    <div class="summary"><span>実績 1人あたり</span><strong data-per-person>—</strong></div>
-    <div class="summary payer-parent"><span>親が支払った</span><strong data-parent-total>—</strong></div>
-    <div class="summary payer-self"><span>自分が支払った</span><strong data-self-total>—</strong></div>
-    <div class="summary payer-open"><span>支払者 未設定</span><strong data-unassigned-total>—</strong></div>
-  </div><div class="note"><strong>精算の考え方：</strong>まず実際の支払者を全行入力します。誰が最終的にいくら負担するかが決まったら、親／自分の立替差額から精算額を出せます。現段階では負担割合を仮定しません。</div></section>
-
-  <section class="section" id="details"><div class="section-title"><h3>費用明細</h3><div><button class="secondary-btn" type="button" data-export-budget>CSV出力</button> <button class="reset-btn" type="button" data-reset-budget>初期値に戻す</button></div></div>
-  <div class="table-wrap"><table class="budget-table">
-    <thead><tr><th>カテゴリ</th><th>項目</th><th class="money">予定額</th><th>予定支払者</th><th class="money">実績額</th><th>実際の支払者</th><th class="money">差分</th><th>方法</th></tr></thead>
-    <tbody>
-      <tr data-budget-row data-planned="1337490"><td>航空券</td><td>国際線 3人分 <span class="tag confirmed">確定</span></td><td class="money">¥1,337,490</td><td><select class="form-control payer-select planned-payer" aria-label="航空券の予定支払者"><option>未定</option><option>親</option><option>自分</option></select></td><td class="money"><input class="budget-input" id="actual-flight" type="number" min="0" value="1337490" aria-label="航空券の実績額"></td><td><select class="form-control payer-select actual-payer" aria-label="航空券の実際の支払者"><option>未設定</option><option>親</option><option>自分</option></select></td><td class="money" data-diff>—</td><td>非公開で管理</td></tr>
-      <tr data-budget-row data-planned="80202"><td>列車</td><td>Barcelona ↔ Madrid iryo（旧参考）</td><td class="money">¥80,202</td><td><select class="form-control payer-select planned-payer"><option>未定</option><option>親</option><option>自分</option></select></td><td class="money"><input class="budget-input" id="actual-iryo" type="number" min="0" value="0" aria-label="iryo実績額"></td><td><select class="form-control payer-select actual-payer"><option>未設定</option><option>親</option><option>自分</option></select></td><td class="money" data-diff>—</td><td>非公開で管理</td></tr>
-      <tr data-budget-row data-planned="0"><td>近郊交通</td><td>Tarragona・Toledo・Montserrat</td><td class="money">未定</td><td><select class="form-control payer-select planned-payer"><option>未定</option><option>親</option><option>自分</option></select></td><td class="money"><input class="budget-input" id="actual-local-train" type="number" min="0" value="0"></td><td><select class="form-control payer-select actual-payer"><option>未設定</option><option>親</option><option>自分</option></select></td><td class="money" data-diff>—</td><td>カード</td></tr>
-      <tr data-budget-row data-planned="0"><td>宿泊</td><td>Barcelona 計5泊</td><td class="money">未定</td><td><select class="form-control payer-select planned-payer"><option>未定</option><option>親</option><option>自分</option></select></td><td class="money"><input class="budget-input" id="actual-hotel-bcn" type="number" min="0" value="0"></td><td><select class="form-control payer-select actual-payer"><option>未設定</option><option>親</option><option>自分</option></select></td><td class="money" data-diff>—</td><td>非公開で管理</td></tr>
-      <tr data-budget-row data-planned="0"><td>宿泊</td><td>Madrid 4泊</td><td class="money">未定</td><td><select class="form-control payer-select planned-payer"><option>未定</option><option>親</option><option>自分</option></select></td><td class="money"><input class="budget-input" id="actual-hotel-mad" type="number" min="0" value="0"></td><td><select class="form-control payer-select actual-payer"><option>未設定</option><option>親</option><option>自分</option></select></td><td class="money" data-diff>—</td><td>非公開で管理</td></tr>
-      <tr data-budget-row data-planned="49242"><td>観光</td><td>サグラダ 塔付き3人 <span class="tag pending">未予約</span></td><td class="money">¥49,242<br><small>旧見積</small></td><td><select class="form-control payer-select planned-payer"><option>未定</option><option>親</option><option>自分</option></select></td><td class="money"><input class="budget-input" id="actual-sagrada" type="number" min="0" value="0"></td><td><select class="form-control payer-select actual-payer"><option>未設定</option><option>親</option><option>自分</option></select></td><td class="money" data-diff>—</td><td>非公開で管理</td></tr>
-      <tr data-budget-row data-planned="0"><td>観光</td><td>その他施設・フラメンコ</td><td class="money">未定</td><td><select class="form-control payer-select planned-payer"><option>未定</option><option>親</option><option>自分</option></select></td><td class="money"><input class="budget-input" id="actual-tickets" type="number" min="0" value="0"></td><td><select class="form-control payer-select actual-payer"><option>未設定</option><option>親</option><option>自分</option></select></td><td class="money" data-diff>—</td><td>カード</td></tr>
-      <tr data-budget-row data-planned="0"><td>食事</td><td>通常食＋大晦日ディナー</td><td class="money">未定</td><td><select class="form-control payer-select planned-payer"><option>未定</option><option>親</option><option>自分</option></select></td><td class="money"><input class="budget-input" id="actual-food" type="number" min="0" value="0"></td><td><select class="form-control payer-select actual-payer"><option>未設定</option><option>親</option><option>自分</option></select></td><td class="money" data-diff>—</td><td>カード／現金</td></tr>
-      <tr data-budget-row data-planned="0"><td>その他</td><td>空港・市内交通・保険・通信</td><td class="money">未定</td><td><select class="form-control payer-select planned-payer"><option>未定</option><option>親</option><option>自分</option></select></td><td class="money"><input class="budget-input" id="actual-other" type="number" min="0" value="0"></td><td><select class="form-control payer-select actual-payer"><option>未設定</option><option>親</option><option>自分</option></select></td><td class="money" data-diff>—</td><td>カード／現金</td></tr>
-    </tbody>
-  </table></div>
-  <p class="subtle" style="font-size:.72rem">※ 未定項目は予定額0円で集計。セゴビア＋Toledoツアー候補 ¥40,416は現行日程に含めていません。CSVを共有すれば別端末でも支払状況を確認できます。</p>
-  <div class="note">入力は各端末に保存されます。共有するときは <strong>CSV出力</strong> を家族LINE等へ送ってください（この端末が正）。</div></section>
-</main>
-<footer><strong>Spain Trip 2026–27</strong><br>入力内容はこのブラウザだけに保存され、サーバーには送信されません。</footer>
-<script src="assets/phase1-canonical.js"></script><script src="assets/phase1-contract.js"></script><script src="assets/phase1-utils-1-3-1.js"></script><script src="assets/app.js"></script><script src="assets/phase1-runtime.js"></script>
-<script src="assets/bootstrap.js"></script><p class="public-rc-version" aria-label="公開版識別子">公開候補 2026-07-25 RC1</p></body>
+<body data-view="budget">
+  <a class="skip-link" href="#content">本文へ移動</a>
+  <header class="ux-site-header">
+    <div class="ux-header-inner">
+      <a class="ux-brand" href="index.html"><strong>Spain Trip</strong><span>2026–27・大人3名</span></a>
+      <nav class="ux-desktop-nav" aria-label="主要ナビゲーション"><a href="index.html" data-nav="home">ホーム</a><a href="schedule.html" data-nav="schedule">日程</a><a href="prep.html" data-nav="prep">予約・準備</a><a href="today.html" data-nav="today">旅行中</a><a href="explore.html" data-nav="explore">学ぶ・食べる</a><a href="records.html" data-nav="records" aria-current="page">記録・精算</a></nav>
+    </div>
+  </header>
+  <main id="content" class="ux-main" data-ux-root>
+    <section class="ux-js-fallback">
+      <p class="ux-eyebrow">予算・精算</p>
+      <h1>予算・精算</h1>
+      <p>精算入力はこの端末だけに保存されます。入力にはJavaScriptが必要です。</p>
+    </section>
+  </main>
+  <footer class="ux-footer"><strong>Spain Trip 2026–27</strong><span>時刻・料金・運行は予約時と旅行直前に公式情報を確認します。</span></footer>
+  <nav class="ux-mobile-nav" aria-label="モバイル主要ナビゲーション">
+    <a href="index.html" data-nav="home"><span aria-hidden="true">⌂</span>ホーム</a><a href="schedule.html" data-nav="schedule"><span aria-hidden="true">▤</span>日程</a><a href="today.html" data-nav="today"><span aria-hidden="true">◉</span>今日</a><a href="prep.html" data-nav="prep"><span aria-hidden="true">✓</span>準備</a>
+    <button type="button" data-more-toggle aria-expanded="false"><span aria-hidden="true">•••</span>その他</button>
+  </nav>
+  <div class="ux-more-menu" data-more-menu hidden>
+    <a href="explore.html">学ぶ・食べる</a>
+    <a href="records.html" aria-current="page">記録・精算</a>
+  </div>
+  <script src="assets/phase1-canonical.js"></script>
+  <script src="assets/hotel-candidates-3p-01.js"></script>
+  <script src="assets/ux-rebuild-03-data.js"></script>
+  <script src="assets/ux-rebuild-03-bridge.js"></script>
+  <script src="assets/ux-rebuild-04-data.js"></script>
+  <script src="assets/ux-rebuild-01.js"></script>
+  <script src="assets/ux-rebuild-03.js"></script>
+  <script src="assets/bootstrap.js"></script>
+</body>
 </html>

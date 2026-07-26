@@ -1236,7 +1236,7 @@ window.TRIP = {
         "score": 13.161,
         "evidence": [
           "Phase 3.1-R2 P06-R2 base: 13.161/15",
-          "非公開の再現可能性監査資料"
+          "scripts/phase3-1-r2-score.js contribution ledger"
         ],
         "risks": [
           "conservative scenarioと未公表営業・交通依存をscenario scorecardへ分離。"
@@ -1245,7 +1245,7 @@ window.TRIP = {
           "実測移動時間、ホテル位置、2026/27公式営業が判明した時だけ入力事実を更新して再計算する。"
         ],
         "informationNeeded": [
-          "非公開の再現可能性監査資料"
+          "docs/phase-3-1-r2-axis-contribution-ledger.md"
         ]
       },
       {
@@ -1256,7 +1256,7 @@ window.TRIP = {
         "score": 12.688,
         "evidence": [
           "Phase 3.1-R2 P06-R2 base: 12.688/20",
-          "非公開の再現可能性監査資料"
+          "scripts/phase3-1-r2-score.js contribution ledger"
         ],
         "risks": [
           "conservative scenarioと未公表営業・交通依存をscenario scorecardへ分離。"
@@ -1265,7 +1265,7 @@ window.TRIP = {
           "実測移動時間、ホテル位置、2026/27公式営業が判明した時だけ入力事実を更新して再計算する。"
         ],
         "informationNeeded": [
-          "非公開の再現可能性監査資料"
+          "docs/phase-3-1-r2-axis-contribution-ledger.md"
         ]
       },
       {
@@ -1276,7 +1276,7 @@ window.TRIP = {
         "score": 14.767,
         "evidence": [
           "Phase 3.1-R2 P06-R2 base: 14.767/20",
-          "非公開の再現可能性監査資料"
+          "scripts/phase3-1-r2-score.js contribution ledger"
         ],
         "risks": [
           "conservative scenarioと未公表営業・交通依存をscenario scorecardへ分離。"
@@ -1285,7 +1285,7 @@ window.TRIP = {
           "実測移動時間、ホテル位置、2026/27公式営業が判明した時だけ入力事実を更新して再計算する。"
         ],
         "informationNeeded": [
-          "非公開の再現可能性監査資料"
+          "docs/phase-3-1-r2-axis-contribution-ledger.md"
         ]
       },
       {
@@ -1296,7 +1296,7 @@ window.TRIP = {
         "score": 5.53,
         "evidence": [
           "Phase 3.1-R2 P06-R2 base: 5.53/15",
-          "非公開の再現可能性監査資料"
+          "scripts/phase3-1-r2-score.js contribution ledger"
         ],
         "risks": [
           "conservative scenarioと未公表営業・交通依存をscenario scorecardへ分離。"
@@ -1305,7 +1305,7 @@ window.TRIP = {
           "実測移動時間、ホテル位置、2026/27公式営業が判明した時だけ入力事実を更新して再計算する。"
         ],
         "informationNeeded": [
-          "非公開の再現可能性監査資料"
+          "docs/phase-3-1-r2-axis-contribution-ledger.md"
         ]
       },
       {
@@ -1316,7 +1316,7 @@ window.TRIP = {
         "score": 9.291,
         "evidence": [
           "Phase 3.1-R2 P06-R2 base: 9.291/15",
-          "非公開の再現可能性監査資料"
+          "scripts/phase3-1-r2-score.js contribution ledger"
         ],
         "risks": [
           "conservative scenarioと未公表営業・交通依存をscenario scorecardへ分離。"
@@ -1325,7 +1325,7 @@ window.TRIP = {
           "実測移動時間、ホテル位置、2026/27公式営業が判明した時だけ入力事実を更新して再計算する。"
         ],
         "informationNeeded": [
-          "非公開の再現可能性監査資料"
+          "docs/phase-3-1-r2-axis-contribution-ledger.md"
         ]
       },
       {
@@ -1336,7 +1336,7 @@ window.TRIP = {
         "score": 8.422,
         "evidence": [
           "Phase 3.1-R2 P06-R2 base: 8.422/15",
-          "非公開の再現可能性監査資料"
+          "scripts/phase3-1-r2-score.js contribution ledger"
         ],
         "risks": [
           "conservative scenarioと未公表営業・交通依存をscenario scorecardへ分離。"
@@ -1345,7 +1345,7 @@ window.TRIP = {
           "実測移動時間、ホテル位置、2026/27公式営業が判明した時だけ入力事実を更新して再計算する。"
         ],
         "informationNeeded": [
-          "非公開の再現可能性監査資料"
+          "docs/phase-3-1-r2-axis-contribution-ledger.md"
         ]
       }
     ]
