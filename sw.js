@@ -1,4 +1,4 @@
-const CACHE = "spain-trip-ux-rebuild-04-preview-v1";
+const CACHE = "spain-trip-itinerary-refresh-01-v1";
 const SHELLS = [
   "./", "./index.html", "./schedule.html", "./prep.html", "./today.html",
   "./explore.html", "./learn.html", "./records.html", "./budget.html",
@@ -15,6 +15,7 @@ const ASSETS = [
   "./assets/ux-rebuild-03-data.js",
   "./assets/ux-rebuild-03-bridge.js",
   "./assets/ux-rebuild-04-data.js",
+  "./assets/itinerary-refresh-01.js",
   "./assets/ux-rebuild-01.js",
   "./assets/ux-rebuild-03.js",
   "./assets/bootstrap.js",

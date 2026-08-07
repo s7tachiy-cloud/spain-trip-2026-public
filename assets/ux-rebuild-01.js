@@ -181,10 +181,10 @@
     root.innerHTML = `
       <section class="ux-hero" data-home-first-view>
         <p class="ux-eyebrow">12日間のスペイン旅行</p>
-        <h1>BarcelonaからMadrid・Toledoへ</h1>
+        <h1>BarcelonaからMadrid・Córdobaへ</h1>
         <p class="ux-hero-lead">建築と美術を深く楽しみながら、遅れや疲れにも崩れにくい順番で巡ります。</p>
         <div class="ux-trip-facts">
-          <span>2026/12/25–2027/1/5</span><span>大人3名</span><span>Barcelona → Madrid・Toledo → Barcelona</span>
+          <span>2026/12/25–2027/1/5</span><span>大人3名</span><span>Barcelona → Madrid・Córdoba → Barcelona</span>
         </div>
         <div class="ux-countdown"><span>旅行まで</span><strong>${days > 0 ? `あと${days}日` : days === 0 ? "今日出発" : "旅行期間中／終了後"}</strong></div>
         <div class="ux-action-row">
