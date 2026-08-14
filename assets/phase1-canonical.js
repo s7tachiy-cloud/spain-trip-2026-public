@@ -1,6 +1,6 @@
-/* Spain Trip Phase 1.3.1 canonical authoring data.
- * Browser runtime reads this file directly; legacy files are audit/migration inputs only.
- * Generated once from the documented Phase 1.3 migration, then maintained explicitly. */
+/* Spain Trip UX-REBUILD-05A Phase 0 flattened canonical.
+ * Generated once from browser order: phase1-canonical -> hotel -> ux03-data -> ux03-bridge -> ux04-data.
+ * Runtime patch files are intentionally not loaded by HTML or Service Worker. */
 window.TRIP = {
   "start": "2026-12-25",
   "end": "2027-01-05",
@@ -10,7 +10,7 @@ window.TRIP = {
       "dow": "金",
       "title": "日本を出発",
       "city": "flight",
-      "status": "confirmed",
+      "status": "確定済み",
       "statusLabel": "航空券確定",
       "id": "d1225",
       "cityId": "flight",
@@ -30,196 +30,318 @@ window.TRIP = {
         ]
       },
       "hero": "成田から出発",
-      "caution": "運航会社・terminal・through baggageを私的予約で確認",
+      "caution": "運航会社・ターミナル・手荷物の通し預けを私的予約で確認",
       "contingency": {
         "delay30": {
           "status": "設計済み",
-          "keepItemIds": [],
+          "keepItemIds": [
+            "d1225-nrt-depart",
+            "d1225-pvg-arrive"
+          ],
           "shortenItemIds": [],
           "dropItemIds": [],
           "replacementItemIds": [],
-          "instruction": "30分遅延: 主役と交通bufferを維持し、dropRank 1から削る。運航会社・terminal・through baggageを私的予約で確認",
+          "instruction": "30分遅れ：成田から出発と固定交通を残し、任意項目を短縮する。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "delay60": {
           "status": "設計済み",
-          "keepItemIds": [],
+          "keepItemIds": [
+            "d1225-nrt-depart",
+            "d1225-pvg-arrive"
+          ],
           "shortenItemIds": [],
           "dropItemIds": [],
           "replacementItemIds": [],
-          "instruction": "60分遅延: 食事・休憩を残し、shortenable項目を短縮。運航会社・terminal・through baggageを私的予約で確認",
+          "instruction": "1時間遅れ：成田から出発と帰路を残し、任意項目を削って固定時刻へ戻す。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "majorDelay": {
           "status": "設計済み",
-          "keepItemIds": [],
+          "keepItemIds": [
+            "d1225-pvg-arrive"
+          ],
           "shortenItemIds": [],
-          "dropItemIds": [],
+          "dropItemIds": [
+            "d1225-nrt-depart"
+          ],
           "replacementItemIds": [],
-          "instruction": "大幅遅延・施設休業: 予約・最終交通を守り、主役が閉鎖なら同日の屋内／外観fallbackへ。運航会社・terminal・through baggageを私的予約で確認",
+          "instruction": "休業：公式情報を確認し、閉鎖対象を外して固定交通と同日の代替を守る。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "fatigue": {
           "status": "設計済み",
-          "keepItemIds": [],
+          "keepItemIds": [
+            "d1225-nrt-depart",
+            "d1225-pvg-arrive"
+          ],
           "shortenItemIds": [],
           "dropItemIds": [],
           "replacementItemIds": [],
-          "instruction": "疲労: 食事・休憩・帰路を残し、できれば項目を削る。運航会社・terminal・through baggageを私的予約で確認",
+          "instruction": "疲れた：成田から出発と帰路を残し、歩行の多い項目を短縮・中止する。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "rain": {
           "status": "設計済み",
-          "keepItemIds": [],
+          "keepItemIds": [
+            "d1225-nrt-depart",
+            "d1225-pvg-arrive"
+          ],
           "shortenItemIds": [],
           "dropItemIds": [],
           "replacementItemIds": [],
-          "instruction": "雨・風: 屋外を短縮または中止し、予約済み屋内主役かホテル休憩へ。運航会社・terminal・through baggageを私的予約で確認",
+          "instruction": "雨：成田から出発と屋内項目・帰路を残し、屋外項目を短縮・中止する。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "restaurantUnavailable": {
           "status": "設計済み",
-          "keepItemIds": [],
+          "keepItemIds": [
+            "d1225-nrt-depart",
+            "d1225-pvg-arrive"
+          ],
           "shortenItemIds": [],
           "dropItemIds": [],
           "replacementItemIds": [],
-          "instruction": "満席: 予約確定していない店は待たず、同じ街区の予約不要軽食・市場散策・持帰りへ。",
+          "instruction": "食欲がない：観光と固定交通は変えず、食事枠だけ短縮して軽食・持帰りへ切り替える。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         }
       },
       "defaultTimeZone": "Asia/Tokyo",
       "review": {
         "good": "主役、食事、休憩、移動buffer、撤退線を一日の順番に含めた。"
-      }
+      },
+      "lodging": "機内泊"
     },
     {
       "date": "2026-12-26",
       "dow": "土",
-      "title": "Barcelona到着・Eixample住宅比較",
+      "title": "Barcelona到着・ガウディ群",
       "city": "barcelona",
       "status": "pending",
       "statusLabel": "施設未予約",
       "id": "d1226",
       "cityId": "barcelona",
       "cityLabel": "Barcelona",
-      "theme": "入国・休憩・Casa Milà＋Casa Batlló",
+      "theme": "Park Güellを含むガウディ群（過積載）",
       "startTime": "00:45",
       "endTime": "19:30",
       "movement": "空港移動＋市内複数エリア",
       "walking": "中",
       "rest": "明示済み",
-      "mealStatus": "空港休憩・軽い昼食・軽い夕食",
+      "mealStatus": "食事枠未記載・要調整",
       "load": {
-        "status": "最適化済み",
-        "level": "中",
+        "status": "要調整",
+        "level": "高・過積載 ⚠",
         "evidence": [
-          "入国・休憩・Casa Milà＋Casa Batlló"
+          "到着日にPark Güellを含むガウディ群を巡るv2本編"
         ]
       },
-      "hero": "Barcelonaへの到着",
-      "caution": "early check-inを前提にせず、到着公共ロビーで回復してから市内へ。",
+      "hero": "Park Güellとガウディ建築群",
+      "caution": "⚠ 過積載。v2本編を維持し、予約枠・入国遅延・体力を家族で判断する。",
       "contingency": {
         "delay30": {
           "status": "設計済み",
-          "keepItemIds": [],
-          "shortenItemIds": [],
+          "keepItemIds": [
+            "d1226-pvg-bcn",
+            "d1226-airport-city",
+            "d1226-mila",
+            "d1226-batllo"
+          ],
+          "shortenItemIds": [
+            "d1226-guell-palace",
+            "d1226-placa-rei",
+            "d1226-placa-reial",
+            "d1226-casa-vicens",
+            "d1226-sant-pau",
+            "d1226-fira-sagrada",
+            "d1226-parkguell"
+          ],
           "dropItemIds": [],
           "replacementItemIds": [],
-          "instruction": "30分遅延: 主役と交通bufferを維持し、dropRank 1から削る。90分遅延または強い疲労時はCasa Batllóを削減",
+          "instruction": "30分遅れ：Park Güellとガウディ建築群と固定交通を残し、任意項目を短縮する。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "delay60": {
           "status": "設計済み",
-          "keepItemIds": [],
-          "shortenItemIds": [],
-          "dropItemIds": [],
+          "keepItemIds": [
+            "d1226-pvg-bcn",
+            "d1226-airport-city",
+            "d1226-mila",
+            "d1226-batllo"
+          ],
+          "shortenItemIds": [
+            "d1226-guell-palace"
+          ],
+          "dropItemIds": [
+            "d1226-placa-rei",
+            "d1226-placa-reial",
+            "d1226-casa-vicens",
+            "d1226-sant-pau",
+            "d1226-fira-sagrada",
+            "d1226-parkguell"
+          ],
           "replacementItemIds": [],
-          "instruction": "60分遅延: 食事・休憩を残し、shortenable項目を短縮。90分遅延または強い疲労時はCasa Batllóを削減",
+          "instruction": "1時間遅れ：Park Güellとガウディ建築群と帰路を残し、任意項目を削って固定時刻へ戻す。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "majorDelay": {
           "status": "設計済み",
-          "keepItemIds": [],
+          "keepItemIds": [
+            "d1226-pvg-bcn",
+            "d1226-airport-city"
+          ],
           "shortenItemIds": [],
-          "dropItemIds": [],
+          "dropItemIds": [
+            "d1226-mila",
+            "d1226-batllo",
+            "d1226-guell-palace",
+            "d1226-casa-vicens",
+            "d1226-sant-pau",
+            "d1226-placa-rei",
+            "d1226-placa-reial",
+            "d1226-fira-sagrada",
+            "d1226-parkguell"
+          ],
           "replacementItemIds": [],
-          "instruction": "大幅遅延・施設休業: 予約・最終交通を守り、主役が閉鎖なら同日の屋内／外観fallbackへ。90分遅延または強い疲労時はCasa Batllóを削減",
+          "instruction": "休業：公式情報を確認し、閉鎖対象を外して固定交通と同日の代替を守る。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "fatigue": {
           "status": "設計済み",
-          "keepItemIds": [],
-          "shortenItemIds": [],
-          "dropItemIds": [],
+          "keepItemIds": [
+            "d1226-pvg-bcn",
+            "d1226-airport-city",
+            "d1226-mila",
+            "d1226-batllo"
+          ],
+          "shortenItemIds": [
+            "d1226-guell-palace"
+          ],
+          "dropItemIds": [
+            "d1226-placa-rei",
+            "d1226-placa-reial",
+            "d1226-casa-vicens",
+            "d1226-sant-pau",
+            "d1226-fira-sagrada",
+            "d1226-parkguell"
+          ],
           "replacementItemIds": [],
-          "instruction": "09:15–10:45はBCN T1公共到着ロビーで着席休憩。early check-inを使わず、強い疲労時はCasa Batllóを削る。",
+          "instruction": "疲れた：Park Güellとガウディ建築群と帰路を残し、歩行の多い項目を短縮・中止する。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "rain": {
           "status": "設計済み",
-          "keepItemIds": [],
-          "shortenItemIds": [],
-          "dropItemIds": [],
+          "keepItemIds": [
+            "d1226-pvg-bcn",
+            "d1226-airport-city",
+            "d1226-mila",
+            "d1226-batllo"
+          ],
+          "shortenItemIds": [
+            "d1226-placa-rei"
+          ],
+          "dropItemIds": [
+            "d1226-placa-reial",
+            "d1226-fira-sagrada",
+            "d1226-parkguell"
+          ],
           "replacementItemIds": [],
-          "instruction": "雨・風: 屋外を短縮または中止し、予約済み屋内主役かホテル休憩へ。90分遅延または強い疲労時はCasa Batllóを削減",
+          "instruction": "雨：Park Güellとガウディ建築群と屋内項目・帰路を残し、屋外項目を短縮・中止する。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "restaurantUnavailable": {
           "status": "設計済み",
-          "keepItemIds": [],
+          "keepItemIds": [
+            "d1226-pvg-bcn",
+            "d1226-airport-city",
+            "d1226-parkguell",
+            "d1226-mila",
+            "d1226-batllo",
+            "d1226-guell-palace",
+            "d1226-placa-rei",
+            "d1226-placa-reial",
+            "d1226-casa-vicens",
+            "d1226-sant-pau",
+            "d1226-fira-sagrada"
+          ],
           "shortenItemIds": [],
           "dropItemIds": [],
           "replacementItemIds": [],
-          "instruction": "満席: 予約確定していない店は待たず、同じ街区の予約不要軽食・市場散策・持帰りへ。",
+          "instruction": "食欲がない：観光と固定交通は変えず、食事枠だけ短縮して軽食・持帰りへ切り替える。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         }
       },
       "defaultTimeZone": "Europe/Madrid",
       "review": {
         "good": "主役、食事、休憩、移動buffer、撤退線を一日の順番に含めた。"
-      }
+      },
+      "lodging": "Barcelona"
     },
     {
       "date": "2026-12-27",
       "dow": "日",
-      "title": "Sagrada Família",
+      "title": "Sagrada Família・Montjuïc",
       "city": "barcelona",
       "status": "pending",
       "statusLabel": "予約最優先",
       "id": "d1227",
       "cityId": "barcelona",
       "cityLabel": "Barcelona",
-      "theme": "Sagrada一館＋Sant Pau外観＋伝統食",
+      "theme": "Sagrada Família 10:00–12:30とMontjuïc",
       "startTime": "08:30",
       "endTime": "20:00",
       "movement": "市内横断",
       "walking": "中",
       "rest": "明示済み",
-      "mealStatus": "Can Culleretes日曜昼・必要時のみ軽い夕食",
+      "mealStatus": "食事枠未記載・要調整",
       "load": {
         "status": "最適化済み",
         "level": "中",
@@ -228,178 +350,337 @@ window.TRIP = {
         ]
       },
       "hero": "サグラダ・ファミリア",
-      "caution": "日曜夜は休業。13:45昼食候補とし、満席時は7 Portesへ。",
+      "caution": "塔付き10:00枠と日曜運用は発売後に確認。時間変更案は〔提案〕として別表示。",
       "contingency": {
         "delay30": {
           "status": "設計済み",
-          "keepItemIds": [],
-          "shortenItemIds": [],
-          "dropItemIds": [],
+          "keepItemIds": [
+            "d1227-sagrada"
+          ],
+          "shortenItemIds": [
+            "d1227-columbus",
+            "d1227-cable-miramar-castell",
+            "d1227-montjuic-castle",
+            "d1227-cable-castell-park"
+          ],
+          "dropItemIds": [
+            "d1227-fira-santa-llucia"
+          ],
           "replacementItemIds": [],
-          "instruction": "30分遅延: 主役と交通bufferを維持し、dropRank 1から削る。塔枠・雨・疲労時はSant Pau外観を削減",
+          "instruction": "30分遅れ：Sagrada Famíliaを残し、コロンブス記念塔・ロープウェイ・モンジュイック城を短縮する。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "delay60": {
           "status": "設計済み",
-          "keepItemIds": [],
-          "shortenItemIds": [],
-          "dropItemIds": [],
+          "keepItemIds": [
+            "d1227-sagrada"
+          ],
+          "shortenItemIds": [
+            "d1227-columbus"
+          ],
+          "dropItemIds": [
+            "d1227-cable-miramar-castell",
+            "d1227-montjuic-castle",
+            "d1227-cable-castell-park",
+            "d1227-fira-santa-llucia"
+          ],
           "replacementItemIds": [],
-          "instruction": "60分遅延: 食事・休憩を残し、shortenable項目を短縮。塔枠・雨・疲労時はSant Pau外観を削減",
+          "instruction": "1時間遅れ：Sagrada Famíliaを残し、コロンブス記念塔だけ短縮してMontjuïc行程を削る。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "majorDelay": {
           "status": "設計済み",
-          "keepItemIds": [],
-          "shortenItemIds": [],
-          "dropItemIds": [],
+          "keepItemIds": [
+            "d1227-el-corte"
+          ],
+          "shortenItemIds": [
+            "d1227-columbus"
+          ],
+          "dropItemIds": [
+            "d1227-sagrada",
+            "d1227-cable-miramar-castell",
+            "d1227-montjuic-castle",
+            "d1227-cable-castell-park"
+          ],
           "replacementItemIds": [],
-          "instruction": "大幅遅延・施設休業: 予約・最終交通を守り、主役が閉鎖なら同日の屋内／外観fallbackへ。塔枠・雨・疲労時はSant Pau外観を削減",
+          "instruction": "休業：休業施設を外し、営業確認できたコロンブス記念塔またはEl Corteへ切り替える。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "fatigue": {
           "status": "設計済み",
-          "keepItemIds": [],
-          "shortenItemIds": [],
-          "dropItemIds": [],
+          "keepItemIds": [
+            "d1227-sagrada"
+          ],
+          "shortenItemIds": [
+            "d1227-columbus",
+            "d1227-el-corte"
+          ],
+          "dropItemIds": [
+            "d1227-cable-miramar-castell",
+            "d1227-montjuic-castle",
+            "d1227-cable-castell-park",
+            "d1227-fira-santa-llucia"
+          ],
           "replacementItemIds": [],
-          "instruction": "疲労: 食事・休憩・帰路を残し、できれば項目を削る。塔枠・雨・疲労時はSant Pau外観を削減",
+          "instruction": "疲れた：Sagrada Famíliaを残し、コロンブス記念塔とEl Corteを短縮、ロープウェイとモンジュイック城を中止する。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "rain": {
           "status": "設計済み",
-          "keepItemIds": [],
-          "shortenItemIds": [],
-          "dropItemIds": [],
+          "keepItemIds": [
+            "d1227-sagrada",
+            "d1227-el-corte"
+          ],
+          "shortenItemIds": [
+            "d1227-montjuic-castle"
+          ],
+          "dropItemIds": [
+            "d1227-columbus",
+            "d1227-cable-miramar-castell",
+            "d1227-cable-castell-park",
+            "d1227-fira-santa-llucia"
+          ],
           "replacementItemIds": [],
-          "instruction": "雨・風: 屋外を短縮または中止し、予約済み屋内主役かホテル休憩へ。塔枠・雨・疲労時はSant Pau外観を削減",
+          "instruction": "雨：Sagrada FamíliaとEl Corteを残し、コロンブス記念塔・ロープウェイを中止、モンジュイック城は短縮判断する。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "restaurantUnavailable": {
           "status": "設計済み",
-          "keepItemIds": [],
+          "keepItemIds": [
+            "d1227-sagrada",
+            "d1227-columbus",
+            "d1227-cable-miramar-castell",
+            "d1227-montjuic-castle",
+            "d1227-cable-castell-park",
+            "d1227-el-corte"
+          ],
           "shortenItemIds": [],
-          "dropItemIds": [],
+          "dropItemIds": [
+            "d1227-fira-santa-llucia"
+          ],
           "replacementItemIds": [],
-          "instruction": "Can Culleretesが12/27休業・満席なら7 Portes 13:45–15:15へ切替し、伝統カタルーニャ料理役割を維持。",
+          "instruction": "食欲がない：観光は維持し、同じ街区の軽食・持帰りだけに切り替える。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         }
       },
       "defaultTimeZone": "Europe/Madrid",
       "review": {
         "good": "主役、食事、休憩、移動buffer、撤退線を一日の順番に含めた。"
-      }
+      },
+      "lodging": "Barcelona"
     },
     {
       "date": "2026-12-28",
       "dow": "月",
-      "title": "Barcelona初訪問core",
+      "title": "Tarragona日帰り",
       "city": "barcelona",
       "status": "pending",
       "statusLabel": "施設枠未公表",
       "id": "d1228",
-      "cityId": "barcelona",
-      "cityLabel": "Barcelona",
-      "theme": "Park Güell＋Palau de la Música＋Born",
+      "cityId": "tarragona",
+      "cityLabel": "Tarragona",
+      "theme": "AVE・BUSPLANAでローマ遺産を巡る",
       "startTime": "08:00",
       "endTime": "21:00",
-      "movement": "市内cluster移動",
-      "walking": "中",
-      "rest": "明示済み",
-      "mealStatus": "昼食・El Xampanyet 19:00候補・必要時夕食",
+      "movement": "AVE＋BUSPLANA＋徒歩",
+      "walking": "多",
+      "rest": "少ない・要調整",
+      "mealStatus": "Tarragonaで昼食（店未定）",
       "load": {
-        "status": "最適化済み",
-        "level": "中",
+        "status": "要調整",
+        "level": "高 ⚠",
         "evidence": [
-          "Park Güell＋Palau de la Música＋Born"
+          "鉄道・バス・徒歩が連続し、復路3候補が未確定"
         ]
       },
-      "hero": "Park Güellとカタルーニャ音楽堂",
-      "caution": "Parkの天候判断は12/27 20:00。Xampanyetは月曜19:00前に入れない。",
+      "hero": "水道橋・円形闘技場・大聖堂",
+      "caution": "復路3候補、BUSPLANA、年末営業を家族で決める。Park Güell移動案は〔提案〕であり本編ではない。",
       "contingency": {
         "delay30": {
           "status": "設計済み",
-          "keepItemIds": [],
-          "shortenItemIds": [],
-          "dropItemIds": [],
+          "keepItemIds": [
+            "d1228-ave-out",
+            "d1228-bus-n240",
+            "d1228-bus-aqueduct",
+            "d1228-bus-city",
+            "d1228-cathedral",
+            "d1228-return"
+          ],
+          "shortenItemIds": [
+            "d1228-aqueduct",
+            "d1228-amphitheatre",
+            "d1228-pinchos"
+          ],
+          "dropItemIds": [
+            "d1228-flamenco"
+          ],
           "replacementItemIds": [],
-          "instruction": "30分遅延: 主役と交通bufferを維持し、dropRank 1から削る。雨・強風時はParkを見送りPalauを主役にする",
+          "instruction": "30分遅れ：Tarragona復路3候補を確保し、水道橋・円形闘技場・昼食を短縮する。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "delay60": {
           "status": "設計済み",
-          "keepItemIds": [],
-          "shortenItemIds": [],
-          "dropItemIds": [],
+          "keepItemIds": [
+            "d1228-ave-out",
+            "d1228-bus-n240",
+            "d1228-bus-aqueduct",
+            "d1228-bus-city",
+            "d1228-return"
+          ],
+          "shortenItemIds": [
+            "d1228-cathedral"
+          ],
+          "dropItemIds": [
+            "d1228-aqueduct",
+            "d1228-amphitheatre",
+            "d1228-pinchos",
+            "d1228-flamenco"
+          ],
           "replacementItemIds": [],
-          "instruction": "60分遅延: 食事・休憩を残し、shortenable項目を短縮。雨・強風時はParkを見送りPalauを主役にする",
+          "instruction": "1時間遅れ：Tarragona復路3候補を最優先し、市内観光は大聖堂だけ短縮して他を削る。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "majorDelay": {
           "status": "設計済み",
-          "keepItemIds": [],
-          "shortenItemIds": [],
-          "dropItemIds": [],
+          "keepItemIds": [
+            "d1228-ave-out",
+            "d1228-bus-n240",
+            "d1228-bus-aqueduct",
+            "d1228-bus-city",
+            "d1228-cathedral",
+            "d1228-return"
+          ],
+          "shortenItemIds": [
+            "d1228-pinchos"
+          ],
+          "dropItemIds": [
+            "d1228-aqueduct",
+            "d1228-amphitheatre",
+            "d1228-flamenco"
+          ],
           "replacementItemIds": [],
-          "instruction": "12/27 20:00判断。Park不可なら、12/29 Montserrat中止時にParkを09:30–12:00へ再配置。再配置しない場合は12/28 Casa Vicens 09:30–11:00へ置換しParkを見送る。",
+          "instruction": "休業：円形闘技場は月曜休館のため外し、大聖堂とTarragona復路を残す。同日代替は旧市街の屋内休憩とする。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "fatigue": {
           "status": "設計済み",
-          "keepItemIds": [],
-          "shortenItemIds": [],
-          "dropItemIds": [],
+          "keepItemIds": [
+            "d1228-ave-out",
+            "d1228-bus-n240",
+            "d1228-bus-aqueduct",
+            "d1228-bus-city",
+            "d1228-cathedral",
+            "d1228-return"
+          ],
+          "shortenItemIds": [
+            "d1228-amphitheatre"
+          ],
+          "dropItemIds": [
+            "d1228-aqueduct",
+            "d1228-pinchos",
+            "d1228-flamenco"
+          ],
           "replacementItemIds": [],
-          "instruction": "疲労: 食事・休憩・帰路を残し、できれば項目を削る。雨・強風時はParkを見送りPalauを主役にする",
+          "instruction": "疲れた：大聖堂と復路を残し、水道橋・バル・フラメンコを中止する。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "rain": {
           "status": "設計済み",
-          "keepItemIds": [],
-          "shortenItemIds": [],
-          "dropItemIds": [],
+          "keepItemIds": [
+            "d1228-ave-out",
+            "d1228-bus-n240",
+            "d1228-bus-aqueduct",
+            "d1228-bus-city",
+            "d1228-amphitheatre",
+            "d1228-cathedral",
+            "d1228-return"
+          ],
+          "shortenItemIds": [
+            "d1228-aqueduct"
+          ],
+          "dropItemIds": [
+            "d1228-flamenco"
+          ],
           "replacementItemIds": [],
-          "instruction": "12/27 20:00判断。Park不可なら、12/29 Montserrat中止時にParkを09:30–12:00へ再配置。再配置しない場合は12/28 Casa Vicens 09:30–11:00へ置換しParkを見送る。",
+          "instruction": "雨：屋外の水道橋を短縮し、円形闘技場・大聖堂とTarragona復路を優先する。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "restaurantUnavailable": {
           "status": "設計済み",
-          "keepItemIds": [],
-          "shortenItemIds": [],
-          "dropItemIds": [],
+          "keepItemIds": [
+            "d1228-ave-out",
+            "d1228-bus-n240",
+            "d1228-bus-aqueduct",
+            "d1228-bus-city",
+            "d1228-aqueduct",
+            "d1228-amphitheatre",
+            "d1228-cathedral",
+            "d1228-return"
+          ],
+          "shortenItemIds": [
+            "d1228-pinchos"
+          ],
+          "dropItemIds": [
+            "d1228-flamenco"
+          ],
           "replacementItemIds": [],
-          "instruction": "El Xampanyetが12/28 19:00に満席・休業ならLa Plata 19:00–20:00へ切替し、anchovies/tapas役割を維持。",
+          "instruction": "食欲がない：Tarragona観光と復路は維持し、ピンチョス通りを短縮して軽食・持帰りへ切り替える。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         }
       },
       "defaultTimeZone": "Europe/Madrid",
       "review": {
         "good": "主役、食事、休憩、移動buffer、撤退線を一日の順番に含めた。"
-      }
+      },
+      "lodging": "Barcelona"
     },
     {
       "date": "2026-12-29",
@@ -417,7 +698,7 @@ window.TRIP = {
       "movement": "近郊鉄道＋ロープウェイ",
       "walking": "中",
       "rest": "明示済み",
-      "mealStatus": "現地昼食・Can Solé 20:00候補",
+      "mealStatus": "Montserratで昼食（店未定）",
       "load": {
         "status": "最適化済み",
         "level": "中",
@@ -430,75 +711,138 @@ window.TRIP = {
       "contingency": {
         "delay30": {
           "status": "設計済み",
-          "keepItemIds": [],
-          "shortenItemIds": [],
+          "keepItemIds": [
+            "d1229-fgc-out",
+            "d1229-aeri-up",
+            "d1229-aeri-down",
+            "d1229-fgc-return",
+            "d1229-basilica",
+            "d1229-moreneta"
+          ],
+          "shortenItemIds": [
+            "d1229-museum"
+          ],
           "dropItemIds": [],
           "replacementItemIds": [],
-          "instruction": "30分遅延: 主役と交通bufferを維持し、dropRank 1から削る。風・運休時はMontserratを中止しBarcelona屋内候補へ",
+          "instruction": "30分遅れ：黒い聖母と山岳景観と固定交通を残し、任意項目を短縮する。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "delay60": {
           "status": "設計済み",
-          "keepItemIds": [],
-          "shortenItemIds": [],
+          "keepItemIds": [
+            "d1229-fgc-out",
+            "d1229-aeri-up",
+            "d1229-aeri-down",
+            "d1229-fgc-return",
+            "d1229-basilica",
+            "d1229-moreneta"
+          ],
+          "shortenItemIds": [
+            "d1229-museum"
+          ],
           "dropItemIds": [],
           "replacementItemIds": [],
-          "instruction": "60分遅延: 食事・休憩を残し、shortenable項目を短縮。風・運休時はMontserratを中止しBarcelona屋内候補へ",
+          "instruction": "1時間遅れ：黒い聖母と山岳景観と帰路を残し、任意項目を削って固定時刻へ戻す。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "majorDelay": {
           "status": "設計済み",
-          "keepItemIds": [],
+          "keepItemIds": [
+            "d1229-aeri-down",
+            "d1229-fgc-return"
+          ],
           "shortenItemIds": [],
-          "dropItemIds": [],
+          "dropItemIds": [
+            "d1229-basilica",
+            "d1229-moreneta",
+            "d1229-museum"
+          ],
           "replacementItemIds": [],
-          "instruction": "12/28 20:00と12/29 07:00判断。Montserrat中止時、Park未訪問ならPark 09:30–12:00→昼食→Picasso 14:00–16:00。Park済み／悪天候ならCasa Vicens 09:30–11:00→昼食→Picasso 13:00–15:00。",
+          "instruction": "〔他日振替案〕Montserrat施設休業時は安全な下山と帰路を優先し、別日のPark Güell・Picasso候補を前倒しする。家族判断前の代替案。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": true,
+          "source": "ux-rebuild-04"
         },
         "fatigue": {
           "status": "設計済み",
-          "keepItemIds": [],
+          "keepItemIds": [
+            "d1229-fgc-out",
+            "d1229-aeri-up",
+            "d1229-aeri-down",
+            "d1229-fgc-return",
+            "d1229-basilica",
+            "d1229-moreneta"
+          ],
           "shortenItemIds": [],
-          "dropItemIds": [],
+          "dropItemIds": [
+            "d1229-museum"
+          ],
           "replacementItemIds": [],
-          "instruction": "疲労: 食事・休憩・帰路を残し、できれば項目を削る。風・運休時はMontserratを中止しBarcelona屋内候補へ",
+          "instruction": "疲れた：黒い聖母と山岳景観と帰路を残し、歩行の多い項目を短縮・中止する。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "rain": {
           "status": "設計済み",
           "keepItemIds": [],
           "shortenItemIds": [],
-          "dropItemIds": [],
+          "dropItemIds": [
+            "d1229-fgc-out",
+            "d1229-aeri-up",
+            "d1229-basilica",
+            "d1229-moreneta",
+            "d1229-museum",
+            "d1229-aeri-down",
+            "d1229-fgc-return"
+          ],
           "replacementItemIds": [],
-          "instruction": "12/28 20:00と12/29 07:00判断。Montserrat中止時、Park未訪問ならPark 09:30–12:00→昼食→Picasso 14:00–16:00。Park済み／悪天候ならCasa Vicens 09:30–11:00→昼食→Picasso 13:00–15:00。",
+          "instruction": "〔他日振替案〕雨・強風でMontserratを中止する場合、別日のPark Güell・Picasso候補を前倒しする。家族判断前の代替案。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": true,
+          "source": "ux-rebuild-04"
         },
         "restaurantUnavailable": {
           "status": "設計済み",
-          "keepItemIds": [],
+          "keepItemIds": [
+            "d1229-fgc-out",
+            "d1229-aeri-up",
+            "d1229-basilica",
+            "d1229-moreneta",
+            "d1229-museum",
+            "d1229-aeri-down",
+            "d1229-fgc-return"
+          ],
           "shortenItemIds": [],
           "dropItemIds": [],
           "replacementItemIds": [],
-          "instruction": "Can Soléが12/29休業・満席なら7 Portes 20:00–21:30へ切替し、魚介・米料理役割を維持。",
+          "instruction": "食欲がない：観光と固定交通は変えず、食事枠だけ短縮して軽食・持帰りへ切り替える。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         }
       },
       "defaultTimeZone": "Europe/Madrid",
       "review": {
         "good": "主役、食事、休憩、移動buffer、撤退線を一日の順番に含めた。"
-      }
+      },
+      "lodging": "Barcelona"
     },
     {
       "date": "2026-12-30",
@@ -510,94 +854,141 @@ window.TRIP = {
       "id": "d1230",
       "cityId": "barcelona",
       "cityLabel": "Barcelona / Madrid",
-      "theme": "市場朝食と都市間移動buffer",
+      "theme": "市場朝食と都市間移動余裕時間",
       "startTime": "08:30",
       "endTime": "20:30",
       "movement": "高速鉄道",
       "walking": "中",
       "rest": "明示済み",
-      "mealStatus": "El Quim候補・移動前昼食",
+      "mealStatus": "朝食・昼食場所は未定",
       "load": {
         "status": "最適化済み",
         "level": "中",
         "evidence": [
-          "市場朝食と都市間移動buffer"
+          "市場朝食と都市間移動余裕時間"
         ]
       },
       "hero": "Madridへの移動",
-      "caution": "市場行列時は散策だけ、鉄道前90分bufferは削らない",
+      "caution": "市場行列時は散策だけ、鉄道前90分余裕時間は削らない",
       "contingency": {
         "delay30": {
           "status": "設計済み",
-          "keepItemIds": [],
-          "shortenItemIds": [],
+          "keepItemIds": [
+            "d1230-checkout",
+            "d1230-train-madrid"
+          ],
+          "shortenItemIds": [
+            "d1230-boqueria",
+            "d1230-cathedral"
+          ],
           "dropItemIds": [],
           "replacementItemIds": [],
-          "instruction": "30分遅延: 主役と交通bufferを維持し、dropRank 1から削る。市場行列時は散策だけ、鉄道前90分bufferは削らない",
+          "instruction": "30分遅れ：Madridへの移動と固定交通を残し、任意項目を短縮する。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "delay60": {
           "status": "設計済み",
-          "keepItemIds": [],
-          "shortenItemIds": [],
-          "dropItemIds": [],
+          "keepItemIds": [
+            "d1230-checkout",
+            "d1230-train-madrid"
+          ],
+          "shortenItemIds": [
+            "d1230-boqueria"
+          ],
+          "dropItemIds": [
+            "d1230-cathedral"
+          ],
           "replacementItemIds": [],
-          "instruction": "60分遅延: 食事・休憩を残し、shortenable項目を短縮。市場行列時は散策だけ、鉄道前90分bufferは削らない",
+          "instruction": "1時間遅れ：Madridへの移動と帰路を残し、任意項目を削って固定時刻へ戻す。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "majorDelay": {
           "status": "設計済み",
-          "keepItemIds": [],
+          "keepItemIds": [
+            "d1230-checkout",
+            "d1230-train-madrid"
+          ],
           "shortenItemIds": [],
-          "dropItemIds": [],
+          "dropItemIds": [
+            "d1230-boqueria",
+            "d1230-cathedral"
+          ],
           "replacementItemIds": [],
-          "instruction": "大幅遅延・施設休業: 予約・最終交通を守り、主役が閉鎖なら同日の屋内／外観fallbackへ。市場行列時は散策だけ、鉄道前90分bufferは削らない",
+          "instruction": "休業：公式情報を確認し、閉鎖対象を外して固定交通と同日の代替を守る。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "fatigue": {
           "status": "設計済み",
-          "keepItemIds": [],
-          "shortenItemIds": [],
-          "dropItemIds": [],
+          "keepItemIds": [
+            "d1230-checkout",
+            "d1230-train-madrid"
+          ],
+          "shortenItemIds": [
+            "d1230-boqueria"
+          ],
+          "dropItemIds": [
+            "d1230-cathedral"
+          ],
           "replacementItemIds": [],
-          "instruction": "疲労: 食事・休憩・帰路を残し、できれば項目を削る。市場行列時は散策だけ、鉄道前90分bufferは削らない",
+          "instruction": "疲れた：Madridへの移動と帰路を残し、歩行の多い項目を短縮・中止する。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "rain": {
           "status": "設計済み",
-          "keepItemIds": [],
+          "keepItemIds": [
+            "d1230-checkout",
+            "d1230-train-madrid"
+          ],
           "shortenItemIds": [],
           "dropItemIds": [],
           "replacementItemIds": [],
-          "instruction": "雨・風: 屋外を短縮または中止し、予約済み屋内主役かホテル休憩へ。市場行列時は散策だけ、鉄道前90分bufferは削らない",
+          "instruction": "雨：Madridへの移動と屋内項目・帰路を残し、屋外項目を短縮・中止する。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "restaurantUnavailable": {
           "status": "設計済み",
-          "keepItemIds": [],
+          "keepItemIds": [
+            "d1230-boqueria",
+            "d1230-checkout",
+            "d1230-cathedral",
+            "d1230-train-madrid"
+          ],
           "shortenItemIds": [],
           "dropItemIds": [],
           "replacementItemIds": [],
-          "instruction": "El Quimが12/30休業・行列20分超ならBar Joan 08:30–09:30へ切替し、市場朝食役割を維持。",
+          "instruction": "食欲がない：観光と固定交通は変えず、食事枠だけ短縮して軽食・持帰りへ切り替える。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         }
       },
       "defaultTimeZone": "Europe/Madrid",
       "review": {
         "good": "主役、食事、休憩、移動buffer、撤退線を一日の順番に含めた。"
-      }
+      },
+      "lodging": "Madrid"
     },
     {
       "date": "2026-12-31",
@@ -615,7 +1006,7 @@ window.TRIP = {
       "movement": "市内徒歩",
       "walking": "多",
       "rest": "明示済み",
-      "mealStatus": "昼食・早い夕食",
+      "mealStatus": "大晦日ディナー未定・要調整",
       "load": {
         "status": "最適化済み",
         "level": "高",
@@ -628,75 +1019,150 @@ window.TRIP = {
       "contingency": {
         "delay30": {
           "status": "設計済み",
-          "keepItemIds": [],
-          "shortenItemIds": [],
+          "keepItemIds": [
+            "d1231-prado",
+            "d1231-early-dinner",
+            "d1231-countdown"
+          ],
+          "shortenItemIds": [
+            "d1231-cibeles",
+            "d1231-san-jeronimo",
+            "d1231-alcala",
+            "d1231-retiro",
+            "d1231-san-silvestre"
+          ],
           "dropItemIds": [],
           "replacementItemIds": [],
-          "instruction": "30分遅延: 主役と交通bufferを維持し、dropRank 1から削る。強雨・疲労・Sol規制時はホテル年越しへ",
+          "instruction": "30分遅れ：PradoとSolの年越しと固定交通を残し、任意項目を短縮する。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "delay60": {
           "status": "設計済み",
-          "keepItemIds": [],
-          "shortenItemIds": [],
-          "dropItemIds": [],
+          "keepItemIds": [
+            "d1231-prado",
+            "d1231-early-dinner",
+            "d1231-countdown"
+          ],
+          "shortenItemIds": [
+            "d1231-cibeles"
+          ],
+          "dropItemIds": [
+            "d1231-san-jeronimo",
+            "d1231-alcala",
+            "d1231-retiro",
+            "d1231-san-silvestre"
+          ],
           "replacementItemIds": [],
-          "instruction": "60分遅延: 食事・休憩を残し、shortenable項目を短縮。強雨・疲労・Sol規制時はホテル年越しへ",
+          "instruction": "1時間遅れ：PradoとSolの年越しと帰路を残し、任意項目を削って固定時刻へ戻す。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "majorDelay": {
           "status": "設計済み",
           "keepItemIds": [],
-          "shortenItemIds": [],
-          "dropItemIds": [],
+          "shortenItemIds": [
+            "d1231-early-dinner",
+            "d1231-countdown"
+          ],
+          "dropItemIds": [
+            "d1231-prado",
+            "d1231-san-jeronimo",
+            "d1231-cibeles",
+            "d1231-alcala",
+            "d1231-retiro",
+            "d1231-san-silvestre"
+          ],
           "replacementItemIds": [],
-          "instruction": "12/31 18:00最終判断。公式入場経路・徒歩帰路を満たす場合のみSol。20:30入場不能、収容上限、強雨、徒歩45分超ならホテル客室で22:30–00:15公式中継＋12粒のブドウ。",
+          "instruction": "休業：公式情報を確認し、閉鎖対象を外して固定交通と同日の代替を守る。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "fatigue": {
           "status": "設計済み",
-          "keepItemIds": [],
-          "shortenItemIds": [],
-          "dropItemIds": [],
+          "keepItemIds": [
+            "d1231-prado",
+            "d1231-early-dinner",
+            "d1231-countdown"
+          ],
+          "shortenItemIds": [
+            "d1231-cibeles"
+          ],
+          "dropItemIds": [
+            "d1231-san-jeronimo",
+            "d1231-alcala",
+            "d1231-retiro",
+            "d1231-san-silvestre"
+          ],
           "replacementItemIds": [],
-          "instruction": "12/31 18:00最終判断。公式入場経路・徒歩帰路を満たす場合のみSol。20:30入場不能、収容上限、強雨、徒歩45分超ならホテル客室で22:30–00:15公式中継＋12粒のブドウ。",
+          "instruction": "疲れた：PradoとSolの年越しと帰路を残し、歩行の多い項目を短縮・中止する。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "rain": {
           "status": "設計済み",
-          "keepItemIds": [],
-          "shortenItemIds": [],
-          "dropItemIds": [],
+          "keepItemIds": [
+            "d1231-prado",
+            "d1231-early-dinner"
+          ],
+          "shortenItemIds": [
+            "d1231-cibeles"
+          ],
+          "dropItemIds": [
+            "d1231-alcala",
+            "d1231-retiro",
+            "d1231-san-silvestre",
+            "d1231-countdown"
+          ],
           "replacementItemIds": [],
-          "instruction": "12/31 18:00最終判断。公式入場経路・徒歩帰路を満たす場合のみSol。20:30入場不能、収容上限、強雨、徒歩45分超ならホテル客室で22:30–00:15公式中継＋12粒のブドウ。",
+          "instruction": "雨：PradoとSolの年越しと屋内項目・帰路を残し、屋外項目を短縮・中止する。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "restaurantUnavailable": {
           "status": "設計済み",
-          "keepItemIds": [],
-          "shortenItemIds": [],
+          "keepItemIds": [
+            "d1231-prado",
+            "d1231-san-jeronimo",
+            "d1231-cibeles",
+            "d1231-alcala",
+            "d1231-retiro",
+            "d1231-san-silvestre",
+            "d1231-countdown"
+          ],
+          "shortenItemIds": [
+            "d1231-early-dinner"
+          ],
           "dropItemIds": [],
           "replacementItemIds": [],
-          "instruction": "満席: 予約確定していない店は待たず、同じ街区の予約不要軽食・市場散策・持帰りへ。",
+          "instruction": "食欲がない：観光と固定交通は変えず、食事枠だけ短縮して軽食・持帰りへ切り替える。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         }
       },
       "defaultTimeZone": "Europe/Madrid",
       "review": {
         "good": "主役、食事、休憩、移動buffer、撤退線を一日の順番に含めた。"
-      }
+      },
+      "lodging": "Madrid"
     },
     {
       "date": "2027-01-01",
@@ -714,7 +1180,7 @@ window.TRIP = {
       "movement": "市内徒歩",
       "walking": "少",
       "rest": "明示済み",
-      "mealStatus": "San Ginés候補・昼夕食",
+      "mealStatus": "元日営業の食事場所未定・要調整",
       "load": {
         "status": "最適化済み",
         "level": "低",
@@ -727,75 +1193,143 @@ window.TRIP = {
       "contingency": {
         "delay30": {
           "status": "設計済み",
-          "keepItemIds": [],
-          "shortenItemIds": [],
+          "keepItemIds": [
+            "d0101-plaza-mayor",
+            "d0101-lunch"
+          ],
+          "shortenItemIds": [
+            "d0101-sol",
+            "d0101-san-gines",
+            "d0101-san-isidro",
+            "d0101-palace-exterior",
+            "d0101-san-francisco"
+          ],
           "dropItemIds": [],
           "replacementItemIds": [],
-          "instruction": "30分遅延: 主役と交通bufferを維持し、dropRank 1から削る。休業・疲労時はPlaza Mayorだけに短縮",
+          "instruction": "30分遅れ：元日のMadridを歩くと固定交通を残し、任意項目を短縮する。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "delay60": {
           "status": "設計済み",
-          "keepItemIds": [],
-          "shortenItemIds": [],
-          "dropItemIds": [],
+          "keepItemIds": [
+            "d0101-plaza-mayor",
+            "d0101-lunch"
+          ],
+          "shortenItemIds": [
+            "d0101-sol"
+          ],
+          "dropItemIds": [
+            "d0101-san-gines",
+            "d0101-san-isidro",
+            "d0101-palace-exterior",
+            "d0101-san-francisco"
+          ],
           "replacementItemIds": [],
-          "instruction": "60分遅延: 食事・休憩を残し、shortenable項目を短縮。休業・疲労時はPlaza Mayorだけに短縮",
+          "instruction": "1時間遅れ：元日のMadridを歩くと帰路を残し、任意項目を削って固定時刻へ戻す。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "majorDelay": {
           "status": "設計済み",
           "keepItemIds": [],
-          "shortenItemIds": [],
-          "dropItemIds": [],
+          "shortenItemIds": [
+            "d0101-plaza-mayor",
+            "d0101-lunch"
+          ],
+          "dropItemIds": [
+            "d0101-palace-exterior",
+            "d0101-san-francisco",
+            "d0101-sol",
+            "d0101-san-gines",
+            "d0101-san-isidro"
+          ],
           "replacementItemIds": [],
-          "instruction": "大幅遅延・施設休業: 予約・最終交通を守り、主役が閉鎖なら同日の屋内／外観fallbackへ。休業・疲労時はPlaza Mayorだけに短縮",
+          "instruction": "休業：公式情報を確認し、閉鎖対象を外して固定交通と同日の代替を守る。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "fatigue": {
           "status": "設計済み",
-          "keepItemIds": [],
-          "shortenItemIds": [],
-          "dropItemIds": [],
+          "keepItemIds": [
+            "d0101-plaza-mayor",
+            "d0101-lunch"
+          ],
+          "shortenItemIds": [
+            "d0101-sol"
+          ],
+          "dropItemIds": [
+            "d0101-san-isidro",
+            "d0101-palace-exterior",
+            "d0101-san-francisco",
+            "d0101-san-gines"
+          ],
           "replacementItemIds": [],
-          "instruction": "疲労: 食事・休憩・帰路を残し、できれば項目を削る。休業・疲労時はPlaza Mayorだけに短縮",
+          "instruction": "疲れた：元日のMadridを歩くと帰路を残し、歩行の多い項目を短縮・中止する。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "rain": {
           "status": "設計済み",
-          "keepItemIds": [],
-          "shortenItemIds": [],
-          "dropItemIds": [],
+          "keepItemIds": [
+            "d0101-lunch"
+          ],
+          "shortenItemIds": [
+            "d0101-sol"
+          ],
+          "dropItemIds": [
+            "d0101-plaza-mayor",
+            "d0101-palace-exterior",
+            "d0101-san-francisco"
+          ],
           "replacementItemIds": [],
-          "instruction": "雨・風: 屋外を短縮または中止し、予約済み屋内主役かホテル休憩へ。休業・疲労時はPlaza Mayorだけに短縮",
+          "instruction": "雨：元日のMadridを歩くと屋内項目・帰路を残し、屋外項目を短縮・中止する。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "restaurantUnavailable": {
           "status": "設計済み",
-          "keepItemIds": [],
-          "shortenItemIds": [],
+          "keepItemIds": [
+            "d0101-sol",
+            "d0101-plaza-mayor",
+            "d0101-san-isidro",
+            "d0101-palace-exterior",
+            "d0101-san-francisco"
+          ],
+          "shortenItemIds": [
+            "d0101-san-gines",
+            "d0101-lunch"
+          ],
           "dropItemIds": [],
           "replacementItemIds": [],
-          "instruction": "San Ginésが2027/1/1休業・行列30分超ならChocolatería 1902 11:45–12:30へ切替し、chocolate con churros役割を維持。",
+          "instruction": "食欲がない：観光と固定交通は変えず、食事枠だけ短縮して軽食・持帰りへ切り替える。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         }
       },
       "defaultTimeZone": "Europe/Madrid",
       "review": {
         "good": "主役、食事、休憩、移動buffer、撤退線を一日の順番に含めた。"
-      }
+      },
+      "lodging": "Madrid"
     },
     {
       "date": "2027-01-02",
@@ -807,7 +1341,7 @@ window.TRIP = {
       "id": "d0102",
       "cityId": "toledo",
       "cityLabel": "Toledo",
-      "theme": "大聖堂・El Greco核と帰路buffer",
+      "theme": "大聖堂・El Greco核と帰路余裕時間",
       "startTime": "09:15",
       "endTime": "17:57",
       "movement": "高速鉄道＋徒歩",
@@ -818,7 +1352,7 @@ window.TRIP = {
         "status": "最適化済み",
         "level": "中",
         "evidence": [
-          "大聖堂・El Greco核と帰路buffer"
+          "大聖堂・El Greco核と帰路余裕時間"
         ]
       },
       "hero": "Toledoの宗教美術",
@@ -826,75 +1360,133 @@ window.TRIP = {
       "contingency": {
         "delay30": {
           "status": "設計済み",
-          "keepItemIds": [],
-          "shortenItemIds": [],
+          "keepItemIds": [
+            "d0102-train-out",
+            "d0102-train-return",
+            "d0102-cathedral"
+          ],
+          "shortenItemIds": [
+            "d0102-santotome",
+            "d0102-greco",
+            "d0102-santacruz"
+          ],
           "dropItemIds": [],
           "replacementItemIds": [],
-          "instruction": "30分遅延: 主役と交通bufferを維持し、dropRank 1から削る。雨・疲労時はGrecoを削り帰路を守る",
+          "instruction": "30分遅れ：Toledoの宗教美術と固定交通を残し、任意項目を短縮する。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "delay60": {
           "status": "設計済み",
-          "keepItemIds": [],
-          "shortenItemIds": [],
-          "dropItemIds": [],
+          "keepItemIds": [
+            "d0102-train-out",
+            "d0102-train-return",
+            "d0102-cathedral"
+          ],
+          "shortenItemIds": [
+            "d0102-santotome"
+          ],
+          "dropItemIds": [
+            "d0102-greco",
+            "d0102-santacruz"
+          ],
           "replacementItemIds": [],
-          "instruction": "60分遅延: 食事・休憩を残し、shortenable項目を短縮。雨・疲労時はGrecoを削り帰路を守る",
+          "instruction": "1時間遅れ：Toledoの宗教美術と帰路を残し、任意項目を削って固定時刻へ戻す。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "majorDelay": {
           "status": "設計済み",
-          "keepItemIds": [],
+          "keepItemIds": [
+            "d0102-train-out",
+            "d0102-train-return"
+          ],
           "shortenItemIds": [],
-          "dropItemIds": [],
+          "dropItemIds": [
+            "d0102-cathedral",
+            "d0102-santotome",
+            "d0102-greco",
+            "d0102-santacruz"
+          ],
           "replacementItemIds": [],
-          "instruction": "大幅遅延・施設休業: 予約・最終交通を守り、主役が閉鎖なら同日の屋内／外観fallbackへ。雨・疲労時はGrecoを削り帰路を守る",
+          "instruction": "休業：公式情報を確認し、閉鎖対象を外して固定交通と同日の代替を守る。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "fatigue": {
           "status": "設計済み",
-          "keepItemIds": [],
-          "shortenItemIds": [],
-          "dropItemIds": [],
+          "keepItemIds": [
+            "d0102-train-out",
+            "d0102-train-return",
+            "d0102-cathedral"
+          ],
+          "shortenItemIds": [
+            "d0102-santotome"
+          ],
+          "dropItemIds": [
+            "d0102-greco",
+            "d0102-santacruz"
+          ],
           "replacementItemIds": [],
-          "instruction": "疲労: 食事・休憩・帰路を残し、できれば項目を削る。雨・疲労時はGrecoを削り帰路を守る",
+          "instruction": "疲れた：Toledoの宗教美術と帰路を残し、歩行の多い項目を短縮・中止する。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "rain": {
           "status": "設計済み",
-          "keepItemIds": [],
+          "keepItemIds": [
+            "d0102-train-out",
+            "d0102-train-return",
+            "d0102-cathedral"
+          ],
           "shortenItemIds": [],
           "dropItemIds": [],
           "replacementItemIds": [],
-          "instruction": "雨・風: 屋外を短縮または中止し、予約済み屋内主役かホテル休憩へ。雨・疲労時はGrecoを削り帰路を守る",
+          "instruction": "雨：Toledoの宗教美術と屋内項目・帰路を残し、屋外項目を短縮・中止する。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "restaurantUnavailable": {
           "status": "設計済み",
-          "keepItemIds": [],
+          "keepItemIds": [
+            "d0102-train-out",
+            "d0102-cathedral",
+            "d0102-greco",
+            "d0102-santotome",
+            "d0102-santacruz",
+            "d0102-train-return"
+          ],
           "shortenItemIds": [],
           "dropItemIds": [],
           "replacementItemIds": [],
-          "instruction": "満席: 予約確定していない店は待たず、同じ街区の予約不要軽食・市場散策・持帰りへ。",
+          "instruction": "食欲がない：観光と固定交通は変えず、食事枠だけ短縮して軽食・持帰りへ切り替える。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         }
       },
       "defaultTimeZone": "Europe/Madrid",
       "review": {
         "good": "主役、食事、休憩、移動buffer、撤退線を一日の順番に含めた。"
-      }
+      },
+      "lodging": "Madrid"
     },
     {
       "date": "2027-01-03",
@@ -906,101 +1498,157 @@ window.TRIP = {
       "id": "d0103",
       "cityId": "madrid",
       "cityLabel": "Madrid / Barcelona",
-      "theme": "Reina Sofía一館とAtocha buffer",
+      "theme": "Reina Sofía一館とAtocha 余裕時間",
       "startTime": "08:30",
       "endTime": "22:00",
       "movement": "市内＋高速鉄道",
       "walking": "中",
       "rest": "明示済み",
-      "mealStatus": "Atocha周辺昼食・到着後軽食",
+      "mealStatus": "昼食場所は未定",
       "load": {
         "status": "最適化済み",
         "level": "中",
         "evidence": [
-          "Reina Sofía一館とAtocha buffer"
+          "Reina Sofía一館とAtocha 余裕時間"
         ]
       },
       "hero": "Reina Sofíaと都市間移動",
-      "caution": "入場不可時は館を省略し列車bufferを維持",
+      "caution": "入場不可時は館を省略し列車余裕時間を維持",
       "contingency": {
         "delay30": {
           "status": "設計済み",
-          "keepItemIds": [],
-          "shortenItemIds": [],
+          "keepItemIds": [
+            "d0103-train-barcelona",
+            "d0103-final-hotel",
+            "d0103-reinasofia"
+          ],
+          "shortenItemIds": [
+            "d0103-serrano",
+            "d0103-san-miguel-market"
+          ],
           "dropItemIds": [],
           "replacementItemIds": [],
-          "instruction": "30分遅延: 主役と交通bufferを維持し、dropRank 1から削る。入場不可時は館を省略し列車bufferを維持",
+          "instruction": "30分遅れ：Reina Sofíaと都市間移動と固定交通を残し、任意項目を短縮する。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "delay60": {
           "status": "設計済み",
-          "keepItemIds": [],
-          "shortenItemIds": [],
-          "dropItemIds": [],
+          "keepItemIds": [
+            "d0103-train-barcelona",
+            "d0103-final-hotel",
+            "d0103-reinasofia"
+          ],
+          "shortenItemIds": [
+            "d0103-serrano"
+          ],
+          "dropItemIds": [
+            "d0103-san-miguel-market"
+          ],
           "replacementItemIds": [],
-          "instruction": "60分遅延: 食事・休憩を残し、shortenable項目を短縮。入場不可時は館を省略し列車bufferを維持",
+          "instruction": "1時間遅れ：Reina Sofíaと都市間移動と帰路を残し、任意項目を削って固定時刻へ戻す。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "majorDelay": {
           "status": "設計済み",
-          "keepItemIds": [],
+          "keepItemIds": [
+            "d0103-train-barcelona",
+            "d0103-final-hotel"
+          ],
           "shortenItemIds": [],
-          "dropItemIds": [],
+          "dropItemIds": [
+            "d0103-reinasofia",
+            "d0103-serrano",
+            "d0103-san-miguel-market"
+          ],
           "replacementItemIds": [],
-          "instruction": "大幅遅延・施設休業: 予約・最終交通を守り、主役が閉鎖なら同日の屋内／外観fallbackへ。入場不可時は館を省略し列車bufferを維持",
+          "instruction": "休業：公式情報を確認し、閉鎖対象を外して固定交通と同日の代替を守る。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "fatigue": {
           "status": "設計済み",
-          "keepItemIds": [],
-          "shortenItemIds": [],
-          "dropItemIds": [],
+          "keepItemIds": [
+            "d0103-train-barcelona",
+            "d0103-final-hotel",
+            "d0103-reinasofia"
+          ],
+          "shortenItemIds": [
+            "d0103-serrano"
+          ],
+          "dropItemIds": [
+            "d0103-san-miguel-market"
+          ],
           "replacementItemIds": [],
-          "instruction": "疲労: 食事・休憩・帰路を残し、できれば項目を削る。入場不可時は館を省略し列車bufferを維持",
+          "instruction": "疲れた：Reina Sofíaと都市間移動と帰路を残し、歩行の多い項目を短縮・中止する。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "rain": {
           "status": "設計済み",
-          "keepItemIds": [],
-          "shortenItemIds": [],
+          "keepItemIds": [
+            "d0103-train-barcelona",
+            "d0103-final-hotel",
+            "d0103-reinasofia"
+          ],
+          "shortenItemIds": [
+            "d0103-serrano"
+          ],
           "dropItemIds": [],
           "replacementItemIds": [],
-          "instruction": "雨・風: 屋外を短縮または中止し、予約済み屋内主役かホテル休憩へ。入場不可時は館を省略し列車bufferを維持",
+          "instruction": "雨：Reina Sofíaと都市間移動と屋内項目・帰路を残し、屋外項目を短縮・中止する。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "restaurantUnavailable": {
           "status": "設計済み",
-          "keepItemIds": [],
-          "shortenItemIds": [],
+          "keepItemIds": [
+            "d0103-reinasofia",
+            "d0103-serrano",
+            "d0103-train-barcelona",
+            "d0103-final-hotel"
+          ],
+          "shortenItemIds": [
+            "d0103-san-miguel-market"
+          ],
           "dropItemIds": [],
           "replacementItemIds": [],
-          "instruction": "満席: 予約確定していない店は待たず、同じ街区の予約不要軽食・市場散策・持帰りへ。",
+          "instruction": "食欲がない：観光と固定交通は変えず、食事枠だけ短縮して軽食・持帰りへ切り替える。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         }
       },
       "defaultTimeZone": "Europe/Madrid",
       "review": {
         "good": "主役、食事、休憩、移動buffer、撤退線を一日の順番に含めた。"
-      }
+      },
+      "lodging": "Barcelona"
     },
     {
       "date": "2027-01-04",
       "dow": "月",
       "title": "Barcelona出発",
       "city": "flight",
-      "status": "confirmed",
+      "status": "確定済み",
       "statusLabel": "航空券確定",
       "id": "d0104",
       "cityId": "flight",
@@ -1024,82 +1672,120 @@ window.TRIP = {
       "contingency": {
         "delay30": {
           "status": "設計済み",
-          "keepItemIds": [],
+          "keepItemIds": [
+            "d0104-airport-taxi",
+            "d0104-bcn-depart",
+            "d0104-pvg-arrive"
+          ],
           "shortenItemIds": [],
           "dropItemIds": [],
           "replacementItemIds": [],
-          "instruction": "30分遅延: 主役と交通bufferを維持し、dropRank 1から削る。taxi不調時も07:40着を満たす代替車を前夜手配",
+          "instruction": "30分遅れ：帰国便に乗ると固定交通を残し、任意項目を短縮する。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "delay60": {
           "status": "設計済み",
-          "keepItemIds": [],
+          "keepItemIds": [
+            "d0104-airport-taxi",
+            "d0104-bcn-depart",
+            "d0104-pvg-arrive"
+          ],
           "shortenItemIds": [],
           "dropItemIds": [],
           "replacementItemIds": [],
-          "instruction": "60分遅延: 食事・休憩を残し、shortenable項目を短縮。taxi不調時も07:40着を満たす代替車を前夜手配",
+          "instruction": "1時間遅れ：帰国便に乗ると帰路を残し、任意項目を削って固定時刻へ戻す。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "majorDelay": {
           "status": "設計済み",
-          "keepItemIds": [],
+          "keepItemIds": [
+            "d0104-airport-taxi",
+            "d0104-pvg-arrive"
+          ],
           "shortenItemIds": [],
-          "dropItemIds": [],
+          "dropItemIds": [
+            "d0104-bcn-depart"
+          ],
           "replacementItemIds": [],
-          "instruction": "大幅遅延・施設休業: 予約・最終交通を守り、主役が閉鎖なら同日の屋内／外観fallbackへ。taxi不調時も07:40着を満たす代替車を前夜手配",
+          "instruction": "休業：公式情報を確認し、閉鎖対象を外して固定交通と同日の代替を守る。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "fatigue": {
           "status": "設計済み",
-          "keepItemIds": [],
+          "keepItemIds": [
+            "d0104-airport-taxi",
+            "d0104-bcn-depart",
+            "d0104-pvg-arrive"
+          ],
           "shortenItemIds": [],
           "dropItemIds": [],
           "replacementItemIds": [],
-          "instruction": "疲労: 食事・休憩・帰路を残し、できれば項目を削る。taxi不調時も07:40着を満たす代替車を前夜手配",
+          "instruction": "疲れた：帰国便に乗ると帰路を残し、歩行の多い項目を短縮・中止する。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "rain": {
           "status": "設計済み",
-          "keepItemIds": [],
+          "keepItemIds": [
+            "d0104-airport-taxi",
+            "d0104-bcn-depart",
+            "d0104-pvg-arrive"
+          ],
           "shortenItemIds": [],
           "dropItemIds": [],
           "replacementItemIds": [],
-          "instruction": "雨・風: 屋外を短縮または中止し、予約済み屋内主役かホテル休憩へ。taxi不調時も07:40着を満たす代替車を前夜手配",
+          "instruction": "雨：帰国便に乗ると屋内項目・帰路を残し、屋外項目を短縮・中止する。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "restaurantUnavailable": {
           "status": "設計済み",
-          "keepItemIds": [],
+          "keepItemIds": [
+            "d0104-airport-taxi",
+            "d0104-bcn-depart",
+            "d0104-pvg-arrive"
+          ],
           "shortenItemIds": [],
           "dropItemIds": [],
           "replacementItemIds": [],
-          "instruction": "満席: 予約確定していない店は待たず、同じ街区の予約不要軽食・市場散策・持帰りへ。",
+          "instruction": "食欲がない：観光と固定交通は変えず、食事枠だけ短縮して軽食・持帰りへ切り替える。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         }
       },
       "defaultTimeZone": "Europe/Madrid",
       "review": {
         "good": "主役、食事、休憩、移動buffer、撤退線を一日の順番に含めた。"
-      }
+      },
+      "lodging": "機内泊"
     },
     {
       "date": "2027-01-05",
       "dow": "火",
       "title": "帰国",
       "city": "flight",
-      "status": "confirmed",
+      "status": "確定済み",
       "statusLabel": "航空券確定",
       "id": "d0105",
       "cityId": "flight",
@@ -1123,78 +1809,110 @@ window.TRIP = {
       "contingency": {
         "delay30": {
           "status": "設計済み",
-          "keepItemIds": [],
+          "keepItemIds": [
+            "d0105-pvg-depart",
+            "d0105-nrt-arrive"
+          ],
           "shortenItemIds": [],
           "dropItemIds": [],
           "replacementItemIds": [],
-          "instruction": "30分遅延: 主役と交通bufferを維持し、dropRank 1から削る。接続変更時は航空会社指示を優先",
+          "instruction": "30分遅れ：成田到着と固定交通を残し、任意項目を短縮する。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "delay60": {
           "status": "設計済み",
-          "keepItemIds": [],
+          "keepItemIds": [
+            "d0105-pvg-depart",
+            "d0105-nrt-arrive"
+          ],
           "shortenItemIds": [],
           "dropItemIds": [],
           "replacementItemIds": [],
-          "instruction": "60分遅延: 食事・休憩を残し、shortenable項目を短縮。接続変更時は航空会社指示を優先",
+          "instruction": "1時間遅れ：成田到着と帰路を残し、任意項目を削って固定時刻へ戻す。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "majorDelay": {
           "status": "設計済み",
-          "keepItemIds": [],
+          "keepItemIds": [
+            "d0105-nrt-arrive"
+          ],
           "shortenItemIds": [],
-          "dropItemIds": [],
+          "dropItemIds": [
+            "d0105-pvg-depart"
+          ],
           "replacementItemIds": [],
-          "instruction": "大幅遅延・施設休業: 予約・最終交通を守り、主役が閉鎖なら同日の屋内／外観fallbackへ。接続変更時は航空会社指示を優先",
+          "instruction": "休業：公式情報を確認し、閉鎖対象を外して固定交通と同日の代替を守る。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "fatigue": {
           "status": "設計済み",
-          "keepItemIds": [],
+          "keepItemIds": [
+            "d0105-pvg-depart",
+            "d0105-nrt-arrive"
+          ],
           "shortenItemIds": [],
           "dropItemIds": [],
           "replacementItemIds": [],
-          "instruction": "疲労: 食事・休憩・帰路を残し、できれば項目を削る。接続変更時は航空会社指示を優先",
+          "instruction": "疲れた：成田到着と帰路を残し、歩行の多い項目を短縮・中止する。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "rain": {
           "status": "設計済み",
-          "keepItemIds": [],
+          "keepItemIds": [
+            "d0105-pvg-depart",
+            "d0105-nrt-arrive"
+          ],
           "shortenItemIds": [],
           "dropItemIds": [],
           "replacementItemIds": [],
-          "instruction": "雨・風: 屋外を短縮または中止し、予約済み屋内主役かホテル休憩へ。接続変更時は航空会社指示を優先",
+          "instruction": "雨：成田到着と屋内項目・帰路を残し、屋外項目を短縮・中止する。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         },
         "restaurantUnavailable": {
           "status": "設計済み",
-          "keepItemIds": [],
+          "keepItemIds": [
+            "d0105-pvg-depart",
+            "d0105-nrt-arrive"
+          ],
           "shortenItemIds": [],
           "dropItemIds": [],
           "replacementItemIds": [],
-          "instruction": "満席: 予約確定していない店は待たず、同じ街区の予約不要軽食・市場散策・持帰りへ。",
+          "instruction": "食欲がない：観光と固定交通は変えず、食事枠だけ短縮して軽食・持帰りへ切り替える。",
           "informationNeeded": [
             "旅行7日前と前日に公式運行・営業・天候を再確認。"
-          ]
+          ],
+          "otherDayTransfer": false,
+          "source": "ux-rebuild-04"
         }
       },
       "defaultTimeZone": "Asia/Shanghai",
       "review": {
         "good": "主役、食事、休憩、移動buffer、撤退線を一日の順番に含めた。"
-      }
+      },
+      "lodging": "帰宅"
     }
   ],
-  "schemaVersion": "1.3.1",
+  "schemaVersion": "1.4.0",
   "timeZone": "Europe/Madrid",
   "id": "spain-2026",
   "name": "スペイン旅行 2026–27",
@@ -1224,9 +1942,9 @@ window.TRIP = {
     "lateNight": "一部の日のみ"
   },
   "evaluation": {
-    "status": "Phase 3.1-R2再現可能採点済み",
+    "status": "旅程比較再現可能採点済み",
     "score": 63.859,
-    "reason": "16候補を12日分のScheduleItemへ正規化し、候補ID・名称・手入力scoreに依存しない固定6軸式でoptimistic/base/conservativeを再計算。P06-R2がbase 63.859、conservative 56.995で勝者。",
+    "reason": "16候補を12日分の予定へ正規化し、候補ID・名称・手入力scoreに依存しない固定6軸式でoptimistic/base/conservativeを再計算。現在の旅程がbase 63.859、conservative 56.995で勝者。",
     "axes": [
       {
         "id": "experience",
@@ -1235,7 +1953,7 @@ window.TRIP = {
         "status": "評価済み",
         "score": 13.161,
         "evidence": [
-          "Phase 3.1-R2 P06-R2 base: 13.161/15",
+          "旅程比較 現在の旅程 base: 13.161/15",
           "scripts/phase3-1-r2-score.js contribution ledger"
         ],
         "risks": [
@@ -1255,7 +1973,7 @@ window.TRIP = {
         "status": "評価済み",
         "score": 12.688,
         "evidence": [
-          "Phase 3.1-R2 P06-R2 base: 12.688/20",
+          "旅程比較 現在の旅程 base: 12.688/20",
           "scripts/phase3-1-r2-score.js contribution ledger"
         ],
         "risks": [
@@ -1275,7 +1993,7 @@ window.TRIP = {
         "status": "評価済み",
         "score": 14.767,
         "evidence": [
-          "Phase 3.1-R2 P06-R2 base: 14.767/20",
+          "旅程比較 現在の旅程 base: 14.767/20",
           "scripts/phase3-1-r2-score.js contribution ledger"
         ],
         "risks": [
@@ -1295,7 +2013,7 @@ window.TRIP = {
         "status": "評価済み",
         "score": 5.53,
         "evidence": [
-          "Phase 3.1-R2 P06-R2 base: 5.53/15",
+          "旅程比較 現在の旅程 base: 5.53/15",
           "scripts/phase3-1-r2-score.js contribution ledger"
         ],
         "risks": [
@@ -1315,7 +2033,7 @@ window.TRIP = {
         "status": "評価済み",
         "score": 9.291,
         "evidence": [
-          "Phase 3.1-R2 P06-R2 base: 9.291/15",
+          "旅程比較 現在の旅程 base: 9.291/15",
           "scripts/phase3-1-r2-score.js contribution ledger"
         ],
         "risks": [
@@ -1335,7 +2053,7 @@ window.TRIP = {
         "status": "評価済み",
         "score": 8.422,
         "evidence": [
-          "Phase 3.1-R2 P06-R2 base: 8.422/15",
+          "旅程比較 現在の旅程 base: 8.422/15",
           "scripts/phase3-1-r2-score.js contribution ledger"
         ],
         "risks": [
@@ -1384,7 +2102,7 @@ window.TRIP = {
   ],
   "coverageCatalog": {
     "catalogStatus": "作成中",
-    "scope": "既存旅程・既存prep・既存spotsで確認できた候補",
+    "scope": "既存旅程・既存prep・場所情報で確認できた候補",
     "selectionPolicy": "有名どころ重視。数ではなく重要度と判断理由を管理する。",
     "lastReviewed": "2026-07-22",
     "missingCategories": [
@@ -1406,7 +2124,7 @@ window.TRIP = {
       {
         "cityId": "barcelona",
         "category": "eat",
-        "status": "未登録",
+        "status": "確認待ち",
         "lastReviewedAt": null,
         "sourcePolicy": null,
         "missingTopics": [
@@ -1426,7 +2144,7 @@ window.TRIP = {
       {
         "cityId": "madrid",
         "category": "eat",
-        "status": "未登録",
+        "status": "確認待ち",
         "lastReviewedAt": null,
         "sourcePolicy": null,
         "missingTopics": [
@@ -1453,7 +2171,7 @@ window.TRIP = {
         "barcelona-modernisme-palau"
       ],
       "legacyAnchor": "sagrada",
-      "summary": "料金・時間は既存spots記載。訪問前に公式再確認。",
+      "summary": "Drive v2本編。料金・時間・公開範囲は旅行前に公式情報で再確認する。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": 90,
@@ -1482,9 +2200,14 @@ window.TRIP = {
         "sourceIds": [
           "source-internal-legacy-spots",
           "source-sagradafamilia-org-en-tickets"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "must"
     },
     {
       "id": "parkguell",
@@ -1522,9 +2245,14 @@ window.TRIP = {
         "sourceIds": [
           "source-internal-legacy-spots",
           "source-parkguell-barcelona-en-buy-tickets"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "recommended"
     },
     {
       "id": "batllo",
@@ -1543,7 +2271,7 @@ window.TRIP = {
         "barcelona-modernisme-palau"
       ],
       "legacyAnchor": "batllo",
-      "summary": "既存spots記載。",
+      "summary": "Drive v2本編。料金・時間・公開範囲は旅行前に公式情報で再確認する。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": 75,
@@ -1561,9 +2289,14 @@ window.TRIP = {
         "sourceIds": [
           "source-internal-legacy-spots",
           "source-www-casabatllo-es-en-online-tickets"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "recommended"
     },
     {
       "id": "mila",
@@ -1582,7 +2315,7 @@ window.TRIP = {
         "barcelona-modernisme-palau"
       ],
       "legacyAnchor": "mila",
-      "summary": "既存spots記載。",
+      "summary": "Drive v2本編。料金・時間・公開範囲は旅行前に公式情報で再確認する。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": 90,
@@ -1600,9 +2333,14 @@ window.TRIP = {
         "sourceIds": [
           "source-internal-legacy-spots",
           "source-www-lapedrera-com-en-tickets"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "must"
     },
     {
       "id": "cathedral",
@@ -1619,7 +2357,7 @@ window.TRIP = {
         "barcelona-old-city"
       ],
       "legacyAnchor": "cathedral",
-      "summary": "既存spots記載。",
+      "summary": "Drive v2本編。料金・時間・公開範囲は旅行前に公式情報で再確認する。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -1638,9 +2376,14 @@ window.TRIP = {
         "sourceIds": [
           "source-internal-legacy-spots",
           "source-tickets-catedralbcn-org"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "recommended"
     },
     {
       "id": "montjuic",
@@ -1654,7 +2397,7 @@ window.TRIP = {
       "officialUrl": "https://ajuntament.barcelona.cat/castelldemontjuic/en/visit-us",
       "articleIds": [],
       "legacyAnchor": "montjuic",
-      "summary": "既存spots記載。",
+      "summary": "Drive v2本編。料金・時間・公開範囲は旅行前に公式情報で再確認する。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -1674,9 +2417,14 @@ window.TRIP = {
         "sourceIds": [
           "source-internal-legacy-spots",
           "source-montjuic-castle-official-visit"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "recommended"
     },
     {
       "id": "boqueria",
@@ -1695,7 +2443,7 @@ window.TRIP = {
         "barcelona-seafood-market-bar"
       ],
       "legacyAnchor": "boqueria",
-      "summary": "既存spots記載。",
+      "summary": "Drive v2本編。料金・時間・公開範囲は旅行前に公式情報で再確認する。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -1713,9 +2461,14 @@ window.TRIP = {
         "sourceIds": [
           "source-internal-legacy-spots",
           "source-www-boqueria-barcelona-home"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "recommended"
     },
     {
       "id": "montserrat",
@@ -1752,9 +2505,14 @@ window.TRIP = {
         "sourceIds": [
           "source-internal-legacy-spots",
           "source-www-cremallerademontserrat-cat-en"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "recommended"
     },
     {
       "id": "tarragona",
@@ -1786,9 +2544,14 @@ window.TRIP = {
         "sourceIds": [
           "source-internal-legacy-spots",
           "source-www-tarragonaturisme-cat-en"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "recommended"
     },
     {
       "id": "prado",
@@ -1808,7 +2571,7 @@ window.TRIP = {
         "el-greco-museum"
       ],
       "legacyAnchor": "prado",
-      "summary": "既存spots記載。",
+      "summary": "Drive v2本編。料金・時間・公開範囲は旅行前に公式情報で再確認する。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -1828,9 +2591,14 @@ window.TRIP = {
         "sourceIds": [
           "source-internal-legacy-spots",
           "source-www-museodelprado-es-en-visit-opening-times-and-pric"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "must"
     },
     {
       "id": "palacio",
@@ -1847,7 +2615,7 @@ window.TRIP = {
         "madrid-austrias"
       ],
       "legacyAnchor": "palacio",
-      "summary": "既存spots記載。",
+      "summary": "Drive v2本編。料金・時間・公開範囲は旅行前に公式情報で再確認する。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -1866,9 +2634,14 @@ window.TRIP = {
         "sourceIds": [
           "source-internal-legacy-spots",
           "source-tickets-patrimonionacional-es-en-tickets-palacio-rea"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "recommended"
     },
     {
       "id": "reinasofia",
@@ -1905,9 +2678,14 @@ window.TRIP = {
         "sourceIds": [
           "source-internal-legacy-spots",
           "source-www-museoreinasofia-es-en-visit-individual-visits"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "recommended"
     },
     {
       "id": "nye",
@@ -1943,9 +2721,14 @@ window.TRIP = {
           "source-internal-legacy-spots",
           "source-www-metromadrid-es-en",
           "source-mad-learn-madrid-austrias"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "unrated"
     },
     {
       "id": "toledo-cathedral",
@@ -1962,7 +2745,7 @@ window.TRIP = {
         "toledo-cathedral"
       ],
       "legacyAnchor": "toledo-cathedral",
-      "summary": "既存spots記載。",
+      "summary": "Drive v2本編。料金・時間・公開範囲は旅行前に公式情報で再確認する。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -1984,9 +2767,14 @@ window.TRIP = {
           "source-tickets-catedralprimada-es",
           "source-mad-learn-cathedral",
           "source-mad-learn-cathedral-visit"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "recommended"
     },
     {
       "id": "santotome",
@@ -2005,7 +2793,7 @@ window.TRIP = {
         "el-greco-museum"
       ],
       "legacyAnchor": "santotome",
-      "summary": "既存spots記載。",
+      "summary": "Drive v2本編。料金・時間・公開範囲は旅行前に公式情報で再確認する。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -2026,9 +2814,14 @@ window.TRIP = {
           "source-internal-legacy-spots",
           "source-tickets-toledomonumental-com",
           "source-mad-learn-santo-tome"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "recommended"
     },
     {
       "id": "greco",
@@ -2047,7 +2840,7 @@ window.TRIP = {
         "santo-tome-orgaz"
       ],
       "legacyAnchor": "greco",
-      "summary": "既存spots記載。",
+      "summary": "Drive v2本編。料金・時間・公開範囲は旅行前に公式情報で再確認する。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -2068,9 +2861,14 @@ window.TRIP = {
           "source-internal-legacy-spots",
           "source-www-cultura-gob-es-mgreco-la-visita-horariosytarifas",
           "source-mad-learn-greco-collection"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "recommended"
     },
     {
       "id": "santacruz",
@@ -2104,9 +2902,14 @@ window.TRIP = {
         "sourceIds": [
           "source-internal-legacy-spots",
           "source-cultura-castillalamancha-es-museos-nuestros-museos-m"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "recommended"
     },
     {
       "id": "barcelona-airport",
@@ -2120,7 +2923,7 @@ window.TRIP = {
       "officialUrl": null,
       "articleIds": [],
       "legacyAnchor": null,
-      "summary": "旧scheduleから名称のみ移行。詳細は未登録。",
+      "summary": "Drive v2本編。料金・時間・公開範囲は旅行前に公式情報で再確認する。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -2132,9 +2935,14 @@ window.TRIP = {
         "tripDateWindows": [],
         "sourceIds": [
           "source-internal-legacy-spots"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "unrated"
     },
     {
       "id": "hotel-barcelona",
@@ -2148,7 +2956,7 @@ window.TRIP = {
       "officialUrl": null,
       "articleIds": [],
       "legacyAnchor": null,
-      "summary": "旧scheduleから名称のみ移行。詳細は未登録。",
+      "summary": "Drive v2本編。料金・時間・公開範囲は旅行前に公式情報で再確認する。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -2160,9 +2968,14 @@ window.TRIP = {
         "tripDateWindows": [],
         "sourceIds": [
           "source-internal-legacy-spots"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "unrated"
     },
     {
       "id": "guell-palace",
@@ -2181,7 +2994,7 @@ window.TRIP = {
         "barcelona-old-city"
       ],
       "legacyAnchor": null,
-      "summary": "旧scheduleから名称のみ移行。詳細は未登録。",
+      "summary": "Drive v2本編。料金・時間・公開範囲は旅行前に公式情報で再確認する。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -2193,9 +3006,14 @@ window.TRIP = {
         "tripDateWindows": [],
         "sourceIds": [
           "source-internal-legacy-spots"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "recommended"
     },
     {
       "id": "placa-rei",
@@ -2212,7 +3030,7 @@ window.TRIP = {
         "barcelona-old-city"
       ],
       "legacyAnchor": null,
-      "summary": "旧scheduleから名称のみ移行。詳細は未登録。",
+      "summary": "Drive v2本編。料金・時間・公開範囲は旅行前に公式情報で再確認する。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -2224,9 +3042,14 @@ window.TRIP = {
         "tripDateWindows": [],
         "sourceIds": [
           "source-internal-legacy-spots"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "unrated"
     },
     {
       "id": "placa-reial",
@@ -2243,7 +3066,7 @@ window.TRIP = {
         "barcelona-old-city"
       ],
       "legacyAnchor": null,
-      "summary": "旧scheduleから名称のみ移行。詳細は未登録。",
+      "summary": "Drive v2本編。料金・時間・公開範囲は旅行前に公式情報で再確認する。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -2255,9 +3078,14 @@ window.TRIP = {
         "tripDateWindows": [],
         "sourceIds": [
           "source-internal-legacy-spots"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "unrated"
     },
     {
       "id": "casa-vicens",
@@ -2276,7 +3104,7 @@ window.TRIP = {
         "barcelona-modernisme-palau"
       ],
       "legacyAnchor": null,
-      "summary": "旧scheduleから名称のみ移行。詳細は未登録。",
+      "summary": "Drive v2本編。料金・時間・公開範囲は旅行前に公式情報で再確認する。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -2288,9 +3116,14 @@ window.TRIP = {
         "tripDateWindows": [],
         "sourceIds": [
           "source-internal-legacy-spots"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "recommended"
     },
     {
       "id": "sant-pau",
@@ -2307,7 +3140,7 @@ window.TRIP = {
         "barcelona-modernisme-palau"
       ],
       "legacyAnchor": null,
-      "summary": "旧scheduleから名称のみ移行。詳細は未登録。",
+      "summary": "Drive v2本編。料金・時間・公開範囲は旅行前に公式情報で再確認する。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -2319,9 +3152,14 @@ window.TRIP = {
         "tripDateWindows": [],
         "sourceIds": [
           "source-internal-legacy-spots"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "recommended"
     },
     {
       "id": "fira-sagrada",
@@ -2335,7 +3173,7 @@ window.TRIP = {
       "officialUrl": null,
       "articleIds": [],
       "legacyAnchor": null,
-      "summary": "旧scheduleから名称のみ移行。詳細は未登録。",
+      "summary": "Drive v2本編。料金・時間・公開範囲は旅行前に公式情報で再確認する。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -2347,9 +3185,14 @@ window.TRIP = {
         "tripDateWindows": [],
         "sourceIds": [
           "source-internal-legacy-spots"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "unrated"
     },
     {
       "id": "columbus",
@@ -2363,7 +3206,7 @@ window.TRIP = {
       "officialUrl": null,
       "articleIds": [],
       "legacyAnchor": null,
-      "summary": "旧scheduleから名称のみ移行。詳細は未登録。",
+      "summary": "Drive v2本編。料金・時間・公開範囲は旅行前に公式情報で再確認する。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -2375,9 +3218,14 @@ window.TRIP = {
         "tripDateWindows": [],
         "sourceIds": [
           "source-internal-legacy-spots"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "unrated"
     },
     {
       "id": "teleferic-port",
@@ -2391,7 +3239,7 @@ window.TRIP = {
       "officialUrl": null,
       "articleIds": [],
       "legacyAnchor": null,
-      "summary": "旧scheduleから名称のみ移行。詳細は未登録。",
+      "summary": "Drive v2本編。料金・時間・公開範囲は旅行前に公式情報で再確認する。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -2403,9 +3251,14 @@ window.TRIP = {
         "tripDateWindows": [],
         "sourceIds": [
           "source-internal-legacy-spots"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "unrated"
     },
     {
       "id": "el-corte",
@@ -2419,7 +3272,7 @@ window.TRIP = {
       "officialUrl": null,
       "articleIds": [],
       "legacyAnchor": null,
-      "summary": "旧scheduleから名称のみ移行。詳細は未登録。",
+      "summary": "Drive v2本編。料金・時間・公開範囲は旅行前に公式情報で再確認する。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -2431,9 +3284,14 @@ window.TRIP = {
         "tripDateWindows": [],
         "sourceIds": [
           "source-internal-legacy-spots"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "unrated"
     },
     {
       "id": "fira-santa-llucia",
@@ -2447,7 +3305,7 @@ window.TRIP = {
       "officialUrl": null,
       "articleIds": [],
       "legacyAnchor": null,
-      "summary": "旧scheduleから名称のみ移行。詳細は未登録。",
+      "summary": "Drive v2本編。料金・時間・公開範囲は旅行前に公式情報で再確認する。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -2459,9 +3317,14 @@ window.TRIP = {
         "tripDateWindows": [],
         "sourceIds": [
           "source-internal-legacy-spots"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "unrated"
     },
     {
       "id": "ferreres",
@@ -2475,7 +3338,7 @@ window.TRIP = {
       "officialUrl": null,
       "articleIds": [],
       "legacyAnchor": null,
-      "summary": "旧scheduleから名称のみ移行。詳細は未登録。",
+      "summary": "Drive v2本編。料金・時間・公開範囲は旅行前に公式情報で再確認する。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -2487,9 +3350,14 @@ window.TRIP = {
         "tripDateWindows": [],
         "sourceIds": [
           "source-internal-legacy-spots"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "recommended"
     },
     {
       "id": "tarragona-cathedral",
@@ -2503,7 +3371,7 @@ window.TRIP = {
       "officialUrl": null,
       "articleIds": [],
       "legacyAnchor": null,
-      "summary": "旧scheduleから名称のみ移行。詳細は未登録。",
+      "summary": "Drive v2本編。料金・時間・公開範囲は旅行前に公式情報で再確認する。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -2515,9 +3383,14 @@ window.TRIP = {
         "tripDateWindows": [],
         "sourceIds": [
           "source-internal-legacy-spots"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "recommended"
     },
     {
       "id": "pinchos-street",
@@ -2531,7 +3404,7 @@ window.TRIP = {
       "officialUrl": null,
       "articleIds": [],
       "legacyAnchor": null,
-      "summary": "旧scheduleから名称のみ移行。詳細は未登録。",
+      "summary": "Drive v2本編。料金・時間・公開範囲は旅行前に公式情報で再確認する。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -2543,9 +3416,14 @@ window.TRIP = {
         "tripDateWindows": [],
         "sourceIds": [
           "source-internal-legacy-spots"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "unrated"
     },
     {
       "id": "montserrat-basilica",
@@ -2559,7 +3437,7 @@ window.TRIP = {
       "officialUrl": null,
       "articleIds": [],
       "legacyAnchor": null,
-      "summary": "旧scheduleから名称のみ移行。詳細は未登録。",
+      "summary": "詳細は旅行前に公式情報で確認します。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -2571,9 +3449,14 @@ window.TRIP = {
         "tripDateWindows": [],
         "sourceIds": [
           "source-internal-legacy-spots"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "unrated"
     },
     {
       "id": "black-madonna",
@@ -2587,7 +3470,7 @@ window.TRIP = {
       "officialUrl": null,
       "articleIds": [],
       "legacyAnchor": null,
-      "summary": "旧scheduleから名称のみ移行。詳細は未登録。",
+      "summary": "詳細は旅行前に公式情報で確認します。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -2599,9 +3482,14 @@ window.TRIP = {
         "tripDateWindows": [],
         "sourceIds": [
           "source-internal-legacy-spots"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "unrated"
     },
     {
       "id": "montserrat-museum",
@@ -2615,7 +3503,7 @@ window.TRIP = {
       "officialUrl": null,
       "articleIds": [],
       "legacyAnchor": null,
-      "summary": "旧scheduleから名称のみ移行。詳細は未登録。",
+      "summary": "詳細は旅行前に公式情報で確認します。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -2627,9 +3515,14 @@ window.TRIP = {
         "tripDateWindows": [],
         "sourceIds": [
           "source-internal-legacy-spots"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "unrated"
     },
     {
       "id": "san-jeronimo",
@@ -2643,7 +3536,7 @@ window.TRIP = {
       "officialUrl": null,
       "articleIds": [],
       "legacyAnchor": null,
-      "summary": "旧scheduleから名称のみ移行。詳細は未登録。",
+      "summary": "Drive v2本編。料金・時間・公開範囲は旅行前に公式情報で再確認する。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -2655,9 +3548,14 @@ window.TRIP = {
         "tripDateWindows": [],
         "sourceIds": [
           "source-internal-legacy-spots"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "unrated"
     },
     {
       "id": "cibeles",
@@ -2673,7 +3571,7 @@ window.TRIP = {
         "madrid-overview"
       ],
       "legacyAnchor": null,
-      "summary": "旧scheduleから名称のみ移行。詳細は未登録。",
+      "summary": "Drive v2本編。料金・時間・公開範囲は旅行前に公式情報で再確認する。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -2686,9 +3584,14 @@ window.TRIP = {
         "sourceIds": [
           "source-internal-legacy-spots",
           "source-mad-learn-madrid-austrias"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "unrated"
     },
     {
       "id": "alcala-gate",
@@ -2704,7 +3607,7 @@ window.TRIP = {
         "madrid-overview"
       ],
       "legacyAnchor": null,
-      "summary": "旧scheduleから名称のみ移行。詳細は未登録。",
+      "summary": "Drive v2本編。料金・時間・公開範囲は旅行前に公式情報で再確認する。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -2717,9 +3620,14 @@ window.TRIP = {
         "sourceIds": [
           "source-internal-legacy-spots",
           "source-mad-learn-madrid-austrias"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "unrated"
     },
     {
       "id": "retiro",
@@ -2735,7 +3643,7 @@ window.TRIP = {
         "madrid-overview"
       ],
       "legacyAnchor": null,
-      "summary": "旧scheduleから名称のみ移行。詳細は未登録。",
+      "summary": "Drive v2本編。料金・時間・公開範囲は旅行前に公式情報で再確認する。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -2748,9 +3656,14 @@ window.TRIP = {
         "sourceIds": [
           "source-internal-legacy-spots",
           "source-mad-learn-madrid-austrias"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "unrated"
     },
     {
       "id": "san-silvestre",
@@ -2764,7 +3677,7 @@ window.TRIP = {
       "officialUrl": null,
       "articleIds": [],
       "legacyAnchor": null,
-      "summary": "旧scheduleから名称のみ移行。詳細は未登録。",
+      "summary": "Drive v2本編。料金・時間・公開範囲は旅行前に公式情報で再確認する。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -2776,9 +3689,14 @@ window.TRIP = {
         "tripDateWindows": [],
         "sourceIds": [
           "source-internal-legacy-spots"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "unrated"
     },
     {
       "id": "san-gines",
@@ -2794,7 +3712,7 @@ window.TRIP = {
         "madrid-austrias"
       ],
       "legacyAnchor": null,
-      "summary": "旧scheduleから名称のみ移行。詳細は未登録。",
+      "summary": "Drive v2本編。料金・時間・公開範囲は旅行前に公式情報で再確認する。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -2807,9 +3725,14 @@ window.TRIP = {
         "sourceIds": [
           "source-internal-legacy-spots",
           "source-mad-learn-madrid-austrias"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "unrated"
     },
     {
       "id": "plaza-mayor",
@@ -2826,7 +3749,7 @@ window.TRIP = {
         "madrid-austrias"
       ],
       "legacyAnchor": null,
-      "summary": "旧scheduleから名称のみ移行。詳細は未登録。",
+      "summary": "Drive v2本編。料金・時間・公開範囲は旅行前に公式情報で再確認する。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -2839,9 +3762,14 @@ window.TRIP = {
         "sourceIds": [
           "source-internal-legacy-spots",
           "source-mad-learn-madrid-austrias"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "unrated"
     },
     {
       "id": "san-isidro",
@@ -2857,7 +3785,7 @@ window.TRIP = {
         "madrid-austrias"
       ],
       "legacyAnchor": null,
-      "summary": "旧scheduleから名称のみ移行。詳細は未登録。",
+      "summary": "Drive v2本編。料金・時間・公開範囲は旅行前に公式情報で再確認する。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -2870,9 +3798,14 @@ window.TRIP = {
         "sourceIds": [
           "source-internal-legacy-spots",
           "source-mad-learn-madrid-austrias"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "unrated"
     },
     {
       "id": "san-francisco",
@@ -2888,7 +3821,7 @@ window.TRIP = {
         "madrid-austrias"
       ],
       "legacyAnchor": null,
-      "summary": "旧scheduleから名称のみ移行。詳細は未登録。",
+      "summary": "Drive v2本編。料金・時間・公開範囲は旅行前に公式情報で再確認する。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -2901,9 +3834,14 @@ window.TRIP = {
         "sourceIds": [
           "source-internal-legacy-spots",
           "source-mad-learn-madrid-austrias"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "unrated"
     },
     {
       "id": "serrano",
@@ -2917,7 +3855,7 @@ window.TRIP = {
       "officialUrl": null,
       "articleIds": [],
       "legacyAnchor": null,
-      "summary": "旧scheduleから名称のみ移行。詳細は未登録。",
+      "summary": "Drive v2本編。料金・時間・公開範囲は旅行前に公式情報で再確認する。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -2929,9 +3867,14 @@ window.TRIP = {
         "tripDateWindows": [],
         "sourceIds": [
           "source-internal-legacy-spots"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "unrated"
     },
     {
       "id": "cava-san-miguel",
@@ -2945,7 +3888,7 @@ window.TRIP = {
       "officialUrl": null,
       "articleIds": [],
       "legacyAnchor": null,
-      "summary": "旧scheduleから名称のみ移行。詳細は未登録。",
+      "summary": "詳細は旅行前に公式情報で確認します。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -2957,9 +3900,14 @@ window.TRIP = {
         "tripDateWindows": [],
         "sourceIds": [
           "source-internal-legacy-spots"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "unrated"
     },
     {
       "id": "san-miguel-market",
@@ -2973,7 +3921,7 @@ window.TRIP = {
       "officialUrl": null,
       "articleIds": [],
       "legacyAnchor": null,
-      "summary": "旧scheduleから名称のみ移行。詳細は未登録。",
+      "summary": "Drive v2本編。料金・時間・公開範囲は旅行前に公式情報で再確認する。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -2985,9 +3933,14 @@ window.TRIP = {
         "tripDateWindows": [],
         "sourceIds": [
           "source-internal-legacy-spots"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "unrated"
     },
     {
       "id": "hotel-barcelona-final",
@@ -3001,7 +3954,7 @@ window.TRIP = {
       "officialUrl": null,
       "articleIds": [],
       "legacyAnchor": null,
-      "summary": "旧scheduleから名称のみ移行。詳細は未登録。",
+      "summary": "詳細は旅行前に公式情報で確認します。",
       "visitInfo": {
         "status": "unverified",
         "durationIdealMinutes": null,
@@ -3013,9 +3966,14 @@ window.TRIP = {
         "tripDateWindows": [],
         "sourceIds": [
           "source-internal-legacy-spots"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": null,
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "unrated"
     },
     {
       "id": "palau-musica",
@@ -3051,9 +4009,14 @@ window.TRIP = {
         "tripDateWindows": [],
         "sourceIds": [
           "source-palau-musica-visits"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": "2026-07-23",
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "recommended"
     },
     {
       "id": "picasso-museum",
@@ -3085,9 +4048,14 @@ window.TRIP = {
         "tripDateWindows": [],
         "sourceIds": [
           "source-picasso-opening-hours"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": "2026-07-23",
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "recommended"
     },
     {
       "id": "mnac",
@@ -3119,9 +4087,14 @@ window.TRIP = {
         "tripDateWindows": [],
         "sourceIds": [
           "source-mnac-opening-hours-prices"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": "2026-07-23",
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "recommended"
     },
     {
       "id": "santa-caterina-market",
@@ -3156,9 +4129,14 @@ window.TRIP = {
         "tripDateWindows": [],
         "sourceIds": [
           "source-santa-caterina-history"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": "2026-07-23",
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "recommended"
     },
     {
       "id": "ciutadella-arc-triomf",
@@ -3191,9 +4169,14 @@ window.TRIP = {
         "sourceIds": [
           "source-ciutadella-tourism",
           "source-arc-triomf-tourism"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": "2026-07-23",
+        "recheckRequired": true
       },
-      "foodProfile": null
+      "foodProfile": null,
+      "importance": "recommended"
     },
     {
       "id": "can-culleretes",
@@ -3230,7 +4213,10 @@ window.TRIP = {
         "sourceIds": [
           "source-can-culleretes-official",
           "source-barcelona-city-can-culleretes"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": "2026-07-24"
       },
       "foodProfile": {
         "venueType": "restaurant",
@@ -3264,7 +4250,8 @@ window.TRIP = {
           "source-can-culleretes-official",
           "source-barcelona-city-can-culleretes"
         ]
-      }
+      },
+      "importance": "unrated"
     },
     {
       "id": "restaurant-7-portes",
@@ -3302,7 +4289,10 @@ window.TRIP = {
         "sourceIds": [
           "source-7-portes-official",
           "source-barcelona-bus-turistic-7-portes"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": "2026-07-24"
       },
       "foodProfile": {
         "venueType": "restaurant",
@@ -3336,7 +4326,8 @@ window.TRIP = {
           "source-7-portes-official",
           "source-barcelona-bus-turistic-7-portes"
         ]
-      }
+      },
+      "importance": "unrated"
     },
     {
       "id": "can-sole",
@@ -3373,7 +4364,10 @@ window.TRIP = {
         "sourceIds": [
           "source-can-sole-official",
           "source-barcelona-tourism-can-sole"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": "2026-07-24"
       },
       "foodProfile": {
         "venueType": "restaurant",
@@ -3405,7 +4399,8 @@ window.TRIP = {
           "source-can-sole-official",
           "source-barcelona-tourism-can-sole"
         ]
-      }
+      },
+      "importance": "unrated"
     },
     {
       "id": "el-quim-boqueria",
@@ -3443,7 +4438,10 @@ window.TRIP = {
           "source-el-quim-official",
           "source-repsol-el-quim",
           "source-www-boqueria-barcelona-home"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": "2026-07-24"
       },
       "foodProfile": {
         "venueType": "market",
@@ -3478,7 +4476,8 @@ window.TRIP = {
           "source-el-quim-official",
           "source-repsol-el-quim"
         ]
-      }
+      },
+      "importance": "recommended"
     },
     {
       "id": "bar-joan-santa-caterina",
@@ -3515,7 +4514,10 @@ window.TRIP = {
         "sourceIds": [
           "source-bar-joan-official-market",
           "source-el-pais-bar-joan-2026"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": "2026-07-24"
       },
       "foodProfile": {
         "venueType": "market",
@@ -3546,7 +4548,8 @@ window.TRIP = {
           "source-bar-joan-official-market",
           "source-el-pais-bar-joan-2026"
         ]
-      }
+      },
+      "importance": "recommended"
     },
     {
       "id": "el-xampanyet",
@@ -3584,7 +4587,10 @@ window.TRIP = {
         "sourceIds": [
           "source-el-xampanyet-official",
           "source-conde-nast-el-xampanyet"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": "2026-07-24"
       },
       "foodProfile": {
         "venueType": "bar",
@@ -3618,7 +4624,8 @@ window.TRIP = {
           "source-el-xampanyet-official",
           "source-conde-nast-el-xampanyet"
         ]
-      }
+      },
+      "importance": "recommended"
     },
     {
       "id": "quimet-quimet",
@@ -3653,7 +4660,10 @@ window.TRIP = {
         "sourceIds": [
           "source-quimet-quimet-official",
           "source-repsol-quimet-quimet"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": "2026-07-24"
       },
       "foodProfile": {
         "venueType": "bar",
@@ -3688,7 +4698,8 @@ window.TRIP = {
           "source-quimet-quimet-official",
           "source-repsol-quimet-quimet"
         ]
-      }
+      },
+      "importance": "recommended"
     },
     {
       "id": "la-cova-fumada",
@@ -3723,7 +4734,10 @@ window.TRIP = {
         "sourceIds": [
           "source-la-cova-fumada-official",
           "source-repsol-la-cova-fumada"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": "2026-07-24"
       },
       "foodProfile": {
         "venueType": "bar",
@@ -3756,7 +4770,8 @@ window.TRIP = {
           "source-la-cova-fumada-official",
           "source-repsol-la-cova-fumada"
         ]
-      }
+      },
+      "importance": "unrated"
     },
     {
       "id": "cal-boter",
@@ -3791,7 +4806,10 @@ window.TRIP = {
         "sourceIds": [
           "source-cal-boter-official",
           "source-repsol-cal-boter"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": "2026-07-24"
       },
       "foodProfile": {
         "venueType": "restaurant",
@@ -3825,7 +4843,8 @@ window.TRIP = {
           "source-cal-boter-official",
           "source-repsol-cal-boter"
         ]
-      }
+      },
+      "importance": "unrated"
     },
     {
       "id": "besta",
@@ -3860,7 +4879,10 @@ window.TRIP = {
         "sourceIds": [
           "source-besta-official",
           "source-michelin-besta"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": "2026-07-24"
       },
       "foodProfile": {
         "venueType": "restaurant",
@@ -3892,7 +4914,8 @@ window.TRIP = {
           "source-besta-official",
           "source-michelin-besta"
         ]
-      }
+      },
+      "importance": "unrated"
     },
     {
       "id": "dos-pebrots",
@@ -3927,7 +4950,10 @@ window.TRIP = {
         "sourceIds": [
           "source-dos-pebrots-official",
           "source-michelin-dos-pebrots"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": "2026-07-24"
       },
       "foodProfile": {
         "venueType": "restaurant",
@@ -3955,7 +4981,8 @@ window.TRIP = {
           "source-dos-pebrots-official",
           "source-michelin-dos-pebrots"
         ]
-      }
+      },
+      "importance": "unrated"
     },
     {
       "id": "fonda-balmes",
@@ -3990,7 +5017,10 @@ window.TRIP = {
         "sourceIds": [
           "source-fonda-balmes-official",
           "source-la-vanguardia-fonda-balmes"
-        ]
+        ],
+        "closedDaysOfWeek": [],
+        "holidayHours": [],
+        "checkedAt": "2026-07-24"
       },
       "foodProfile": {
         "venueType": "restaurant",
@@ -4020,7 +5050,8 @@ window.TRIP = {
           "source-fonda-balmes-official",
           "source-la-vanguardia-fonda-balmes"
         ]
-      }
+      },
+      "importance": "unrated"
     }
   ],
   "scheduleItems": [
@@ -4030,14 +5061,13 @@ window.TRIP = {
       "kind": "transfer",
       "parentId": null,
       "placeId": null,
-      "title": "成田空港到着・航空会社／terminal確認",
+      "title": "成田空港到着・航空会社／ターミナル確認",
       "durationIdealMinutes": null,
       "durationMinimumMinutes": null,
       "travelMinutesBefore": null,
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "移動余白を明示",
@@ -4045,11 +5075,11 @@ window.TRIP = {
       "shortenable": false,
       "dropRank": null,
       "notes": [
-        "19:30国際線の3時間前。運航会社によりterminal表示が変わるため私的予約画面で再確認。"
+        "19:30国際線の3時間前。運航会社によりターミナル表示が変わるため私的予約画面で再確認。"
       ],
       "sequence": 5,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -4067,7 +5097,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1225-airport-meal",
@@ -4082,7 +5114,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "食事時間を保護",
@@ -4094,7 +5125,7 @@ window.TRIP = {
       ],
       "sequence": 7,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -4112,7 +5143,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1225-nrt-depart",
@@ -4127,7 +5160,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "fixed",
-      "priority": "必須",
       "bookingId": "flight",
       "articleId": null,
       "fatigueEvidence": "長距離フライト開始",
@@ -4151,7 +5183,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "confirmed"
-      }
+      },
+      "keepPriority": "must",
+      "locked": true
     },
     {
       "id": "d1225-pvg-arrive",
@@ -4166,7 +5200,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "fixed",
-      "priority": "必須",
       "bookingId": "flight",
       "articleId": null,
       "fatigueEvidence": "夜間乗継",
@@ -4190,7 +5223,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "confirmed"
-      }
+      },
+      "keepPriority": "must",
+      "locked": true
     },
     {
       "id": "d1225-pvg-transfer",
@@ -4205,7 +5240,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "移動余白を明示",
@@ -4213,11 +5247,11 @@ window.TRIP = {
       "shortenable": false,
       "dropRank": null,
       "notes": [
-        "同一券、through baggage、terminal、airside動線が確認できない限り安全確定にしない。"
+        "同一券、手荷物の通し預け、ターミナル、airside動線が確認できない限り安全確定にしない。"
       ],
       "sequence": 30,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -4235,7 +5269,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1226-pvg-bcn",
@@ -4250,7 +5286,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "fixed",
-      "priority": "必須",
       "bookingId": "flight",
       "articleId": null,
       "fatigueEvidence": "夜行長距離便",
@@ -4278,7 +5313,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "confirmed"
-      }
+      },
+      "keepPriority": "must",
+      "locked": true
     },
     {
       "id": "d1226-arrival-processing",
@@ -4293,7 +5330,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "移動余白を明示",
@@ -4305,7 +5341,7 @@ window.TRIP = {
       ],
       "sequence": 15,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -4323,7 +5359,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1226-airport-city",
@@ -4331,14 +5369,13 @@ window.TRIP = {
       "kind": "transfer",
       "parentId": null,
       "placeId": "barcelona-airport",
-      "title": "BCN空港 → 市内（荷物受取後）",
+      "title": "Aerobus BCN T1 → Catalunya（第一候補）",
       "durationIdealMinutes": null,
       "durationMinimumMinutes": null,
       "travelMinutesBefore": null,
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": "barcelona-overview",
       "fatigueEvidence": "到着直後の荷物を伴う移動",
@@ -4346,29 +5383,31 @@ window.TRIP = {
       "shortenable": false,
       "dropRank": null,
       "notes": [
-        "10:45出発。到着90分遅延時も後続のCasa Batllóを第一削減する。"
+        "Drive v2本編。€7.45×3、現行価格要確認。タクシー約€40は補欠。"
       ],
       "sequence": 20,
       "groupId": "group-d1226-arrival",
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "adopted",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
         "kind": "interval",
         "start": {
           "date": "2026-12-26",
-          "time": "10:45",
+          "time": "08:39",
           "timeZone": "Europe/Madrid"
         },
         "end": {
           "date": "2026-12-26",
-          "time": "11:30",
+          "time": "09:00",
           "timeZone": "Europe/Madrid"
         },
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1226-hotel-drop",
@@ -4383,7 +5422,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "ホテル所在地未登録",
@@ -4395,7 +5433,7 @@ window.TRIP = {
       ],
       "sequence": 30,
       "groupId": "group-d1226-arrival",
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -4413,7 +5451,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1226-brunch",
@@ -4428,7 +5468,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "食事時間を保護",
@@ -4440,7 +5479,7 @@ window.TRIP = {
       ],
       "sequence": 35,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -4458,7 +5497,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1226-recovery",
@@ -4473,7 +5514,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "夜行便後。Aena掲載のT1到着公共エリア店舗・座席を利用し、客室を前提にしない。",
@@ -4488,7 +5528,7 @@ window.TRIP = {
       ],
       "sequence": 17,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -4506,7 +5546,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1226-mila",
@@ -4521,7 +5563,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": "mila",
       "articleId": "mila",
       "fatigueEvidence": "到着日に複数施設",
@@ -4529,29 +5570,31 @@ window.TRIP = {
       "shortenable": true,
       "dropRank": 2,
       "notes": [
-        "2026入場枠未公表。14:30前後の枠を発売後に確定。"
+        "Drive v2本編の4館共通枠。€29・1h。過積載のため要調整。"
       ],
       "sequence": 50,
       "groupId": "group-d1226-gaudi",
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "adopted",
       "planningStatus": "needs_information",
       "bookingRequirement": "required",
       "timing": {
         "kind": "interval",
         "start": {
           "date": "2026-12-26",
-          "time": "14:30",
+          "time": "09:30",
           "timeZone": "Europe/Madrid"
         },
         "end": {
           "date": "2026-12-26",
-          "time": "16:00",
+          "time": "13:00",
           "timeZone": "Europe/Madrid"
         },
-        "durationIdealMinutes": 90,
-        "durationMinimumMinutes": 60,
+        "durationIdealMinutes": null,
+        "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1226-batllo",
@@ -4566,7 +5609,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "できれば",
       "bookingId": "batllo",
       "articleId": "batllo",
       "fatigueEvidence": "到着日に複数施設",
@@ -4574,29 +5616,31 @@ window.TRIP = {
       "shortenable": true,
       "dropRank": 1,
       "notes": [
-        "到着90分遅延、疲労、前施設遅延時の第一削減。"
+        "Drive v2本編の4館共通枠。€33・1h。過積載のため要調整。"
       ],
       "sequence": 60,
       "groupId": "group-d1226-gaudi",
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "adopted",
       "planningStatus": "needs_information",
       "bookingRequirement": "required",
       "timing": {
         "kind": "interval",
         "start": {
           "date": "2026-12-26",
-          "time": "16:30",
+          "time": "09:30",
           "timeZone": "Europe/Madrid"
         },
         "end": {
           "date": "2026-12-26",
-          "time": "17:45",
+          "time": "13:00",
           "timeZone": "Europe/Madrid"
         },
-        "durationIdealMinutes": 75,
-        "durationMinimumMinutes": 45,
+        "durationIdealMinutes": null,
+        "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1226-dinner",
@@ -4604,14 +5648,13 @@ window.TRIP = {
       "kind": "meal",
       "parentId": null,
       "placeId": null,
-      "title": "ホテル近隣の軽い夕食",
+      "title": "Seventeen Restaurantで軽い夕食",
       "durationIdealMinutes": null,
       "durationMinimumMinutes": null,
       "travelMinutesBefore": null,
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "食事時間を保護",
@@ -4623,7 +5666,7 @@ window.TRIP = {
       ],
       "sequence": 70,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -4641,7 +5684,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1226-guell-palace",
@@ -4656,7 +5701,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "flexible",
-      "priority": "できれば",
       "bookingId": null,
       "articleId": "palau-guell",
       "fatigueEvidence": "到着日に複数施設",
@@ -4664,22 +5708,31 @@ window.TRIP = {
       "shortenable": true,
       "dropRank": 0,
       "notes": [
-        "旧計画の09:30〜13:00枠。€12要確認という旧情報を保持。",
-        "Phase 3.1見送り: 到着日は同一街区の住宅2件まで。公園は12/28へ移動し、グエル邸は12/26休館、季節市は2026日程未公表。"
+        "Drive v2本編の4館共通枠。€12・1h。過積載のため要調整。"
       ],
       "sequence": 70,
       "groupId": "group-d1226-gaudi",
-      "inclusionStatus": "omitted",
-      "planningStatus": "draft",
+      "inclusionStatus": "adopted",
+      "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
-        "kind": "untimed",
-        "start": null,
-        "end": null,
+        "kind": "interval",
+        "start": {
+          "date": "2026-12-26",
+          "time": "09:30",
+          "timeZone": "Europe/Madrid"
+        },
+        "end": {
+          "date": "2026-12-26",
+          "time": "13:00",
+          "timeZone": "Europe/Madrid"
+        },
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
-        "confidence": "unknown"
-      }
+        "confidence": "provisional"
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1226-placa-rei",
@@ -4694,7 +5747,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "flexible",
-      "priority": "予備",
       "bookingId": null,
       "articleId": "barcelona-old-city",
       "fatigueEvidence": "到着日午後の街歩き",
@@ -4703,11 +5755,11 @@ window.TRIP = {
       "dropRank": 0,
       "notes": [
         "14:00以降の複合枠から分割。",
-        "Phase 3.1見送り: 到着日は同一街区の住宅2件まで。公園は12/28へ移動し、グエル邸は12/26休館、季節市は2026日程未公表。"
+        "旅程比較見送り: 到着日は同一街区の住宅2件まで。公園は12/28へ移動し、グエル邸は12/26休館、季節市は2026日程未公表。"
       ],
       "sequence": 80,
       "groupId": "group-d1226-afternoon",
-      "inclusionStatus": "omitted",
+      "inclusionStatus": "adopted",
       "planningStatus": "draft",
       "bookingRequirement": "unknown",
       "timing": {
@@ -4717,7 +5769,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "unknown"
-      }
+      },
+      "keepPriority": "optional",
+      "locked": false
     },
     {
       "id": "d1226-placa-reial",
@@ -4732,7 +5786,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "flexible",
-      "priority": "予備",
       "bookingId": null,
       "articleId": "barcelona-old-city",
       "fatigueEvidence": "到着日午後の街歩き",
@@ -4741,11 +5794,11 @@ window.TRIP = {
       "dropRank": 0,
       "notes": [
         "14:00以降の複合枠から分割。",
-        "Phase 3.1見送り: 到着日は同一街区の住宅2件まで。公園は12/28へ移動し、グエル邸は12/26休館、季節市は2026日程未公表。"
+        "旅程比較見送り: 到着日は同一街区の住宅2件まで。公園は12/28へ移動し、グエル邸は12/26休館、季節市は2026日程未公表。"
       ],
       "sequence": 90,
       "groupId": "group-d1226-afternoon",
-      "inclusionStatus": "omitted",
+      "inclusionStatus": "adopted",
       "planningStatus": "draft",
       "bookingRequirement": "unknown",
       "timing": {
@@ -4755,7 +5808,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "unknown"
-      }
+      },
+      "keepPriority": "optional",
+      "locked": false
     },
     {
       "id": "d1226-casa-vicens",
@@ -4770,7 +5825,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "flexible",
-      "priority": "予備",
       "bookingId": null,
       "articleId": "casa-vicens",
       "fatigueEvidence": "到着日午後の追加施設",
@@ -4778,13 +5832,12 @@ window.TRIP = {
       "shortenable": true,
       "dropRank": 0,
       "notes": [
-        "€23要確認という旧情報を保持。時刻は未登録。",
-        "Phase 3.1見送り: 到着日は同一街区の住宅2件まで。公園は12/28へ移動し、グエル邸は12/26休館、季節市は2026日程未公表。"
+        "v2本編。€23の旧見込み。個別時刻は要調整。"
       ],
       "sequence": 100,
       "groupId": "group-d1226-gaudi",
-      "inclusionStatus": "omitted",
-      "planningStatus": "draft",
+      "inclusionStatus": "adopted",
+      "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
         "kind": "untimed",
@@ -4792,8 +5845,10 @@ window.TRIP = {
         "end": null,
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
-        "confidence": "unknown"
-      }
+        "confidence": "provisional"
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1226-sant-pau",
@@ -4808,7 +5863,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "flexible",
-      "priority": "予備",
       "bookingId": null,
       "articleId": "barcelona-modernisme-palau",
       "fatigueEvidence": "到着日午後の追加施設",
@@ -4816,12 +5870,12 @@ window.TRIP = {
       "shortenable": true,
       "dropRank": 0,
       "notes": [
-        "€18要確認という旧情報を保持。時刻は未登録。",
-        "Phase 3.1見送り: 到着日は同一街区の住宅2件まで。公園は12/28へ移動し、グエル邸は12/26休館、季節市は2026日程未公表。"
+        "€18要確認という旧情報を保持。時刻は確認待ち。",
+        "旅程比較見送り: 到着日は同一街区の住宅2件まで。公園は12/28へ移動し、グエル邸は12/26休館、季節市は2026日程未公表。"
       ],
       "sequence": 110,
       "groupId": "group-d1226-afternoon",
-      "inclusionStatus": "omitted",
+      "inclusionStatus": "adopted",
       "planningStatus": "draft",
       "bookingRequirement": "unknown",
       "timing": {
@@ -4831,7 +5885,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "unknown"
-      }
+      },
+      "keepPriority": "optional",
+      "locked": false
     },
     {
       "id": "d1226-fira-sagrada",
@@ -4846,7 +5902,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "flexible",
-      "priority": "予備",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "到着日の夕方",
@@ -4854,12 +5909,11 @@ window.TRIP = {
       "shortenable": true,
       "dropRank": 0,
       "notes": [
-        "旧scheduleの「夕方」を保持。",
-        "Phase 3.1見送り: 到着日は同一街区の住宅2件まで。公園は12/28へ移動し、グエル邸は12/26休館、季節市は2026日程未公表。"
+        "Drive v2本編。ただしクリスマスマーケットは例年12/23終了のため要調整。"
       ],
       "sequence": 120,
       "groupId": "group-d1226-afternoon",
-      "inclusionStatus": "omitted",
+      "inclusionStatus": "adopted",
       "planningStatus": "draft",
       "bookingRequirement": "unknown",
       "timing": {
@@ -4869,7 +5923,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "unknown"
-      }
+      },
+      "keepPriority": "optional",
+      "locked": false
     },
     {
       "id": "d1227-breakfast",
@@ -4884,7 +5940,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "食事時間を保護",
@@ -4894,7 +5949,7 @@ window.TRIP = {
       "notes": [],
       "sequence": 5,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -4912,7 +5967,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1227-sagrada",
@@ -4927,7 +5984,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": "sagrada",
       "articleId": "sagrada",
       "fatigueEvidence": "塔付き見学",
@@ -4935,29 +5991,31 @@ window.TRIP = {
       "shortenable": false,
       "dropRank": null,
       "notes": [
-        "現行PlaceのSunday暫定開始10:30に合わせたが、2026 tower slotは発売後確認。"
+        "Drive v2本編は10:00–12:30。ただし日曜は10:30開館の公式確認事実と矛盾するため要調整。"
       ],
       "sequence": 20,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "adopted",
       "planningStatus": "needs_information",
       "bookingRequirement": "required",
       "timing": {
         "kind": "interval",
         "start": {
           "date": "2026-12-27",
-          "time": "10:30",
+          "time": "10:00",
           "timeZone": "Europe/Madrid"
         },
         "end": {
           "date": "2026-12-27",
-          "time": "13:00",
+          "time": "12:30",
           "timeZone": "Europe/Madrid"
         },
-        "durationIdealMinutes": 150,
-        "durationMinimumMinutes": 120,
+        "durationIdealMinutes": null,
+        "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1227-columbus",
@@ -4972,7 +6030,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "flexible",
-      "priority": "できれば",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "午後の市内移動",
@@ -4980,22 +6037,27 @@ window.TRIP = {
       "shortenable": true,
       "dropRank": 0,
       "notes": [
-        "€10要確認という旧情報を保持。",
-        "Phase 3.1見送り: Sagrada中心日を市内横断・強風依存・終了済み可能性から守る。"
+        "Drive v2本編は14:00以降。終了時刻は要確認。"
       ],
       "sequence": 20,
       "groupId": null,
-      "inclusionStatus": "omitted",
+      "inclusionStatus": "adopted",
       "planningStatus": "draft",
       "bookingRequirement": "unknown",
       "timing": {
-        "kind": "untimed",
-        "start": null,
+        "kind": "point",
+        "start": {
+          "date": "2026-12-27",
+          "time": "14:00",
+          "timeZone": "Europe/Madrid"
+        },
         "end": null,
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
-        "confidence": "unknown"
-      }
+        "confidence": "provisional"
+      },
+      "keepPriority": "recommended",
+      "locked": false
     },
     {
       "id": "d1227-lunch",
@@ -5010,7 +6072,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "食事時間を保護",
@@ -5018,11 +6079,11 @@ window.TRIP = {
       "shortenable": true,
       "dropRank": null,
       "notes": [
-        "Phase 3.1-R1見送り: Can Culleretesを日曜昼へ移し、重複するSagrada周辺昼食を削除せずomittedで保持。"
+        "旅程比較-R1見送り: Can Culleretesを日曜昼へ移し、重複するSagrada周辺昼食を削除せず今回は見送りで保持。"
       ],
       "sequence": 30,
       "groupId": null,
-      "inclusionStatus": "omitted",
+      "inclusionStatus": "proposal",
       "planningStatus": "draft",
       "bookingRequirement": "unknown",
       "timing": {
@@ -5032,7 +6093,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1227-cable-miramar-castell",
@@ -5047,7 +6110,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "flexible",
-      "priority": "できれば",
       "bookingId": "montjuic",
       "articleId": null,
       "fatigueEvidence": "高所・乗換",
@@ -5056,11 +6118,11 @@ window.TRIP = {
       "dropRank": 0,
       "notes": [
         "€17.1要確認という旧情報を保持。",
-        "Phase 3.1見送り: Sagrada中心日を市内横断・強風依存・終了済み可能性から守る。"
+        "旅程比較見送り: Sagrada中心日を市内横断・強風依存・終了済み可能性から守る。"
       ],
       "sequence": 30,
       "groupId": null,
-      "inclusionStatus": "omitted",
+      "inclusionStatus": "adopted",
       "planningStatus": "draft",
       "bookingRequirement": "unknown",
       "timing": {
@@ -5070,7 +6132,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "unknown"
-      }
+      },
+      "keepPriority": "recommended",
+      "locked": false
     },
     {
       "id": "d1227-sant-pau-exterior",
@@ -5085,7 +6149,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "できれば",
       "bookingId": null,
       "articleId": "barcelona-modernisme-palau",
       "fatigueEvidence": "移動余白を明示",
@@ -5097,7 +6160,7 @@ window.TRIP = {
       ],
       "sequence": 10,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -5115,7 +6178,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "recommended",
+      "locked": false
     },
     {
       "id": "d1227-montjuic-castle",
@@ -5130,7 +6195,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "flexible",
-      "priority": "できれば",
       "bookingId": "montjuic",
       "articleId": null,
       "fatigueEvidence": "丘の頂上",
@@ -5138,11 +6202,11 @@ window.TRIP = {
       "shortenable": true,
       "dropRank": 0,
       "notes": [
-        "Phase 3.1見送り: Sagrada中心日を市内横断・強風依存・終了済み可能性から守る。"
+        "旅程比較見送り: Sagrada中心日を市内横断・強風依存・終了済み可能性から守る。"
       ],
       "sequence": 40,
       "groupId": null,
-      "inclusionStatus": "omitted",
+      "inclusionStatus": "adopted",
       "planningStatus": "draft",
       "bookingRequirement": "unknown",
       "timing": {
@@ -5152,7 +6216,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "unknown"
-      }
+      },
+      "keepPriority": "recommended",
+      "locked": false
     },
     {
       "id": "d1227-rest",
@@ -5167,7 +6233,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": "barcelona-old-city",
       "fatigueEvidence": "疲労回復のための明示的buffer",
@@ -5179,7 +6244,7 @@ window.TRIP = {
       ],
       "sequence": 50,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -5197,7 +6262,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1227-cable-castell-park",
@@ -5212,7 +6279,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "flexible",
-      "priority": "できれば",
       "bookingId": "montjuic",
       "articleId": null,
       "fatigueEvidence": "高所・乗換",
@@ -5220,11 +6286,11 @@ window.TRIP = {
       "shortenable": true,
       "dropRank": 0,
       "notes": [
-        "Phase 3.1見送り: Sagrada中心日を市内横断・強風依存・終了済み可能性から守る。"
+        "旅程比較見送り: Sagrada中心日を市内横断・強風依存・終了済み可能性から守る。"
       ],
       "sequence": 50,
       "groupId": null,
-      "inclusionStatus": "omitted",
+      "inclusionStatus": "adopted",
       "planningStatus": "draft",
       "bookingRequirement": "unknown",
       "timing": {
@@ -5234,7 +6300,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "unknown"
-      }
+      },
+      "keepPriority": "recommended",
+      "locked": false
     },
     {
       "id": "d1227-culleretes",
@@ -5249,7 +6317,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "できれば",
       "bookingId": null,
       "articleId": "catalan-winter-food",
       "fatigueEvidence": "食事時間を保護",
@@ -5263,7 +6330,7 @@ window.TRIP = {
       ],
       "sequence": 40,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "recommended",
       "timing": {
@@ -5281,7 +6348,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "recommended",
+      "locked": false
     },
     {
       "id": "d1227-el-corte",
@@ -5296,7 +6365,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "flexible",
-      "priority": "予備",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "観光後の買い物",
@@ -5304,12 +6372,12 @@ window.TRIP = {
       "shortenable": true,
       "dropRank": 0,
       "notes": [
-        "旧schedule記載の9:00〜21:00を保持。",
-        "Phase 3.1見送り: Sagrada中心日を市内横断・強風依存・終了済み可能性から守る。"
+        "以前の旅程記載の9:00〜21:00を保持。",
+        "旅程比較見送り: Sagrada中心日を市内横断・強風依存・終了済み可能性から守る。"
       ],
       "sequence": 60,
       "groupId": null,
-      "inclusionStatus": "omitted",
+      "inclusionStatus": "adopted",
       "planningStatus": "draft",
       "bookingRequirement": "unknown",
       "timing": {
@@ -5319,7 +6387,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "unknown"
-      }
+      },
+      "keepPriority": "optional",
+      "locked": false
     },
     {
       "id": "d1227-fira-santa-llucia",
@@ -5334,7 +6404,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "flexible",
-      "priority": "予備",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "観光後の夕方",
@@ -5342,11 +6411,11 @@ window.TRIP = {
       "shortenable": true,
       "dropRank": 0,
       "notes": [
-        "Phase 3.1見送り: Sagrada中心日を市内横断・強風依存・終了済み可能性から守る。"
+        "Drive v2本編。ただしクリスマスマーケットは例年12/23終了のため要調整。"
       ],
       "sequence": 70,
       "groupId": null,
-      "inclusionStatus": "omitted",
+      "inclusionStatus": "adopted",
       "planningStatus": "draft",
       "bookingRequirement": "unknown",
       "timing": {
@@ -5356,7 +6425,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "unknown"
-      }
+      },
+      "keepPriority": "optional",
+      "locked": false
     },
     {
       "id": "d1228-breakfast",
@@ -5371,7 +6442,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "食事時間を保護",
@@ -5381,7 +6451,7 @@ window.TRIP = {
       "notes": [],
       "sequence": 5,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -5399,11 +6469,13 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1226-parkguell",
-      "dayId": "d1228",
+      "dayId": "d1226",
       "kind": "attraction",
       "parentId": null,
       "placeId": "parkguell",
@@ -5414,7 +6486,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": "parkguell",
       "articleId": "park-guell",
       "fatigueEvidence": "坂道と到着日",
@@ -5422,30 +6493,31 @@ window.TRIP = {
       "shortenable": true,
       "dropRank": 2,
       "notes": [
-        "12/27 20:00に天候go/no-go。安全なら12/28 09:30–12:00。",
-        "悪天候時、12/29にMontserratを中止できるならParkを12/29 09:30–12:00へ移す。できなければ12/28 09:30–11:00 Casa Vicensへ置換しParkは見送る。"
+        "Drive v2本編の4館共通枠。€18・1h。過積載のため要調整。"
       ],
       "sequence": 10,
       "groupId": "group-d1226-gaudi",
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "adopted",
       "planningStatus": "needs_information",
       "bookingRequirement": "required",
       "timing": {
         "kind": "interval",
         "start": {
-          "date": "2026-12-28",
+          "date": "2026-12-26",
           "time": "09:30",
           "timeZone": "Europe/Madrid"
         },
         "end": {
-          "date": "2026-12-28",
-          "time": "12:00",
+          "date": "2026-12-26",
+          "time": "13:00",
           "timeZone": "Europe/Madrid"
         },
-        "durationIdealMinutes": 150,
-        "durationMinimumMinutes": 90,
+        "durationIdealMinutes": null,
+        "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1228-ave-out",
@@ -5460,30 +6532,38 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "flexible",
-      "priority": "必須",
       "bookingId": "tarragona-train",
       "articleId": null,
       "fatigueEvidence": "早朝列車",
       "weatherDependency": "低",
-      "shortenable": true,
+      "shortenable": false,
       "dropRank": 0,
       "notes": [
-        "時刻は参考。",
-        "Phase 3.1見送り: Tarragonaは外部時刻依存と連続日帰り疲労が大きく、Barcelona初訪問coreと変更耐性を優先。"
+        "Drive v2本編。料金・運行・年末営業は要調整。"
       ],
       "sequence": 10,
       "groupId": null,
-      "inclusionStatus": "omitted",
-      "planningStatus": "draft",
+      "inclusionStatus": "adopted",
+      "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
-        "kind": "untimed",
-        "start": null,
-        "end": null,
+        "kind": "interval",
+        "start": {
+          "date": "2026-12-28",
+          "time": "08:30",
+          "timeZone": "Europe/Madrid"
+        },
+        "end": {
+          "date": "2026-12-28",
+          "time": "09:03",
+          "timeZone": "Europe/Madrid"
+        },
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
-        "confidence": "unknown"
-      }
+        "confidence": "provisional"
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1228-bus-n240",
@@ -5498,29 +6578,38 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "flexible",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "列車からバスへ乗継",
       "weatherDependency": "中",
-      "shortenable": true,
+      "shortenable": false,
       "dropRank": 0,
       "notes": [
-        "Phase 3.1見送り: Tarragonaは外部時刻依存と連続日帰り疲労が大きく、Barcelona初訪問coreと変更耐性を優先。"
+        "Drive v2本編。料金・運行・年末営業は要調整。"
       ],
       "sequence": 20,
       "groupId": null,
-      "inclusionStatus": "omitted",
-      "planningStatus": "draft",
+      "inclusionStatus": "adopted",
+      "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
-        "kind": "untimed",
-        "start": null,
-        "end": null,
+        "kind": "interval",
+        "start": {
+          "date": "2026-12-28",
+          "time": "09:10",
+          "timeZone": "Europe/Madrid"
+        },
+        "end": {
+          "date": "2026-12-28",
+          "time": "09:25",
+          "timeZone": "Europe/Madrid"
+        },
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
-        "confidence": "unknown"
-      }
+        "confidence": "provisional"
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1228-lunch-bcn",
@@ -5535,7 +6624,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "食事時間を保護",
@@ -5545,7 +6633,7 @@ window.TRIP = {
       "notes": [],
       "sequence": 20,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -5563,7 +6651,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1228-bus-aqueduct",
@@ -5578,29 +6668,38 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "flexible",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "路線バス移動",
       "weatherDependency": "中",
-      "shortenable": true,
+      "shortenable": false,
       "dropRank": 0,
       "notes": [
-        "Phase 3.1見送り: Tarragonaは外部時刻依存と連続日帰り疲労が大きく、Barcelona初訪問coreと変更耐性を優先。"
+        "Drive v2本編。料金・運行・年末営業は要調整。"
       ],
       "sequence": 30,
       "groupId": null,
-      "inclusionStatus": "omitted",
-      "planningStatus": "draft",
+      "inclusionStatus": "adopted",
+      "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
-        "kind": "untimed",
-        "start": null,
-        "end": null,
+        "kind": "interval",
+        "start": {
+          "date": "2026-12-28",
+          "time": "09:52",
+          "timeZone": "Europe/Madrid"
+        },
+        "end": {
+          "date": "2026-12-28",
+          "time": "09:55",
+          "timeZone": "Europe/Madrid"
+        },
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
-        "confidence": "unknown"
-      }
+        "confidence": "provisional"
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1228-rest",
@@ -5615,7 +6714,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "疲労回復のための明示的buffer",
@@ -5625,7 +6723,7 @@ window.TRIP = {
       "notes": [],
       "sequence": 30,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -5643,7 +6741,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1228-aqueduct",
@@ -5658,7 +6758,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "flexible",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "屋外歩行",
@@ -5666,21 +6765,31 @@ window.TRIP = {
       "shortenable": true,
       "dropRank": 0,
       "notes": [
-        "Phase 3.1見送り: Tarragonaは外部時刻依存と連続日帰り疲労が大きく、Barcelona初訪問coreと変更耐性を優先。"
+        "Drive v2本編。料金・運行・年末営業は要調整。"
       ],
       "sequence": 40,
       "groupId": null,
-      "inclusionStatus": "omitted",
-      "planningStatus": "draft",
+      "inclusionStatus": "adopted",
+      "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
-        "kind": "untimed",
-        "start": null,
-        "end": null,
-        "durationIdealMinutes": 58,
+        "kind": "interval",
+        "start": {
+          "date": "2026-12-28",
+          "time": "10:02",
+          "timeZone": "Europe/Madrid"
+        },
+        "end": {
+          "date": "2026-12-28",
+          "time": "11:00",
+          "timeZone": "Europe/Madrid"
+        },
+        "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
-        "confidence": "unknown"
-      }
+        "confidence": "provisional"
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1228-palau-musica",
@@ -5695,7 +6804,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": "barcelona-modernisme-palau",
       "fatigueEvidence": "移動余白を明示",
@@ -5707,7 +6815,7 @@ window.TRIP = {
       ],
       "sequence": 40,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "recommended",
       "timing": {
@@ -5725,7 +6833,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1228-born-walk",
@@ -5740,7 +6850,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "できれば",
       "bookingId": null,
       "articleId": "barcelona-old-city",
       "fatigueEvidence": "移動余白を明示",
@@ -5752,7 +6861,7 @@ window.TRIP = {
       ],
       "sequence": 50,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -5770,7 +6879,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "recommended",
+      "locked": false
     },
     {
       "id": "d1228-bus-city",
@@ -5785,30 +6896,34 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "flexible",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "路線バス移動",
       "weatherDependency": "中",
-      "shortenable": true,
+      "shortenable": false,
       "dropRank": 0,
       "notes": [
-        "旧行に「昼食」を含んでいたため別meal項目へ分割。",
-        "Phase 3.1見送り: Tarragonaは外部時刻依存と連続日帰り疲労が大きく、Barcelona初訪問coreと変更耐性を優先。"
+        "Drive v2本編。料金・運行・年末営業は要調整。"
       ],
       "sequence": 50,
       "groupId": null,
-      "inclusionStatus": "omitted",
-      "planningStatus": "draft",
+      "inclusionStatus": "adopted",
+      "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
-        "kind": "untimed",
-        "start": null,
+        "kind": "point",
+        "start": {
+          "date": "2026-12-28",
+          "time": "12:19",
+          "timeZone": "Europe/Madrid"
+        },
         "end": null,
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
-        "confidence": "unknown"
-      }
+        "confidence": "provisional"
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1228-xampanyet",
@@ -5823,7 +6938,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "できれば",
       "bookingId": null,
       "articleId": "barcelona-seafood-market-bar",
       "fatigueEvidence": "食事時間を保護",
@@ -5836,7 +6950,7 @@ window.TRIP = {
       ],
       "sequence": 55,
       "groupId": null,
-      "inclusionStatus": "on_site_candidate",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "not_required",
       "timing": {
@@ -5854,7 +6968,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "recommended",
+      "locked": false
     },
     {
       "id": "d1228-dinner",
@@ -5869,7 +6985,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "食事時間を保護",
@@ -5881,7 +6996,7 @@ window.TRIP = {
       ],
       "sequence": 60,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -5899,7 +7014,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1228-lunch",
@@ -5914,21 +7031,19 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "flexible",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "午前移動後",
       "weatherDependency": "未評価",
-      "shortenable": true,
+      "shortenable": false,
       "dropRank": 0,
       "notes": [
-        "店舗候補は未登録。",
-        "Phase 3.1見送り: Tarragonaは外部時刻依存と連続日帰り疲労が大きく、Barcelona初訪問coreと変更耐性を優先。"
+        "Drive v2本編。料金・運行・年末営業は要調整。"
       ],
       "sequence": 60,
       "groupId": null,
-      "inclusionStatus": "omitted",
-      "planningStatus": "draft",
+      "inclusionStatus": "proposal",
+      "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
         "kind": "untimed",
@@ -5936,8 +7051,10 @@ window.TRIP = {
         "end": null,
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
-        "confidence": "unknown"
-      }
+        "confidence": "provisional"
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1228-amphitheatre",
@@ -5952,7 +7069,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "flexible",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "午後の屋外見学",
@@ -5960,21 +7076,31 @@ window.TRIP = {
       "shortenable": true,
       "dropRank": 0,
       "notes": [
-        "Phase 3.1見送り: Tarragonaは外部時刻依存と連続日帰り疲労が大きく、Barcelona初訪問coreと変更耐性を優先。"
+        "Drive v2本編。原文誤記を12:19–12:31頃として表示。月曜休館のため曜日入替要調整。"
       ],
       "sequence": 70,
       "groupId": null,
-      "inclusionStatus": "omitted",
-      "planningStatus": "draft",
+      "inclusionStatus": "adopted",
+      "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
-        "kind": "untimed",
-        "start": null,
-        "end": null,
-        "durationIdealMinutes": 90,
+        "kind": "interval",
+        "start": {
+          "date": "2026-12-28",
+          "time": "12:19",
+          "timeZone": "Europe/Madrid"
+        },
+        "end": {
+          "date": "2026-12-28",
+          "time": "12:31",
+          "timeZone": "Europe/Madrid"
+        },
+        "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
-        "confidence": "unknown"
-      }
+        "confidence": "provisional"
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1228-cathedral",
@@ -5989,7 +7115,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "flexible",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "円形闘技場から連続",
@@ -5997,21 +7122,23 @@ window.TRIP = {
       "shortenable": true,
       "dropRank": 0,
       "notes": [
-        "Phase 3.1見送り: Tarragonaは外部時刻依存と連続日帰り疲労が大きく、Barcelona初訪問coreと変更耐性を優先。"
+        "Drive v2本編。料金・運行・年末営業は要調整。"
       ],
       "sequence": 80,
       "groupId": null,
-      "inclusionStatus": "omitted",
-      "planningStatus": "draft",
+      "inclusionStatus": "adopted",
+      "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
         "kind": "untimed",
         "start": null,
         "end": null,
-        "durationIdealMinutes": 90,
+        "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
-        "confidence": "unknown"
-      }
+        "confidence": "provisional"
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1228-pinchos",
@@ -6026,7 +7153,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "flexible",
-      "priority": "できれば",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "帰路前の夕方",
@@ -6034,13 +7160,12 @@ window.TRIP = {
       "shortenable": true,
       "dropRank": 0,
       "notes": [
-        "店舗候補は未登録。",
-        "Phase 3.1見送り: Tarragonaは外部時刻依存と連続日帰り疲労が大きく、Barcelona初訪問coreと変更耐性を優先。"
+        "Drive v2本編。料金・運行・年末営業は要調整。"
       ],
       "sequence": 90,
       "groupId": null,
-      "inclusionStatus": "omitted",
-      "planningStatus": "draft",
+      "inclusionStatus": "adopted",
+      "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
         "kind": "untimed",
@@ -6048,8 +7173,10 @@ window.TRIP = {
         "end": null,
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
-        "confidence": "unknown"
-      }
+        "confidence": "provisional"
+      },
+      "keepPriority": "recommended",
+      "locked": false
     },
     {
       "id": "d1228-return",
@@ -6064,21 +7191,19 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "flexible",
-      "priority": "必須",
       "bookingId": "tarragona-train",
       "articleId": null,
       "fatigueEvidence": "日帰り帰路",
       "weatherDependency": "低",
-      "shortenable": true,
+      "shortenable": false,
       "dropRank": 0,
       "notes": [
-        "時刻は参考。",
-        "Phase 3.1見送り: Tarragonaは外部時刻依存と連続日帰り疲労が大きく、Barcelona初訪問coreと変更耐性を優先。"
+        "Drive v2本編。復路候補15:30–17:00／17:26–18:37／19:05–20:25を家族が比較する。"
       ],
       "sequence": 100,
       "groupId": null,
-      "inclusionStatus": "omitted",
-      "planningStatus": "draft",
+      "inclusionStatus": "adopted",
+      "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
         "kind": "untimed",
@@ -6086,8 +7211,10 @@ window.TRIP = {
         "end": null,
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
-        "confidence": "unknown"
-      }
+        "confidence": "provisional"
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1228-flamenco",
@@ -6102,7 +7229,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "flexible",
-      "priority": "できれば",
       "bookingId": "flamenco",
       "articleId": null,
       "fatigueEvidence": "日帰り帰着後すぐ",
@@ -6110,13 +7236,12 @@ window.TRIP = {
       "shortenable": true,
       "dropRank": 0,
       "notes": [
-        "会場未選定。時刻は旧計画値。",
-        "Phase 3.1見送り: Tarragonaは外部時刻依存と連続日帰り疲労が大きく、Barcelona初訪問coreと変更耐性を優先。"
+        "Drive v2本編。料金・運行・年末営業は要調整。"
       ],
       "sequence": 110,
       "groupId": null,
-      "inclusionStatus": "omitted",
-      "planningStatus": "draft",
+      "inclusionStatus": "adopted",
+      "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
         "kind": "untimed",
@@ -6124,8 +7249,10 @@ window.TRIP = {
         "end": null,
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
-        "confidence": "unknown"
-      }
+        "confidence": "provisional"
+      },
+      "keepPriority": "recommended",
+      "locked": false
     },
     {
       "id": "d1229-fgc-out",
@@ -6140,7 +7267,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": "montserrat-transport",
       "articleId": "montserrat",
       "fatigueEvidence": "近郊鉄道21駅",
@@ -6148,11 +7274,11 @@ window.TRIP = {
       "shortenable": false,
       "dropRank": null,
       "notes": [
-        "2026時刻未公表。一本早い便を含め発売後再計算。"
+        "08:36発は仮の計画。年末ダイヤ発売後、一本早い便と比較して確定する。"
       ],
       "sequence": 10,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "adopted",
       "planningStatus": "needs_information",
       "bookingRequirement": "required",
       "timing": {
@@ -6170,7 +7296,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1229-up-buffer",
@@ -6178,14 +7306,13 @@ window.TRIP = {
       "kind": "transfer",
       "parentId": null,
       "placeId": null,
-      "title": "Aeri乗継buffer",
+      "title": "Aeri乗継余裕時間",
       "durationIdealMinutes": null,
       "durationMinimumMinutes": null,
       "travelMinutesBefore": null,
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": "montserrat",
       "fatigueEvidence": "移動余白を明示",
@@ -6195,7 +7322,7 @@ window.TRIP = {
       "notes": [],
       "sequence": 15,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -6213,7 +7340,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1229-aeri-up",
@@ -6228,7 +7357,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": "montserrat-transport",
       "articleId": "montserrat",
       "fatigueEvidence": "高所交通",
@@ -6238,25 +7366,27 @@ window.TRIP = {
       "notes": [],
       "sequence": 20,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "adopted",
       "planningStatus": "needs_information",
       "bookingRequirement": "required",
       "timing": {
         "kind": "interval",
         "start": {
           "date": "2026-12-29",
-          "time": "10:00",
+          "time": "09:45",
           "timeZone": "Europe/Madrid"
         },
         "end": {
           "date": "2026-12-29",
-          "time": "10:05",
+          "time": "09:50",
           "timeZone": "Europe/Madrid"
         },
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1229-basilica",
@@ -6271,35 +7401,34 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": "montserrat",
       "fatigueEvidence": "山上での見学",
       "weatherDependency": "低",
       "shortenable": false,
       "dropRank": null,
-      "notes": [],
+      "notes": [
+        "Drive v2本編。黒いマリア像・少年聖歌隊・美術館を含む。聖歌隊は年末年始休暇の可能性があり要確認。"
+      ],
       "sequence": 30,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "adopted",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
-        "kind": "interval",
+        "kind": "point",
         "start": {
           "date": "2026-12-29",
-          "time": "10:30",
+          "time": "10:00",
           "timeZone": "Europe/Madrid"
         },
-        "end": {
-          "date": "2026-12-29",
-          "time": "11:30",
-          "timeZone": "Europe/Madrid"
-        },
+        "end": null,
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1229-moreneta",
@@ -6314,7 +7443,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": "montserrat",
       "fatigueEvidence": "山上での見学",
@@ -6324,25 +7452,19 @@ window.TRIP = {
       "notes": [],
       "sequence": 40,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "adopted",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
-        "kind": "interval",
-        "start": {
-          "date": "2026-12-29",
-          "time": "11:30",
-          "timeZone": "Europe/Madrid"
-        },
-        "end": {
-          "date": "2026-12-29",
-          "time": "12:00",
-          "timeZone": "Europe/Madrid"
-        },
+        "kind": "untimed",
+        "start": null,
+        "end": null,
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1229-lunch",
@@ -6357,7 +7479,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": "montserrat",
       "fatigueEvidence": "食事時間を保護",
@@ -6367,7 +7488,7 @@ window.TRIP = {
       "notes": [],
       "sequence": 45,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -6385,7 +7506,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1229-museum",
@@ -6400,7 +7523,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "できれば",
       "bookingId": null,
       "articleId": "montserrat",
       "fatigueEvidence": "午前からの連続見学",
@@ -6410,25 +7532,19 @@ window.TRIP = {
       "notes": [],
       "sequence": 50,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "adopted",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
-        "kind": "interval",
-        "start": {
-          "date": "2026-12-29",
-          "time": "13:00",
-          "timeZone": "Europe/Madrid"
-        },
-        "end": {
-          "date": "2026-12-29",
-          "time": "14:00",
-          "timeZone": "Europe/Madrid"
-        },
+        "kind": "untimed",
+        "start": null,
+        "end": null,
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "recommended",
+      "locked": false
     },
     {
       "id": "d1229-descent-rest",
@@ -6443,7 +7559,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": "montserrat",
       "fatigueEvidence": "疲労回復のための明示的buffer",
@@ -6455,7 +7570,7 @@ window.TRIP = {
       ],
       "sequence": 55,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -6473,7 +7588,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1229-aeri-down",
@@ -6488,7 +7605,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": "montserrat-transport",
       "articleId": "montserrat",
       "fatigueEvidence": "高所交通",
@@ -6498,25 +7614,27 @@ window.TRIP = {
       "notes": [],
       "sequence": 60,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "adopted",
       "planningStatus": "needs_information",
       "bookingRequirement": "required",
       "timing": {
         "kind": "interval",
         "start": {
           "date": "2026-12-29",
-          "time": "15:00",
+          "time": "15:30",
           "timeZone": "Europe/Madrid"
         },
         "end": {
           "date": "2026-12-29",
-          "time": "15:05",
+          "time": "15:35",
           "timeZone": "Europe/Madrid"
         },
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1229-down-buffer",
@@ -6524,14 +7642,13 @@ window.TRIP = {
       "kind": "transfer",
       "parentId": null,
       "placeId": null,
-      "title": "FGC帰路buffer",
+      "title": "FGC帰路余裕時間",
       "durationIdealMinutes": null,
       "durationMinimumMinutes": null,
       "travelMinutesBefore": null,
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": "montserrat",
       "fatigueEvidence": "移動余白を明示",
@@ -6541,7 +7658,7 @@ window.TRIP = {
       "notes": [],
       "sequence": 65,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -6559,7 +7676,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1229-fgc-return",
@@ -6574,7 +7693,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": "montserrat-transport",
       "articleId": "montserrat",
       "fatigueEvidence": "日帰り帰路",
@@ -6584,7 +7702,7 @@ window.TRIP = {
       "notes": [],
       "sequence": 70,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "adopted",
       "planningStatus": "needs_information",
       "bookingRequirement": "required",
       "timing": {
@@ -6602,7 +7720,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1229-rest-hotel",
@@ -6617,7 +7737,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "疲労回復のための明示的buffer",
@@ -6627,7 +7746,7 @@ window.TRIP = {
       "notes": [],
       "sequence": 80,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -6645,7 +7764,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1229-can-sole",
@@ -6660,7 +7781,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "できれば",
       "bookingId": null,
       "articleId": "barcelona-seafood-market-bar",
       "fatigueEvidence": "食事時間を保護",
@@ -6674,7 +7794,7 @@ window.TRIP = {
       ],
       "sequence": 90,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "recommended",
       "timing": {
@@ -6692,7 +7812,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "recommended",
+      "locked": false
     },
     {
       "id": "d1230-boqueria",
@@ -6700,14 +7822,13 @@ window.TRIP = {
       "kind": "attraction",
       "parentId": null,
       "placeId": "boqueria",
-      "title": "ボケリア市場散策＋El Quim朝食候補",
+      "title": "ブケリア市場",
       "durationIdealMinutes": null,
       "durationMinimumMinutes": null,
       "travelMinutesBefore": null,
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "できれば",
       "bookingId": null,
       "articleId": "barcelona-seafood-market-bar",
       "fatigueEvidence": "荷物を伴う移動日の午前",
@@ -6716,30 +7837,28 @@ window.TRIP = {
       "dropRank": 1,
       "notes": [
         "El Quimの水曜通常営業時間07:00–16:00内。2026年末特別営業は未公表のためconditional。",
-        "行列20分超・休業時はBar Joan 08:30–09:30へ切替し、市場朝食役割を維持。Sants bufferは削らない。",
+        "行列20分超・休業時はBar Joan 08:30–09:30へ切替し、市場朝食役割を維持。Sants 余裕時間は削らない。",
         "2026-11-26、2026-12-29、当日朝にBoqueriaと店舗公式を再確認。"
       ],
       "sequence": 10,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "adopted",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
-        "kind": "interval",
+        "kind": "point",
         "start": {
           "date": "2026-12-30",
-          "time": "08:30",
+          "time": "09:00",
           "timeZone": "Europe/Madrid"
         },
-        "end": {
-          "date": "2026-12-30",
-          "time": "10:00",
-          "timeZone": "Europe/Madrid"
-        },
+        "end": null,
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "recommended",
+      "locked": false
     },
     {
       "id": "d1230-checkout",
@@ -6747,14 +7866,13 @@ window.TRIP = {
       "kind": "hotel",
       "parentId": null,
       "placeId": null,
-      "title": "ホテルcheckout・荷物回収",
+      "title": "チェックアウト・荷物段取り（未記載）",
       "durationIdealMinutes": null,
       "durationMinimumMinutes": null,
       "travelMinutesBefore": null,
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "移動余白を明示",
@@ -6762,29 +7880,23 @@ window.TRIP = {
       "shortenable": false,
       "dropRank": null,
       "notes": [
-        "ホテル所在地とcheckout条件は私的予約情報で再確認。"
+        "Drive v2に明記された未解決事項。列車までの荷物保管・回収・Sants移動を決める。"
       ],
       "sequence": 15,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "adopted",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
-        "kind": "interval",
-        "start": {
-          "date": "2026-12-30",
-          "time": "10:30",
-          "timeZone": "Europe/Madrid"
-        },
-        "end": {
-          "date": "2026-12-30",
-          "time": "11:00",
-          "timeZone": "Europe/Madrid"
-        },
+        "kind": "untimed",
+        "start": null,
+        "end": null,
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1230-cathedral",
@@ -6799,7 +7911,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "flexible",
-      "priority": "できれば",
       "bookingId": "barcelona-cathedral",
       "articleId": "barcelona-old-city",
       "fatigueEvidence": "荷物を伴う移動日の午前",
@@ -6807,11 +7918,11 @@ window.TRIP = {
       "shortenable": true,
       "dropRank": 0,
       "notes": [
-        "Phase 3.1見送り: 都市間移動日の壊れやすい追加観光を避ける。"
+        "旅程比較見送り: 都市間移動日の壊れやすい追加観光を避ける。"
       ],
       "sequence": 20,
       "groupId": null,
-      "inclusionStatus": "omitted",
+      "inclusionStatus": "adopted",
       "planningStatus": "draft",
       "bookingRequirement": "unknown",
       "timing": {
@@ -6820,8 +7931,10 @@ window.TRIP = {
         "end": null,
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
-        "confidence": "unknown"
-      }
+        "confidence": "provisional"
+      },
+      "keepPriority": "recommended",
+      "locked": false
     },
     {
       "id": "d1230-lunch",
@@ -6836,7 +7949,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "食事時間を保護",
@@ -6846,7 +7958,7 @@ window.TRIP = {
       "notes": [],
       "sequence": 20,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -6864,7 +7976,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1230-sants-transfer",
@@ -6879,7 +7993,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "移動余白を明示",
@@ -6889,7 +8002,7 @@ window.TRIP = {
       "notes": [],
       "sequence": 25,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -6907,7 +8020,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1230-sants-buffer",
@@ -6915,14 +8030,13 @@ window.TRIP = {
       "kind": "rest",
       "parentId": null,
       "placeId": null,
-      "title": "駅到着buffer・乗車準備",
+      "title": "駅到着余裕時間・乗車準備",
       "durationIdealMinutes": null,
       "durationMinimumMinutes": null,
       "travelMinutesBefore": null,
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "疲労回復のための明示的buffer",
@@ -6934,7 +8048,7 @@ window.TRIP = {
       ],
       "sequence": 28,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -6952,7 +8066,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1230-train-madrid",
@@ -6967,7 +8083,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": "iryo-out",
       "articleId": null,
       "fatigueEvidence": "都市間移動",
@@ -6975,11 +8090,11 @@ window.TRIP = {
       "shortenable": false,
       "dropRank": null,
       "notes": [
-        "2026年末時刻・列車番号未公表。発売後に置換しbufferを再検証。"
+        "2026年末時刻・列車番号未公表。発売後に置換し余裕時間を再検証。"
       ],
       "sequence": 30,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "adopted",
       "planningStatus": "needs_information",
       "bookingRequirement": "required",
       "timing": {
@@ -6997,7 +8112,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1230-madrid-hotel",
@@ -7012,7 +8129,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "移動余白を明示",
@@ -7022,7 +8138,7 @@ window.TRIP = {
       "notes": [],
       "sequence": 40,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -7040,7 +8156,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1230-dinner",
@@ -7048,14 +8166,13 @@ window.TRIP = {
       "kind": "meal",
       "parentId": null,
       "placeId": null,
-      "title": "ホテル近隣で夕食",
+      "title": "Casa AlbertoでMadrid料理の夕食",
       "durationIdealMinutes": null,
       "durationMinimumMinutes": null,
       "travelMinutesBefore": null,
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "食事時間を保護",
@@ -7065,7 +8182,7 @@ window.TRIP = {
       "notes": [],
       "sequence": 50,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -7083,7 +8200,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1231-prado",
@@ -7098,7 +8217,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": "prado",
       "articleId": "prado",
       "fatigueEvidence": "大晦日の長い一日の午前",
@@ -7106,11 +8224,11 @@ window.TRIP = {
       "shortenable": false,
       "dropRank": null,
       "notes": [
-        "12/31短縮営業の2026公表後に枠確定。"
+        "Drive v2本編は10:00–15:00。ただし公式営業10:00–14:00と矛盾するため要調整。"
       ],
       "sequence": 10,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "adopted",
       "planningStatus": "needs_information",
       "bookingRequirement": "required",
       "timing": {
@@ -7122,13 +8240,15 @@ window.TRIP = {
         },
         "end": {
           "date": "2026-12-31",
-          "time": "12:00",
+          "time": "15:00",
           "timeZone": "Europe/Madrid"
         },
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1231-cibeles",
@@ -7143,7 +8263,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "できれば",
       "bookingId": null,
       "articleId": "madrid-overview",
       "fatigueEvidence": "市内徒歩",
@@ -7153,7 +8272,7 @@ window.TRIP = {
       "notes": [],
       "sequence": 20,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "adopted",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -7171,7 +8290,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "recommended",
+      "locked": false
     },
     {
       "id": "d1231-san-jeronimo",
@@ -7186,7 +8307,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "flexible",
-      "priority": "できれば",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "Pradoと同じ午前帯",
@@ -7194,12 +8314,12 @@ window.TRIP = {
       "shortenable": true,
       "dropRank": 0,
       "notes": [
-        "旧scheduleの9:00〜13:00、17:00〜19:45を保持。",
-        "Phase 3.1見送り: 年越し前の休憩と警備導線を優先し、マラソン参加を同日必須にしない。"
+        "以前の旅程の9:00〜13:00、17:00〜19:45を保持。",
+        "旅程比較見送り: 年越し前の休憩と警備導線を優先し、マラソン参加を同日必須にしない。"
       ],
       "sequence": 20,
       "groupId": null,
-      "inclusionStatus": "omitted",
+      "inclusionStatus": "adopted",
       "planningStatus": "draft",
       "bookingRequirement": "unknown",
       "timing": {
@@ -7209,7 +8329,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "unknown"
-      }
+      },
+      "keepPriority": "recommended",
+      "locked": false
     },
     {
       "id": "d1231-alcala",
@@ -7224,7 +8346,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "できれば",
       "bookingId": null,
       "articleId": "madrid-overview",
       "fatigueEvidence": "市内徒歩",
@@ -7234,7 +8355,7 @@ window.TRIP = {
       "notes": [],
       "sequence": 30,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "adopted",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -7252,7 +8373,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "recommended",
+      "locked": false
     },
     {
       "id": "d1231-lunch",
@@ -7267,7 +8390,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "食事時間を保護",
@@ -7277,7 +8399,7 @@ window.TRIP = {
       "notes": [],
       "sequence": 35,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -7295,7 +8417,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1231-retiro",
@@ -7310,7 +8434,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "できれば",
       "bookingId": null,
       "articleId": "madrid-overview",
       "fatigueEvidence": "市内徒歩と屋外滞在",
@@ -7320,7 +8443,7 @@ window.TRIP = {
       "notes": [],
       "sequence": 40,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "adopted",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -7338,7 +8461,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "recommended",
+      "locked": false
     },
     {
       "id": "d1231-rest",
@@ -7353,7 +8478,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "疲労回復のための明示的buffer",
@@ -7363,7 +8487,7 @@ window.TRIP = {
       "notes": [],
       "sequence": 50,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -7381,7 +8505,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1231-early-dinner",
@@ -7389,14 +8515,13 @@ window.TRIP = {
       "kind": "meal",
       "parentId": null,
       "placeId": null,
-      "title": "早めの大晦日夕食",
+      "title": "大晦日ディナー（未定）",
       "durationIdealMinutes": null,
       "durationMinimumMinutes": null,
       "travelMinutesBefore": null,
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "食事時間を保護",
@@ -7404,29 +8529,23 @@ window.TRIP = {
       "shortenable": true,
       "dropRank": null,
       "notes": [
-        "店舗・予約枠未選定。満席時は事前確保した持帰り食へ。"
+        "Drive v2本編の要調整枠。店を勝手に確定せず、休業とSol入場列を確認して家族が決める。"
       ],
       "sequence": 60,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "adopted",
       "planningStatus": "needs_information",
       "bookingRequirement": "recommended",
       "timing": {
-        "kind": "interval",
-        "start": {
-          "date": "2026-12-31",
-          "time": "18:15",
-          "timeZone": "Europe/Madrid"
-        },
-        "end": {
-          "date": "2026-12-31",
-          "time": "19:15",
-          "timeZone": "Europe/Madrid"
-        },
+        "kind": "untimed",
+        "start": null,
+        "end": null,
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1231-san-silvestre",
@@ -7441,7 +8560,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "flexible",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "参加予定ではなく交通規制要因",
@@ -7450,11 +8568,11 @@ window.TRIP = {
       "dropRank": 0,
       "notes": [
         "観光予定ではなく交通規制の確認対象。",
-        "Phase 3.1見送り: 年越し前の休憩と警備導線を優先し、マラソン参加を同日必須にしない。"
+        "旅程比較見送り: 年越し前の休憩と警備導線を優先し、マラソン参加を同日必須にしない。"
       ],
       "sequence": 60,
       "groupId": null,
-      "inclusionStatus": "omitted",
+      "inclusionStatus": "adopted",
       "planningStatus": "draft",
       "bookingRequirement": "unknown",
       "timing": {
@@ -7464,7 +8582,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "unknown"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1231-countdown",
@@ -7479,7 +8599,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": "madrid-overview",
       "fatigueEvidence": "深夜までの屋外滞在",
@@ -7493,7 +8612,7 @@ window.TRIP = {
       ],
       "sequence": 70,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "adopted",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -7511,7 +8630,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d0101-sol",
@@ -7526,7 +8647,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "できれば",
       "bookingId": null,
       "articleId": "madrid-austrias",
       "fatigueEvidence": "前夜の年越し後",
@@ -7536,25 +8656,27 @@ window.TRIP = {
       "notes": [],
       "sequence": 10,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "adopted",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
         "kind": "interval",
         "start": {
           "date": "2027-01-01",
-          "time": "11:00",
+          "time": "10:00",
           "timeZone": "Europe/Madrid"
         },
         "end": {
           "date": "2027-01-01",
-          "time": "11:30",
+          "time": "16:00",
           "timeZone": "Europe/Madrid"
         },
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "recommended",
+      "locked": false
     },
     {
       "id": "d0101-san-gines",
@@ -7569,7 +8691,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "できれば",
       "bookingId": null,
       "articleId": "madrid-austrias",
       "fatigueEvidence": "街歩き中の休憩候補",
@@ -7583,7 +8704,7 @@ window.TRIP = {
       ],
       "sequence": 20,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "adopted",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -7601,7 +8722,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "recommended",
+      "locked": false
     },
     {
       "id": "d0101-plaza-mayor",
@@ -7616,7 +8739,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": "madrid-austrias",
       "fatigueEvidence": "市内徒歩",
@@ -7626,7 +8748,7 @@ window.TRIP = {
       "notes": [],
       "sequence": 30,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "adopted",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -7644,7 +8766,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d0101-lunch",
@@ -7652,24 +8776,25 @@ window.TRIP = {
       "kind": "meal",
       "parentId": null,
       "placeId": null,
-      "title": "元日の昼食",
+      "title": "元日営業の食事場所（未定）",
       "durationIdealMinutes": null,
       "durationMinimumMinutes": null,
       "travelMinutesBefore": null,
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "食事時間を保護",
       "weatherDependency": "低",
       "shortenable": true,
       "dropRank": null,
-      "notes": [],
+      "notes": [
+        "Drive v2本編の要調整枠。営業確認前に店名を確定しない。"
+      ],
       "sequence": 35,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "adopted",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -7687,7 +8812,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d0101-san-isidro",
@@ -7702,7 +8829,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "できれば",
       "bookingId": null,
       "articleId": "madrid-austrias",
       "fatigueEvidence": "市内徒歩",
@@ -7712,7 +8838,7 @@ window.TRIP = {
       "notes": [],
       "sequence": 40,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "adopted",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -7730,7 +8856,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "recommended",
+      "locked": false
     },
     {
       "id": "d0101-palace-exterior",
@@ -7738,14 +8866,13 @@ window.TRIP = {
       "kind": "attraction",
       "parentId": null,
       "placeId": "palacio",
-      "title": "マドリード王宮（外観）",
+      "title": "マドリード王宮（1/1休館・別日へ要調整）",
       "durationIdealMinutes": null,
       "durationMinimumMinutes": null,
       "travelMinutesBefore": null,
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "できれば",
       "bookingId": null,
       "articleId": "madrid-austrias",
       "fatigueEvidence": "市内徒歩",
@@ -7755,7 +8882,7 @@ window.TRIP = {
       "notes": [],
       "sequence": 50,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "adopted",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -7773,7 +8900,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "recommended",
+      "locked": false
     },
     {
       "id": "d0101-san-francisco",
@@ -7788,7 +8917,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "できれば",
       "bookingId": null,
       "articleId": "madrid-austrias",
       "fatigueEvidence": "市内徒歩",
@@ -7798,7 +8926,7 @@ window.TRIP = {
       "notes": [],
       "sequence": 60,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "adopted",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -7816,7 +8944,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "recommended",
+      "locked": false
     },
     {
       "id": "d0101-rest",
@@ -7831,7 +8961,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "疲労回復のための明示的buffer",
@@ -7841,7 +8970,7 @@ window.TRIP = {
       "notes": [],
       "sequence": 70,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -7859,7 +8988,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d0101-dinner",
@@ -7874,7 +9005,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "食事時間を保護",
@@ -7884,7 +9014,7 @@ window.TRIP = {
       "notes": [],
       "sequence": 80,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -7902,7 +9032,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d0102-train-out",
@@ -7917,7 +9049,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": "toledo-train",
       "articleId": null,
       "fatigueEvidence": "朝の高速列車",
@@ -7929,7 +9060,7 @@ window.TRIP = {
       ],
       "sequence": 10,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "adopted",
       "planningStatus": "needs_information",
       "bookingRequirement": "required",
       "timing": {
@@ -7947,7 +9078,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d0102-city-transfer",
@@ -7962,7 +9095,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "移動余白を明示",
@@ -7972,7 +9104,7 @@ window.TRIP = {
       "notes": [],
       "sequence": 15,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -7990,7 +9122,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d0102-cathedral",
@@ -8005,7 +9139,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": "toledo-cathedral",
       "articleId": "toledo-cathedral",
       "fatigueEvidence": "坂道と4施設の連続",
@@ -8015,7 +9148,7 @@ window.TRIP = {
       "notes": [],
       "sequence": 20,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "adopted",
       "planningStatus": "needs_information",
       "bookingRequirement": "required",
       "timing": {
@@ -8033,7 +9166,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d0102-lunch",
@@ -8048,7 +9183,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": "toledo",
       "fatigueEvidence": "食事時間を保護",
@@ -8058,7 +9192,7 @@ window.TRIP = {
       "notes": [],
       "sequence": 25,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -8076,7 +9210,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d0102-santotome",
@@ -8091,7 +9227,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": "santotome",
       "articleId": "santo-tome-orgaz",
       "fatigueEvidence": "坂道と4施設の連続",
@@ -8101,7 +9236,7 @@ window.TRIP = {
       "notes": [],
       "sequence": 30,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "adopted",
       "planningStatus": "needs_information",
       "bookingRequirement": "required",
       "timing": {
@@ -8119,7 +9254,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d0102-greco",
@@ -8134,7 +9271,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "できれば",
       "bookingId": "greco",
       "articleId": "el-greco-museum",
       "fatigueEvidence": "坂道と4施設の連続",
@@ -8144,7 +9280,7 @@ window.TRIP = {
       "notes": [],
       "sequence": 40,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "adopted",
       "planningStatus": "needs_information",
       "bookingRequirement": "required",
       "timing": {
@@ -8162,7 +9298,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "recommended",
+      "locked": false
     },
     {
       "id": "d0102-rest",
@@ -8177,7 +9315,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": "toledo",
       "fatigueEvidence": "疲労回復のための明示的buffer",
@@ -8187,7 +9324,7 @@ window.TRIP = {
       "notes": [],
       "sequence": 45,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -8205,7 +9342,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d0102-santacruz",
@@ -8220,7 +9359,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "flexible",
-      "priority": "必須",
       "bookingId": null,
       "articleId": "toledo",
       "fatigueEvidence": "坂道と4施設の連続",
@@ -8229,11 +9367,11 @@ window.TRIP = {
       "dropRank": 0,
       "notes": [
         "無料時間帯は2027年分を要確認。",
-        "Phase 3.1見送り: Toledoは大聖堂・サントトメ・Grecoの核へ絞り帰路bufferを保護。"
+        "旅程比較見送り: Toledoは大聖堂・サントトメ・Grecoの核へ絞り帰路余裕時間を保護。"
       ],
       "sequence": 50,
       "groupId": null,
-      "inclusionStatus": "omitted",
+      "inclusionStatus": "adopted",
       "planningStatus": "draft",
       "bookingRequirement": "unknown",
       "timing": {
@@ -8243,7 +9381,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "unknown"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d0102-station-transfer",
@@ -8251,14 +9391,13 @@ window.TRIP = {
       "kind": "transfer",
       "parentId": null,
       "placeId": null,
-      "title": "旧市街 → Toledo駅・乗車buffer",
+      "title": "旧市街 → Toledo駅・乗車余裕時間",
       "durationIdealMinutes": null,
       "durationMinimumMinutes": null,
       "travelMinutesBefore": null,
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "移動余白を明示",
@@ -8268,7 +9407,7 @@ window.TRIP = {
       "notes": [],
       "sequence": 50,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -8286,7 +9425,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d0102-train-return",
@@ -8301,7 +9442,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": "toledo-train",
       "articleId": null,
       "fatigueEvidence": "日帰り帰路",
@@ -8313,7 +9453,7 @@ window.TRIP = {
       ],
       "sequence": 60,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "adopted",
       "planningStatus": "needs_information",
       "bookingRequirement": "required",
       "timing": {
@@ -8331,7 +9471,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d0103-checkout",
@@ -8346,7 +9488,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "移動余白を明示",
@@ -8356,7 +9497,7 @@ window.TRIP = {
       "notes": [],
       "sequence": 5,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -8374,7 +9515,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d0103-reinasofia",
@@ -8389,7 +9532,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": "reinasofia",
       "articleId": "madrid-art",
       "fatigueEvidence": "移動日の午前",
@@ -8401,7 +9543,7 @@ window.TRIP = {
       ],
       "sequence": 10,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "adopted",
       "planningStatus": "needs_information",
       "bookingRequirement": "required",
       "timing": {
@@ -8413,13 +9555,15 @@ window.TRIP = {
         },
         "end": {
           "date": "2027-01-03",
-          "time": "12:00",
+          "time": "14:30",
           "timeZone": "Europe/Madrid"
         },
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d0103-lunch",
@@ -8434,7 +9578,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "食事時間を保護",
@@ -8444,7 +9587,7 @@ window.TRIP = {
       "notes": [],
       "sequence": 20,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -8462,7 +9605,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d0103-serrano",
@@ -8477,7 +9622,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "flexible",
-      "priority": "予備",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "移動日の街歩き",
@@ -8485,11 +9629,11 @@ window.TRIP = {
       "shortenable": true,
       "dropRank": 0,
       "notes": [
-        "Phase 3.1見送り: 都市間移動日はAtocha近接のReina Sofía一件だけ。"
+        "旅程比較見送り: 都市間移動日はAtocha近接のReina Sofía一件だけ。"
       ],
       "sequence": 20,
       "groupId": null,
-      "inclusionStatus": "omitted",
+      "inclusionStatus": "adopted",
       "planningStatus": "draft",
       "bookingRequirement": "unknown",
       "timing": {
@@ -8499,7 +9643,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "unknown"
-      }
+      },
+      "keepPriority": "optional",
+      "locked": false
     },
     {
       "id": "d0103-cava-san-miguel",
@@ -8514,7 +9660,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "flexible",
-      "priority": "予備",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "移動日の街歩き",
@@ -8522,11 +9667,11 @@ window.TRIP = {
       "shortenable": true,
       "dropRank": 0,
       "notes": [
-        "Phase 3.1見送り: 都市間移動日はAtocha近接のReina Sofía一件だけ。"
+        "旅程比較見送り: 都市間移動日はAtocha近接のReina Sofía一件だけ。"
       ],
       "sequence": 30,
       "groupId": null,
-      "inclusionStatus": "omitted",
+      "inclusionStatus": "proposal",
       "planningStatus": "draft",
       "bookingRequirement": "unknown",
       "timing": {
@@ -8536,7 +9681,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "unknown"
-      }
+      },
+      "keepPriority": "optional",
+      "locked": false
     },
     {
       "id": "d0103-rest",
@@ -8551,7 +9698,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "疲労回復のための明示的buffer",
@@ -8561,7 +9707,7 @@ window.TRIP = {
       "notes": [],
       "sequence": 30,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -8579,7 +9725,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d0103-atocha-transfer",
@@ -8594,7 +9742,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "移動余白を明示",
@@ -8604,7 +9751,7 @@ window.TRIP = {
       "notes": [],
       "sequence": 40,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -8622,7 +9769,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d0103-san-miguel-market",
@@ -8637,7 +9786,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "flexible",
-      "priority": "できれば",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "移動日の食事候補",
@@ -8645,12 +9793,12 @@ window.TRIP = {
       "shortenable": true,
       "dropRank": 0,
       "notes": [
-        "旧scheduleの10:00〜24:00を保持。店舗候補は未登録。",
-        "Phase 3.1見送り: 都市間移動日はAtocha近接のReina Sofía一件だけ。"
+        "以前の旅程の10:00〜24:00を保持。店舗候補は確認待ち。",
+        "旅程比較見送り: 都市間移動日はAtocha近接のReina Sofía一件だけ。"
       ],
       "sequence": 40,
       "groupId": null,
-      "inclusionStatus": "omitted",
+      "inclusionStatus": "adopted",
       "planningStatus": "draft",
       "bookingRequirement": "unknown",
       "timing": {
@@ -8660,7 +9808,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "unknown"
-      }
+      },
+      "keepPriority": "recommended",
+      "locked": false
     },
     {
       "id": "d0103-atocha-buffer",
@@ -8668,14 +9818,13 @@ window.TRIP = {
       "kind": "rest",
       "parentId": null,
       "placeId": null,
-      "title": "駅到着buffer・乗車準備",
+      "title": "駅到着余裕時間・乗車準備",
       "durationIdealMinutes": null,
       "durationMinimumMinutes": null,
       "travelMinutesBefore": null,
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "疲労回復のための明示的buffer",
@@ -8687,7 +9836,7 @@ window.TRIP = {
       ],
       "sequence": 50,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -8705,7 +9854,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d0103-palace",
@@ -8720,7 +9871,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "flexible",
-      "priority": "必須",
       "bookingId": "palace",
       "articleId": null,
       "fatigueEvidence": "移動日の午前に美術館と競合",
@@ -8728,12 +9878,12 @@ window.TRIP = {
       "shortenable": true,
       "dropRank": 0,
       "notes": [
-        "旧scheduleは「10時台」。具体時刻は予約後に登録。",
-        "Phase 3.1見送り: 都市間移動日はAtocha近接のReina Sofía一件だけ。"
+        "以前の旅程は「10時台」。具体時刻は予約後に登録。",
+        "旅程比較見送り: 都市間移動日はAtocha近接のReina Sofía一件だけ。"
       ],
       "sequence": 50,
       "groupId": null,
-      "inclusionStatus": "omitted",
+      "inclusionStatus": "proposal",
       "planningStatus": "draft",
       "bookingRequirement": "unknown",
       "timing": {
@@ -8743,7 +9893,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "unknown"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d0103-train-barcelona",
@@ -8751,14 +9903,13 @@ window.TRIP = {
       "kind": "transfer",
       "parentId": null,
       "placeId": null,
-      "title": "iryo 061171 Madrid Atocha → Barcelona Sants",
+      "title": "iryo（便名は発売後に確定）Madrid Atocha → Barcelona Sants",
       "durationIdealMinutes": null,
       "durationMinimumMinutes": null,
       "travelMinutesBefore": null,
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": "iryo-back",
       "articleId": null,
       "fatigueEvidence": "都市間移動",
@@ -8766,11 +9917,11 @@ window.TRIP = {
       "shortenable": false,
       "dropRank": null,
       "notes": [
-        "2027時刻未公表。発売後に置換。"
+        "17:22–20:42と¥15,448×3はDrive v2の暫定値。2027年時刻表の発売後に便名・時刻・料金を公式情報で確定する。"
       ],
       "sequence": 60,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "adopted",
       "planningStatus": "needs_information",
       "bookingRequirement": "required",
       "timing": {
@@ -8788,7 +9939,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d0103-final-hotel",
@@ -8803,7 +9956,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "列車到着後",
@@ -8815,7 +9967,7 @@ window.TRIP = {
       ],
       "sequence": 70,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "adopted",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -8833,7 +9985,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d0103-dinner",
@@ -8841,14 +9995,13 @@ window.TRIP = {
       "kind": "meal",
       "parentId": null,
       "placeId": null,
-      "title": "ホテル近隣で軽い夕食",
+      "title": "Enrique Tomás Kiosko Santsで夕食を購入",
       "durationIdealMinutes": null,
       "durationMinimumMinutes": null,
       "travelMinutesBefore": null,
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "食事時間を保護",
@@ -8858,7 +10011,7 @@ window.TRIP = {
       "notes": [],
       "sequence": 80,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -8876,7 +10029,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d0104-airport-taxi",
@@ -8884,14 +10039,13 @@ window.TRIP = {
       "kind": "transfer",
       "parentId": null,
       "placeId": "barcelona-airport",
-      "title": "タクシーでBCN T1へ（本案）",
+      "title": "タクシーでBCN T1へ（07:40空港着）",
       "durationIdealMinutes": null,
       "durationMinimumMinutes": null,
       "travelMinutesBefore": null,
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "早朝空港移動",
@@ -8899,11 +10053,11 @@ window.TRIP = {
       "shortenable": false,
       "dropRank": null,
       "notes": [
-        "ホテル位置未確認。07:40 BCN T1着を超えないよう予約時に逆算。"
+        "元計画08:55着 → 07:40着へ前倒し済み。ホテル位置確定後に06:55前後の出発を逆算。"
       ],
       "sequence": 10,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "adopted",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -8915,13 +10069,15 @@ window.TRIP = {
         },
         "end": {
           "date": "2027-01-04",
-          "time": "07:35",
+          "time": "07:40",
           "timeZone": "Europe/Madrid"
         },
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d0104-aerobus",
@@ -8936,7 +10092,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "flexible",
-      "priority": "予備",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "早朝空港移動",
@@ -8945,11 +10100,11 @@ window.TRIP = {
       "dropRank": 0,
       "notes": [
         "€7.45という旧情報を保持。料金は要再確認。",
-        "Phase 3.1見送り: 08:55空港着案は10:40非Schengen便の3時間前目安を満たさない。"
+        "旅程比較見送り: 08:55空港着案は10:40非Schengen便の3時間前目安を満たさない。"
       ],
       "sequence": 20,
       "groupId": null,
-      "inclusionStatus": "omitted",
+      "inclusionStatus": "proposal",
       "planningStatus": "draft",
       "bookingRequirement": "unknown",
       "timing": {
@@ -8959,7 +10114,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "unknown"
-      }
+      },
+      "keepPriority": "optional",
+      "locked": false
     },
     {
       "id": "d0104-airport-process",
@@ -8974,7 +10131,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "移動余白を明示",
@@ -8986,7 +10142,7 @@ window.TRIP = {
       ],
       "sequence": 20,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -9004,7 +10160,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d0104-bcn-depart",
@@ -9019,7 +10177,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "fixed",
-      "priority": "必須",
       "bookingId": "flight",
       "articleId": null,
       "fatigueEvidence": "長距離フライト",
@@ -9042,8 +10199,10 @@ window.TRIP = {
         "end": null,
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
-        "confidence": "confirmed"
-      }
+        "confidence": "provisional"
+      },
+      "keepPriority": "must",
+      "locked": true
     },
     {
       "id": "d0104-pvg-arrive",
@@ -9058,7 +10217,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "fixed",
-      "priority": "必須",
       "bookingId": "flight",
       "articleId": null,
       "fatigueEvidence": "翌日到着",
@@ -9084,7 +10242,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "confirmed"
-      }
+      },
+      "keepPriority": "must",
+      "locked": true
     },
     {
       "id": "d0105-pvg-rest",
@@ -9099,7 +10259,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "疲労回復のための明示的buffer",
@@ -9107,11 +10266,11 @@ window.TRIP = {
       "shortenable": false,
       "dropRank": null,
       "notes": [
-        "入国可否、lounge、terminal、through baggageは私的予約確認後に更新。"
+        "入国可否、lounge、ターミナル、手荷物の通し預けは私的予約確認後に更新。"
       ],
       "sequence": 5,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -9129,7 +10288,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d0105-pvg-depart",
@@ -9144,7 +10305,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "fixed",
-      "priority": "必須",
       "bookingId": "flight",
       "articleId": null,
       "fatigueEvidence": "長い乗継後",
@@ -9168,7 +10328,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "confirmed"
-      }
+      },
+      "keepPriority": "must",
+      "locked": true
     },
     {
       "id": "d0105-nrt-arrive",
@@ -9183,7 +10345,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "fixed",
-      "priority": "必須",
       "bookingId": "flight",
       "articleId": null,
       "fatigueEvidence": "帰国到着",
@@ -9207,7 +10368,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "confirmed"
-      }
+      },
+      "keepPriority": "must",
+      "locked": true
     },
     {
       "id": "d0105-nrt-arrival-process",
@@ -9222,7 +10385,6 @@ window.TRIP = {
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "必須",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "移動余白を明示",
@@ -9232,7 +10394,7 @@ window.TRIP = {
       "notes": [],
       "sequence": 30,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "unknown",
       "timing": {
@@ -9250,7 +10412,9 @@ window.TRIP = {
         "durationIdealMinutes": null,
         "durationMinimumMinutes": null,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "must",
+      "locked": false
     },
     {
       "id": "d1227-light-dinner",
@@ -9258,14 +10422,13 @@ window.TRIP = {
       "kind": "meal",
       "parentId": null,
       "placeId": null,
-      "title": "必要時のみホテル近隣で軽い夕食",
+      "title": "必要ならEnrique Tomás Kiosko Santsで夕食を追加購入",
       "durationIdealMinutes": 60,
       "durationMinimumMinutes": 30,
       "travelMinutesBefore": null,
       "bufferBeforeMinutes": null,
       "bufferAfterMinutes": null,
       "timeConstraint": "window",
-      "priority": "できれば",
       "bookingId": null,
       "articleId": null,
       "fatigueEvidence": "Can Culleretesの重い昼食後なので、空腹時だけ。",
@@ -9277,7 +10440,7 @@ window.TRIP = {
       ],
       "sequence": 60,
       "groupId": null,
-      "inclusionStatus": "provisional",
+      "inclusionStatus": "proposal",
       "planningStatus": "needs_information",
       "bookingRequirement": "not_required",
       "timing": {
@@ -9295,7 +10458,9 @@ window.TRIP = {
         "durationIdealMinutes": 60,
         "durationMinimumMinutes": 30,
         "confidence": "provisional"
-      }
+      },
+      "keepPriority": "recommended",
+      "locked": false
     }
   ],
   "scheduleGroups": [
@@ -9321,7 +10486,7 @@ window.TRIP = {
       "cityId": "barcelona",
       "type": "see",
       "name": "サグラダ・ファミリア",
-      "importance": "最重要",
+      "importance": "must",
       "scheduleItemId": "d1227-sagrada",
       "articleId": "sagrada",
       "reason": "旅の主役として十分な時間を確保する方針。",
@@ -9334,14 +10499,15 @@ window.TRIP = {
       "planningDecisionIds": [],
       "inclusionStatus": "undecided",
       "targetType": "place",
-      "targetId": "sagrada"
+      "targetId": "sagrada",
+      "importanceProvisional": true
     },
     {
       "id": "cov-mila",
       "cityId": "barcelona",
       "type": "see",
       "name": "カサ・ミラ（ラ・ペドレラ）",
-      "importance": "最重要",
+      "importance": "must",
       "scheduleItemId": "d1226-mila",
       "articleId": "mila",
       "reason": "重要なGaudí集合住宅。グラシア通り／不調和の街区の新築住宅としてカサ・バトリョと比較する。",
@@ -9356,14 +10522,15 @@ window.TRIP = {
       ],
       "inclusionStatus": "provisional",
       "targetType": "place",
-      "targetId": "mila"
+      "targetId": "mila",
+      "importanceProvisional": true
     },
     {
       "id": "cov-batllo",
       "cityId": "barcelona",
       "type": "see",
       "name": "カサ・バトリョ",
-      "importance": "高",
+      "importance": "recommended",
       "scheduleItemId": "d1226-batllo",
       "articleId": "batllo",
       "reason": "既存旅程のGaudí住宅。グラシア通り／不調和の街区の改修住宅としてカサ・ミラと比較する。",
@@ -9378,14 +10545,15 @@ window.TRIP = {
       ],
       "inclusionStatus": "provisional",
       "targetType": "place",
-      "targetId": "batllo"
+      "targetId": "batllo",
+      "importanceProvisional": true
     },
     {
       "id": "cov-parkguell",
       "cityId": "barcelona",
       "type": "see",
       "name": "グエル公園",
-      "importance": "高",
+      "importance": "recommended",
       "scheduleItemId": "d1226-parkguell",
       "articleId": "park-guell",
       "reason": "既存旅程に採用済み。",
@@ -9400,17 +10568,18 @@ window.TRIP = {
       ],
       "inclusionStatus": "provisional",
       "targetType": "place",
-      "targetId": "parkguell"
+      "targetId": "parkguell",
+      "importanceProvisional": true
     },
     {
       "id": "cov-fideua",
       "cityId": "barcelona",
       "type": "eat",
       "name": "フィデウア",
-      "importance": "高",
+      "importance": "recommended",
       "scheduleItemId": null,
       "articleId": null,
-      "reason": "料理候補はあるが店舗・日程は未登録。",
+      "reason": "料理候補はあるが店舗・日程は確認待ち。",
       "rejectionReason": null,
       "experienced": false,
       "placeId": null,
@@ -9418,14 +10587,15 @@ window.TRIP = {
       "planningDecisionIds": [],
       "inclusionStatus": "undecided",
       "targetType": "dish",
-      "targetId": "dish-fideua"
+      "targetId": "dish-fideua",
+      "importanceProvisional": true
     },
     {
       "id": "cov-tarragona",
       "cityId": "tarragona",
       "type": "experience",
       "name": "ローマ遺産を歩く",
-      "importance": "高",
+      "importance": "recommended",
       "scheduleItemId": "d1228-amphitheatre",
       "articleId": null,
       "reason": "円形闘技場と大聖堂を原子的に登録。",
@@ -9440,14 +10610,15 @@ window.TRIP = {
       "planningDecisionIds": [],
       "inclusionStatus": "undecided",
       "targetType": "experience",
-      "targetId": "cov-tarragona"
+      "targetId": "cov-tarragona",
+      "importanceProvisional": true
     },
     {
       "id": "cov-montserrat",
       "cityId": "montserrat",
       "type": "experience",
       "name": "修道院と黒い聖母",
-      "importance": "高",
+      "importance": "recommended",
       "scheduleItemId": "d1229-moreneta",
       "articleId": null,
       "reason": "既存旅程に採用済み。",
@@ -9460,14 +10631,15 @@ window.TRIP = {
       "planningDecisionIds": [],
       "inclusionStatus": "undecided",
       "targetType": "experience",
-      "targetId": "cov-montserrat"
+      "targetId": "cov-montserrat",
+      "importanceProvisional": true
     },
     {
       "id": "cov-prado",
       "cityId": "madrid",
       "type": "see",
       "name": "プラド美術館",
-      "importance": "最重要",
+      "importance": "must",
       "scheduleItemId": "d1231-prado",
       "articleId": "prado",
       "reason": "Madrid滞在の主役。",
@@ -9480,14 +10652,15 @@ window.TRIP = {
       "planningDecisionIds": [],
       "inclusionStatus": "undecided",
       "targetType": "place",
-      "targetId": "prado"
+      "targetId": "prado",
+      "importanceProvisional": true
     },
     {
       "id": "cov-reinasofia",
       "cityId": "madrid",
       "type": "see",
       "name": "ソフィア王妃芸術センター",
-      "importance": "高",
+      "importance": "recommended",
       "scheduleItemId": "d0103-reinasofia",
       "articleId": "madrid-art",
       "reason": "既存旅程に採用済み。",
@@ -9502,14 +10675,15 @@ window.TRIP = {
       ],
       "inclusionStatus": "provisional",
       "targetType": "place",
-      "targetId": "reinasofia"
+      "targetId": "reinasofia",
+      "importanceProvisional": true
     },
     {
       "id": "cov-palace",
       "cityId": "madrid",
       "type": "see",
       "name": "マドリード王宮",
-      "importance": "高",
+      "importance": "recommended",
       "scheduleItemId": "d0103-palace",
       "articleId": null,
       "reason": "内部見学は未予約。",
@@ -9524,17 +10698,18 @@ window.TRIP = {
       ],
       "inclusionStatus": "provisional",
       "targetType": "place",
-      "targetId": "palacio"
+      "targetId": "palacio",
+      "importanceProvisional": true
     },
     {
       "id": "cov-cocido",
       "cityId": "madrid",
       "type": "eat",
       "name": "コシード・マドリレーニョ",
-      "importance": "高",
+      "importance": "recommended",
       "scheduleItemId": null,
       "articleId": null,
-      "reason": "料理候補はあるが店舗・日程は未登録。",
+      "reason": "料理候補はあるが店舗・日程は確認待ち。",
       "rejectionReason": null,
       "experienced": false,
       "placeId": null,
@@ -9542,14 +10717,15 @@ window.TRIP = {
       "planningDecisionIds": [],
       "inclusionStatus": "undecided",
       "targetType": "dish",
-      "targetId": "dish-cocido"
+      "targetId": "dish-cocido",
+      "importanceProvisional": true
     },
     {
       "id": "cov-toledo",
       "cityId": "toledo",
       "type": "experience",
       "name": "宗教都市とエル・グレコ",
-      "importance": "高",
+      "importance": "recommended",
       "scheduleItemId": "d0102-cathedral",
       "articleId": "toledo",
       "reason": "日帰り案に採用。",
@@ -9565,17 +10741,18 @@ window.TRIP = {
       "planningDecisionIds": [],
       "inclusionStatus": "undecided",
       "targetType": "experience",
-      "targetId": "cov-toledo"
+      "targetId": "cov-toledo",
+      "importanceProvisional": true
     },
     {
       "id": "cov-segovia",
       "cityId": "madrid",
       "type": "experience",
       "name": "Segovia",
-      "importance": "未評価",
+      "importance": "unrated",
       "scheduleItemId": null,
       "articleId": null,
-      "reason": "旧トップの比較案を保持。詳細は未登録。",
+      "reason": "旧トップの比較案を保持。詳細は確認待ち。",
       "rejectionReason": null,
       "experienced": false,
       "placeId": null,
@@ -9583,14 +10760,15 @@ window.TRIP = {
       "planningDecisionIds": [],
       "inclusionStatus": "undecided",
       "targetType": "experience",
-      "targetId": "cov-segovia"
+      "targetId": "cov-segovia",
+      "importanceProvisional": true
     },
     {
       "id": "cov-palau-guell",
       "cityId": "barcelona",
       "type": "see",
       "name": "グエル邸",
-      "importance": "高",
+      "importance": "recommended",
       "scheduleItemId": "d1226-guell-palace",
       "articleId": "palau-guell",
       "reason": "旧市街の都市邸宅として、ランブラス／レイアール広場の街歩き文脈も含めて到着日の負荷と比較する。営業可否は別バックログで確認する。",
@@ -9605,14 +10783,15 @@ window.TRIP = {
       ],
       "inclusionStatus": "undecided",
       "targetType": "place",
-      "targetId": "guell-palace"
+      "targetId": "guell-palace",
+      "importanceProvisional": true
     },
     {
       "id": "cov-casa-vicens",
       "cityId": "barcelona",
       "type": "see",
       "name": "カサ・ビセンス",
-      "importance": "高",
+      "importance": "recommended",
       "scheduleItemId": "d1226-casa-vicens",
       "articleId": "casa-vicens",
       "reason": "初期の庭付き住宅として同日Gaudí作品群との違いと到着日の疲労を比較する。",
@@ -9627,14 +10806,15 @@ window.TRIP = {
       ],
       "inclusionStatus": "undecided",
       "targetType": "place",
-      "targetId": "casa-vicens"
+      "targetId": "casa-vicens",
+      "importanceProvisional": true
     },
     {
       "id": "cov-sant-pau",
       "cityId": "barcelona",
       "type": "see",
       "name": "サン・パウ病院モダニスム区域",
-      "importance": "高",
+      "importance": "recommended",
       "scheduleItemId": "d1226-sant-pau",
       "articleId": null,
       "reason": "Gaudí以外のModernismeと医療建築を比較する既存候補。到着日の密度を増やすため採用は未決定。",
@@ -9647,14 +10827,15 @@ window.TRIP = {
       "planningDecisionIds": [],
       "inclusionStatus": "undecided",
       "targetType": "place",
-      "targetId": "sant-pau"
+      "targetId": "sant-pau",
+      "importanceProvisional": true
     },
     {
       "id": "cov-barcelona-cathedral",
       "cityId": "barcelona",
       "type": "see",
       "name": "バルセロナ大聖堂",
-      "importance": "高",
+      "importance": "recommended",
       "scheduleItemId": "d1230-cathedral",
       "articleId": null,
       "reason": "ゴシック地区の歴史軸を既存Placeへ内包し、外観・内部・街歩きの時間を比較する。",
@@ -9667,14 +10848,15 @@ window.TRIP = {
       "planningDecisionIds": [],
       "inclusionStatus": "undecided",
       "targetType": "place",
-      "targetId": "cathedral"
+      "targetId": "cathedral",
+      "importanceProvisional": true
     },
     {
       "id": "cov-boqueria",
       "cityId": "barcelona",
       "type": "experience",
       "name": "ボケリア市場",
-      "importance": "高",
+      "importance": "recommended",
       "scheduleItemId": "d1230-boqueria",
       "articleId": null,
       "reason": "ランブラスの街歩きと市場朝食を一つの食文化体験として比較する。店舗採用や食事確定はしない。",
@@ -9687,14 +10869,15 @@ window.TRIP = {
       "planningDecisionIds": [],
       "inclusionStatus": "undecided",
       "targetType": "place",
-      "targetId": "boqueria"
+      "targetId": "boqueria",
+      "importanceProvisional": true
     },
     {
       "id": "cov-montjuic-castle",
       "cityId": "barcelona",
       "type": "see",
       "name": "モンジュイック",
-      "importance": "高",
+      "importance": "recommended",
       "scheduleItemId": "d1227-montjuic-castle",
       "articleId": null,
       "reason": "城・眺望・丘の移動を含む既存候補。MNACとの重複、天候、移動負荷を比較する。",
@@ -9707,14 +10890,15 @@ window.TRIP = {
       "planningDecisionIds": [],
       "inclusionStatus": "undecided",
       "targetType": "place",
-      "targetId": "montjuic"
+      "targetId": "montjuic",
+      "importanceProvisional": true
     },
     {
       "id": "cov-fira-santa-llucia",
       "cityId": "barcelona",
       "type": "experience",
       "name": "サンタ・リュシアのクリスマス市",
-      "importance": "未評価",
+      "importance": "unrated",
       "scheduleItemId": "d1227-fira-santa-llucia",
       "articleId": null,
       "reason": "年末季節文化の候補。参照Sourceは2025年情報で終了日は12月23日、2026年旅行日の開催は未公表のため営業中と扱わない。",
@@ -9727,14 +10911,15 @@ window.TRIP = {
       "planningDecisionIds": [],
       "inclusionStatus": "undecided",
       "targetType": "place",
-      "targetId": "fira-santa-llucia"
+      "targetId": "fira-santa-llucia",
+      "importanceProvisional": true
     },
     {
       "id": "cov-fira-sagrada",
       "cityId": "barcelona",
       "type": "experience",
       "name": "サグラダ・ファミリア前のクリスマス市",
-      "importance": "未評価",
+      "importance": "unrated",
       "scheduleItemId": "d1226-fira-sagrada",
       "articleId": null,
       "reason": "年末季節文化の候補。参照Sourceは2025年情報で、2026年旅行日の開催は未公表のため営業中と扱わない。",
@@ -9747,14 +10932,15 @@ window.TRIP = {
       "planningDecisionIds": [],
       "inclusionStatus": "undecided",
       "targetType": "place",
-      "targetId": "fira-sagrada"
+      "targetId": "fira-sagrada",
+      "importanceProvisional": true
     },
     {
       "id": "cov-palau-musica",
       "cityId": "barcelona",
       "type": "see",
       "name": "カタルーニャ音楽堂",
-      "importance": "高",
+      "importance": "recommended",
       "scheduleItemId": null,
       "articleId": null,
       "reason": "Gaudí以外のModernismeと音楽文化を比較する非Gaudí文化枠。El Born周辺へ内包するが旅程には追加しない。",
@@ -9769,14 +10955,15 @@ window.TRIP = {
       ],
       "inclusionStatus": "undecided",
       "targetType": "place",
-      "targetId": "palau-musica"
+      "targetId": "palau-musica",
+      "importanceProvisional": true
     },
     {
       "id": "cov-picasso-museum",
       "cityId": "barcelona",
       "type": "see",
       "name": "ピカソ美術館",
-      "importance": "高",
+      "importance": "recommended",
       "scheduleItemId": null,
       "articleId": null,
       "reason": "BarcelonaとPicasso初期を理解する非Gaudí文化枠。El Bornの滞在時間と予約リスクを比較する。",
@@ -9791,14 +10978,15 @@ window.TRIP = {
       ],
       "inclusionStatus": "undecided",
       "targetType": "place",
-      "targetId": "picasso-museum"
+      "targetId": "picasso-museum",
+      "importanceProvisional": true
     },
     {
       "id": "cov-mnac",
       "cityId": "barcelona",
       "type": "see",
       "name": "カタルーニャ美術館（MNAC）",
-      "importance": "高",
+      "importance": "recommended",
       "scheduleItemId": null,
       "articleId": null,
       "reason": "カタルーニャ美術の長い時間軸を得る候補。Montjuïcの移動と既存予定の圧縮を比較する。",
@@ -9814,14 +11002,15 @@ window.TRIP = {
       ],
       "inclusionStatus": "undecided",
       "targetType": "place",
-      "targetId": "mnac"
+      "targetId": "mnac",
+      "importanceProvisional": true
     },
     {
       "id": "cov-santa-caterina-market",
       "cityId": "barcelona",
       "type": "experience",
       "name": "サンタ・カテリーナ市場",
-      "importance": "高",
+      "importance": "recommended",
       "scheduleItemId": null,
       "articleId": null,
       "reason": "El Born／大聖堂側の市場候補。ボケリアと重複採用せず、市場朝食・動線・混雑で比較する。",
@@ -9834,14 +11023,15 @@ window.TRIP = {
       "planningDecisionIds": [],
       "inclusionStatus": "undecided",
       "targetType": "place",
-      "targetId": "santa-caterina-market"
+      "targetId": "santa-caterina-market",
+      "importanceProvisional": true
     },
     {
       "id": "cov-ciutadella-arc-triomf",
       "cityId": "barcelona",
       "type": "see",
       "name": "シウタデリャ公園／凱旋門",
-      "importance": "高",
+      "importance": "recommended",
       "scheduleItemId": null,
       "articleId": null,
       "reason": "1888年万博の都市軸を歩く屋外候補。El Bornからの徒歩、天候、日没を比較し、二つを重複Placeに分けない。",
@@ -9854,14 +11044,15 @@ window.TRIP = {
       "planningDecisionIds": [],
       "inclusionStatus": "undecided",
       "targetType": "place",
-      "targetId": "ciutadella-arc-triomf"
+      "targetId": "ciutadella-arc-triomf",
+      "importanceProvisional": true
     },
     {
       "id": "cov-bcn-market-breakfast",
       "cityId": "barcelona",
       "type": "experience",
       "name": "市場の朝食",
-      "importance": "高",
+      "importance": "recommended",
       "scheduleItemId": "d1230-boqueria",
       "articleId": null,
       "reason": "Dishではなく市場、時間、行列、食事役割を含むFoodExperience。ボケリアの既存枠とサンタ・カテリーナ代替を比較する。",
@@ -9879,14 +11070,15 @@ window.TRIP = {
       ],
       "inclusionStatus": "undecided",
       "targetType": "place",
-      "targetId": "boqueria"
+      "targetId": "boqueria",
+      "importanceProvisional": true
     },
     {
       "id": "cov-bcn-vermut-tapas",
       "cityId": "barcelona",
       "type": "experience",
       "name": "ベルモット／カヴァ＋軽いタパス",
-      "importance": "高",
+      "importance": "recommended",
       "scheduleItemId": null,
       "articleId": null,
       "reason": "Beverageとタパスを組み合わせる短時間のFoodExperience。飲酒・採用を前提にせず、混雑と家族の快適性で比較する。",
@@ -9902,14 +11094,15 @@ window.TRIP = {
       ],
       "inclusionStatus": "undecided",
       "targetType": "place",
-      "targetId": "el-xampanyet"
+      "targetId": "el-xampanyet",
+      "importanceProvisional": true
     },
     {
       "id": "cov-bcn-calcotada",
       "cityId": "barcelona",
       "type": "experience",
       "name": "カルソターダ",
-      "importance": "未評価",
+      "importance": "unrated",
       "scheduleItemId": null,
       "articleId": null,
       "reason": "calçotsというDishではなく、移動・時間・複数皿を伴う冬のFoodExperience。根拠の揃った市内店舗と半日負荷が未解決のためMealOptionを作らない。",
@@ -9920,7 +11113,8 @@ window.TRIP = {
       "planningDecisionIds": [],
       "inclusionStatus": "undecided",
       "targetType": "experience",
-      "targetId": "calcotada"
+      "targetId": "calcotada",
+      "importanceProvisional": true
     }
   ],
   "learningArticles": [
@@ -10681,7 +11875,7 @@ window.TRIP = {
             {
               "id": "sagrada-beginnings-turn",
               "type": "paragraph",
-              "text": "Gaudíは中世聖堂の基本平面を捨てず、構造と象徴の関係を組み替えた。外側の飛梁で壁を支える代わりに、傾斜・分岐する柱で荷重を内側から基礎へ流す。壁が重さを背負わなければ窓を増やせる。三ファサード、塔の高さ、光の方位、典礼の動線を一つの階層へ結んだ。GAU-01総論で見た「自然の形ではなく働きを学ぶ」「構造・光・象徴を分けない」という観察軸が、この作品では巨大な宗教空間へ集中している。",
+              "text": "Gaudíは中世聖堂の基本平面を捨てず、構造と象徴の関係を組み替えた。外側の飛梁で壁を支える代わりに、傾斜・分岐する柱で荷重を内側から基礎へ流す。壁が重さを背負わなければ窓を増やせる。三ファサード、塔の高さ、光の方位、典礼の動線を一つの階層へ結んだ。ガウディ総論総論で見た「自然の形ではなく働きを学ぶ」「構造・光・象徴を分けない」という観察軸が、この作品では巨大な宗教空間へ集中している。",
               "sourceIds": [
                 "source-sagrada-gaudi-architect",
                 "source-sagrada-architecture-booklet",
@@ -11087,7 +12281,7 @@ window.TRIP = {
         },
         {
           "id": "connections-to-five-works",
-          "title": "10. GAU-01の他5作品とのつながり",
+          "title": "10. ガウディ総論の他5作品とのつながり",
           "blocks": [
             {
               "id": "sagrada-return-overview",
@@ -14191,7 +15385,7 @@ window.TRIP = {
         },
         {
           "id": "three-days-one-story",
-          "title": "3. P06-R2の三日を一本にする",
+          "title": "3. 現在の旅程の三日を一本にする",
           "blocks": [
             {
               "id": "madrid-overview-day-order",
@@ -15079,7 +16273,7 @@ window.TRIP = {
               "id": "austrias-dynamic",
               "type": "callout",
               "title": "元日の実用情報",
-              "text": "内部公開、礼拝、特別行事、警備動線は年によって変わる。P06-R2は外観で成立するため、開いていないことを失敗としない。入場を追加せず、当日のPlaceと公式情報だけ確認する。",
+              "text": "内部公開、礼拝、特別行事、警備動線は年によって変わる。現在の旅程は外観で成立するため、開いていないことを失敗としない。入場を追加せず、当日のPlaceと公式情報だけ確認する。",
               "sourceIds": [
                 "source-mad-learn-madrid-history",
                 "source-mad-learn-madrid-austrias"
@@ -15163,7 +16357,7 @@ window.TRIP = {
                 "Plaza Mayor中央で四辺の反復する窓と出入口を一周し、囲まれた公共舞台だと確認する。",
                 "San Isidroでは内部可否より、教会が商店と住居の近くに密着する旧市街の密度を見る。",
                 "王宮前で立ち止まり、旧市街の小さな単位から巨大で規則的なBourbon王宮への切替を見る。",
-                "疲労時はSan Francisco外観をdropRankどおり短縮し、Sol→Plaza Mayor→王宮の三点を守る。"
+                "疲労時はSan Francisco外観を削る順番どおり短縮し、Sol→Plaza Mayor→王宮の三点を守る。"
               ],
               "sourceIds": [
                 "source-mad-learn-madrid-history",
@@ -15349,7 +16543,7 @@ window.TRIP = {
         },
         {
           "id": "toledo-p06-route",
-          "title": "3. P06-R2の順番と疲労",
+          "title": "3. 現在の旅程の順番と疲労",
           "blocks": [
             {
               "id": "toledo-route",
@@ -15364,7 +16558,7 @@ window.TRIP = {
               "id": "toledo-dynamic",
               "type": "callout",
               "title": "変わる情報を混ぜない",
-              "text": "列車、駅からの移動、各施設の年始営業、礼拝、展示、料金、撮影・荷物規則は再確認対象。本文の歴史説明を理由に、P06-R2へ新しい立寄りや延長を追加しない。",
+              "text": "列車、駅からの移動、各施設の年始営業、礼拝、展示、料金、撮影・荷物規則は再確認対象。本文の歴史説明を理由に、現在の旅程へ新しい立寄りや延長を追加しない。",
               "sourceIds": [
                 "source-mad-learn-unesco-toledo",
                 "source-mad-learn-toledo-city"
@@ -16158,7 +17352,7 @@ window.TRIP = {
             {
               "id": "greco-museum-fatigue",
               "type": "paragraph",
-              "text": "午後はすでにCathedralとSanto Toméを見ている。核はApostolateの二〜三点比較とToledo景観の一作。残り時間でSan Bernardino altarpiece、followers、創設者展示、庭へ広げる。15:15の休憩は次の移動を守るbufferなので、網羅のために延長しない。",
+              "text": "午後はすでにCathedralとSanto Toméを見ている。核はApostolateの二〜三点比較とToledo景観の一作。残り時間でSan Bernardino altarpiece、followers、創設者展示、庭へ広げる。15:15の休憩は次の移動を守る余裕時間なので、網羅のために延長しない。",
               "sourceIds": [
                 "source-mad-learn-greco-rooms"
               ]
@@ -16343,7 +17537,7 @@ window.TRIP = {
           "市場・港・広場は生活と交易、音楽堂・病院・住宅は市民社会の異なる役割を表す。",
           "疲れたら名所の細部を削り、「今は旧市街／Eixample／山のどこか」だけ判断すれば全体像は残る。"
         ],
-        "whyItMatters": "P06-R2の五日間を名所の列ではなく、旧市街、計画都市、公共文化、港の食、山の信仰を往復する一本の学習線に変えるための入口です。親子三人が次の場所の意味を共有し、疲労時にも都市理解の核だけを残せます。",
+        "whyItMatters": "現在の旅程の五日間を名所の列ではなく、旧市街、計画都市、公共文化、港の食、山の信仰を往復する一本の学習線に変えるための入口です。親子三人が次の場所の意味を共有し、疲労時にも都市理解の核だけを残せます。",
         "sourceIds": [
           "source-bcn-learn-city-history",
           "source-bcn-learn-city-museum",
@@ -16464,7 +17658,7 @@ window.TRIP = {
             {
               "id": "bcn-overview-order",
               "type": "paragraph",
-              "text": "12月26日はEixampleの住宅、27日はSagradaとSant Pau、28日は丘から旧市街、29日はMontserrat、30日は市場から駅という順で、都市中心の造形から公共文化、周縁の信仰、生活の食へ視野を広げる。個々の入場が崩れても、街区の幅、山と市街の距離、市場と港の関係は残る。これがP06-R2の変更耐性を学習面でも支える。",
+              "text": "12月26日はEixampleの住宅、27日はSagradaとSant Pau、28日は丘から旧市街、29日はMontserrat、30日は市場から駅という順で、都市中心の造形から公共文化、周縁の信仰、生活の食へ視野を広げる。個々の入場が崩れても、街区の幅、山と市街の距離、市場と港の関係は残る。これが現在の旅程の変更耐性を学習面でも支える。",
               "sourceIds": [
                 "source-bcn-learn-city-history",
                 "source-bcn-learn-city-museum",
@@ -16945,7 +18139,7 @@ window.TRIP = {
             {
               "id": "bcn-old-short-route",
               "type": "paragraph",
-              "text": "P06-R2では12月28日のPalauからBorn、El Xampanyetへの流れが比較の核になる。Palauの華やかな内部を出た後、道幅、店舗間口、広場への開き方を見ながらBornへ進む。12月30日はBoqueriaから大聖堂へ向かい、食の市場から宗教・歴史の中心へ用途が変わる。疲労時は直線的な「名所回収」をやめ、安全で明るい短区間に絞り、Plaça del Rei、Bornの一街路、Boqueriaの入口という三点で終える。",
+              "text": "現在の旅程では12月28日のPalauからBorn、El Xampanyetへの流れが比較の核になる。Palauの華やかな内部を出た後、道幅、店舗間口、広場への開き方を見ながらBornへ進む。12月30日はBoqueriaから大聖堂へ向かい、食の市場から宗教・歴史の中心へ用途が変わる。疲労時は直線的な「名所回収」をやめ、安全で明るい短区間に絞り、Plaça del Rei、Bornの一街路、Boqueriaの入口という三点で終える。",
               "sourceIds": [
                 "source-bcn-learn-city-history",
                 "source-bcn-learn-city-museum",
@@ -16957,7 +18151,7 @@ window.TRIP = {
               "id": "bcn-old-dynamic",
               "type": "callout",
               "title": "混雑・防犯・営業は当日判断",
-              "text": "混雑、スリ注意、通行規制、夜間の経路、市場と個店の営業、入場口、撮影規則は変わる。Todayのfallbackと公式情報を確認し、学習のために危険・過密な経路へ固執しない。",
+              "text": "混雑、スリ注意、通行規制、夜間の経路、市場と個店の営業、入場口、撮影規則は変わる。Todayの代替案と公式情報を確認し、学習のために危険・過密な経路へ固執しない。",
               "sourceIds": [
                 "source-bcn-learn-old-city",
                 "source-bcn-learn-boqueria-history"
@@ -17069,7 +18263,7 @@ window.TRIP = {
           "大聖堂、美術館、山の眺望は目的と見る速度が違う。",
           "鉄道、ロープウェイ、風、入場枠は動的情報で、悪天候時は屋内の主役を守る。"
         ],
-        "whyItMatters": "P06-R2の12月29日を交通イベントの列ではなく、都市から山へ移動して信仰・共同体・自然の関係を読む一日に変えます。宗教知識がない親も、礼拝を尊重しながら山・像・美術館の役割を分けて理解できます。",
+        "whyItMatters": "現在の旅程の12月29日を交通イベントの列ではなく、都市から山へ移動して信仰・共同体・自然の関係を読む一日に変えます。宗教知識がない親も、礼拝を尊重しながら山・像・美術館の役割を分けて理解できます。",
         "sourceIds": [
           "source-bcn-learn-montserrat-abbey",
           "source-bcn-learn-montserrat-pastoral",
@@ -17190,7 +18384,7 @@ window.TRIP = {
               "id": "montserrat-dynamic",
               "type": "callout",
               "title": "運行・天候・入場は監視中",
-              "text": "FGC、ロープウェイ、rack railwayの運行、強風、入場枠、礼拝、聖歌隊、美術館展示、料金、撮影規則は変わる。前日と当日朝に公式情報を確認し、P06-R2の悪天候fallbackでは無理な登山や展望を行わない。",
+              "text": "FGC、ロープウェイ、rack railwayの運行、強風、入場枠、礼拝、聖歌隊、美術館展示、料金、撮影規則は変わる。前日と当日朝に公式情報を確認し、現在の旅程の悪天候代替案では無理な登山や展望を行わない。",
               "sourceIds": [
                 "source-bcn-learn-montserrat-transport",
                 "source-bcn-learn-montserrat-abbey"
@@ -17287,12 +18481,12 @@ window.TRIP = {
         }
       ],
       "intro": {
-        "summary": "カタルーニャ料理を知る入口は、すべてを重い郷土料理として注文することではありません。pa amb tomàquetのような日常の土台、escalivadaやesqueixadaの軽い皿、botifarraの肉料理、escudellaの冬の煮込み、Sant Esteveと結びつくcanelons、食後のcrema catalanaを組み合わせると、地中海性、保存、家庭、祝祭の層が見えます。Madridのcocidoや揚げ物中心の軽食と比べる時も、優劣ではなく季節、食事時間、共有の仕方を見ることが大切です。\n\n旅行はChristmas直後なので、escudella、canelons、calçotsには季節の意味があります。ただし「季節料理だから必ず当日ある」とは限りません。Can Culleretesは伝統料理を試す実ScheduleItemの役割を持ちますが、店名と料理名を同一視せず、公式メニューと営業を再確認します。3人なら軽い前菜二つ、重い主役一つ、デザート一つを共有し、全員が一人一皿の重い料理を抱えない設計ができます。\n\n必食は一品ずつの完食ではなく、pa amb tomàquetを基準味として知り、冬料理を一つ、軽い野菜・魚を一つ、crema catalanaを共有できれば十分です。提供がなければ同じ役割へ置き換え、旅程を料理探しだけで崩さないことを優先します。",
+        "summary": "カタルーニャ料理を知る入口は、すべてを重い郷土料理として注文することではありません。pa amb tomàquetのような日常の土台、escalivadaやesqueixadaの軽い皿、botifarraの肉料理、escudellaの冬の煮込み、Sant Esteveと結びつくcanelons、食後のcrema catalanaを組み合わせると、地中海性、保存、家庭、祝祭の層が見えます。Madridのcocidoや揚げ物中心の軽食と比べる時も、優劣ではなく季節、食事時間、共有の仕方を見ることが大切です。\n\n旅行はChristmas直後なので、escudella、canelons、calçotsには季節の意味があります。ただし「季節料理だから必ず当日ある」とは限りません。Can Culleretesは伝統料理を試す実予定の役割を持ちますが、店名と料理名を同一視せず、公式メニューと営業を再確認します。3人なら軽い前菜二つ、重い主役一つ、デザート一つを共有し、全員が一人一皿の重い料理を抱えない設計ができます。\n\n必食は一品ずつの完食ではなく、pa amb tomàquetを基準味として知り、冬料理を一つ、軽い野菜・魚を一つ、crema catalanaを共有できれば十分です。提供がなければ同じ役割へ置き換え、旅程を料理探しだけで崩さないことを優先します。",
         "keyPoints": [
           "日常の土台、軽い野菜・魚、冬の煮込み、祝祭料理、デザートを役割で分ける。",
           "店名は料理ではなく、料理が当日提供されるかは動的情報として再確認する。",
           "3人では軽い皿を複数、重い主役を一つ、デザートを共有し、重さを分散する。",
-          "calçotadaは季節性が高いが時間と量も大きく、P06-R2では無理に追加しない。"
+          "calçotadaは季節性が高いが時間と量も大きく、現在の旅程では無理に追加しない。"
         ],
         "whyItMatters": "12月27日のCan Culleretesを名店訪問ではなく、冬と家庭料理を理解しつつ三人の疲労を守る食事枠として使うための記事です。提供がない時も料理役割を保ち、旅程を店名へ従属させません。",
         "sourceIds": [
@@ -17389,7 +18583,7 @@ window.TRIP = {
             {
               "id": "bcn-winter-madrid-compare",
               "type": "paragraph",
-              "text": "Madridではcocido、bocadillo de calamares、chocolate con churrosなどがP06-R2の別の役割を担う。Barcelonaの冬料理との違いを都市対抗の優劣にせず、長い着席昼食、短い街歩き軽食、季節の家庭料理という時間構造で比べる。Can Culleretesの枠で重い煮込みを食べたら、その日の軽い夕食は省略可能とし、翌日の市場・魚介へ重さを持ち越さない。",
+              "text": "Madridではcocido、bocadillo de calamares、chocolate con churrosなどが現在の旅程の別の役割を担う。Barcelonaの冬料理との違いを都市対抗の優劣にせず、長い着席昼食、短い街歩き軽食、季節の家庭料理という時間構造で比べる。Can Culleretesの枠で重い煮込みを食べたら、その日の軽い夕食は省略可能とし、翌日の市場・魚介へ重さを持ち越さない。",
               "sourceIds": [
                 "source-bcn-learn-catalan-cuisine"
               ]
@@ -17527,7 +18721,7 @@ window.TRIP = {
         }
       ],
       "intro": {
-        "summary": "魚介料理、市場朝食、バルでの短い一杯は、どれも「タパス」ではありません。Can Soléのrice dishesやfideuàは時間を取って三人で鍋・皿を共有する主食事、El Quimは市場の流通と朝の活気の中で食べる朝食・早昼、El Xampanyetは保存魚などを少量取り短時間で街のバル文化に触れる現地判断枠です。役割を分けると、同じ魚介を食べても体験の重複を防げます。\n\n港町Barcelonaでは生鮮魚だけでなく、米、麺、ソフリット、保存魚、塩鱈、飲み物が異なる時間の食事をつくります。Riceは米料理の広い系統、fideuàは短い麺を使う主食、suquet de peixは漁師料理の系譜を持つ煮込みです。アンチョビやconservesは短いバル体験に向きます。Cavaやvermutは飲み物でありDishではなく、飲酒しない人を含む三人旅では軽食と滞在形式を理解する補助にします。\n\n現地ではCan Soléでriceかfideuàの主役を一つ、El Xampanyetでは待ち時間を決めて保存魚と軽い一皿、El Quimでは行列上限を決めて市場朝食を選びます。満席なら店名を守らず、同じ料理役割、同じ時間、同じ移動負荷を守るfallbackへ移ります。",
+        "summary": "魚介料理、市場朝食、バルでの短い一杯は、どれも「タパス」ではありません。Can Soléのrice dishesやfideuàは時間を取って三人で鍋・皿を共有する主食事、El Quimは市場の流通と朝の活気の中で食べる朝食・早昼、El Xampanyetは保存魚などを少量取り短時間で街のバル文化に触れる現地判断枠です。役割を分けると、同じ魚介を食べても体験の重複を防げます。\n\n港町Barcelonaでは生鮮魚だけでなく、米、麺、ソフリット、保存魚、塩鱈、飲み物が異なる時間の食事をつくります。Riceは米料理の広い系統、fideuàは短い麺を使う主食、suquet de peixは漁師料理の系譜を持つ煮込みです。アンチョビやconservesは短いバル体験に向きます。Cavaやvermutは飲み物でありDishではなく、飲酒しない人を含む三人旅では軽食と滞在形式を理解する補助にします。\n\n現地ではCan Soléでriceかfideuàの主役を一つ、El Xampanyetでは待ち時間を決めて保存魚と軽い一皿、El Quimでは行列上限を決めて市場朝食を選びます。満席なら店名を守らず、同じ料理役割、同じ時間、同じ移動負荷を守る代替案へ移ります。",
         "keyPoints": [
           "魚介の主食事、市場朝食、バルの短時間体験は滞在時間と注文単位が違う。",
           "Rice、fideuà、suquet、保存魚を同じタパスとしてまとめない。",
@@ -17618,7 +18812,7 @@ window.TRIP = {
                 },
                 {
                   "title": "El Quim／市場",
-                  "text": "朝食・早昼のexperience。市場の動きと食事を一緒に見るが、行列で列車前bufferを使わない。"
+                  "text": "朝食・早昼のexperience。市場の動きと食事を一緒に見るが、行列で列車前余裕時間を使わない。"
                 }
               ],
               "sourceIds": [
@@ -17653,7 +18847,7 @@ window.TRIP = {
             {
               "id": "bcn-seafood-fallback-text",
               "type": "paragraph",
-              "text": "Can Soléが休業・満席なら、公式確認済みの別店でrice／fideuàという主食役割を守る。El Xampanyetの列が長ければQuimet等の保存魚・短時間役割へ移すか、体力がなければ省略する。El Quimでは待ち時間上限を20分の判断目安とし、列車前bufferを侵食しそうならBar Joan等の市場朝食役割、またはすぐ買える軽食へ切り替える。fallbackは店の格を揃えるのでなく、料理、時間、着席、移動負荷を揃える。",
+              "text": "Can Soléが休業・満席なら、公式確認済みの別店でrice／fideuàという主食役割を守る。El Xampanyetの列が長ければQuimet等の保存魚・短時間役割へ移すか、体力がなければ省略する。El Quimでは待ち時間上限を20分の判断目安とし、列車前余裕時間を侵食しそうならBar Joan等の市場朝食役割、またはすぐ買える軽食へ切り替える。代替案は店の格を揃えるのでなく、料理、時間、着席、移動負荷を揃える。",
               "sourceIds": [
                 "source-bcn-learn-fideuada",
                 "source-bcn-learn-markets",
@@ -17738,7 +18932,7 @@ window.TRIP = {
     {
       "id": "flight",
       "title": "国際線",
-      "status": "confirmed",
+      "status": "確定済み",
       "deadline": null,
       "relatedDayIds": [
         "d1225",
@@ -17761,7 +18955,8 @@ window.TRIP = {
       "cancellationDeadline": null,
       "publicNote": "予約番号等は公開データに保存しない。",
       "purchaseMode": "unknown",
-      "sourceIds": []
+      "sourceIds": [],
+      "lifecycle": "confirmed"
     },
     {
       "id": "sagrada",
@@ -17778,11 +18973,12 @@ window.TRIP = {
       "ticketUrl": null,
       "paymentStatus": "unknown",
       "cancellationDeadline": null,
-      "publicNote": "2026-12-27の塔付き枠は発売待ち。発売後も購入証拠なしにconfirmedへ変更しない。",
+      "publicNote": "2026-12-27の塔付き枠は発売待ち。発売後も購入証拠なしに確定済みへ変更しない。",
       "purchaseMode": "advance",
       "sourceIds": [
         "source-sagradafamilia-org-en-tickets"
-      ]
+      ],
+      "lifecycle": "waiting_release"
     },
     {
       "id": "parkguell",
@@ -17799,11 +18995,12 @@ window.TRIP = {
       "ticketUrl": null,
       "paymentStatus": "unknown",
       "cancellationDeadline": null,
-      "publicNote": "2026-12-28の時間指定枠は発売待ち。悪天候時は既存fallbackを使う。",
+      "publicNote": "2026-12-28の時間指定枠は発売待ち。悪天候時は既存代替案を使う。",
       "purchaseMode": "advance",
       "sourceIds": [
         "source-parkguell-barcelona-en-buy-tickets"
-      ]
+      ],
+      "lifecycle": "waiting_release"
     },
     {
       "id": "mila",
@@ -17824,7 +19021,8 @@ window.TRIP = {
       "purchaseMode": "advance",
       "sourceIds": [
         "source-www-lapedrera-com-en-visits"
-      ]
+      ],
+      "lifecycle": "todo"
     },
     {
       "id": "batllo",
@@ -17845,7 +19043,8 @@ window.TRIP = {
       "purchaseMode": "advance",
       "sourceIds": [
         "source-www-casabatllo-es-en-online-tickets"
-      ]
+      ],
+      "lifecycle": "todo"
     },
     {
       "id": "barcelona-cathedral",
@@ -17862,11 +19061,12 @@ window.TRIP = {
       "ticketUrl": null,
       "paymentStatus": "unknown",
       "cancellationDeadline": null,
-      "publicNote": "P06-R2ではomitted。旅程へ戻さず、代替発動時だけ公式情報を再確認する。",
+      "publicNote": "v2本編へ復元。発売後に公式条件と料金を確認する。",
       "purchaseMode": "advance",
       "sourceIds": [
         "source-catedralbcn-org-en-tourist-visit"
-      ]
+      ],
+      "lifecycle": "todo"
     },
     {
       "id": "montjuic",
@@ -17885,9 +19085,10 @@ window.TRIP = {
       "ticketUrl": null,
       "paymentStatus": "unknown",
       "cancellationDeadline": null,
-      "publicNote": "P06-R2では関連3項目をomitted。購入対象にしない。",
+      "publicNote": "v2本編へ復元。発売後に公式条件と料金を確認する。",
       "purchaseMode": "unknown",
-      "sourceIds": []
+      "sourceIds": [],
+      "lifecycle": "todo"
     },
     {
       "id": "tarragona-train",
@@ -17905,11 +19106,12 @@ window.TRIP = {
       "ticketUrl": null,
       "paymentStatus": "unknown",
       "cancellationDeadline": null,
-      "publicNote": "P06-R2ではTarragona往復をomitted。発売監視・購入を行わない。",
+      "publicNote": "v2本編へ復元。発売後に公式条件と料金を確認する。",
       "purchaseMode": "advance",
       "sourceIds": [
         "source-www-renfe-com-es-en"
-      ]
+      ],
+      "lifecycle": "todo"
     },
     {
       "id": "flamenco",
@@ -17926,9 +19128,10 @@ window.TRIP = {
       "ticketUrl": null,
       "paymentStatus": "unknown",
       "cancellationDeadline": null,
-      "publicNote": "P06-R2ではomitted。会場未選定のため予約しない。",
+      "publicNote": "v2本編へ復元。発売後に公式条件と料金を確認する。",
       "purchaseMode": "unknown",
-      "sourceIds": []
+      "sourceIds": [],
+      "lifecycle": "todo"
     },
     {
       "id": "montserrat-transport",
@@ -17952,7 +19155,8 @@ window.TRIP = {
       "purchaseMode": "advance",
       "sourceIds": [
         "source-www-montserratvisita-com-en-organize-the-visit-how-t"
-      ]
+      ],
+      "lifecycle": "waiting_official"
     },
     {
       "id": "iryo-out",
@@ -17969,9 +19173,10 @@ window.TRIP = {
       "ticketUrl": null,
       "paymentStatus": "unknown",
       "cancellationDeadline": null,
-      "publicNote": "2026-12-30の現行列車時刻はworking time。発売後に同時刻帯と変更条件を確認する。",
+      "publicNote": "2026-12-30の現行列車時刻は仮時刻。発売後に同時刻帯と変更条件を確認する。",
       "purchaseMode": "advance",
-      "sourceIds": []
+      "sourceIds": [],
+      "lifecycle": "todo"
     },
     {
       "id": "prado",
@@ -17992,7 +19197,8 @@ window.TRIP = {
       "purchaseMode": "advance",
       "sourceIds": [
         "source-www-museodelprado-es-en-visit-the-museum"
-      ]
+      ],
+      "lifecycle": "todo"
     },
     {
       "id": "nye-dinner",
@@ -18009,7 +19215,8 @@ window.TRIP = {
       "cancellationDeadline": null,
       "publicNote": "2026-12-31の早い夕食は店舗未確定。年末営業と取消条件の公表待ち。",
       "purchaseMode": "unknown",
-      "sourceIds": []
+      "sourceIds": [],
+      "lifecycle": "waiting_official"
     },
     {
       "id": "toledo-train",
@@ -18027,11 +19234,12 @@ window.TRIP = {
       "ticketUrl": null,
       "paymentStatus": "unknown",
       "cancellationDeadline": null,
-      "publicNote": "2027-01-02の往復は発売待ち。現行便名・時刻はworking time。",
+      "publicNote": "2027-01-02の往復は発売待ち。現行便名・時刻は仮時刻。",
       "purchaseMode": "advance",
       "sourceIds": [
         "source-www-renfe-com-es-en"
-      ]
+      ],
+      "lifecycle": "waiting_release"
     },
     {
       "id": "toledo-cathedral",
@@ -18052,7 +19260,8 @@ window.TRIP = {
       "purchaseMode": "advance",
       "sourceIds": [
         "source-www-catedralprimada-es-en"
-      ]
+      ],
+      "lifecycle": "todo"
     },
     {
       "id": "santotome",
@@ -18073,7 +19282,8 @@ window.TRIP = {
       "purchaseMode": "advance",
       "sourceIds": [
         "source-www-santotome-org"
-      ]
+      ],
+      "lifecycle": "todo"
     },
     {
       "id": "greco",
@@ -18094,7 +19304,8 @@ window.TRIP = {
       "purchaseMode": "advance",
       "sourceIds": [
         "source-www-cultura-gob-es-mgreco-en-visita-html"
-      ]
+      ],
+      "lifecycle": "todo"
     },
     {
       "id": "reinasofia",
@@ -18115,7 +19326,8 @@ window.TRIP = {
       "purchaseMode": "advance",
       "sourceIds": [
         "source-www-museoreinasofia-es-en-visit"
-      ]
+      ],
+      "lifecycle": "todo"
     },
     {
       "id": "palace",
@@ -18132,11 +19344,12 @@ window.TRIP = {
       "ticketUrl": null,
       "paymentStatus": "unknown",
       "cancellationDeadline": null,
-      "publicNote": "P06-R2では内部見学をomitted。旅程へ戻さず公式行事による休館だけ記録する。",
+      "publicNote": "現在の旅程では内部見学を今回は見送り。旅程へ戻さず公式行事による休館だけ記録する。",
       "purchaseMode": "advance",
       "sourceIds": [
         "source-tickets-patrimonionacional-es-en"
-      ]
+      ],
+      "lifecycle": "todo"
     },
     {
       "id": "iryo-back",
@@ -18153,16 +19366,17 @@ window.TRIP = {
       "ticketUrl": null,
       "paymentStatus": "unknown",
       "cancellationDeadline": null,
-      "publicNote": "2027-01-03の現行列車時刻はworking time。発売後に同時刻帯と変更条件を確認する。",
+      "publicNote": "2027-01-03の現行列車時刻は仮時刻。発売後に同時刻帯と変更条件を確認する。",
       "purchaseMode": "advance",
-      "sourceIds": []
+      "sourceIds": [],
+      "lifecycle": "todo"
     }
   ],
   "preparationTasks": [
     {
       "id": "task-sagrada",
       "title": "サグラダ・ファミリアの入場枠を確認",
-      "category": "予約・事前購入",
+      "category": "release",
       "status": "blocked",
       "deadline": "2026-09-27",
       "ownerId": null,
@@ -18182,7 +19396,7 @@ window.TRIP = {
     {
       "id": "task-trains",
       "title": "都市間・日帰り列車を確認",
-      "category": "期限付きタスク",
+      "category": "release",
       "status": "blocked",
       "deadline": "2026-09-28",
       "ownerId": null,
@@ -18205,7 +19419,7 @@ window.TRIP = {
     {
       "id": "task-hotels",
       "title": "未予約ホテル3滞在を比較・選定",
-      "category": "予約・事前購入",
+      "category": "now",
       "status": "not_started",
       "deadline": "2026-08-15",
       "ownerId": null,
@@ -18232,7 +19446,7 @@ window.TRIP = {
     {
       "id": "task-nye",
       "title": "大晦日ディナーを選定",
-      "category": "予約・事前購入",
+      "category": "now",
       "status": "blocked",
       "deadline": "2026-11-26",
       "ownerId": null,
@@ -18252,7 +19466,7 @@ window.TRIP = {
     {
       "id": "task-hours",
       "title": "年末年始の営業情報を直前確認",
-      "category": "出発24時間前",
+      "category": "official",
       "status": "blocked",
       "deadline": "2026-12-15",
       "ownerId": null,
@@ -18273,7 +19487,7 @@ window.TRIP = {
     {
       "id": "task-insurance",
       "title": "旅行保険を確認",
-      "category": "通信・保険・緊急情報",
+      "category": "now",
       "status": "blocked",
       "deadline": null,
       "ownerId": null,
@@ -18290,7 +19504,7 @@ window.TRIP = {
     {
       "id": "task-communication",
       "title": "通信手段を確認",
-      "category": "通信・保険・緊急情報",
+      "category": "now",
       "status": "blocked",
       "deadline": null,
       "ownerId": null,
@@ -18307,7 +19521,7 @@ window.TRIP = {
     {
       "id": "task-emergency",
       "title": "緊急連絡先を確認",
-      "category": "通信・保険・緊急情報",
+      "category": "now",
       "status": "blocked",
       "deadline": null,
       "ownerId": null,
@@ -18323,8 +19537,8 @@ window.TRIP = {
     },
     {
       "id": "task-private-evidence",
-      "title": "確定予約のredacted事実を一括確認",
-      "category": "予約・事前購入",
+      "title": "確定予約の必要事項を抜き出した事実を一括確認",
+      "category": "now",
       "status": "blocked",
       "deadline": "2026-09-25",
       "ownerId": "family",
@@ -18338,7 +19552,7 @@ window.TRIP = {
       "bookingId": "flight",
       "actionUrl": null,
       "completionNote": null,
-      "blockedReason": "私的証拠待ち",
+      "blockedReason": "予約済み内容待ち",
       "informationNeeded": [
         "航空券と購入済み列車／施設／飲食店の必要事実だけ",
         "ホテルは未予約のため証拠対象外。予約番号・QR・旅券・決済情報は不要"
@@ -18347,7 +19561,7 @@ window.TRIP = {
     {
       "id": "task-attraction-release",
       "title": "主要施設の発売・入場枠を期限順に確認",
-      "category": "予約・事前購入",
+      "category": "release",
       "status": "blocked",
       "deadline": "2026-09-27",
       "ownerId": "family",
@@ -18374,7 +19588,7 @@ window.TRIP = {
     {
       "id": "task-restaurant-release",
       "title": "年末年始の店舗営業・予約受付を確認",
-      "category": "予約・事前購入",
+      "category": "official",
       "status": "blocked",
       "deadline": "2026-11-26",
       "ownerId": "family",
@@ -18394,13 +19608,13 @@ window.TRIP = {
       "informationNeeded": [
         "対象日営業",
         "予約可否・no-show",
-        "同料理役割fallback"
+        "同料理役割代替案"
       ]
     },
     {
       "id": "task-sol-operations",
       "title": "2026/27 Puerta del Sol警備・交通を確認",
-      "category": "期限付きタスク",
+      "category": "official",
       "status": "blocked",
       "deadline": "2026-12-15",
       "ownerId": "family",
@@ -18421,7 +19635,7 @@ window.TRIP = {
     {
       "id": "task-execution-packet",
       "title": "当日用リンクを端末で開けるか確認",
-      "category": "出発24時間前",
+      "category": "recheck",
       "status": "not_started",
       "deadline": "2026-12-24",
       "ownerId": "family",
@@ -18448,6 +19662,18 @@ window.TRIP = {
         "公式手続き・地図・交通リンク",
         "オフライン時の代替アクセス"
       ]
+    },
+    {
+      "id": "ux03-etias",
+      "title": "ETIASの導入状況を確認",
+      "status": "blocked",
+      "deadline": "2026-10-01",
+      "blockedReason": "導入時期は調査中（Cowork担当）",
+      "informationNeeded": [
+        "EU公式は2026年第4四半期の運用開始予定と案内。具体日と経過措置を公式発表後に確認。"
+      ],
+      "actionUrl": "https://travel-europe.europa.eu/etias_en",
+      "category": "now"
     }
   ],
   "packingItems": [
@@ -18682,7 +19908,7 @@ window.TRIP = {
         {
           "id": "cremallera",
           "label": "Cremallera",
-          "description": "旧scheduleの比較候補。",
+          "description": "以前の旅程の比較候補。",
           "pros": [],
           "cons": [
             "所要・接続は未登録"
@@ -18743,7 +19969,7 @@ window.TRIP = {
         {
           "id": "segovia",
           "label": "Segovia案",
-          "description": "旧トップの比較候補。詳細未登録。",
+          "description": "旧トップの比較候補。詳細確認待ち。",
           "pros": [],
           "cons": [
             "日程・移動・施設が未登録"
@@ -18836,7 +20062,7 @@ window.TRIP = {
         {
           "id": "dec26-gaudi-five",
           "label": "5作品を全て回る",
-          "description": "現行の5 ScheduleItemを一日で全て回る比較案。採用状態は変更しない。",
+          "description": "現行の5 予定を一日で全て回る比較案。採用状態は変更しない。",
           "pros": [
             "Gaudí作品の用途と年代差を一日で最大限比較できる。"
           ],
@@ -19327,7 +20553,7 @@ window.TRIP = {
         {
           "id": "bcn-market-el-quim",
           "label": "El Quim de la Boqueria",
-          "description": "既存Boqueria ScheduleItemに接続する市場朝食。",
+          "description": "既存Boqueria 予定に接続する市場朝食。",
           "pros": [
             "既存動線を変えず市場の食体験を追加できる。"
           ],
@@ -19619,19 +20845,19 @@ window.TRIP = {
   "railGlossary": [
     {
       "term": "AVE",
-      "definition": "スペイン国鉄Renfeの高速列車。旧scheduleメモを移行。"
+      "definition": "スペイン国鉄Renfeの高速列車。以前の旅程メモを移行。"
     },
     {
       "term": "Avant",
-      "definition": "中距離高速列車。旧scheduleメモを移行。"
+      "definition": "中距離高速列車。以前の旅程メモを移行。"
     },
     {
       "term": "Rodalies / Cercanías",
-      "definition": "近郊列車。旧scheduleメモを移行。"
+      "definition": "近郊列車。以前の旅程メモを移行。"
     },
     {
       "term": "FGC",
-      "definition": "カタルーニャ公営鉄道。旧scheduleメモを移行。"
+      "definition": "カタルーニャ公営鉄道。以前の旅程メモを移行。"
     }
   ],
   "expenses": [],
@@ -19639,10 +20865,8 @@ window.TRIP = {
   "enums": {
     "inclusionStatus": [
       "adopted",
-      "provisional",
-      "on_site_candidate",
-      "omitted",
-      "undecided"
+      "proposal",
+      "legacy_hidden"
     ],
     "planningStatus": [
       "confirmed",
@@ -19767,6 +20991,31 @@ window.TRIP = {
       "published",
       "provisional",
       "unknown"
+    ],
+    "bookingLifecycle": [
+      "confirmed",
+      "waiting_release",
+      "waiting_official",
+      "todo",
+      "not_planned"
+    ],
+    "preparationTaskCategory": [
+      "now",
+      "release",
+      "official",
+      "recheck",
+      "done"
+    ],
+    "importance": [
+      "must",
+      "recommended",
+      "optional",
+      "unrated"
+    ],
+    "keepPriority": [
+      "must",
+      "recommended",
+      "optional"
     ]
   },
   "statusLabels": {
@@ -19920,7 +21169,7 @@ window.TRIP = {
       "nameLocal": null,
       "cityIds": [],
       "category": "meat",
-      "importance": "unknown",
+      "importance": "unrated",
       "inclusionStatus": "undecided",
       "whyTry": null,
       "mealTypes": [],
@@ -19929,7 +21178,8 @@ window.TRIP = {
       "relatedPlaceIds": [],
       "sourceIds": [
         "source-internal-legacy-prep-food"
-      ]
+      ],
+      "importanceProvisional": true
     },
     {
       "id": "dish-tortilla",
@@ -19937,7 +21187,7 @@ window.TRIP = {
       "nameLocal": "Tortilla española",
       "cityIds": [],
       "category": "tapas",
-      "importance": "medium",
+      "importance": "optional",
       "inclusionStatus": "undecided",
       "whyTry": "Madrid最終日の移動前など、煮込みや揚げ物が重い時の軽めの逃げ道。",
       "mealTypes": [
@@ -19955,7 +21205,8 @@ window.TRIP = {
       "sourceIds": [
         "source-internal-legacy-prep-food",
         "source-mad-learn-madrid-food"
-      ]
+      ],
+      "importanceProvisional": true
     },
     {
       "id": "dish-croqueta",
@@ -19963,7 +21214,7 @@ window.TRIP = {
       "nameLocal": null,
       "cityIds": [],
       "category": "tapas",
-      "importance": "unknown",
+      "importance": "unrated",
       "inclusionStatus": "undecided",
       "whyTry": null,
       "mealTypes": [],
@@ -19972,7 +21223,8 @@ window.TRIP = {
       "relatedPlaceIds": [],
       "sourceIds": [
         "source-internal-legacy-prep-food"
-      ]
+      ],
+      "importanceProvisional": true
     },
     {
       "id": "dish-patatas-bravas",
@@ -19980,7 +21232,7 @@ window.TRIP = {
       "nameLocal": null,
       "cityIds": [],
       "category": "tapas",
-      "importance": "unknown",
+      "importance": "unrated",
       "inclusionStatus": "undecided",
       "whyTry": null,
       "mealTypes": [],
@@ -19989,7 +21241,8 @@ window.TRIP = {
       "relatedPlaceIds": [],
       "sourceIds": [
         "source-internal-legacy-prep-food"
-      ]
+      ],
+      "importanceProvisional": true
     },
     {
       "id": "dish-pan-con-tomate",
@@ -19999,7 +21252,7 @@ window.TRIP = {
         "barcelona"
       ],
       "category": "tapas",
-      "importance": "iconic",
+      "importance": "must",
       "inclusionStatus": "undecided",
       "whyTry": "パン、熟したトマト、オリーブ油という基本形からカタルーニャの食卓を理解できる。",
       "mealTypes": [
@@ -20025,7 +21278,8 @@ window.TRIP = {
         "source-barcelona-tourism-catalan-cuisine",
         "source-bar-joan-official-market",
         "source-quimet-quimet-official"
-      ]
+      ],
+      "importanceProvisional": true
     },
     {
       "id": "dish-fideua",
@@ -20035,7 +21289,7 @@ window.TRIP = {
         "barcelona"
       ],
       "category": "seafood",
-      "importance": "iconic",
+      "importance": "must",
       "inclusionStatus": "undecided",
       "whyTry": "米ではなく短い麺で魚介の旨味を味わう料理。広い魚介カテゴリと分けて比較する。",
       "mealTypes": [
@@ -20059,7 +21313,8 @@ window.TRIP = {
         "source-barcelona-tourism-catalan-cuisine",
         "source-7-portes-official",
         "source-can-sole-official"
-      ]
+      ],
+      "importanceProvisional": true
     },
     {
       "id": "dish-seafood",
@@ -20069,7 +21324,7 @@ window.TRIP = {
         "barcelona"
       ],
       "category": "seafood",
-      "importance": "strong",
+      "importance": "recommended",
       "inclusionStatus": "undecided",
       "whyTry": "魚介全般のumbrella。米料理、フィデウア、スケット、エスケシャーダの個別料理を代替しない。",
       "mealTypes": [
@@ -20098,7 +21353,8 @@ window.TRIP = {
         "source-barcelona-tourism-catalan-cuisine",
         "source-7-portes-official",
         "source-can-sole-official"
-      ]
+      ],
+      "importanceProvisional": true
     },
     {
       "id": "dish-crema-catalana",
@@ -20108,7 +21364,7 @@ window.TRIP = {
         "barcelona"
       ],
       "category": "sweet",
-      "importance": "iconic",
+      "importance": "must",
       "inclusionStatus": "undecided",
       "whyTry": "カタルーニャを代表するデザートで、食事の締めとして一度試しやすい。",
       "mealTypes": [
@@ -20133,7 +21389,8 @@ window.TRIP = {
         "source-can-culleretes-official",
         "source-7-portes-official",
         "source-el-quim-official"
-      ]
+      ],
+      "importanceProvisional": true
     },
     {
       "id": "dish-cocido",
@@ -20143,7 +21400,7 @@ window.TRIP = {
         "madrid"
       ],
       "category": "stew",
-      "importance": "high",
+      "importance": "recommended",
       "inclusionStatus": "undecided",
       "whyTry": "Madridの冬を代表する多段階の煮込み。長時間の食事と重さを大晦日の体力に合わせて判断する。",
       "mealTypes": [
@@ -20159,7 +21416,8 @@ window.TRIP = {
       "sourceIds": [
         "source-internal-legacy-prep-food",
         "source-mad-learn-madrid-food"
-      ]
+      ],
+      "importanceProvisional": true
     },
     {
       "id": "dish-bocadillo-calamares",
@@ -20169,7 +21427,7 @@ window.TRIP = {
         "madrid"
       ],
       "category": "seafood",
-      "importance": "high",
+      "importance": "recommended",
       "inclusionStatus": "undecided",
       "whyTry": "Plaza Mayor周辺でMadridらしい軽い昼食役割を担い、元日の街歩きを止めにくい。",
       "mealTypes": [
@@ -20188,7 +21446,8 @@ window.TRIP = {
       "sourceIds": [
         "source-internal-legacy-prep-food",
         "source-mad-learn-madrid-food"
-      ]
+      ],
+      "importanceProvisional": true
     },
     {
       "id": "dish-churros",
@@ -20198,7 +21457,7 @@ window.TRIP = {
         "madrid"
       ],
       "category": "sweet",
-      "importance": "high",
+      "importance": "recommended",
       "inclusionStatus": "undecided",
       "whyTry": "元日のSan Ginésで座る短い休憩を兼ねるMadrid定番。休業・長蛇なら同じ料理役割を代替店で守る。",
       "mealTypes": [
@@ -20217,7 +21476,8 @@ window.TRIP = {
       "sourceIds": [
         "source-internal-legacy-prep-food",
         "source-mad-learn-madrid-food"
-      ]
+      ],
+      "importanceProvisional": true
     },
     {
       "id": "dish-mazapan",
@@ -20227,7 +21487,7 @@ window.TRIP = {
         "toledo"
       ],
       "category": "sweet",
-      "importance": "high",
+      "importance": "recommended",
       "inclusionStatus": "undecided",
       "whyTry": "Toledoと結びつくalmond菓子。観光延長ではなく午後の座る休憩に小量を合わせる。",
       "mealTypes": [
@@ -20243,7 +21503,8 @@ window.TRIP = {
       "sourceIds": [
         "source-internal-legacy-prep-food",
         "source-mad-learn-toledo-food"
-      ]
+      ],
+      "importanceProvisional": true
     },
     {
       "id": "dish-turron",
@@ -20251,7 +21512,7 @@ window.TRIP = {
       "nameLocal": null,
       "cityIds": [],
       "category": "sweet",
-      "importance": "unknown",
+      "importance": "unrated",
       "inclusionStatus": "undecided",
       "whyTry": null,
       "mealTypes": [],
@@ -20260,7 +21521,8 @@ window.TRIP = {
       "relatedPlaceIds": [],
       "sourceIds": [
         "source-internal-legacy-prep-food"
-      ]
+      ],
+      "importanceProvisional": true
     },
     {
       "id": "dish-cava",
@@ -20331,7 +21593,7 @@ window.TRIP = {
       "nameLocal": null,
       "cityIds": [],
       "category": "drink",
-      "importance": "unknown",
+      "importance": "unrated",
       "inclusionStatus": "undecided",
       "whyTry": null,
       "mealTypes": [],
@@ -20340,7 +21602,8 @@ window.TRIP = {
       "relatedPlaceIds": [],
       "sourceIds": [
         "source-internal-legacy-prep-food"
-      ]
+      ],
+      "importanceProvisional": true
     },
     {
       "id": "dish-non-alcoholic",
@@ -20348,7 +21611,7 @@ window.TRIP = {
       "nameLocal": null,
       "cityIds": [],
       "category": "drink",
-      "importance": "unknown",
+      "importance": "unrated",
       "inclusionStatus": "undecided",
       "whyTry": null,
       "mealTypes": [],
@@ -20357,7 +21620,8 @@ window.TRIP = {
       "relatedPlaceIds": [],
       "sourceIds": [
         "source-internal-legacy-prep-food"
-      ]
+      ],
+      "importanceProvisional": true
     },
     {
       "id": "dish-escudella",
@@ -20367,7 +21631,7 @@ window.TRIP = {
         "barcelona"
       ],
       "category": "stew",
-      "importance": "iconic",
+      "importance": "must",
       "inclusionStatus": "undecided",
       "whyTry": "冬とクリスマス期のカタルーニャを理解する肉・野菜・豆の温かい料理。",
       "mealTypes": [
@@ -20387,7 +21651,8 @@ window.TRIP = {
         "source-canal-salut-escudella",
         "source-catalunya-catalan-cuisine-dishes",
         "source-can-culleretes-official"
-      ]
+      ],
+      "importanceProvisional": true
     },
     {
       "id": "dish-canelons",
@@ -20397,7 +21662,7 @@ window.TRIP = {
         "barcelona"
       ],
       "category": "meat",
-      "importance": "iconic",
+      "importance": "must",
       "inclusionStatus": "undecided",
       "whyTry": "Sant Esteveと結びつくクリスマス期の家庭料理で、12月26日の季節理解に直結する。",
       "mealTypes": [
@@ -20418,7 +21683,8 @@ window.TRIP = {
         "source-catalunya-catalan-cuisine-dishes",
         "source-can-culleretes-official",
         "source-7-portes-official"
-      ]
+      ],
+      "importanceProvisional": true
     },
     {
       "id": "dish-calcots",
@@ -20428,7 +21694,7 @@ window.TRIP = {
         "barcelona"
       ],
       "category": "other",
-      "importance": "iconic",
+      "importance": "must",
       "inclusionStatus": "undecided",
       "whyTry": "冬から春のねぎを焼きロメスコ系ソースで食べる。calçotadaは別の食体験として扱う。",
       "mealTypes": [
@@ -20446,7 +21712,8 @@ window.TRIP = {
         "source-generalitat-calcot-season",
         "source-valls-calcotada",
         "source-gastroteca-romesco"
-      ]
+      ],
+      "importanceProvisional": true
     },
     {
       "id": "dish-escalivada",
@@ -20456,7 +21723,7 @@ window.TRIP = {
         "barcelona"
       ],
       "category": "other",
-      "importance": "strong",
+      "importance": "recommended",
       "inclusionStatus": "undecided",
       "whyTry": "焼き野菜とオリーブ油の軽い一皿で、重い肉・魚介料理の間を調整できる。",
       "mealTypes": [
@@ -20480,7 +21747,8 @@ window.TRIP = {
         "source-can-culleretes-official",
         "source-el-quim-official",
         "source-cal-boter-official"
-      ]
+      ],
+      "importanceProvisional": true
     },
     {
       "id": "dish-botifarra-mongetes",
@@ -20490,7 +21758,7 @@ window.TRIP = {
         "barcelona"
       ],
       "category": "meat",
-      "importance": "strong",
+      "importance": "recommended",
       "inclusionStatus": "undecided",
       "whyTry": "カタルーニャの肉と豆の家庭料理を、魚介料理と対比できる。",
       "mealTypes": [
@@ -20513,7 +21781,8 @@ window.TRIP = {
         "source-can-culleretes-official",
         "source-el-quim-official",
         "source-cal-boter-official"
-      ]
+      ],
+      "importanceProvisional": true
     },
     {
       "id": "dish-bomba-barceloneta",
@@ -20523,7 +21792,7 @@ window.TRIP = {
         "barcelona"
       ],
       "category": "tapas",
-      "importance": "strong",
+      "importance": "recommended",
       "inclusionStatus": "undecided",
       "whyTry": "バルセロネータの酒場文化と結びつく、短時間で試せる地域性の高いタパス。",
       "mealTypes": [
@@ -20542,7 +21811,8 @@ window.TRIP = {
       "sourceIds": [
         "source-la-cova-fumada-official",
         "source-repsol-la-cova-fumada"
-      ]
+      ],
+      "importanceProvisional": true
     },
     {
       "id": "dish-suquet-peix",
@@ -20552,7 +21822,7 @@ window.TRIP = {
         "barcelona"
       ],
       "category": "seafood",
-      "importance": "strong",
+      "importance": "recommended",
       "inclusionStatus": "undecided",
       "whyTry": "沿岸の魚介煮込みで、米料理やフィデウアとは異なる温かい魚料理を比較できる。",
       "mealTypes": [
@@ -20569,7 +21839,8 @@ window.TRIP = {
       "sourceIds": [
         "source-catalunya-catalan-cuisine-dishes",
         "source-barcelona-tourism-catalan-cuisine"
-      ]
+      ],
+      "importanceProvisional": true
     },
     {
       "id": "dish-esqueixada-bacalla",
@@ -20579,7 +21850,7 @@ window.TRIP = {
         "barcelona"
       ],
       "category": "seafood",
-      "importance": "strong",
+      "importance": "recommended",
       "inclusionStatus": "undecided",
       "whyTry": "塩鱈と野菜の軽い冷菜で、重い魚介料理だけに偏らず選べる。",
       "mealTypes": [
@@ -20599,7 +21870,8 @@ window.TRIP = {
         "source-catalunya-catalan-cuisine-dishes",
         "source-barcelona-tourism-catalan-cuisine",
         "source-la-vanguardia-fonda-balmes"
-      ]
+      ],
+      "importanceProvisional": true
     },
     {
       "id": "dish-coca",
@@ -20660,7 +21932,7 @@ window.TRIP = {
         "madrid"
       ],
       "category": "stew",
-      "importance": "medium",
+      "importance": "optional",
       "inclusionStatus": "on_site_candidate",
       "whyTry": "Madridを代表する内臓煮込み。家族の内臓料理への好みと、重い食事が続かないことを優先する。",
       "mealTypes": [
@@ -20675,7 +21947,8 @@ window.TRIP = {
       "relatedPlaceIds": [],
       "sourceIds": [
         "source-mad-learn-madrid-food"
-      ]
+      ],
+      "importanceProvisional": true
     },
     {
       "id": "dish-carcamusas",
@@ -20685,7 +21958,7 @@ window.TRIP = {
         "toledo"
       ],
       "category": "stew",
-      "importance": "high",
+      "importance": "recommended",
       "inclusionStatus": "on_site_candidate",
       "whyTry": "Toledo固有性の高い豚肉と野菜の煮込み。1月2日の昼食で、重さと午後の坂道を見て量を調整する。",
       "mealTypes": [
@@ -20700,7 +21973,8 @@ window.TRIP = {
       "relatedPlaceIds": [],
       "sourceIds": [
         "source-mad-learn-toledo-food"
-      ]
+      ],
+      "importanceProvisional": true
     }
   ],
   "mealOptions": [
@@ -20719,7 +21993,7 @@ window.TRIP = {
       "distancePreference": "unknown",
       "fallbackRank": null,
       "notes": [
-        "店舗候補は未登録。"
+        "店舗候補は確認待ち。"
       ],
       "sourceIds": []
     },
@@ -20738,7 +22012,7 @@ window.TRIP = {
       "distancePreference": "unknown",
       "fallbackRank": null,
       "notes": [
-        "店舗候補は未登録。"
+        "店舗候補は確認待ち。"
       ],
       "sourceIds": []
     },
@@ -20757,7 +22031,7 @@ window.TRIP = {
       "distancePreference": "unknown",
       "fallbackRank": null,
       "notes": [
-        "旧scheduleの8:00〜24:00を保持。店舗営業は直前確認。"
+        "以前の旅程の8:00〜24:00を保持。店舗営業は直前確認。"
       ],
       "sourceIds": []
     },
@@ -20776,7 +22050,7 @@ window.TRIP = {
       "distancePreference": "unknown",
       "fallbackRank": null,
       "notes": [
-        "旧scheduleの10:00〜24:00を保持。店舗候補は未登録。"
+        "以前の旅程の10:00〜24:00を保持。店舗候補は確認待ち。"
       ],
       "sourceIds": []
     },
@@ -20797,11 +22071,12 @@ window.TRIP = {
       "distancePreference": "nearby",
       "fallbackRank": null,
       "notes": [
-        "旧prepの「疲れた日の保険」を移行。店舗候補は未登録。"
+        "旧prepの「疲れた日の保険」を移行。店舗候補は確認待ち。"
       ],
       "sourceIds": [
         "source-internal-legacy-prep-food"
-      ]
+      ],
+      "scope": "on_site_candidate"
     },
     {
       "id": "meal-bcn-market-breakfast-el-quim",
@@ -20922,7 +22197,8 @@ window.TRIP = {
       "sourceIds": [
         "source-quimet-quimet-official",
         "source-repsol-quimet-quimet"
-      ]
+      ],
+      "scope": "on_site_candidate"
     },
     {
       "id": "meal-bcn-traditional-culleretes",
@@ -22525,16 +23801,1675 @@ window.TRIP = {
     "greco": "greco",
     "santacruz": "santacruz"
   },
+  "uxRebuild03": {
+    "source": "スケジュールデータ_v2.md",
+    "sourceFileId": "",
+    "sourceModifiedAt": "2026-07-26T07:39:53.676Z",
+    "supplementFileId": "1uUDCk3CdjIHATHy-Ysza1yZdKLf0H7sr",
+    "status": "USER_REVIEW_REQUIRED",
+    "mainItemIdsByDay": {
+      "d1225": [
+        "d1225-nrt-depart",
+        "d1225-pvg-arrive"
+      ],
+      "d1226": [
+        "d1226-pvg-bcn",
+        "d1226-airport-city",
+        "d1226-parkguell",
+        "d1226-mila",
+        "d1226-batllo",
+        "d1226-guell-palace",
+        "d1226-placa-rei",
+        "d1226-placa-reial",
+        "d1226-casa-vicens",
+        "d1226-sant-pau",
+        "d1226-fira-sagrada"
+      ],
+      "d1227": [
+        "d1227-sagrada",
+        "d1227-columbus",
+        "d1227-cable-miramar-castell",
+        "d1227-montjuic-castle",
+        "d1227-cable-castell-park",
+        "d1227-el-corte",
+        "d1227-fira-santa-llucia"
+      ],
+      "d1228": [
+        "d1228-ave-out",
+        "d1228-bus-n240",
+        "d1228-bus-aqueduct",
+        "d1228-aqueduct",
+        "d1228-bus-city",
+        "d1228-amphitheatre",
+        "d1228-cathedral",
+        "d1228-pinchos",
+        "d1228-return",
+        "d1228-flamenco"
+      ],
+      "d1229": [
+        "d1229-fgc-out",
+        "d1229-aeri-up",
+        "d1229-basilica",
+        "d1229-moreneta",
+        "d1229-museum",
+        "d1229-aeri-down",
+        "d1229-fgc-return"
+      ],
+      "d1230": [
+        "d1230-boqueria",
+        "d1230-checkout",
+        "d1230-cathedral",
+        "d1230-train-madrid"
+      ],
+      "d1231": [
+        "d1231-prado",
+        "d1231-san-jeronimo",
+        "d1231-cibeles",
+        "d1231-alcala",
+        "d1231-retiro",
+        "d1231-san-silvestre",
+        "d1231-countdown",
+        "d1231-early-dinner"
+      ],
+      "d0101": [
+        "d0101-sol",
+        "d0101-san-gines",
+        "d0101-plaza-mayor",
+        "d0101-san-isidro",
+        "d0101-palace-exterior",
+        "d0101-san-francisco",
+        "d0101-lunch"
+      ],
+      "d0102": [
+        "d0102-train-out",
+        "d0102-cathedral",
+        "d0102-greco",
+        "d0102-santotome",
+        "d0102-santacruz",
+        "d0102-train-return"
+      ],
+      "d0103": [
+        "d0103-reinasofia",
+        "d0103-serrano",
+        "d0103-san-miguel-market",
+        "d0103-train-barcelona",
+        "d0103-final-hotel"
+      ],
+      "d0104": [
+        "d0104-airport-taxi",
+        "d0104-bcn-depart",
+        "d0104-pvg-arrive"
+      ],
+      "d0105": [
+        "d0105-pvg-depart",
+        "d0105-nrt-arrive"
+      ]
+    },
+    "proposalsByDay": {
+      "d1226": [
+        {
+          "title": "到着日はCasa Milà＋Casa Batllóに限定",
+          "reason": "入国遅延と疲労に強くするCLI案。Park Güellは12/28へ移す。採否は家族判断。"
+        },
+        {
+          "title": "Can Culleretesを日曜昼へ",
+          "reason": "伝統料理を日程へ組み込むCLI案。営業・予約条件を確認して家族が判断。"
+        }
+      ],
+      "d1227": [
+        {
+          "title": "Sagrada Famíliaの時間を発売枠に合わせて変更",
+          "reason": "塔付き枠の発売後に再配置するCLI案。本編は10:00–12:30。"
+        }
+      ],
+      "d1228": [
+        {
+          "title": "Park Güell＋カタルーニャ音楽堂＋Bornへ変更",
+          "reason": "連続日帰りの疲労を下げるCLI案。本編はTarragona日帰り。"
+        },
+        {
+          "title": "El Xampanyetを19:00候補にする",
+          "reason": "Bornの食文化を組み込むCLI案。Tarragona本編へは未採用。"
+        },
+        {
+          "title": "TarragonaとMontserratを12/29⇄12/28で入替",
+          "reason": "円形闘技場の月曜休館を避けるv3案。本編はv2どおり12/28 Tarragona。"
+        }
+      ],
+      "d1229": [
+        {
+          "title": "Montserratを12/28、Tarragonaを12/29へ入替",
+          "reason": "Tarragonaの月曜休館を避けるv3案。家族合意前なので本編は変更しない。"
+        },
+        {
+          "title": "Can Soléを夕食候補にする",
+          "reason": "CLIが選定した魚介・米料理案。本編v2には店名がないため家族判断の〔提案〕として表示。"
+        }
+      ],
+      "d1231": [
+        {
+          "title": "Pradoを12/31朝へ前倒し",
+          "reason": "12/31の10:00–14:00短縮営業に合わせるv3案。本編の時間矛盾は要調整のまま。"
+        }
+      ],
+      "d0103": [
+        {
+          "title": "Madrid王宮を1/3へ移設",
+          "reason": "1/1休館を避けるv3案。Reina Sofíaとiryoの時間配分を家族が判断する。"
+        }
+      ],
+      "d0104": [
+        {
+          "title": "元計画のAerobus 08:17–08:55",
+          "reason": "Drive v2由来の旧案。03で07:40空港着へ前倒し採用済みのため、比較用の〔提案〕として残す。"
+        }
+      ],
+      "d1230": [
+        {
+          "title": "カタルーニャ音楽堂・Bornを追加",
+          "reason": "移動日前のBarcelona時間を使うCLI案。列車と荷物動線を優先して家族が判断。"
+        }
+      ]
+    }
+  },
+  "uxRebuild04": {
+    "source": "CLI修正指示_ux-rebuild-04.md",
+    "sourceFileId": "",
+    "auditFileId": "",
+    "scenarioKeys": [
+      "delay30",
+      "delay60",
+      "fatigue",
+      "rain",
+      "majorDelay",
+      "restaurantUnavailable"
+    ],
+    "profiles": {
+      "d1225": {
+        "fixed": [
+          "d1225-nrt-depart",
+          "d1225-pvg-arrive"
+        ],
+        "anchor": [],
+        "optional": [],
+        "outdoor": [],
+        "walking": [],
+        "meals": [],
+        "closure": [
+          "d1225-nrt-depart"
+        ]
+      },
+      "d1226": {
+        "fixed": [
+          "d1226-pvg-bcn",
+          "d1226-airport-city"
+        ],
+        "anchor": [
+          "d1226-mila",
+          "d1226-batllo"
+        ],
+        "optional": [
+          "d1226-guell-palace",
+          "d1226-placa-rei",
+          "d1226-placa-reial",
+          "d1226-casa-vicens",
+          "d1226-sant-pau",
+          "d1226-fira-sagrada",
+          "d1226-parkguell"
+        ],
+        "outdoor": [
+          "d1226-placa-rei",
+          "d1226-placa-reial",
+          "d1226-fira-sagrada",
+          "d1226-parkguell"
+        ],
+        "walking": [
+          "d1226-guell-palace",
+          "d1226-placa-rei",
+          "d1226-placa-reial",
+          "d1226-casa-vicens",
+          "d1226-sant-pau",
+          "d1226-fira-sagrada",
+          "d1226-parkguell"
+        ],
+        "meals": [],
+        "closure": [
+          "d1226-mila",
+          "d1226-batllo",
+          "d1226-guell-palace",
+          "d1226-casa-vicens",
+          "d1226-sant-pau"
+        ]
+      },
+      "d1227": {
+        "fixed": [],
+        "anchor": [
+          "d1227-sagrada"
+        ],
+        "optional": [
+          "d1227-columbus",
+          "d1227-cable-miramar-castell",
+          "d1227-montjuic-castle",
+          "d1227-cable-castell-park",
+          "d1227-el-corte",
+          "d1227-fira-santa-llucia"
+        ],
+        "outdoor": [
+          "d1227-columbus",
+          "d1227-cable-miramar-castell",
+          "d1227-montjuic-castle",
+          "d1227-cable-castell-park",
+          "d1227-fira-santa-llucia"
+        ],
+        "walking": [
+          "d1227-columbus",
+          "d1227-montjuic-castle",
+          "d1227-fira-santa-llucia"
+        ],
+        "meals": [],
+        "closure": [
+          "d1227-sagrada",
+          "d1227-cable-miramar-castell",
+          "d1227-montjuic-castle",
+          "d1227-cable-castell-park"
+        ]
+      },
+      "d1228": {
+        "fixed": [
+          "d1228-ave-out",
+          "d1228-bus-n240",
+          "d1228-bus-aqueduct",
+          "d1228-bus-city",
+          "d1228-return"
+        ],
+        "anchor": [
+          "d1228-amphitheatre",
+          "d1228-cathedral"
+        ],
+        "optional": [
+          "d1228-aqueduct",
+          "d1228-pinchos",
+          "d1228-flamenco"
+        ],
+        "outdoor": [
+          "d1228-aqueduct",
+          "d1228-amphitheatre"
+        ],
+        "walking": [
+          "d1228-aqueduct",
+          "d1228-amphitheatre",
+          "d1228-cathedral"
+        ],
+        "meals": [
+          "d1228-pinchos"
+        ],
+        "closure": [
+          "d1228-amphitheatre"
+        ]
+      },
+      "d1229": {
+        "fixed": [
+          "d1229-fgc-out",
+          "d1229-aeri-up",
+          "d1229-aeri-down",
+          "d1229-fgc-return"
+        ],
+        "anchor": [
+          "d1229-basilica",
+          "d1229-moreneta"
+        ],
+        "optional": [
+          "d1229-museum"
+        ],
+        "outdoor": [
+          "d1229-aeri-up",
+          "d1229-aeri-down"
+        ],
+        "walking": [
+          "d1229-moreneta",
+          "d1229-museum"
+        ],
+        "meals": [],
+        "closure": [
+          "d1229-aeri-up",
+          "d1229-basilica",
+          "d1229-moreneta",
+          "d1229-museum"
+        ]
+      },
+      "d1230": {
+        "fixed": [
+          "d1230-checkout",
+          "d1230-train-madrid"
+        ],
+        "anchor": [],
+        "optional": [
+          "d1230-boqueria",
+          "d1230-cathedral"
+        ],
+        "outdoor": [],
+        "walking": [
+          "d1230-boqueria",
+          "d1230-cathedral"
+        ],
+        "meals": [],
+        "closure": [
+          "d1230-boqueria",
+          "d1230-cathedral"
+        ]
+      },
+      "d1231": {
+        "fixed": [],
+        "anchor": [
+          "d1231-prado",
+          "d1231-early-dinner",
+          "d1231-countdown"
+        ],
+        "optional": [
+          "d1231-cibeles",
+          "d1231-san-jeronimo",
+          "d1231-alcala",
+          "d1231-retiro",
+          "d1231-san-silvestre"
+        ],
+        "outdoor": [
+          "d1231-cibeles",
+          "d1231-alcala",
+          "d1231-retiro",
+          "d1231-san-silvestre",
+          "d1231-countdown"
+        ],
+        "walking": [
+          "d1231-cibeles",
+          "d1231-san-jeronimo",
+          "d1231-alcala",
+          "d1231-retiro",
+          "d1231-san-silvestre"
+        ],
+        "meals": [
+          "d1231-early-dinner"
+        ],
+        "closure": [
+          "d1231-prado",
+          "d1231-san-jeronimo"
+        ]
+      },
+      "d0101": {
+        "fixed": [],
+        "anchor": [
+          "d0101-plaza-mayor",
+          "d0101-lunch"
+        ],
+        "optional": [
+          "d0101-sol",
+          "d0101-san-gines",
+          "d0101-san-isidro",
+          "d0101-palace-exterior",
+          "d0101-san-francisco"
+        ],
+        "outdoor": [
+          "d0101-sol",
+          "d0101-plaza-mayor",
+          "d0101-palace-exterior",
+          "d0101-san-francisco"
+        ],
+        "walking": [
+          "d0101-sol",
+          "d0101-plaza-mayor",
+          "d0101-san-isidro",
+          "d0101-palace-exterior",
+          "d0101-san-francisco"
+        ],
+        "meals": [
+          "d0101-san-gines",
+          "d0101-lunch"
+        ],
+        "closure": [
+          "d0101-palace-exterior",
+          "d0101-san-francisco"
+        ]
+      },
+      "d0102": {
+        "fixed": [
+          "d0102-train-out",
+          "d0102-train-return"
+        ],
+        "anchor": [
+          "d0102-cathedral"
+        ],
+        "optional": [
+          "d0102-santotome",
+          "d0102-greco",
+          "d0102-santacruz"
+        ],
+        "outdoor": [],
+        "walking": [
+          "d0102-santotome",
+          "d0102-greco",
+          "d0102-santacruz"
+        ],
+        "meals": [],
+        "closure": [
+          "d0102-cathedral",
+          "d0102-santotome",
+          "d0102-greco",
+          "d0102-santacruz"
+        ]
+      },
+      "d0103": {
+        "fixed": [
+          "d0103-train-barcelona",
+          "d0103-final-hotel"
+        ],
+        "anchor": [
+          "d0103-reinasofia"
+        ],
+        "optional": [
+          "d0103-serrano",
+          "d0103-san-miguel-market"
+        ],
+        "outdoor": [
+          "d0103-serrano"
+        ],
+        "walking": [
+          "d0103-serrano"
+        ],
+        "meals": [
+          "d0103-san-miguel-market"
+        ],
+        "closure": [
+          "d0103-reinasofia"
+        ]
+      },
+      "d0104": {
+        "fixed": [
+          "d0104-airport-taxi",
+          "d0104-bcn-depart",
+          "d0104-pvg-arrive"
+        ],
+        "anchor": [],
+        "optional": [],
+        "outdoor": [],
+        "walking": [],
+        "meals": [],
+        "closure": [
+          "d0104-bcn-depart"
+        ]
+      },
+      "d0105": {
+        "fixed": [
+          "d0105-pvg-depart",
+          "d0105-nrt-arrive"
+        ],
+        "anchor": [],
+        "optional": [],
+        "outdoor": [],
+        "walking": [],
+        "meals": [],
+        "closure": [
+          "d0105-pvg-depart"
+        ]
+      }
+    }
+  },
+  "transportLegs": [
+    {
+      "id": "leg-01",
+      "dayId": "d1225",
+      "icon": "✈",
+      "service": "国際線（便名は予約原本で確認）",
+      "route": "NRT T1 → PVG T2",
+      "time": "19:30–22:15",
+      "price": "確定・金額は原本確認",
+      "baggage": "受託/機内持込規定は予約原本で確認"
+    },
+    {
+      "id": "leg-02",
+      "dayId": "d1226",
+      "icon": "✈",
+      "service": "国際線（便名は予約原本で確認）",
+      "route": "PVG T2 → BCN T1",
+      "time": "00:45–07:25",
+      "price": "国際線料金に含む",
+      "baggage": "通し預け可否を原本確認"
+    },
+    {
+      "id": "leg-03",
+      "dayId": "d1226",
+      "icon": "🚌",
+      "service": "Aerobus（第一候補）",
+      "route": "BCN T1 → Catalunya",
+      "time": "08:39–09:00",
+      "price": "€7.45×3・現行価格要確認",
+      "baggage": "大型荷物3個を想定"
+    },
+    {
+      "id": "leg-03b",
+      "dayId": "d1226",
+      "icon": "🚕",
+      "service": "空港タクシー（補欠）",
+      "route": "BCN T1 → Barcelona市内",
+      "time": "Aerobus不採用時",
+      "price": "約€40・要確認",
+      "baggage": "大型荷物3個を予約時申告"
+    },
+    {
+      "id": "leg-04",
+      "dayId": "d1227",
+      "icon": "🚇",
+      "service": "TMB（路線要調整）",
+      "route": "ホテル → Sagrada Família",
+      "time": "09:15–09:45目安",
+      "price": "要調整",
+      "baggage": "日帰り手荷物"
+    },
+    {
+      "id": "leg-05",
+      "dayId": "d1228",
+      "icon": "🚄",
+      "service": "AVE",
+      "route": "Barcelona Sants → Camp de Tarragona",
+      "time": "08:30–09:03",
+      "price": "要調整",
+      "baggage": "Renfe規定を購入時確認"
+    },
+    {
+      "id": "leg-06",
+      "dayId": "d1228",
+      "icon": "🚌",
+      "service": "BUSPLANA",
+      "route": "Camp de Tarragona → N-240 → Pont del Diable",
+      "time": "09:10–09:55",
+      "price": "要調整",
+      "baggage": "日帰り手荷物"
+    },
+    {
+      "id": "leg-06b",
+      "dayId": "d1228",
+      "icon": "🚶",
+      "service": "徒歩",
+      "route": "N-240 → Pont del Diable",
+      "time": "09:52–09:55",
+      "price": "無料",
+      "baggage": "日帰り手荷物"
+    },
+    {
+      "id": "leg-06c",
+      "dayId": "d1228",
+      "icon": "🚌",
+      "service": "Tarragona市バス",
+      "route": "Equador → Colom, 14",
+      "time": "時刻要調整",
+      "price": "要調整",
+      "baggage": "日帰り手荷物"
+    },
+    {
+      "id": "leg-07",
+      "dayId": "d1228",
+      "icon": "🚄",
+      "service": "復路 第1候補",
+      "route": "Tarragona → Barcelona Sants",
+      "time": "15:30–17:00",
+      "price": "要調整",
+      "baggage": "Renfe規定を購入時確認"
+    },
+    {
+      "id": "leg-08",
+      "dayId": "d1228",
+      "icon": "🚄",
+      "service": "復路 第2候補",
+      "route": "Tarragona → Barcelona Sants",
+      "time": "17:26–18:37",
+      "price": "要調整",
+      "baggage": "Renfe規定を購入時確認"
+    },
+    {
+      "id": "leg-09",
+      "dayId": "d1228",
+      "icon": "🚄",
+      "service": "復路 第3候補",
+      "route": "Tarragona → Barcelona Sants",
+      "time": "19:05–20:25",
+      "price": "要調整",
+      "baggage": "Renfe規定を購入時確認"
+    },
+    {
+      "id": "leg-10",
+      "dayId": "d1229",
+      "icon": "🚄",
+      "service": "FGC R5",
+      "route": "Espanya → Aeri de Montserrat",
+      "time": "08:36–09:36",
+      "price": "€25 Combinationに含む",
+      "baggage": "日帰り手荷物"
+    },
+    {
+      "id": "leg-10a",
+      "dayId": "d1229",
+      "icon": "🚡",
+      "service": "Aeri",
+      "route": "Inferior → Superior",
+      "time": "09:45–09:50",
+      "price": "Combinationに含む",
+      "baggage": "日帰り手荷物"
+    },
+    {
+      "id": "leg-10b",
+      "dayId": "d1229",
+      "icon": "🚡",
+      "service": "Aeri",
+      "route": "Superior → Inferior",
+      "time": "15:30–15:35",
+      "price": "Combinationに含む",
+      "baggage": "日帰り手荷物"
+    },
+    {
+      "id": "leg-10c",
+      "dayId": "d1229",
+      "icon": "🚄",
+      "service": "FGC R5",
+      "route": "Aeri de Montserrat → Espanya",
+      "time": "15:45–16:45",
+      "price": "Combinationに含む",
+      "baggage": "日帰り手荷物"
+    },
+    {
+      "id": "leg-11",
+      "dayId": "d1230",
+      "icon": "🚄",
+      "service": "iryo 06150",
+      "route": "Barcelona Sants → Madrid-Atocha",
+      "time": "14:50–17:52",
+      "price": "¥11,286×3",
+      "baggage": "80×55×35cm"
+    },
+    {
+      "id": "leg-12",
+      "dayId": "d1231",
+      "icon": "🚇",
+      "service": "Metro / 徒歩（路線要調整）",
+      "route": "ホテル → Prado → Puerta del Sol",
+      "time": "09:15–20:00目安",
+      "price": "要調整",
+      "baggage": "日帰り手荷物"
+    },
+    {
+      "id": "leg-13",
+      "dayId": "d0101",
+      "icon": "🚶",
+      "service": "徒歩＋Metro（運行要調整）",
+      "route": "Sol・Plaza Mayor周辺",
+      "time": "10:00–16:00",
+      "price": "要調整",
+      "baggage": "日帰り手荷物"
+    },
+    {
+      "id": "leg-14",
+      "dayId": "d0102",
+      "icon": "🚄",
+      "service": "Avant 08292",
+      "route": "Madrid Atocha → Toledo",
+      "time": "09:15–09:49",
+      "price": "€13.9×3",
+      "baggage": "Renfe規定を購入時確認"
+    },
+    {
+      "id": "leg-15",
+      "dayId": "d0102",
+      "icon": "🚄",
+      "service": "Avant 08173",
+      "route": "Toledo → Madrid Atocha",
+      "time": "17:23–17:57",
+      "price": "€13.9×3",
+      "baggage": "Renfe規定を購入時確認"
+    },
+    {
+      "id": "leg-16",
+      "dayId": "d0103",
+      "icon": "🚄",
+      "service": "iryo（便名は発売後に確定）",
+      "route": "Madrid Atocha → Barcelona Sants",
+      "time": "17:22–20:42（暫定）",
+      "price": "¥15,448×3（Drive v2暫定値）",
+      "baggage": "80×55×35cm"
+    },
+    {
+      "id": "leg-16b",
+      "dayId": "d0103",
+      "icon": "🚆",
+      "service": "R2N（元計画・乗車不能）",
+      "route": "Barcelona Sants → 市内",
+      "time": "19:09–19:26",
+      "price": "約€4",
+      "baggage": "20:42着との矛盾・要調整"
+    },
+    {
+      "id": "leg-17",
+      "dayId": "d0104",
+      "icon": "🚕",
+      "service": "予約タクシー",
+      "route": "Barcelonaホテル → BCN T1",
+      "time": "06:55–07:35（07:40着）",
+      "price": "要調整",
+      "baggage": "大型荷物3個を予約時申告"
+    },
+    {
+      "id": "leg-17b",
+      "dayId": "d0104",
+      "icon": "🚌",
+      "service": "Aerobus（元計画・不採用）",
+      "route": "Pl. Catalunya → BCN T1",
+      "time": "08:17–08:55",
+      "price": "€7.45・現行価格要確認",
+      "baggage": "10:40発には遅いため07:40着へ前倒し済み"
+    },
+    {
+      "id": "leg-18",
+      "dayId": "d0104",
+      "icon": "✈",
+      "service": "国際線（便名は予約原本で確認）",
+      "route": "BCN T1 → PVG T2",
+      "time": "10:40–翌05:55",
+      "price": "確定・金額は原本確認",
+      "baggage": "受託/機内持込規定は予約原本で確認"
+    },
+    {
+      "id": "leg-19",
+      "dayId": "d0105",
+      "icon": "✈",
+      "service": "国際線（便名は予約原本で確認）",
+      "route": "PVG T2 → NRT T1",
+      "time": "14:25–18:10",
+      "price": "国際線料金に含む",
+      "baggage": "通し預け可否を原本確認"
+    }
+  ],
+  "adjustments": [
+    {
+      "id": "adj-01",
+      "dayId": "d1226",
+      "itemId": "d1226-parkguell",
+      "title": "12/26 到着日のガウディ4館",
+      "reason": "機内泊直後の09:30–13:00に有料4館は過積載。第一候補2件＋補欠2件を家族が決める。",
+      "status": "open"
+    },
+    {
+      "id": "adj-02",
+      "dayId": "d0103",
+      "itemId": "d0103-final-hotel",
+      "title": "12/26以降の全泊ホテル",
+      "reason": "Barcelona前半、Madrid、Barcelona最終泊のホテル名・ベッド・取消条件を記入する。",
+      "status": "open"
+    },
+    {
+      "id": "adj-03",
+      "dayId": "d1227",
+      "itemId": "d1227-cable-miramar-castell",
+      "title": "12/27 ロープウェイ2路線の動線",
+      "reason": "Telefèric del PortとCastell→Parc de Montjuïcの順序・接続を確認する。",
+      "status": "open"
+    },
+    {
+      "id": "adj-04",
+      "dayId": "d1228",
+      "itemId": "d1228-return",
+      "title": "12/28 Tarragona復路と月曜休館",
+      "reason": "復路3候補が未決。円形闘技場は月曜休館のため曜日入替を家族で検討する。",
+      "status": "open"
+    },
+    {
+      "id": "adj-05",
+      "dayId": "d1228",
+      "itemId": "d1228-flamenco",
+      "title": "12/28 フラメンコ",
+      "reason": "開演時間・会場が未定で、Tarragona復路との接続も未確定。",
+      "status": "open"
+    },
+    {
+      "id": "adj-06",
+      "dayId": "d1231",
+      "itemId": "d1231-prado",
+      "title": "12/31 Pradoの時間矛盾",
+      "reason": "本編10:00–15:00に対し公式営業は10:00–14:00。前倒し・短縮が必要。",
+      "status": "open"
+    },
+    {
+      "id": "adj-07",
+      "dayId": "d1231",
+      "itemId": "d1231-san-jeronimo",
+      "title": "12/31 San Jerónimoの閉館時間",
+      "reason": "20:00–24:00枠は閉館時間帯。9:00–13:00または17:00–19:45内へ調整する。",
+      "status": "open"
+    },
+    {
+      "id": "adj-08",
+      "dayId": "d1231",
+      "itemId": "d1231-san-silvestre",
+      "title": "12/31 San Silvestre交通規制",
+      "reason": "16:00–21:00の中心部交通規制がPrado、ディナー、Solへの移動へ与える影響を確認する。",
+      "status": "open"
+    },
+    {
+      "id": "adj-09",
+      "dayId": "d1231",
+      "itemId": "d1231-countdown",
+      "title": "12/31 Sol年越し",
+      "reason": "21:00閉鎖→22:00再入場、上限15,000人、Metro Sol駅18:00閉鎖を踏まえ帰路まで決める。",
+      "status": "open"
+    },
+    {
+      "id": "adj-10",
+      "dayId": "d1231",
+      "itemId": "d1231-countdown",
+      "title": "12/31 大晦日ディナー",
+      "reason": "休業が多い日のため、予約店・時間・Sol入場列への移動を確定する。",
+      "status": "open"
+    },
+    {
+      "id": "adj-11",
+      "dayId": "d0101",
+      "itemId": "d0101-palace-exterior",
+      "title": "1/1 王宮休館と食事",
+      "reason": "王宮は1/1休館。別日へ移し、元日営業の食事場所も確保する。",
+      "status": "open"
+    },
+    {
+      "id": "adj-12",
+      "dayId": "d0101",
+      "itemId": "d0101-sol",
+      "title": "1/1 外観中心の観光",
+      "reason": "Prado・Reina Sofíaも休館。元日の開館施設を確認し外観中心の本編を再評価する。",
+      "status": "open"
+    },
+    {
+      "id": "adj-13",
+      "dayId": "d0102",
+      "itemId": "d0102-train-out",
+      "title": "1/2 Toledoの手配分岐",
+      "reason": "個人手配とSegovia＋Toledo 8時間ツアー（¥40,416/3名）のどちらにするか家族が決める。",
+      "status": "open"
+    },
+    {
+      "id": "adj-14",
+      "dayId": "d0103",
+      "itemId": "d0103-reinasofia",
+      "title": "1/3 Reina Sofía・R2N・最終泊",
+      "reason": "日曜10:00–14:30の午前必須、20:42着より前のR2N時刻矛盾、最終泊エリアをまとめて調整する。",
+      "status": "open"
+    },
+    {
+      "id": "adj-15",
+      "dayId": "d0104",
+      "itemId": "d0104-airport-taxi",
+      "title": "1/4 空港到着",
+      "reason": "元計画08:55着は10:40発の1時間45分前。07:40着へ前倒し済みで、タクシーを確定する。",
+      "status": "open"
+    },
+    {
+      "id": "adj-16",
+      "dayId": "d1225",
+      "itemId": "d1225-nrt-depart",
+      "title": "全フライトとクリスマスマーケット",
+      "reason": "国際線は予約済み確定だが便名・総額を記入する。市場2件は例年12/23終了のため本編表示も確認する。",
+      "status": "open"
+    }
+  ],
+  "budgetEstimates": [
+    {
+      "id": "intl-flight",
+      "category": "交通",
+      "title": "国際線3区間",
+      "status": "確定済み",
+      "currency": "JPY",
+      "amount": null,
+      "quantity": 1,
+      "note": "予約確定。金額はGoogleドライブ原本リンクから転記待ち。"
+    },
+    {
+      "id": "sagrada",
+      "category": "観光",
+      "title": "Sagrada Família（塔付き）",
+      "status": "estimate",
+      "currency": "JPY",
+      "amount": 16414,
+      "quantity": 3,
+      "note": "¥16,414×3"
+    },
+    {
+      "id": "iryo-out",
+      "category": "交通",
+      "title": "iryo 06150 Barcelona→Madrid",
+      "status": "estimate",
+      "currency": "JPY",
+      "amount": 11286,
+      "quantity": 3,
+      "note": "14:50–17:52"
+    },
+    {
+      "id": "iryo-back",
+      "category": "交通",
+      "title": "iryo（便名は発売後に確定）Madrid→Barcelona",
+      "status": "estimate",
+      "currency": "JPY",
+      "amount": 15448,
+      "quantity": 3,
+      "note": "17:22–20:42・¥15,448×3はいずれもDrive v2暫定値。発売後に公式情報で置換。"
+    },
+    {
+      "id": "avant",
+      "category": "交通",
+      "title": "Avant Toledo往復",
+      "status": "estimate",
+      "currency": "EUR",
+      "amount": 13.9,
+      "quantity": 6,
+      "note": "€13.9×2区間×3名"
+    },
+    {
+      "id": "aerobus",
+      "category": "交通",
+      "title": "Aerobus（市内移動候補）",
+      "status": "estimate",
+      "currency": "EUR",
+      "amount": 7.45,
+      "quantity": 3,
+      "note": "旧見込み。採用時のみ"
+    },
+    {
+      "id": "montserrat",
+      "category": "交通",
+      "title": "Montserrat Combination Ticket",
+      "status": "estimate",
+      "currency": "EUR",
+      "amount": 25,
+      "quantity": 3,
+      "note": "旧見込み"
+    },
+    {
+      "id": "parkguell",
+      "category": "観光",
+      "title": "Park Güell",
+      "status": "estimate",
+      "currency": "EUR",
+      "amount": 18,
+      "quantity": 3,
+      "note": "一般旧見込み"
+    },
+    {
+      "id": "mila",
+      "category": "観光",
+      "title": "Casa Milà",
+      "status": "estimate",
+      "currency": "EUR",
+      "amount": 29,
+      "quantity": 3,
+      "note": "Drive v2見込み"
+    },
+    {
+      "id": "batllo",
+      "category": "観光",
+      "title": "Casa Batlló",
+      "status": "estimate",
+      "currency": "EUR",
+      "amount": 33,
+      "quantity": 3,
+      "note": "Drive v2見込み"
+    },
+    {
+      "id": "guell-palace",
+      "category": "観光",
+      "title": "Palau Güell",
+      "status": "estimate",
+      "currency": "EUR",
+      "amount": 12,
+      "quantity": 3,
+      "note": "旧見込み"
+    },
+    {
+      "id": "vicens",
+      "category": "観光",
+      "title": "Casa Vicens",
+      "status": "estimate",
+      "currency": "EUR",
+      "amount": 23,
+      "quantity": 3,
+      "note": "旧見込み"
+    },
+    {
+      "id": "montjuic",
+      "category": "観光",
+      "title": "Montjuïc城",
+      "status": "estimate",
+      "currency": "EUR",
+      "amount": 12,
+      "quantity": 3,
+      "note": "旧見込み"
+    },
+    {
+      "id": "columbus",
+      "category": "観光",
+      "title": "Columbus記念塔",
+      "status": "estimate",
+      "currency": "EUR",
+      "amount": 10,
+      "quantity": 3,
+      "note": "Drive v2見込み"
+    },
+    {
+      "id": "teleferic",
+      "category": "交通",
+      "title": "Telefèric del Port",
+      "status": "estimate",
+      "currency": "EUR",
+      "amount": 17.1,
+      "quantity": 3,
+      "note": "Drive v2見込み"
+    },
+    {
+      "id": "barcelona-cathedral",
+      "category": "観光",
+      "title": "Santa Eulàlia大聖堂",
+      "status": "estimate",
+      "currency": "EUR",
+      "amount": 14,
+      "quantity": 3,
+      "note": "Drive v2見込み"
+    },
+    {
+      "id": "prado",
+      "category": "観光",
+      "title": "Prado美術館",
+      "status": "estimate",
+      "currency": "EUR",
+      "amount": 15,
+      "quantity": 3,
+      "note": "Drive v2見込み"
+    },
+    {
+      "id": "palace",
+      "category": "観光",
+      "title": "Madrid王宮",
+      "status": "estimate",
+      "currency": "EUR",
+      "amount": 14,
+      "quantity": 3,
+      "note": "Drive v2見込み・1/1休館"
+    },
+    {
+      "id": "reinasofia",
+      "category": "観光",
+      "title": "Reina Sofía",
+      "status": "estimate",
+      "currency": "EUR",
+      "amount": 12,
+      "quantity": 3,
+      "note": "旧見込み"
+    },
+    {
+      "id": "hotels",
+      "category": "宿泊",
+      "title": "ホテル9泊",
+      "status": "un確定済み",
+      "currency": "EUR",
+      "amount": null,
+      "quantity": 1,
+      "note": "未確定の大物。候補比較中のため合計外。"
+    }
+  ],
+  "coverageMetrics": {
+    "source": "derived",
+    "hardcodedRemoved": true
+  },
+  "recheckQueue": [
+    {
+      "id": "recheck-place-sagrada",
+      "type": "place_visit_info",
+      "placeId": "sagrada",
+      "importance": "must",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-parkguell",
+      "type": "place_visit_info",
+      "placeId": "parkguell",
+      "importance": "recommended",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-batllo",
+      "type": "place_visit_info",
+      "placeId": "batllo",
+      "importance": "recommended",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-mila",
+      "type": "place_visit_info",
+      "placeId": "mila",
+      "importance": "must",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-cathedral",
+      "type": "place_visit_info",
+      "placeId": "cathedral",
+      "importance": "recommended",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-montjuic",
+      "type": "place_visit_info",
+      "placeId": "montjuic",
+      "importance": "recommended",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-boqueria",
+      "type": "place_visit_info",
+      "placeId": "boqueria",
+      "importance": "recommended",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-montserrat",
+      "type": "place_visit_info",
+      "placeId": "montserrat",
+      "importance": "recommended",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-tarragona",
+      "type": "place_visit_info",
+      "placeId": "tarragona",
+      "importance": "recommended",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-prado",
+      "type": "place_visit_info",
+      "placeId": "prado",
+      "importance": "must",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-palacio",
+      "type": "place_visit_info",
+      "placeId": "palacio",
+      "importance": "recommended",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-reinasofia",
+      "type": "place_visit_info",
+      "placeId": "reinasofia",
+      "importance": "recommended",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-nye",
+      "type": "place_visit_info",
+      "placeId": "nye",
+      "importance": "unrated",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-toledo-cathedral",
+      "type": "place_visit_info",
+      "placeId": "toledo-cathedral",
+      "importance": "recommended",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-santotome",
+      "type": "place_visit_info",
+      "placeId": "santotome",
+      "importance": "recommended",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-greco",
+      "type": "place_visit_info",
+      "placeId": "greco",
+      "importance": "recommended",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-santacruz",
+      "type": "place_visit_info",
+      "placeId": "santacruz",
+      "importance": "recommended",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-barcelona-airport",
+      "type": "place_visit_info",
+      "placeId": "barcelona-airport",
+      "importance": "unrated",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-hotel-barcelona",
+      "type": "place_visit_info",
+      "placeId": "hotel-barcelona",
+      "importance": "unrated",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-guell-palace",
+      "type": "place_visit_info",
+      "placeId": "guell-palace",
+      "importance": "recommended",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-placa-rei",
+      "type": "place_visit_info",
+      "placeId": "placa-rei",
+      "importance": "unrated",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-placa-reial",
+      "type": "place_visit_info",
+      "placeId": "placa-reial",
+      "importance": "unrated",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-casa-vicens",
+      "type": "place_visit_info",
+      "placeId": "casa-vicens",
+      "importance": "recommended",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-sant-pau",
+      "type": "place_visit_info",
+      "placeId": "sant-pau",
+      "importance": "recommended",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-fira-sagrada",
+      "type": "place_visit_info",
+      "placeId": "fira-sagrada",
+      "importance": "unrated",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-columbus",
+      "type": "place_visit_info",
+      "placeId": "columbus",
+      "importance": "unrated",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-teleferic-port",
+      "type": "place_visit_info",
+      "placeId": "teleferic-port",
+      "importance": "unrated",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-el-corte",
+      "type": "place_visit_info",
+      "placeId": "el-corte",
+      "importance": "unrated",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-fira-santa-llucia",
+      "type": "place_visit_info",
+      "placeId": "fira-santa-llucia",
+      "importance": "unrated",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-ferreres",
+      "type": "place_visit_info",
+      "placeId": "ferreres",
+      "importance": "recommended",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-tarragona-cathedral",
+      "type": "place_visit_info",
+      "placeId": "tarragona-cathedral",
+      "importance": "recommended",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-pinchos-street",
+      "type": "place_visit_info",
+      "placeId": "pinchos-street",
+      "importance": "unrated",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-montserrat-basilica",
+      "type": "place_visit_info",
+      "placeId": "montserrat-basilica",
+      "importance": "unrated",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-black-madonna",
+      "type": "place_visit_info",
+      "placeId": "black-madonna",
+      "importance": "unrated",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-montserrat-museum",
+      "type": "place_visit_info",
+      "placeId": "montserrat-museum",
+      "importance": "unrated",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-san-jeronimo",
+      "type": "place_visit_info",
+      "placeId": "san-jeronimo",
+      "importance": "unrated",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-cibeles",
+      "type": "place_visit_info",
+      "placeId": "cibeles",
+      "importance": "unrated",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-alcala-gate",
+      "type": "place_visit_info",
+      "placeId": "alcala-gate",
+      "importance": "unrated",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-retiro",
+      "type": "place_visit_info",
+      "placeId": "retiro",
+      "importance": "unrated",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-san-silvestre",
+      "type": "place_visit_info",
+      "placeId": "san-silvestre",
+      "importance": "unrated",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-san-gines",
+      "type": "place_visit_info",
+      "placeId": "san-gines",
+      "importance": "unrated",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-plaza-mayor",
+      "type": "place_visit_info",
+      "placeId": "plaza-mayor",
+      "importance": "unrated",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-san-isidro",
+      "type": "place_visit_info",
+      "placeId": "san-isidro",
+      "importance": "unrated",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-san-francisco",
+      "type": "place_visit_info",
+      "placeId": "san-francisco",
+      "importance": "unrated",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-serrano",
+      "type": "place_visit_info",
+      "placeId": "serrano",
+      "importance": "unrated",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-cava-san-miguel",
+      "type": "place_visit_info",
+      "placeId": "cava-san-miguel",
+      "importance": "unrated",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-san-miguel-market",
+      "type": "place_visit_info",
+      "placeId": "san-miguel-market",
+      "importance": "unrated",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-hotel-barcelona-final",
+      "type": "place_visit_info",
+      "placeId": "hotel-barcelona-final",
+      "importance": "unrated",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-palau-musica",
+      "type": "place_visit_info",
+      "placeId": "palau-musica",
+      "importance": "recommended",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-picasso-museum",
+      "type": "place_visit_info",
+      "placeId": "picasso-museum",
+      "importance": "recommended",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-mnac",
+      "type": "place_visit_info",
+      "placeId": "mnac",
+      "importance": "recommended",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-santa-caterina-market",
+      "type": "place_visit_info",
+      "placeId": "santa-caterina-market",
+      "importance": "recommended",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "recheck-place-ciutadella-arc-triomf",
+      "type": "place_visit_info",
+      "placeId": "ciutadella-arc-triomf",
+      "importance": "recommended",
+      "status": "unverified",
+      "reason": "営業時間・休館日・祝日営業の根拠が未確認"
+    },
+    {
+      "id": "decision-adj-01",
+      "type": "adjustment",
+      "dayId": "d1226",
+      "scheduleItemId": "d1226-parkguell",
+      "reason": "機内泊直後の09:30–13:00に有料4館は過積載。第一候補2件＋補欠2件を家族が決める。"
+    },
+    {
+      "id": "decision-adj-02",
+      "type": "adjustment",
+      "dayId": "d0103",
+      "scheduleItemId": "d0103-final-hotel",
+      "reason": "Barcelona前半、Madrid、Barcelona最終泊のホテル名・ベッド・取消条件を記入する。"
+    },
+    {
+      "id": "decision-adj-03",
+      "type": "adjustment",
+      "dayId": "d1227",
+      "scheduleItemId": "d1227-cable-miramar-castell",
+      "reason": "Telefèric del PortとCastell→Parc de Montjuïcの順序・接続を確認する。"
+    },
+    {
+      "id": "decision-adj-04",
+      "type": "adjustment",
+      "dayId": "d1228",
+      "scheduleItemId": "d1228-return",
+      "reason": "復路3候補が未決。円形闘技場は月曜休館のため曜日入替を家族で検討する。"
+    },
+    {
+      "id": "decision-adj-05",
+      "type": "adjustment",
+      "dayId": "d1228",
+      "scheduleItemId": "d1228-flamenco",
+      "reason": "開演時間・会場が未定で、Tarragona復路との接続も未確定。"
+    },
+    {
+      "id": "decision-adj-06",
+      "type": "adjustment",
+      "dayId": "d1231",
+      "scheduleItemId": "d1231-prado",
+      "reason": "本編10:00–15:00に対し公式営業は10:00–14:00。前倒し・短縮が必要。"
+    },
+    {
+      "id": "decision-adj-07",
+      "type": "adjustment",
+      "dayId": "d1231",
+      "scheduleItemId": "d1231-san-jeronimo",
+      "reason": "20:00–24:00枠は閉館時間帯。9:00–13:00または17:00–19:45内へ調整する。"
+    },
+    {
+      "id": "decision-adj-08",
+      "type": "adjustment",
+      "dayId": "d1231",
+      "scheduleItemId": "d1231-san-silvestre",
+      "reason": "16:00–21:00の中心部交通規制がPrado、ディナー、Solへの移動へ与える影響を確認する。"
+    },
+    {
+      "id": "decision-adj-09",
+      "type": "adjustment",
+      "dayId": "d1231",
+      "scheduleItemId": "d1231-countdown",
+      "reason": "21:00閉鎖→22:00再入場、上限15,000人、Metro Sol駅18:00閉鎖を踏まえ帰路まで決める。"
+    },
+    {
+      "id": "decision-adj-10",
+      "type": "adjustment",
+      "dayId": "d1231",
+      "scheduleItemId": "d1231-countdown",
+      "reason": "休業が多い日のため、予約店・時間・Sol入場列への移動を確定する。"
+    },
+    {
+      "id": "decision-adj-11",
+      "type": "adjustment",
+      "dayId": "d0101",
+      "scheduleItemId": "d0101-palace-exterior",
+      "reason": "王宮は1/1休館。別日へ移し、元日営業の食事場所も確保する。"
+    },
+    {
+      "id": "decision-adj-12",
+      "type": "adjustment",
+      "dayId": "d0101",
+      "scheduleItemId": "d0101-sol",
+      "reason": "Prado・Reina Sofíaも休館。元日の開館施設を確認し外観中心の本編を再評価する。"
+    },
+    {
+      "id": "decision-adj-13",
+      "type": "adjustment",
+      "dayId": "d0102",
+      "scheduleItemId": "d0102-train-out",
+      "reason": "個人手配とSegovia＋Toledo 8時間ツアー（¥40,416/3名）のどちらにするか家族が決める。"
+    },
+    {
+      "id": "decision-adj-14",
+      "type": "adjustment",
+      "dayId": "d0103",
+      "scheduleItemId": "d0103-reinasofia",
+      "reason": "日曜10:00–14:30の午前必須、20:42着より前のR2N時刻矛盾、最終泊エリアをまとめて調整する。"
+    },
+    {
+      "id": "decision-adj-15",
+      "type": "adjustment",
+      "dayId": "d0104",
+      "scheduleItemId": "d0104-airport-taxi",
+      "reason": "元計画08:55着は10:40発の1時間45分前。07:40着へ前倒し済みで、タクシーを確定する。"
+    },
+    {
+      "id": "decision-adj-16",
+      "type": "adjustment",
+      "dayId": "d1225",
+      "scheduleItemId": "d1225-nrt-depart",
+      "reason": "国際線は予約済み確定だが便名・総額を記入する。市場2件は例年12/23終了のため本編表示も確認する。"
+    }
+  ],
   "runtimeContract": {
     "canonicalFile": "assets/phase1-canonical.js",
-    "contractFile": "assets/phase1-contract.js",
+    "schemaVersion": "1.4.0",
+    "runtimePatchFilesRemoved": true,
     "scheduleStatusFields": [
       "inclusionStatus",
       "planningStatus",
       "timeConstraint",
-      "bookingRequirement"
+      "bookingRequirement",
+      "keepPriority",
+      "locked"
     ],
-    "timingField": "timing",
-    "legacyRuntimeUse": false
+    "timingField": "timing"
   }
 };

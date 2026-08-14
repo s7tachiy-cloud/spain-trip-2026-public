@@ -3,49 +3,61 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="旅行概要、次にやること、12日間の入口">
+  <meta name="theme-color" content="#173f36">
+  <link rel="icon" href="data:,">
+  <meta name="description" content="Spain Trip 2026–27 travel companion">
   <meta name="robots" content="noindex,nofollow,noarchive,nosnippet,noimageindex">
-  <meta name="theme-color" content="#15342f">
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" href="assets/app-icon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="assets/app-icon-180.png">
-  <link rel="stylesheet" href="assets/style.css">
-  <link rel="stylesheet" href="assets/ux-rebuild-01.css">
-  <link rel="stylesheet" href="assets/ux-rebuild-03.css">
-  <title>ホーム｜Spain Trip 2026–27</title>
+  <title>Spain Trip 2026–27</title>
+  <link rel="stylesheet" href="assets/ux-v1.css">
 </head>
-<body data-view="home">
-  <a class="skip-link" href="#content">本文へ移動</a>
-  <header class="ux-site-header">
-    <div class="ux-header-inner">
-      <a class="ux-brand" href="index.html"><strong>Spain Trip</strong><span>2026–27・大人3名</span></a>
-      <nav class="ux-desktop-nav" aria-label="主要ナビゲーション"><a href="index.html" data-nav="home" aria-current="page">ホーム</a><a href="schedule.html" data-nav="schedule">日程</a><a href="prep.html" data-nav="prep">予約・準備</a><a href="today.html" data-nav="today">旅行中</a><a href="explore.html" data-nav="explore">学ぶ・食べる</a><a href="records.html" data-nav="records">記録・精算</a></nav>
+<body>
+  <a class="skip-link" href="#app-main">本文へ移動</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <button class="brand" type="button" data-tab-target="home" aria-label="ホームへ">
+        <span class="brand-mark">S</span>
+        <span><strong>Spain Trip</strong><small>2026–27 · 大人3名</small></span>
+      </button>
+      <nav class="desktop-nav" aria-label="主要ナビゲーション" data-primary-nav></nav>
+      <div class="global-actions">
+        <div class="dual-clock" data-local-clock aria-label="日本とスペインの現在時刻">
+          <div class="clock-zone" data-clock-card="japan"><span>日本</span><small data-clock-date="Asia/Tokyo">--/--</small><strong data-clock-time="Asia/Tokyo">--:--</strong></div>
+          <div class="clock-zone" data-clock-card="spain"><span>スペイン</span><small data-clock-date="Europe/Madrid">--/--</small><strong data-clock-time="Europe/Madrid">--:--</strong></div>
+        </div>
+        <button class="icon-action" type="button" data-open="search"><span aria-hidden="true">⌕</span><span class="action-label">検索</span></button>
+        <button class="icon-action sos" type="button" data-open="sos"><span aria-hidden="true">＋</span><span class="action-label">SOS</span></button>
+      </div>
     </div>
   </header>
-  <main id="content" class="ux-main" data-ux-root>
-    <section class="ux-js-fallback">
-      <p class="ux-eyebrow">ホーム</p>
-      <h1>ホーム</h1>
-      <p>旅行概要と次の準備はJavaScriptなしでも上部ナビから確認できます。</p>
+
+  <main id="app-main" class="app-main" tabindex="-1">
+    <section class="day-context" aria-label="確認する日">
+      <div class="day-context-copy">
+        <span class="eyebrow">ALL 12 DAYS</span>
+        <strong>日を選ぶ</strong>
+      </div>
+      <div class="day-switcher" role="tablist" aria-label="旅行日" data-day-switcher></div>
     </section>
+
+    <div id="screen" class="screen" aria-live="polite"></div>
   </main>
-  <footer class="ux-footer"><strong>Spain Trip 2026–27</strong><span>時刻・料金・運行は予約時と旅行直前に公式情報を確認します。</span></footer>
-  <nav class="ux-mobile-nav" aria-label="モバイル主要ナビゲーション">
-    <a href="index.html" data-nav="home" aria-current="page"><span aria-hidden="true">⌂</span>ホーム</a><a href="schedule.html" data-nav="schedule"><span aria-hidden="true">▤</span>日程</a><a href="today.html" data-nav="today"><span aria-hidden="true">◉</span>今日</a><a href="prep.html" data-nav="prep"><span aria-hidden="true">✓</span>準備</a>
-    <button type="button" data-more-toggle aria-expanded="false"><span aria-hidden="true">•••</span>その他</button>
-  </nav>
-  <div class="ux-more-menu" data-more-menu hidden>
-    <a href="explore.html">学ぶ・食べる</a>
-    <a href="records.html">記録・精算</a>
-  </div>
+
+  <nav class="mobile-nav" aria-label="主要ナビゲーション" data-mobile-nav></nav>
+
+  <div class="scrim" data-scrim hidden></div>
+  <section class="sheet" data-sheet aria-modal="true" role="dialog" aria-labelledby="sheet-title" hidden>
+    <div class="sheet-handle" aria-hidden="true"></div>
+    <header class="sheet-header">
+      <div><span class="eyebrow" data-sheet-eyebrow>DETAIL</span><h2 id="sheet-title" data-sheet-title>詳細</h2></div>
+      <button class="close-button" type="button" data-close-sheet aria-label="閉じる">×</button>
+    </header>
+    <div class="sheet-body" data-sheet-body></div>
+  </section>
+
+  <div class="toast" data-toast role="status" hidden></div>
   <script src="assets/phase1-canonical.js"></script>
-  <script src="assets/hotel-candidates-3p-01.js"></script>
-  <script src="assets/ux-rebuild-03-data.js"></script>
-  <script src="assets/ux-rebuild-03-bridge.js"></script>
-  <script src="assets/ux-rebuild-04-data.js"></script>
-  <script src="assets/itinerary-refresh-01.js"></script>
-  <script src="assets/ux-rebuild-01.js"></script>
-  <script src="assets/ux-rebuild-03.js"></script>
-  <script src="assets/bootstrap.js"></script>
+  <script src="assets/ux-v1-final-plan.js"></script>
+  <script src="assets/ux-v1-full-data.js"></script>
+  <script src="assets/ux-v1.js"></script>
 </body>
 </html>
