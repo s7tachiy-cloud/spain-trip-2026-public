@@ -332,7 +332,7 @@ function renderPlanBody(day) {
   }
   if (state.planSection === "hotels") {
     const stays = window.UXFullData?.hotelStays || [];
-    return `<div class="stack"><article class="card card-body info-card"><span class="eyebrow">TOMORROW'S DECISION</span><h3>明日の相談までは、3件とも仮候補・未予約</h3><p>旅程と全体予算はこの3件を仮基準に計算しています。予約操作は行わず、明日の判断で候補・料金・経路をまとめて差し替えます。</p></article>${stays.map((stay, i) => `<article class="card card-body"><span class="eyebrow">STAY ${i + 1} · ${esc(stay.dates)}</span><h3>${esc(stay.stay)}｜${esc(stay.recommendation)}</h3><div class="status-row">${pill(stay.status, "wait")}${pill(`${stay.nights}泊・3名`, "info")}</div><p>${esc(stay.reason)}</p><dl class="fact-list"><div><dt>仮総額</dt><dd>${dualMoney(stay.totalEur)}（1人 ${dualMoney(stay.perPersonEur)}）</dd></div><div><dt>部屋</dt><dd>${esc(stay.room)}</dd></div><div><dt>注意</dt><dd>${esc(stay.caution)}</dd></div></dl>${action("詳細と比較", { open: `hotel-${stay.id}`, primary: true })}</article>`).join("")}</div>`;
+    return `<div class="stack"><article class="card card-body info-card"><span class="eyebrow">TOMORROW'S DECISION</span><h3>明日の相談までは、3件とも仮候補・未予約</h3><p>旅程と全体予算はこの3件を仮基準に計算しています。予約操作は行わず、明日の判断で候補・料金・経路をまとめて差し替えます。</p></article>${stays.map((stay, i) => `<article class="card card-body"><span class="eyebrow">STAY ${i + 1} · ${esc(stay.dates)}</span><h3>${esc(stay.stay)}｜${esc(stay.recommendation)}</h3><div class="status-row">${pill(stay.status, "wait")}${pill(`${stay.nights}泊・3名`, "info")}</div><p>${esc(stay.reason)}</p><dl class="fact-list"><div><dt>仮総額</dt><dd>${dualMoney(stay.totalEur)}（1人 ${dualMoney(stay.perPersonEur)}）</dd></div><div><dt>部屋</dt><dd>${esc(stay.room)}</dd></div><div><dt>注意</dt><dd>${esc(stay.caution)}</dd></div></dl>${action("詳細と比較", { open: `hotel-candidate-${stay.id}`, primary: true })}</article>`).join("")}</div>`;
   }
   if (state.planSection === "documents") return `<div class="grid two">${["パスポート・入国", "航空券・予約内容", "保険・緊急連絡", "通信・支払手段"].map((x, i) => `<article class="card card-body"><h3>${x}</h3><div class="status-row">${pill(i < 2 ? "入力待ち" : "旅行前に再確認", i < 2 ? "warn" : "wait")}</div><p class="muted">3人分の準備状況、保存場所、通信なしで見られるか、確認期限を表示します。</p></article>`).join("")}</div>`;
   if (state.planSection === "packing") {
@@ -436,9 +436,88 @@ function distanceKm(lat1, lon1, lat2, lon2) {
   return 6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
-const { cities: guideCities, areas: guideAreas } = window.UXFullData?.buildGuide(representativeGuideCities, representativeGuideAreas) || { cities: representativeGuideCities, areas: representativeGuideAreas };
+let { cities: guideCities, areas: guideAreas } = window.UXFullData?.buildGuide(representativeGuideCities, representativeGuideAreas, state.scenario) || { cities: representativeGuideCities, areas: representativeGuideAreas };
+function refreshScenarioGuide() {
+  ({ cities: guideCities, areas: guideAreas } = window.UXFullData?.buildGuide(representativeGuideCities, representativeGuideAreas, state.scenario) || { cities: representativeGuideCities, areas: representativeGuideAreas });
+}
 
 const operationalGuide = {
+  "Tarragona円形闘技場": {
+    image: "assets/tarragona-hero-v2.png", imageAlt: "地中海に面したTarragonaのローマ遺跡を描いたイメージ", imageKind: "AI生成イメージ",
+    learn: ["古代Tarracoの円形闘技場は、海に向かって開く地形を生かした見世物の舞台。", "遺構と地中海を同じ視界に入れると、港湾都市としてのTarracoが伝わる。", "Balco del Mediterraniから海岸線と遺跡の位置関係を見直す。"],
+    onsite: ["観客席・競技面・海が重なる角度を探す", "火曜は内部を優先し、日曜は14:30閉館から逆算", "退出後にBalco del Mediterraniから全体の地形を見る"],
+    facts: [["冬季 火–金", "09:00–18:30"], ["冬季 日・祝", "09:30–14:30"], ["最終入場", "閉館30分前"]], operationStatus: "利用日の開館を当日確認", checkedAt: "2026-08-14", sourceUrl: "https://www.tarragona.cat/patrimoni/museu-historia/monuments/lamfiteatre", sourceLabel: "Tarragona市公式"
+  },
+  "Praetorium・Roman CircusとPart Alta": {
+    image: "assets/tarragona-hero-v2.png", imageAlt: "現代のTarragona旧市街に残るローマ都市を描いたイメージ", imageKind: "AI生成イメージ",
+    learn: ["circusは戦車競走の巨大施設で、現在の建物や路地の下にも構造が残る。", "PraetoriumからPart Altaへ歩くと、古代の公共空間が現代都市の骨格になったことが分かる。"], onsite: ["地下通路と地上の街路の向きを比べる", "石積みが現代の建物へ取り込まれる箇所を見る", "火曜は内部、日曜は14:30までに退出"], facts: [["冬季 火–金", "09:00–20:00"], ["冬季 日・祝", "09:30–14:30"], ["月曜", "休館"]], operationStatus: "日曜短縮では内部を午前に限定", checkedAt: "2026-08-14", sourceUrl: "https://www.tarragona.cat/patrimoni/museu-historia/visites/arqueorutes/places/pretorium-circus", sourceLabel: "Tarragona市公式"
+  },
+  "考古学の遊歩道・城壁": {
+    image: "assets/tarragona-hero-v2.png", imageAlt: "Tarragonaの城壁と地中海の光を描いたイメージ", imageKind: "AI生成イメージ",
+    learn: ["城壁はTarracoの範囲と防御を示す、町の輪郭を読む場所。", "異なる時代の石積みを比べると、都市が修復と転用を重ねたことが見える。"], onsite: ["巨石と後世の積み方の違いを見る", "坂と旧市街の境界を確認", "帰りの列車を守り、火曜午後だけ内部を追加"], facts: [["冬季 火–金", "09:00–18:30"], ["冬季 日・祝", "09:30–14:30"]], operationStatus: "日曜は14:30まで、火曜は午後も可", checkedAt: "2026-08-14", sourceUrl: "https://www.tarragona.cat/patrimoni/museu-historia/visites/horaris/view", sourceLabel: "Tarragona市公式"
+  },
+  "Montserrat大聖堂": {
+    image: "assets/montserrat-hero-v2.png", imageAlt: "Montserratの奇岩と修道院を描いたイメージ", imageKind: "AI生成イメージ",
+    learn: ["山の巡礼地の中心がbasilicaと黒い聖母La Moreneta。", "信仰の場として静けさを守り、像の拝観時間と礼拝を優先する。"], onsite: ["basilicaの空間と山の地形の関係を見る", "Morenetaは公式時間と列を確認", "視界・風・交通・体調の一つでも悪ければBarcelonaへ切替"], facts: [["Basilica", "07:00–20:00"], ["Moreneta", "08:00–10:30／12:00–18:25"]], operationStatus: "天候と交通が良い日にだけ実行", checkedAt: "2026-08-14", sourceUrl: "https://www.montserratvisita.com/en/practical-information/opening-hours", sourceLabel: "Montserrat公式"
+  },
+  "山の地質・Sant Joan展望": {
+    image: "assets/montserrat-hero-v2.png", imageAlt: "Montserratの鋸歯状の山と修道院を描いたイメージ", imageKind: "AI生成イメージ",
+    learn: ["Montserratの名前どおり、風化した岩が鋸歯状に連なる地形が修道院を包む。", "Sant Joan funicularは約7分で高所へ上がるが、眺望は天候と運行が揃う時だけ価値がある。"], onsite: ["山頂側の雲量と風を到着時に確認", "当日運行を確認してから券を買う", "帰路便を先に決め、散策を延ばし過ぎない"], facts: [["Sant Joan", "乗車約7分・当日運行時のみ"], ["Santa Cova", "現在は運休中。計画に使わない"]], operationStatus: "晴天・弱風・当日運行が揃う場合のみ", checkedAt: "2026-08-14", sourceUrl: "https://www.montserratvisita.com/en/nature/funiculars", sourceLabel: "Montserrat公式"
+  },
+  "Montserrat Museum": {
+    image: "assets/montserrat-hero-v2.png", imageAlt: "Montserratの修道院と山を描いたイメージ", imageKind: "AI生成イメージ",
+    learn: ["山の信仰空間に集められた美術を、都市の美術館とは違う文脈で見る屋内候補。", "展望が悪い時や時間が余った時だけ加え、basilicaと帰路を優先する。"], onsite: ["当日の展示と閉館を入口で確認", "一点だけ選んで山の場所性との違いを見る", "帰路を遅らせるなら入らない"], facts: [["Museum", "通常10:00–18:45"]], operationStatus: "低優先・時間に余裕がある場合のみ", checkedAt: "2026-08-14", sourceUrl: "https://www.montserratvisita.com/en/practical-information/opening-hours", sourceLabel: "Montserrat公式"
+  },
+  "Mató amb mel": {
+    image: "assets/montserrat-hero-v2.png", imageAlt: "Montserratの山と修道院を描いたイメージ", imageKind: "AI生成イメージ",
+    learn: ["matóはやさしい風味のフレッシュチーズで、蜂蜜と合わせるCatalunyaの素朴な甘味。", "提供がなければ探し回らず、温かい料理と持参食で体力を守る。"], onsite: ["La Cafeteriaで当日の提供を確認", "3人で一つを分ける", "混雑時は持参したbocadilloと水へ切り替える"], facts: [["La Cafeteria", "通常08:45–19:30"]], operationStatus: "当日提供がある場合だけ追加", checkedAt: "2026-08-14", sourceUrl: "https://www.montserratvisita.com/en/practical-information/opening-hours", sourceLabel: "Montserrat公式"
+  },
+  "Mezquita-Catedral": {
+    image: "assets/cordoba-hero-v2.png", imageAlt: "Cordobaの柱列と大聖堂空間を描いたイメージ", imageKind: "AI生成イメージ",
+    learn: ["赤白のアーチが連なるイスラム期の礼拝空間が核。", "ミフラーブと、後世に中央へ挿入された大聖堂空間を見比べる。", "異なる宗教と権力の層が一つの建物に可視化され、Madrid・Barcelonaとは別の文化軸を示す。"], onsite: ["柱列の反復と光の方向を見る", "ミフラーブの装飾を近くで見る", "中央の大聖堂へ移り空間の尺度変化を感じる"], facts: [["一般料金", "€15（2026/4/1以降）"], ["最終入場・券売", "閉館30分前"], ["注意", "宗教行事で変更あり"]], operationStatus: "1/2の公式枠を旅行7日前に確認", checkedAt: "2026-08-14", sourceUrl: "https://mezquita-catedraldecordoba.es/organiza-la-visita/entradas-y-horarios/", sourceLabel: "Mezquita-Catedral公式"
+  },
+  "JuderíaとRoman Bridge": {
+    image: "assets/cordoba-hero-v2.png", imageAlt: "Cordobaの歴史的建築と中庭を描いたイメージ", imageKind: "AI生成イメージ",
+    learn: ["Mezquita周辺の白い路地は、Jewish quarterを含む複数文化の都市史を歩いて読む場所。", "Roman Bridgeへ出ると、Guadalquivir川と旧市街の高低差が一度に分かる。"], onsite: ["路地の幅と中庭への入口を見る", "橋の中央からMezquita側の都市景観を振り返る", "昼食時刻を守り、土産店で立ち止まり過ぎない"]
+  },
+  "Alcázar de los Reyes Cristianos": {
+    image: "assets/cordoba-hero-v2.png", imageAlt: "Cordobaの歴史的建築とオレンジの中庭を描いたイメージ", imageKind: "AI生成イメージ",
+    learn: ["Christian王権の城塞と庭園を通して、Mezquitaとは別の時代の権力表現を見る条件付き候補。"], onsite: ["Mezquitaと昼食を終えてから残り時間を判断", "入場列が長ければ庭園を外から確認して終了", "16:15の駅方向への移動開始を守る"], operationStatus: "時間と体力が残る場合のみ"
+  },
+  "Romesco／cassola": {
+    image: "assets/tarragona-food-v2.png", imageAlt: "Tarragonaのromescoと魚介料理を描いたイメージ", imageKind: "AI生成イメージ",
+    learn: ["romescoは一つの固定料理名ではなく、ナッツや焙煎野菜の風味を魚介などへ合わせるTarragonaの食文化。", "当日は魚の種類や仕立てが変わるため、romesco／cassolaの提供内容を店で聞く。"],
+    onsite: ["最初に当日のromesco系料理を確認", "3人で主菜1皿から分ける", "なければ魚介の米料理かfideusへ切り替える"],
+    facts: [["予定店", "El Llagut"], ["火曜の昼", "12:30–15:30"], ["日曜の昼", "12:30–15:30"]], operationStatus: "利用日と提供料理は前日に確認", checkedAt: "2026-08-14", sourceUrl: "https://www.tarragonaturisme.cat/sites/default/files/2026-01/romesco-tarragona-quadriptic.pdf", sourceLabel: "Tarragona観光局公式"
+  },
+  "魚介の米料理・fideus": {
+    image: "assets/tarragona-food-v2.png", imageAlt: "Tarragonaの魚介料理と米料理を描いたイメージ", imageKind: "AI生成イメージ",
+    learn: ["港町の魚介の旨味を米または短い麺へ吸わせる、3人で分けやすい主食。", "romesco系の主菜と同時に頼み過ぎず、1皿ずつ量を見て追加する。"], onsite: ["当日の魚介と調理時間を聞く", "3人で1皿を共有", "帰りの列車から逆算して追加注文を止める"]
+  },
+  "魚介・tapas": {
+    image: "assets/tarragona-food-v2.png", imageAlt: "Tarragonaの魚介と小皿料理を描いたイメージ", imageKind: "AI生成イメージ",
+    learn: ["日曜短縮や軽く食べたい日に、魚介と小皿を少量ずつ選ぶ第三候補。"], onsite: ["当日営業と厨房の終了時刻を確認", "冷菜と温菜を一つずつ選ぶ", "列車の余裕を削らない"]
+  },
+  "Salmorejo": {
+    image: "assets/cordoba-food-v2.png", imageAlt: "Cordobaのsalmorejoを含む郷土料理を描いたイメージ", imageKind: "AI生成イメージ",
+    learn: ["トマト、パン、オリーブ油を濃厚に合わせるCordobaの代表料理。gazpachoよりとろみが強く、卵とjamónを添える。"], onsite: ["3人で1皿を最初に共有", "冷製の一皿から温かい肉料理へ進む"], checkedAt: "2026-08-14", sourceUrl: "https://www.turismodecordoba.org/la-gastronomia-cordobesa", sourceLabel: "Cordoba観光局公式"
+  },
+  "Flamenquín": {
+    image: "assets/cordoba-food-v2.png", imageAlt: "Cordobaのflamenquinを含む郷土料理を描いたイメージ", imageKind: "AI生成イメージ",
+    learn: ["豚肉でjamónを巻き、衣をつけて揚げるCordoba名物。切り分けて3人で味見しやすい。"], onsite: ["1本を切り分けて共有", "rabo de toroと同時に量を頼み過ぎない"], checkedAt: "2026-08-14", sourceUrl: "https://www.turismodecordoba.org/la-gastronomia-cordobesa", sourceLabel: "Cordoba観光局公式"
+  },
+  "Rabo de toro": {
+    image: "assets/cordoba-food-v2.png", imageAlt: "Cordobaのrabo de toroを含む郷土料理を描いたイメージ", imageKind: "AI生成イメージ",
+    learn: ["牛尾を柔らかく煮込み、濃いソースまでパンと味わうCordobaの主菜。"], onsite: ["3人で1皿を共有", "パンはソースを味わう分だけ追加"] , checkedAt: "2026-08-14", sourceUrl: "https://www.turismodecordoba.org/la-gastronomia-cordobesa", sourceLabel: "Cordoba観光局公式"
+  },
+  "Berenjenas con miel": {
+    image: "assets/cordoba-food-v2.png", imageAlt: "Cordobaのberenjenas con mielを含む郷土料理を描いたイメージ", imageKind: "AI生成イメージ",
+    learn: ["薄く揚げた茄子へ黒蜜を合わせる、甘さと塩気の対比が楽しい小皿。"], onsite: ["肉料理の間に3人でつまむ", "揚げたてを少量から頼む"], checkedAt: "2026-08-14", sourceUrl: "https://www.turismodecordoba.org/la-gastronomia-cordobesa", sourceLabel: "Cordoba観光局公式"
+  },
+  "Pastel cordobés": {
+    image: "assets/cordoba-food-v2.png", imageAlt: "Cordobaの郷土料理を描いたイメージ", imageKind: "AI生成イメージ",
+    learn: ["髪のように細いかぼちゃの砂糖煮を生地で包むCordobaの菓子。昼食後の余裕がある時だけ探す。"], onsite: ["3人で一つを分ける", "帰りの列車と徒歩時間を先に守る"], checkedAt: "2026-08-14", sourceUrl: "https://www.turismodecordoba.org/la-gastronomia-cordobesa", sourceLabel: "Cordoba観光局公式"
+  },
   "Sagrada Família": {
     image: "assets/sagrada-interior.jpg", imageAlt: "サグラダ・ファミリア内部の柱と光", imageKind: "現地写真",
     articleId: "sagrada",
@@ -482,10 +561,12 @@ const operationalGuide = {
     operationStatus: "open ticket条件を確認済み・2026年末の交通運行待ち", checkedAt: "2026-08-14", sourceUrl: "https://turistren.cat/en/trains/montserrat-rack-railway-and-funiculars/faqs/", sourceLabel: "Turistren / FGC公式FAQ"
   },
   "Tarragona円形闘技場": {
+    image: "assets/tarragona-hero-v2.png", imageAlt: "地中海に面したTarragonaのローマ遺跡を描いたイメージ", imageKind: "AI生成イメージ",
     learn: ["地中海に面した円形闘技場を、Circや城壁と同じRoman cityの地形として見る。"], onsite: ["火曜は中央部の内部見学を優先", "日曜案では内部を14:30までに終える", "Pont del Diableへ広げず市内駅への帰路を守る"],
     facts: [["冬季火–金", "09:00開始、閉館は施設により18:30または20:00"], ["日曜・祝日", "09:30–14:30"], ["月曜", "指定祝日を除き休館"]], operationStatus: "通常冬季時間を確認済み・2026 Christmas運用待ち", checkedAt: "2026-08-14", sourceUrl: "https://www.tarragona.cat/patrimoni/museu-historia/visites/horaris/view", sourceLabel: "Tarragona市公式"
   },
   "Mezquita-Catedral": {
+    image: "assets/cordoba-hero-v2.png", imageAlt: "Cordobaの赤白の柱列と中庭を描いたイメージ", imageKind: "AI生成イメージ",
     learn: ["イスラム期の柱列と後世の大聖堂空間が重なる歴史を見てから、Juderíaへ歩く。"], onsite: ["公式券の入場時刻を守る", "礼拝による動線変更を入口で確認", "柱列とmihrabを優先する"],
     facts: [["予定", "1/2 10:00"], ["券", "公式サイトで旅行日の入場条件を確認"], ["不成立時", "Mezquita核心または鉄道が使えない場合だけToledoへ"]], operationStatus: "2027/1/2の時間・宗教行事・券は旅行前に確認", checkedAt: "2026-08-14", sourceUrl: "https://mezquita-catedraldecordoba.es/organiza-la-visita/entradas-y-horarios/", sourceLabel: "Mezquita-Catedral公式"
   },
@@ -540,6 +621,16 @@ const operationalGuide = {
 };
 
 const guideVisuals = {
+  "Romescoと魚介": { image: "assets/tarragona-food-v2.png", imageAlt: "romescoと魚介料理を描いたイメージ", imageKind: "AI生成イメージ" },
+  "Romesco／cassola": { image: "assets/tarragona-food-v2.png", imageAlt: "romescoと魚介料理を描いたイメージ", imageKind: "AI生成イメージ" },
+  "魚介の米料理・fideus": { image: "assets/tarragona-food-v2.png", imageAlt: "Tarragonaの魚介料理と米料理を描いたイメージ", imageKind: "AI生成イメージ" },
+  "魚介・tapas": { image: "assets/tarragona-food-v2.png", imageAlt: "Tarragonaの魚介と小皿料理を描いたイメージ", imageKind: "AI生成イメージ" },
+  "Cordoba料理5選": { image: "assets/cordoba-food-v2.png", imageAlt: "Cordobaの郷土料理を描いたイメージ", imageKind: "AI生成イメージ" },
+  "Salmorejo": { image: "assets/cordoba-food-v2.png", imageAlt: "Cordobaのsalmorejoを含む郷土料理を描いたイメージ", imageKind: "AI生成イメージ" },
+  "Flamenquín": { image: "assets/cordoba-food-v2.png", imageAlt: "Cordobaのflamenquinを含む郷土料理を描いたイメージ", imageKind: "AI生成イメージ" },
+  "Rabo de toro": { image: "assets/cordoba-food-v2.png", imageAlt: "Cordobaのrabo de toroを含む郷土料理を描いたイメージ", imageKind: "AI生成イメージ" },
+  "Berenjenas con miel": { image: "assets/cordoba-food-v2.png", imageAlt: "Cordobaのberenjenas con mielを含む郷土料理を描いたイメージ", imageKind: "AI生成イメージ" },
+  "Pastel cordobés": { image: "assets/cordoba-food-v2.png", imageAlt: "Cordobaの郷土料理を描いたイメージ", imageKind: "AI生成イメージ" },
   "Pa amb tomàquet": { image: "assets/food-pa-amb-tomaquet.jpg", imageAlt: "トマトとオリーブ油をのせたパン・コン・トマテ", imageKind: "料理写真" },
   "パン・コン・トマテ": { image: "assets/food-pa-amb-tomaquet.jpg", imageAlt: "トマトとオリーブ油をのせたパン・コン・トマテ", imageKind: "料理写真" },
   "Crema catalana": { image: "assets/food-crema-catalana.jpg", imageAlt: "表面を香ばしく焼いたクレマ・カタラナ", imageKind: "料理写真" },
@@ -646,7 +737,7 @@ function renderBudgetLine(line, dayId = "trip") {
 }
 
 function renderRecords() {
-  const budgetPlan = window.UXFullData?.buildBudgetPlan(recordsState.budget, recordsState.fx) || { days: [], tripWide: [], categories: [], totalEur: recordsState.budget.reduce((sum, row) => sum + toEur(row.amountOriginal, row.currency), 0), missing: [], assumptions: "" };
+  const budgetPlan = window.UXFullData?.buildBudgetPlan(recordsState.budget, recordsState.fx, state.scenario) || { days: [], tripWide: [], categories: [], totalEur: recordsState.budget.reduce((sum, row) => sum + toEur(row.amountOriginal, row.currency), 0), missing: [], assumptions: "" };
   const budget = budgetPlan.totalEur;
   const actual = recordsState.expenses.reduce((sum, row) => sum + toEur(row.amountOriginal, row.currency, row.fxSnapshot), 0);
   const transfers = calculateTransfers();
@@ -777,9 +868,9 @@ function detailContent(key, context = {}) {
       }
     }
   }
-  if (key === "hotel" || key.startsWith("hotel-")) {
+  if (key === "hotel-candidate" || key.startsWith("hotel-candidate-")) {
     const stays = window.UXFullData?.hotelStays || [];
-    const stayId = key === "hotel" ? stays[0]?.id : key.slice("hotel-".length);
+    const stayId = key === "hotel-candidate" ? stays[0]?.id : key.slice("hotel-candidate-".length);
     const stay = stays.find((item) => item.id === stayId) || stays[0];
     if (!stay) return { eyebrow: "HOTEL DECISION", title: "ホテル仮候補", body: `<p>ホテル比較データを読み込めませんでした。</p>` };
     const alternativePrice = Number.isFinite(stay.alternative.totalEur) ? dualMoney(stay.alternative.totalEur) : "対象日の3名料金を再確認";
@@ -840,6 +931,7 @@ function bindScreen() {
     state.scenario = scenario;
     saveScenario(scenario);
     days = window.UXFullData.buildDays(representativeDays, scenario);
+    refreshScenarioGuide();
     render();
   }));
   document.querySelectorAll("[data-day]").forEach((button) => button.addEventListener("click", () => { state.day = button.dataset.day; render(); }));
@@ -859,7 +951,7 @@ function bindScreen() {
       const area = guideAreas.find((item) => item.id === nearest.id);
       state.guideCity = area.city;
       state.guideArea = area.id;
-      state.guideLocationNote = `${area.name}中心まで約${nearest.distance < 10 ? nearest.distance.toFixed(1) : Math.round(nearest.distance)}km · 取得直後`;
+      state.guideLocationNote = `${area.name}中心まで約${nearest.distance < 10 ? nearest.distance.toFixed(1) : Math.round(nearest.distance)}km · 現在地確認直後`;
       render();
       toast(`${area.name}を最寄りエリアとして表示しました。`);
     }, () => {
@@ -900,7 +992,7 @@ function bindScreen() {
       const parsed = JSON.parse(await event.target.files[0].text());
       if (!validRecords(parsed)) throw new Error("schema mismatch");
       recordsState = { ...parsed, memories: parsed.memories || [], settledTransferIds: parsed.settledTransferIds || [] }; saveRecords(); render(); toast("記録JSONを読み込みました。");
-    } catch { toast("このJSONは読み込めません。schemaVersionを確認してください。"); }
+    } catch { toast("この記録ファイルは読み込めません。書き出した元ファイルを選んでください。"); }
   });
 }
 
