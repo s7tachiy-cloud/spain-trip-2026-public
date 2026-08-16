@@ -23803,7 +23803,7 @@ window.TRIP = {
   },
   "uxRebuild03": {
     "source": "スケジュールデータ_v2.md",
-    "sourceFileId": "",
+    "sourceFileId": "1KRH9ykTRoLyOOoHEWl_6futAFcC7JPoe",
     "sourceModifiedAt": "2026-07-26T07:39:53.676Z",
     "supplementFileId": "1uUDCk3CdjIHATHy-Ysza1yZdKLf0H7sr",
     "status": "USER_REVIEW_REQUIRED",
@@ -23974,8 +23974,8 @@ window.TRIP = {
   },
   "uxRebuild04": {
     "source": "CLI修正指示_ux-rebuild-04.md",
-    "sourceFileId": "",
-    "auditFileId": "",
+    "sourceFileId": "1FGMEnC0NPJhcpfjmgF7gOsF3X3NoD7VY",
+    "auditFileId": "1njgJW56bN7elrYkjN0pQnPj312rLb6J1",
     "scenarioKeys": [
       "delay30",
       "delay60",
@@ -25473,3 +25473,208 @@ window.TRIP = {
     "timingField": "timing"
   }
 };
+
+/* Content-closure additions kept in the canonical runtime file. */
+(function addVerifiedTripContent(trip) {
+  if (!trip) return;
+
+  const verifiedSources = [
+    {
+      id: "source-tarraco-unesco",
+      title: "Archaeological Ensemble of Tarraco",
+      publisher: "UNESCO World Heritage Centre",
+      type: "国際機関・一次情報",
+      checkedAt: "2026-08-16",
+      url: "https://whc.unesco.org/en/list/875"
+    },
+    {
+      id: "source-tarragona-romesco-2026",
+      title: "Romesco de Tarragona",
+      publisher: "Tarragona Turisme",
+      type: "自治体観光局・一次情報",
+      checkedAt: "2026-08-16",
+      url: "https://www.tarragonaturisme.cat/sites/default/files/2026-01/romesco-tarragona-quadriptic.pdf"
+    },
+    {
+      id: "source-cordoba-mezquita-history",
+      title: "The history of the Mosque-Cathedral",
+      publisher: "Mezquita-Catedral de Córdoba",
+      type: "施設公式・一次情報",
+      checkedAt: "2026-08-16",
+      url: "https://mezquita-catedraldecordoba.es/en/descubre-el-monumento/la-historia/"
+    },
+    {
+      id: "source-cordoba-gastronomy",
+      title: "The gastronomy of Córdoba",
+      publisher: "Turismo de Córdoba",
+      type: "自治体観光局・一次情報",
+      checkedAt: "2026-08-16",
+      url: "https://www.turismodecordoba.org/the-gastronomy-of-cordoba"
+    },
+    {
+      id: "source-catalonia-tourist-tax-2026",
+      title: "Tax on stays in tourism establishments: 2026 rates",
+      publisher: "Agència Tributària de Catalunya",
+      type: "自治体税務当局・一次情報",
+      checkedAt: "2026-08-16",
+      url: "https://atc.gencat.cat/es/tributs/ieet/quota-tributaria/"
+    }
+  ];
+  const sourceIds = new Set((trip.sources || []).map((source) => source.id));
+  trip.sources = [...(trip.sources || []), ...verifiedSources.filter((source) => !sourceIds.has(source.id))];
+
+  const existingBudget = (trip.budgetEstimates || []).find((row) => row.id === "intl-flight");
+  if (existingBudget) Object.assign(existingBudget, {
+    title: "国際線往復・3人分",
+    category: "交通",
+    amount: 1399350,
+    quantity: 1,
+    currency: "JPY",
+    status: "confirmed",
+    note: "Air Chinaビジネスクラス往復。1人466,450円×3人。運賃・税・燃油等込み。",
+    sourceLabel: "3名分のeチケットお客様控え（非公開）",
+    checkedAt: "2026-08-16",
+    sourceScope: "発券済み3名の合計運賃のみ。氏名・予約番号・航空券番号は公開しない。"
+  });
+
+  if (!(trip.budgetEstimates || []).some((row) => row.id === "barcelona-tourist-tax")) {
+    trip.budgetEstimates.push({
+      id: "barcelona-tourist-tax",
+      title: "Barcelona宿泊税・予備枠",
+      category: "宿泊",
+      amount: 126,
+      quantity: 1,
+      currency: "EUR",
+      status: "estimate",
+      note: "4つ星ホテル€8.40×3人×5泊。ホテル予約総額に含まれる場合は削除する。",
+      sourceLabel: "Agència Tributària de Catalunya",
+      sourceUrl: "https://atc.gencat.cat/es/tributs/ieet/quota-tributaria/",
+      checkedAt: "2026-08-16",
+      sourceScope: "2026/4/1–2027/3/31のBarcelona市内4つ星ホテルの1人1泊税率"
+    });
+  }
+
+  const articles = [
+    {
+      id: "tarragona",
+      cityId: "tarragona",
+      placeId: null,
+      relatedPlaceIds: [],
+      relatedScheduleItemIds: [],
+      scopeType: "city",
+      title: "Tarragona｜海辺のローマ都市Tarracoを読む",
+      kind: "都市史・考古学・食",
+      visitDayIds: ["d1227", "d1229"],
+      readingPaths: [
+        { id: "quick", label: "概要", target: "intro" },
+        { id: "deep", label: "詳しく学ぶ", target: "deep" },
+        { id: "onsite", label: "現地で使う", target: "onsite" }
+      ],
+      intro: {
+        summary: "Tarragonaの遺跡は、円形闘技場だけを見るより、海・旧市街・現代の道路を一つのローマ都市としてつなぐと面白くなります。古代のTarracoはイベリア半島で最初期のローマ拠点で、のちに広い属州を治める行政・交易・皇帝崇拝の中心になりました。\n\n今回歩く円形闘技場、Circ、Praetorium、城壁は、別々の名所ではありません。海に近い娯楽施設、上段の行政・儀礼空間、防御の輪郭が、坂のある一つの都市に配置されています。昼食では冷たいromesco sauceだけでなく、魚を煮る温かいcassola de romescoが土地の本来の料理であることも知っておくと、港町の一日が食までつながります。",
+        keyPoints: [
+          "Tarracoはローマ支配の入口から属州の首都へ発展した。",
+          "地中海と坂の地形が、港・娯楽・行政空間の配置を決めた。",
+          "古代の構造が現代の建物や街路の下へ残り、町そのものが遺跡になっている。",
+          "romescoは冷たいソースだけでなく、魚を煮る温かい郷土料理が出発点。"
+        ],
+        whyItMatters: "一日で遺跡を数えるのではなく、海からPart Altaへ上がりながら都市の断面を読むためです。円形闘技場、Circ、城壁、昼食を一本の物語として記憶できます。",
+        sourceIds: ["source-tarraco-unesco", "source-tarragona-romesco-2026"]
+      },
+      terms: [
+        { term: "Tarraco", definition: "現在のTarragonaに築かれたローマ都市。Hispania Citeriorの中心となり、行政・交易・皇帝崇拝を担った。", sourceIds: ["source-tarraco-unesco"] },
+        { term: "Circ", definition: "戦車競走を行う細長い競技施設。現在は一部が建物や路地の下に残り、都市へ取り込まれている。", sourceIds: ["source-tarraco-unesco"] },
+        { term: "Part Alta", definition: "旧市街上部。古代の行政・儀礼空間と中世以降の町が重なるため、時代の境界を歩いて読める。", sourceIds: ["source-tarraco-unesco"] },
+        { term: "Cassola de romesco", definition: "魚介をromescoのpicadaとともに鍋で煮るTarragonaの温かい料理。冷たい添えソースとは区別して覚える。", sourceIds: ["source-tarragona-romesco-2026"] }
+      ],
+      deepSections: [
+        { id: "roman-capital", title: "1. なぜここがローマ都市になったか", blocks: [
+          { type: "paragraph", text: "地中海へ開き、内陸へつながる場所は軍事・交易の両面で有利だった。Tarracoは最初期のローマ拠点から、広い属州を統治する首都へ成長した。現地では海が背景なのではなく、都市成立の条件だったと見る。", sourceIds: ["source-tarraco-unesco"] },
+          { type: "key-points", items: ["海への近さを円形闘技場から確認する", "坂を上るほど行政・儀礼の中心へ近づく", "現在の道路と古代施設の長軸を比べる"], sourceIds: ["source-tarraco-unesco"] }
+        ] },
+        { id: "city-layers", title: "2. 遺跡が現代の町へ残る仕組み", blocks: [
+          { type: "paragraph", text: "Tarracoの遺構は完全な形で孤立しているのではなく、断片が後世の建築へ転用され、地下や壁の一部として残る。CircからPart Altaへ歩くと、保存された遺跡と生活する町の境界が何度も入れ替わる。", sourceIds: ["source-tarraco-unesco"] },
+          { type: "comparison", columns: [
+            { title: "円形闘技場", text: "海側の斜面を使った見世物の空間。arenaと観客席の関係を見る。" },
+            { title: "CircとPraetorium", text: "競技施設の構造が現代の建物・街路の中へ続く様子を見る。" },
+            { title: "城壁", text: "都市の輪郭と、異なる時代の修復・積み直しを見る。" }
+          ], sourceIds: ["source-tarraco-unesco"] }
+        ] },
+        { id: "romesco-city", title: "3. 港町のromescoを料理として知る", blocks: [
+          { type: "paragraph", text: "Tarragonaのromescoは、ナッツ、乾燥唐辛子、にんにくなどのpicadaを使い、魚を煮る温かい料理が核にある。観光でよく見る冷たいromesco sauceは、その料理から広がった別の使い方。店では『romesco sauceはありますか』だけでなく、魚料理やcassolaとして何があるかを聞く。", sourceIds: ["source-tarragona-romesco-2026"] },
+          { type: "callout", title: "3人で頼むなら", text: "romescoを使う魚介を1皿、米料理またはfideusを2人前、軽い前菜を1皿。最初から主菜を重ねず、量を見て追加する。", sourceIds: ["source-tarragona-romesco-2026"] }
+        ] }
+      ],
+      onsiteSections: [{ title: "海から旧市街へ、順番に読む", blocks: [
+        { type: "onsite-checklist", items: ["円形闘技場で海とarenaの高低差を見る", "Circでは地下通路と地上の街路の向きを比べる", "Part Altaで古代石材が後世の建物へ入る場所を探す", "昼食では温かいromesco料理があるかを最初に確認する", "帰りの列車時刻を守り、Pont del Diableへ広げない"], sourceIds: ["source-tarraco-unesco", "source-tarragona-romesco-2026"] }
+      ] }],
+      sourceIds: ["source-tarraco-unesco", "source-tarragona-romesco-2026"]
+    },
+    {
+      id: "cordoba",
+      cityId: "cordoba",
+      placeId: null,
+      relatedPlaceIds: [],
+      relatedScheduleItemIds: [],
+      scopeType: "city",
+      title: "Córdoba｜Mezquitaに重なる都市の歴史",
+      kind: "都市史・宗教建築・食",
+      visitDayIds: ["d0102"],
+      readingPaths: [
+        { id: "quick", label: "概要", target: "intro" },
+        { id: "deep", label: "詳しく学ぶ", target: "deep" },
+        { id: "onsite", label: "現地で使う", target: "onsite" }
+      ],
+      intro: {
+        summary: "Córdobaで一番面白いのは、イスラム都市かキリスト教都市かを一つに決められないことです。Mezquita-Catedralは、8世紀に始まるモスクの柱列・ミフラーブ・増築と、13世紀以降のカトリック聖堂、16世紀の大聖堂身廊が同じ建物に重なっています。\n\nJudería、Roman Bridge、tabernaの料理まで歩くと、ローマ、イスラム、ユダヤ、キリスト教の時代が別々の展示ではなく、一つの町で場所を変えながら続いていると分かります。食ではsalmorejo、flamenquín、rabo de toro、berenjenas con mielを少量ずつ共有すると、油、パン、野菜、肉、甘味と塩味という土地の組み立てを一食で比較できます。",
+        keyPoints: [
+          "柱列は一度に造られたのではなく、人口と権力の拡大に合わせて増築された。",
+          "mihrab、maqsura、大聖堂身廊は空間の向き・光・権力表現が異なる。",
+          "1236年以後もイスラム期の建物を壊し切らず、聖堂として使い続けたことが現在の複雑さを生んだ。",
+          "Córdoba料理はオリーブ油、パン、野菜、甘味と塩味の組合せに歴史の層が残る。"
+        ],
+        whyItMatters: "赤白のアーチを写真で終わらせず、どの時代がどこへ付け加わったかを自分の足で追うためです。Madrid・Barcelonaとは違うスペインの文化軸を、一日の中で建築と食の両方から理解できます。",
+        sourceIds: ["source-cordoba-mezquita-history", "source-cordoba-gastronomy"]
+      },
+      terms: [
+        { term: "Mihrab", definition: "礼拝方向を示す壁龕。Córdobaでは装飾と光が集中し、Al-Hakam II期の権威を示す中心になる。", sourceIds: ["source-cordoba-mezquita-history"] },
+        { term: "Maqsura", definition: "支配者のために区切られた礼拝空間。mihrab前の複雑なアーチとドームを、政治と宗教が接する場所として見る。", sourceIds: ["source-cordoba-mezquita-history"] },
+        { term: "Al-Andalus", definition: "中世のイベリア半島でイスラム勢力が支配した地域の呼称。Córdobaは10世紀に政治・文化の中心となった。", sourceIds: ["source-cordoba-mezquita-history"] },
+        { term: "Salmorejo", definition: "トマト、パン、オリーブ油、にんにくを濃厚に合わせるCórdobaの冷製料理。卵とjamónを添えることが多い。", sourceIds: ["source-cordoba-gastronomy"] }
+      ],
+      deepSections: [
+        { id: "mosque-growth", title: "1. 柱列が増えていった理由", blocks: [
+          { type: "timeline", entries: [
+            { date: "786–788", title: "Abd al-Rahman I", text: "最初のモスク。11列の身廊を持つ礼拝空間を築く。" },
+            { date: "833–848", title: "Abd al-Rahman II", text: "人口増加に対応して南へ拡張する。" },
+            { date: "962–966", title: "Al-Hakam II", text: "mihrabとmaqsuraを含む芸術的な中心を築く。" },
+            { date: "991–994", title: "Almanzor", text: "川のため南へ延ばせず、東へ大きく拡張する。" }
+          ], sourceIds: ["source-cordoba-mezquita-history"] },
+          { type: "paragraph", text: "柱が反復する美しさは、人口、都市の成長、支配者の権威が段階的に空間へ刻まれた結果。現地では柱列の向きだけでなく、増築部で軸や装飾がどう変わるかを見る。", sourceIds: ["source-cordoba-mezquita-history"] }
+        ] },
+        { id: "cathedral-inside", title: "2. モスクの中に大聖堂がある意味", blocks: [
+          { type: "paragraph", text: "1236年にカトリック礼拝へ転用された後も建物は使い続けられ、16世紀には中央へ大聖堂のtranseptとchoirが挿入された。低く水平に広がる柱列から、垂直性と集中を持つ大聖堂空間へ入ると、身体感覚が急に変わる。", sourceIds: ["source-cordoba-mezquita-history"] },
+          { type: "comparison", columns: [
+            { title: "柱列", text: "反復と水平方向の広がり。どこまでも続くような感覚。" },
+            { title: "Mihrab・Maqsura", text: "装飾と光が集中し、礼拝方向と支配者の位置を示す。" },
+            { title: "大聖堂身廊", text: "高さ、採光、choirが中心をつくり、空間を別の秩序へ変える。" }
+          ], sourceIds: ["source-cordoba-mezquita-history"] }
+        ] },
+        { id: "city-walk", title: "3. JuderíaとRoman Bridgeへ続ける", blocks: [
+          { type: "paragraph", text: "Mezquita-Catedralの外へ出ると、細い街路のJuderíaとGuadalquivir川を渡るRoman Bridgeが近い。建物の内部だけで歴史を完結させず、水、橋、城壁、街路が人と物の移動を支えたことまでつなげる。", sourceIds: ["source-cordoba-mezquita-history"] },
+          { type: "key-points", items: ["Patio de los Naranjosで礼拝前の中庭機能を想像する", "Juderíaでは細い街路の日陰と住居の距離を見る", "Roman Bridgeから旧市街と川の位置関係を振り返る"], sourceIds: ["source-cordoba-mezquita-history"] }
+        ] },
+        { id: "cordoba-table", title: "4. 一食でCórdoba料理を比べる", blocks: [
+          { type: "paragraph", text: "salmorejoはパンとオリーブ油を濃厚にまとめ、flamenquínは豚肉とjamónを巻いて揚げる。rabo de toroは時間をかけた煮込み、berenjenas con mielは揚げ物へ甘味を合わせる。4皿を3人で共有すると、冷製・揚げ物・煮込み・甘塩の対比ができる。", sourceIds: ["source-cordoba-gastronomy"] },
+          { type: "callout", title: "頼む順番", text: "salmorejoを最初に1皿、flamenquínを1本、rabo de toroを1皿、berenjenas con mielを1皿。パンと水を加え、量を見て追加する。", sourceIds: ["source-cordoba-gastronomy"] }
+        ] }
+      ],
+      onsiteSections: [{ title: "建物の中から町と食へつなぐ", blocks: [
+        { type: "onsite-checklist", items: ["柱列の反復を見てから、増築部の変化を探す", "mihrabとmaqsuraで光・装飾・方向を見る", "大聖堂身廊へ移り、天井高と音の変化を感じる", "JuderíaからRoman Bridgeへ歩き、川と旧市街の位置を確認する", "昼食は4品を一皿ずつ共有し、最初から頼み過ぎない"], sourceIds: ["source-cordoba-mezquita-history", "source-cordoba-gastronomy"] }
+      ] }],
+      sourceIds: ["source-cordoba-mezquita-history", "source-cordoba-gastronomy"]
+    }
+  ];
+  const articleIds = new Set((trip.learningArticles || []).map((article) => article.id));
+  trip.learningArticles = [...(trip.learningArticles || []), ...articles.filter((article) => !articleIds.has(article.id))];
+})(window.TRIP);

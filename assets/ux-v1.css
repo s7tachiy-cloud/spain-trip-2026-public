@@ -637,3 +637,42 @@ p { margin-bottom: 12px; }
   .must-eat-card { grid-template-columns: 1fr; }
   .must-eat-card > img { height: 155px; min-height: 0; }
 }
+
+/* 2026-08-16 content closure: task-first home, evidence and meal budgets */
+.home-task-header { margin-bottom: 18px; }
+.home-task-summary { margin-bottom: 14px; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 10px; }
+.home-task-summary article { padding: 17px 19px; border: 1px solid var(--line); border-radius: 18px; background: white; }
+.home-task-summary span, .home-task-summary strong, .home-task-summary small { display: block; }
+.home-task-summary span, .home-task-summary small { color: var(--muted); font-size: .72rem; }
+.home-task-summary strong { margin: 3px 0; font: 700 1.45rem Georgia,"Yu Mincho",serif; color: var(--green); }
+.home-next-action { margin-bottom: 26px; padding: clamp(20px,3vw,30px); display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: center; gap: 24px; color: white; background: linear-gradient(120deg,#173f36,#245b4d); }
+.home-next-action .eyebrow, .home-next-action p { color: rgba(255,255,255,.8); }
+.home-next-action h2 { margin-bottom: 7px; font-family: Georgia,"Yu Mincho",serif; }
+.home-next-action .button { border-color: rgba(255,255,255,.65); color: white; }
+.home-next-action .button.primary { color: var(--green); background: white; }
+.home-task-groups { display: grid; gap: 24px; }
+.home-task-phase .section-head { margin-bottom: 10px; }
+.home-task-list { display: grid; gap: 9px; }
+.home-task-card { padding: 16px 17px; display: grid; grid-template-columns: 42px minmax(0,1fr) auto; align-items: center; gap: 14px; }
+.home-task-card .task-index { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 12px; color: white; background: var(--green); font: 700 1.05rem Georgia,serif; }
+.home-task-card h3 { margin: 3px 0 4px; }
+.home-task-card p { margin: 0 0 5px; color: var(--muted); }
+.home-task-card small { color: var(--green); font-weight: 800; }
+.home-quick-links { margin-top: 28px; padding: 22px; display: grid; grid-template-columns: minmax(0,1fr) auto; align-items: center; gap: 20px; border: 1px solid var(--line); border-radius: 20px; background: var(--mint-2); }
+.home-quick-links h2 { margin-bottom: 5px; font-family: Georgia,"Yu Mincho",serif; }
+.home-quick-links p { margin: 0; color: var(--muted); }
+.city-section-note { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.city-section-note .button { flex: 0 0 auto; }
+.budget-source { display: inline-block; margin-top: 6px; color: var(--green); font-size: .72rem; font-weight: 900; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.budget-source + small { display: inline; margin-left: 6px; }
+
+@media (max-width: 767px) {
+  .home-task-summary { grid-template-columns: 1fr; }
+  .home-task-summary article { padding: 13px 15px; display: grid; grid-template-columns: 1fr auto; align-items: center; }
+  .home-task-summary strong { grid-row: 1 / 3; grid-column: 2; }
+  .home-next-action, .home-quick-links { grid-template-columns: 1fr; gap: 12px; }
+  .home-task-card { grid-template-columns: 36px minmax(0,1fr); padding: 14px 12px; }
+  .home-task-card .task-index { width: 34px; height: 34px; }
+  .home-task-card > .button { grid-column: 2; justify-self: start; }
+  .city-section-note { align-items: flex-start; flex-direction: column; }
+}

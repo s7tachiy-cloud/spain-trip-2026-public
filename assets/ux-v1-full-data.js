@@ -603,7 +603,8 @@
     const scenarioVisit = (cityId) => Object.entries(scenario.days).filter(([, selected]) => list(selected.cityIds).includes(cityId)).map(([dayId]) => jpDate(dayById.get(dayId)));
     const visitsByCity = Object.fromEntries(cityIds.map((cityId) => [cityId, ["barcelona","tarragona","montserrat"].includes(cityId) ? scenarioVisit(cityId) : list(trip.days).filter((day) => list(finalDayMeta[day.id]?.cityIds || [day.cityId]).includes(cityId)).map(jpDate)]));
     const repsByName = new Map(list(representativeCities).map((city) => [city.id.toLowerCase(), city]));
-    const cities = cityIds.map((cityId) => ({ ...cityMeta[cityId], ...(repsByName.get(cityId) || {}), visit: (visitsByCity[cityId] || []).join("・") || "現在の旅程では訪問予定なし" }));
+    const cityArticleIds = { barcelona: "barcelona-overview", madrid: "madrid-overview", tarragona: "tarragona", montserrat: "montserrat", cordoba: "cordoba", toledo: "toledo" };
+    const cities = cityIds.map((cityId) => ({ ...cityMeta[cityId], ...(repsByName.get(cityId) || {}), articleId: cityArticleIds[cityId], visit: (visitsByCity[cityId] || []).join("・") || "現在の旅程では訪問予定なし" }));
     const areas = list(representativeAreas).map((area) => ({ ...area, visit: [], foods: list(area.foods), sights: list(area.sights) }));
     areas.push({ id: "tarragona-old", city: "Tarragona", name: "旧市街・古代Tarraco", priority: 1, intro: "海辺の円形闘技場からcircus、Part Alta、城壁へ。火曜は内部を一日でつなぎ、日曜は14:30までの短縮順にする。", foodIntro: "romesco／cassolaを土地の象徴として第一に、魚介の米料理・fideus、魚介・tapasの順で選ぶ。", visit: visitsByCity.tarragona, foods: [{ name: "Romesco／cassola", priority: 1, kind: "最優先・土地の味", note: "ナッツや焙煎した野菜の濃いソースを魚介と合わせる、港町Tarragonaの象徴。El Llagutでは当日の魚介料理からromesco系を最初に確認する。", when: `${visitsByCity.tarragona[0]} El Llagut`, shops: ["El Llagut", "Part Altaでromesco／cassolaを掲示する営業店"] }, { name: "魚介の米料理・fideus", priority: 2, kind: "3人でシェア", note: "romescoの次に、魚介の旨味を吸った米料理または短い麺fideusを1皿。3人で分けて量を調整しやすい。", when: `${visitsByCity.tarragona[0]} El Llagut`, shops: ["El Llagut", "Part Altaで米料理またはfideusを掲示する営業店"] }, { name: "魚介・tapas", priority: 3, kind: "軽めの代替", note: "日曜短縮や食欲が軽い時は、地元の魚介と小皿を少量ずつ。帰りの列車を遅らせない選択肢にする。", when: `${visitsByCity.tarragona[0]} 時間・食欲に合わせる`, shops: ["El Llagut", "Part Altaで当日営業する魚介・tapas店"] }], sights: [{ name: "Tarragona円形闘技場", priority: 1, kind: "ローマ遺跡", note: "地中海へ向いたarenaとBalco del Mediterraniを続けて見て、海港都市Tarracoの地形をつかむ。", when: visitsByCity.tarragona[0], nearby: "Romesco／cassola" }, { name: "Praetorium・Roman CircusとPart Alta", priority: 2, kind: "ローマ遺跡・旧市街", note: "circusの構造が現代の建物と街路に残る様子を、地下からPart Altaまでたどる。", when: visitsByCity.tarragona[0], nearby: "魚介の米料理・fideus" }, { name: "考古学の遊歩道・城壁", priority: 3, kind: "城壁", note: "Tarracoの輪郭と異なる時代の石積みを見る。日曜短縮では閉館前に入れる場合だけ。", when: visitsByCity.tarragona[0], nearby: "魚介・tapas" }] });
     areas.push({ id: "montserrat-monastery", city: "Montserrat", name: "修道院・山上エリア", priority: 1, intro: "視界が良く、強風でなく、FGCと山上交通が運行し、3人に十分な体力がある場合だけ実行。どれか一つでも満たさなければBarcelona市内へ。", foodIntro: "La Cafeteriaを予約なしで使い、matóと蜂蜜があれば追加。出発前にbocadilloと水を3人分用意する。", visit: visitsByCity.montserrat, foods: [{ name: "Mató amb mel", priority: 1, kind: "山の甘味", note: "La Cafeteriaで提供があればmatóと蜂蜜を味わい、なければ温かい料理と携帯食で体力を守る。", when: `${visitsByCity.montserrat[0]} La Cafeteria`, shops: ["La Cafeteria"] }], sights: [{ name: "Montserrat大聖堂", priority: 1, kind: "修道院・最優先", note: "basilicaとLa Morenetaを中心に、今も続く巡礼地として静かに見る。", when: visitsByCity.montserrat[0], nearby: "Mató amb mel" }, { name: "山の地質・Sant Joan展望", priority: 2, kind: "天候・運行条件付き", note: "奇岩の地形と眺望を見る。Sant Joan funicularは同日運行と天候が良い場合だけ利用する。", when: visitsByCity.montserrat[0], nearby: "La Cafeteria" }, { name: "Montserrat Museum", priority: 3, kind: "低優先", note: "視界不良時や時間に余裕がある場合の屋内候補。帰路を遅らせてまで追加しない。", when: `${visitsByCity.montserrat[0]} 余裕がある場合`, nearby: "携帯食" }] });
@@ -641,20 +642,28 @@
         if (!area.foods.length && fallback) area.foods.push({ ...fallback.food, priority: 1, when: area.visit.length ? area.visit[0] : "滞在中の候補" });
         area.sights.sort((a, b) => (a.priority || 99) - (b.priority || 99)).forEach((sight, index) => { sight.priority = index + 1; });
         area.foods.sort((a, b) => (a.priority || 99) - (b.priority || 99)).forEach((food, index) => { food.priority = index + 1; });
+        const articleId = cityArticleIds[cityId];
+        if (articleId && ["tarragona", "montserrat", "cordoba"].includes(cityId)) {
+          area.sights.forEach((sight) => { sight.articleId ||= articleId; });
+          area.foods.forEach((food) => { food.articleId ||= articleId; });
+        }
       });
     });
     return { cities, areas };
   }
 
   function buildBudget() {
-    return list(trip.budgetEstimates).filter((row) => row.amount !== null && row.amount !== "" && Number.isFinite(Number(row.amount))).map((row) => ({ id: row.id, title: row.title, category: row.category, amountOriginal: Number(row.amount) * Number(row.quantity || 1), currency: row.currency, status: row.status || "estimate" }));
+    return list(trip.budgetEstimates).filter((row) => row.amount !== null && row.amount !== "" && Number.isFinite(Number(row.amount))).map((row) => ({
+      id: row.id, title: row.title, category: row.category, amountOriginal: Number(row.amount) * Number(row.quantity || 1), currency: row.currency, status: row.status || "estimate",
+      note: row.note || "", sourceLabel: row.sourceLabel || "", sourceUrl: row.sourceUrl || "", checkedAt: row.checkedAt || "", sourceScope: row.sourceScope || ""
+    }));
   }
 
   const budgetDayMap = {
     sagrada: "d1230", "iryo-out": "d1230", "iryo-back": "d0103", aerobus: "d1226", montserrat: "d1229",
     mila: "d1226", batllo: "d1226", prado: "d1231", reinasofia: "d0103"
   };
-  const selectedCanonicalBudgetIds = new Set(["sagrada", "iryo-out", "iryo-back", "aerobus", "montserrat", "mila", "batllo", "prado", "reinasofia"]);
+  const selectedCanonicalBudgetIds = new Set(["intl-flight", "barcelona-tourist-tax", "sagrada", "iryo-out", "iryo-back", "aerobus", "montserrat", "mila", "batllo", "prado", "reinasofia"]);
   const planOnlyAdmissions = {
     d0102: [
       { id: "plan:d0102:cordoba-rail", title: "Madrid–Cordoba高速鉄道往復", amountEur: 240, category: "交通", basis: "3名分の計画枠・発売後に実額へ更新" },
@@ -772,6 +781,29 @@
     [/搭乗口に近い.*昼食|制限区域内/, "温かい麺またはご飯を3人分、水を3本。13:30までに食べ終えます。"]
   ];
   function firstRuleValue(rules, value) { return rules.find(([pattern]) => pattern.test(String(value || "")))?.[1] || ""; }
+  const mealEvidenceRules = [
+    [/El Llagut/, { min: 60, max: 85, basis: "公式現行menu：romesco系前菜€13＋米・fideus 2人前€34–52＋パン€3.60。水・飲み物と価格変動を加えた3人分。", sourceUrl: "https://www.elllagut.com/la-carta/", sourceLabel: "El Llagut公式menu", sourceScope: "料理名、税込価格、パン代、最低2人注文の条件" }],
+    [/Casa Alberto/, { min: 88, max: 110, basis: "公式現行menu：callos €26.50＋bacalao 2皿€50＋パン3人€4.50。飲み物またはdessertの余裕を加えた3人分。", sourceUrl: "https://www.casaalberto.es/carta-restaurante?idIdioma=1", sourceLabel: "Casa Alberto公式menu", sourceScope: "callos、bacalao、パンの税込価格" }],
+    [/Bodega de los Secretos/, { min: 95, max: 130, basis: "公式現行menu：主菜3皿€66–99＋前菜€18–25＋パン3人€7.50。飲み物を含む3人分。", sourceUrl: "https://bodegadelossecretos.com/en/carta/", sourceLabel: "Bodega de los Secretos公式menu", sourceScope: "料理・パンの税込価格と12/31昼営業" }],
+    [/Can Solé/, { min: 85, max: 125, basis: "公式menuの魚介前菜と米・fideuàを2人前頼む3人分の範囲。年末の料理と価格は予約時に再確認。", sourceUrl: "https://restaurantcansole.com/carta/", sourceLabel: "Can Solé公式menu", sourceScope: "魚介料理・米料理・fideuàの掲載価格" }],
+    [/Can Culleretes/, { min: 45, max: 70, basis: "公式menu掲載のescudella・canelons・crema catalanaを基準に、店内価格差と飲み物を加えた3人分。", sourceUrl: "https://culleretes.com/carta-i-menus/", sourceLabel: "Can Culleretes公式menu", sourceScope: "Catalunya料理の提供内容。店内価格は利用前に再確認" }],
+    [/Taberna Salinas/, { min: 55, max: 80, basis: "公式menu掲載のsalmorejo・flamenquín・rabo de toro・berenjenasを各1皿共有する3人分。価格非掲載のため余裕を持つ計画枠。", sourceUrl: "https://www.tabernasalinas.com/la-carta/", sourceLabel: "Taberna Salinas公式menu", sourceScope: "4品の提供、通常営業時間、住所。価格は利用前に確認" }],
+    [/San Ginés/, { min: 18, max: 30, basis: "chocolate 3杯とchurros約6本を頼む3人分の計画枠。元日は行列と追加注文を見込む。", sourceUrl: "https://chocolateriasangines.com/", sourceLabel: "Chocolatería San Ginés公式", sourceScope: "本店の通年営業とChristmas期間の予約条件。価格は現地確認" }],
+    [/La Campana/, { min: 20, max: 35, basis: "bocadillo de calamares 2個＋tortilla 1皿＋飲み物を3人で分ける計画枠。", sourceUrl: "https://www.esmadrid.com/restaurantes/la-campana", sourceLabel: "Madrid公式観光案内", sourceScope: "店舗、名物、通常営業時間。元日営業と価格は直前確認" }],
+    [/La Cafeteria/, { min: 45, max: 70, basis: "山上で温かい料理またはbocadilloを3人分＋matóを共有する計画枠。混雑時は持参食へ切替。", sourceUrl: "https://www.montserratvisita.com/en/practical-information/opening-hours", sourceLabel: "Montserrat公式", sourceScope: "La Cafeteriaの通常営業時間。料理と価格は当日確認" }],
+    [/京成友膳/, { min: 40, max: 55, basis: "和定食2人前＋うどん1人前＋水を3人分。空港店の価格変動を含む計画枠。", sourceUrl: "https://www.narita-airport.jp/ja/shop/shop-search/t1cb04_t0009k/", sourceLabel: "成田空港公式店舗案内", sourceScope: "場所と通常営業時間。料理価格は入店時確認" }],
+    [/Mauri Pastisseria/, { min: 28, max: 42, basis: "bocadillo 2個＋甘くないpastry 1個＋coffee 3杯の3人分計画枠。", sourceUrl: "https://mauri.cat/", sourceLabel: "Mauri公式", sourceScope: "店舗と商品構成。年末営業時間と価格は直前確認" }],
+    [/365 Obrador/, { min: 25, max: 38, basis: "bocadillo 2個＋croissant 1個＋coffee 3杯＋水の3人分計画枠。", sourceUrl: "https://365obrador.com/", sourceLabel: "365 Obrador公式", sourceScope: "店舗・商品構成。対象店の年末営業時間と価格は直前確認" }],
+    [/Cuines Santa Caterina/, { min: 65, max: 95, basis: "魚料理・季節野菜・パンを3人で共有する計画枠。menuは季節で変わるため、当日価格を見て選ぶ。", sourceUrl: "https://grupotragaluz.com/restaurantes/cuines-santa-caterina/", sourceLabel: "Cuines Santa Caterina公式", sourceScope: "店舗・料理構成・予約案内。価格は当日menuで確認" }],
+    [/El Xampanyet/, { min: 55, max: 80, basis: "anchoa 1皿＋conservas 2皿＋温菜1皿＋cava 3杯の3人分計画枠。", sourceUrl: "https://www.elxampanyet.es/", sourceLabel: "El Xampanyet公式", sourceScope: "店舗情報。年末営業時間と価格は直前確認" }],
+    [/Seventeen Restaurant/, { min: 70, max: 100, basis: "tortilla 1皿＋主菜2皿＋パンと飲み物を3人で共有する到着日用の計画枠。", sourceUrl: "https://www.hotelbarcelonacenter.com/", sourceLabel: "Hotel Barcelona Center公式", sourceScope: "館内restaurantの提供。料理価格と年末時間は到着後確認" }],
+    [/Balmes 103/, { min: 70, max: 105, basis: "軽い主菜2皿＋soup 1皿＋パンと飲み物、必要なら主菜1皿追加する3人分。", sourceUrl: "https://www.hotelbarcelonacenter.com/", sourceLabel: "Hotel Barcelona Center公式", sourceScope: "館内restaurantの提供。料理価格と年末時間は到着後確認" }],
+    [/持帰り夕食/, { min: 45, max: 75, basis: "持帰り主食3人分＋水＋年越し用ぶどうの計画枠。購入店未確定のため価格根拠は商品選択時に更新。", sourceUrl: "", sourceLabel: "計画枠", sourceScope: "店が決まるまでmenu根拠なし" }],
+    [/Enrique Tomás/, { min: 25, max: 45, basis: "jamónのbocadillo 2個＋tortilla 1個＋水3本の3人分計画枠。", sourceUrl: "https://www.enriquetomas.com/", sourceLabel: "Enrique Tomás公式", sourceScope: "商品構成。駅店舗の営業時間と価格は直前確認" }],
+    [/Coffee & Fresh Food|FOODIES/, { min: 40, max: 60, basis: "sandwich 2個＋果物＋coffee 3杯＋水3本の空港内3人分計画枠。", sourceUrl: "https://www.aena.es/en/josep-tarradellas-barcelona-el-prat/airport-services/shops-and-restaurants.html", sourceLabel: "Aena公式店舗案内", sourceScope: "保安検査後の店舗・通常営業時間。搭乗口と価格は当日確認" }],
+    [/El Bar de Alba|客室メニュー/, { min: 60, max: 100, basis: "温かい軽食2皿＋soupまたはsushi 1皿＋飲み物の3人分計画枠。元日の提供はcheck-in時に確認。", sourceUrl: "https://room-matehotels.com/gb/hotel-alba-madrid/", sourceLabel: "Room Mate Alba公式", sourceScope: "館内barの存在。元日menu・提供時間・価格は現地確認" }],
+    [/搭乗口に近い|制限区域内/, { min: 35, max: 60, basis: "PVG制限区域内で温かい食事3人分＋水を確保する計画枠。搭乗口確認後に店と実額を決める。", sourceUrl: "", sourceLabel: "当日選択の計画枠", sourceScope: "乗継導線により店が変わるためmenu根拠なし" }]
+  ];
   function mealBudgetFor(dayId, period) {
     const amounts = mealAllowances[dayId] || [36, 75, 105];
     const slot = /昼/.test(period) ? 1 : /朝|軽食/.test(period) ? 0 : 2;
@@ -779,9 +811,10 @@
   }
   function mealVisual(meal) {
     const haystack = `${meal.primary} ${list(meal.dishes).join(" ")}`;
-    if (/El Llagut|romesco|cassola/i.test(haystack)) return { image: "assets/tarragona-food-v2.png", imageAlt: "romescoと魚介を中心にしたTarragona料理のイメージ", imageKind: "AI生成イメージ" };
-    if (/Taberna Salinas|salmorejo|flamenquín|rabo de toro|berenjenas con miel/i.test(haystack)) return { image: "assets/cordoba-food-v2.png", imageAlt: "Cordobaの代表料理を3人で囲むイメージ", imageKind: "AI生成イメージ" };
-    if (/La Cafeteria|Mató|mató/i.test(haystack)) return { image: "assets/montserrat-hero-v2.png", imageAlt: "Montserratの山上と食事を表現したイメージ", imageKind: "AI生成イメージ" };
+    if (/El Llagut|romesco|cassola/i.test(haystack)) return { image: "assets/food-romesco-cassola-ai.webp", imageAlt: "魚介を温かいromescoで煮たcassolaのイメージ", imageKind: "料理イメージ・AI生成" };
+    if (/Taberna Salinas|salmorejo|flamenquín|rabo de toro|berenjenas con miel/i.test(haystack)) return { image: "assets/food-salmorejo-ai.webp", imageAlt: "卵とjamónを添えたCordobaのsalmorejoのイメージ", imageKind: "料理イメージ・AI生成" };
+    if (/La Cafeteria|Mató|mató/i.test(haystack)) return { image: "assets/food-mato-mel-ai.webp", imageAlt: "matóに蜂蜜をかけたCatalunyaの甘味のイメージ", imageKind: "料理イメージ・AI生成" };
+    if (/La Campana|bocadillo de calamares/i.test(haystack)) return { image: "assets/food-bocadillo-calamares-ai.webp", imageAlt: "揚げたcalamaresをパンに挟んだMadridのbocadilloのイメージ", imageKind: "料理イメージ・AI生成" };
     if (/Can Solé|fideuà|魚介の米料理/i.test(haystack)) return { image: "assets/food-fideua.webp", imageAlt: "魚介と短い麺を炊いたfideuà", imageKind: "料理写真" };
     if (/Can Culleretes|crema catalana/i.test(haystack)) return { image: "assets/food-crema-catalana.jpg", imageAlt: "表面を香ばしく焼いたcrema catalana", imageKind: "料理写真" };
     if (/San Ginés|churros/i.test(haystack)) return { image: "assets/food-churros-san-gines.jpg", imageAlt: "chocolateとchurros", imageKind: "料理写真" };
@@ -798,10 +831,19 @@
   }
   function decorateMeal(dayId, meal) {
     const visual = mealVisual(meal);
+    const evidence = mealEvidenceRules.find(([pattern]) => pattern.test(`${meal.primary} ${list(meal.dishes).join(" ")}`))?.[1];
+    const fallbackBudget = mealBudgetFor(dayId, meal.period || "食事");
     const { price: _legacyPrice, ...travelerMeal } = meal;
     return {
       ...travelerMeal, ...visual,
-      budgetEur: mealBudgetFor(dayId, meal.period || "食事"),
+      budgetMinEur: evidence?.min ?? Math.max(0, Math.round(fallbackBudget * 0.8)),
+      budgetMaxEur: evidence?.max ?? fallbackBudget,
+      budgetEur: evidence?.max ?? fallbackBudget,
+      budgetBasis: evidence?.basis || "店が未確定のため、3人分を食事時間帯別に置いた計画枠。店とmenuが決まり次第、積み上げへ更新します。",
+      sourceUrl: evidence?.sourceUrl || "",
+      sourceLabel: evidence?.sourceLabel || "計画枠",
+      sourceScope: evidence?.sourceScope || "menu根拠は未接続",
+      checkedAt: "2026-08-16",
       experience: meal.experience || firstRuleValue(mealExperienceRules, meal.primary) || "その町の料理と雰囲気を、前後の予定に無理なくつなげて楽しむ食事です。",
       orderForThree: meal.orderForThree || firstRuleValue(mealOrderRules, meal.primary) || defaultOrderForThree(meal)
     };
@@ -814,31 +856,60 @@
     const tarragonaDayId = flexDayFor("Tarragona");
     const eurRate = Number(fx?.EURJPY || 170);
     const asEur = (row) => row.currency === "JPY" ? Number(row.amountOriginal) / eurRate : Number(row.amountOriginal);
+    const plannedDays = buildDays({}, scenarioId);
     const missing = list(trip.budgetEstimates).filter((row) => row.id !== "hotels" && (row.amount === null || row.amount === "" || !Number.isFinite(Number(row.amount)))).map((row) => ({ id: row.id, title: row.title, note: row.note }));
     const missingIds = new Set(missing.map((row) => row.id));
     const canonicalBudgetIds = new Set(list(trip.budgetEstimates).map((row) => row.id));
     const usableBudgetRows = list(budgetRows).filter((row) => !missingIds.has(row.id) && (!canonicalBudgetIds.has(row.id) || selectedCanonicalBudgetIds.has(row.id)));
     const days = list(trip.days).map((day) => {
-      const [breakfast, lunch, dinner] = mealAllowances[day.id] || [36, 75, 105];
-      const lines = [
-        [`plan:${day.id}:breakfast`, "朝食", breakfast, "食事"], [`plan:${day.id}:lunch`, "昼食", lunch, "食事"], [`plan:${day.id}:dinner`, "夕食", dinner, "食事"],
-        [`plan:${day.id}:local-transport`, "市内交通・短距離移動", localTransportAllowances[day.id] || 0, "交通"]
-      ].filter(([, , amount]) => amount > 0).map(([id, title, amount, category]) => ({ id, title, amountEur: amount, category, basis: "3人分の計画枠" }));
+      const mealLines = list(plannedDays[day.id]?.meals).map((meal, index) => ({
+        id: `plan:${day.id}:meal:${index}`,
+        title: `${meal.period || "食事"}・${meal.primary}`,
+        amountEur: Number(meal.budgetMaxEur || meal.budgetEur || 0),
+        category: "食事",
+        basis: `3人分 €${meal.budgetMinEur || 0}–€${meal.budgetMaxEur || meal.budgetEur || 0}｜${meal.budgetBasis}`,
+        sourceUrl: meal.sourceUrl || "",
+        sourceLabel: meal.sourceLabel || "計画枠",
+        checkedAt: meal.checkedAt || "2026-08-16"
+      })).filter((line) => line.amountEur > 0);
+      const lines = [...mealLines];
+      if ((localTransportAllowances[day.id] || 0) > 0) lines.push({ id: `plan:${day.id}:local-transport`, title: "市内交通・短距離移動", amountEur: localTransportAllowances[day.id], category: "交通", basis: "3人分の計画枠・長距離鉄道は別行" });
       list(planOnlyAdmissions[day.id]).forEach((row) => lines.push({ ...row }));
       if (day.id === tarragonaDayId) lines.push({ id: `plan:${day.id}:tarragona-rail`, title: "Barcelona–Tarragona往復", amountEur: 36, category: "交通", basis: "3名分の見積・年末ダイヤ発売後に更新" }, { id: `plan:${day.id}:tarragona-admission`, title: "Tarragona市立遺跡入場", amountEur: 36, category: "観光", basis: "3名分の見積・利用日の対象施設で更新" });
       usableBudgetRows.filter((row) => {
         const mappedDay = row.id === "montserrat" ? montserratDayId : (row.dayId || budgetDayMap[row.id]);
         return mappedDay === day.id;
-      }).forEach((row) => lines.push({ id: row.id, title: row.title, amountEur: asEur(row), category: row.category, basis: row.status === "confirmed" || row.status === "確定済み" ? "確定額" : "見積" }));
+      }).forEach((row) => lines.push({ id: row.id, title: row.title, amountEur: asEur(row), category: row.category, basis: row.status === "confirmed" || row.status === "確定済み" ? `確定額｜${row.note || row.sourceLabel || "確認済み"}` : `見積｜${row.note || "旅行前に実額へ更新"}`, sourceUrl: row.sourceUrl || "", sourceLabel: row.sourceLabel || "", checkedAt: row.checkedAt || "" }));
       return { id: day.id, date: jpDate(day), city: finalDayMeta[day.id]?.city || displayCity(day), lines, totalEur: lines.reduce((sum, line) => sum + line.amountEur, 0) };
     });
     const assignedIds = new Set(days.flatMap((day) => usableBudgetRows.filter((row) => (row.id === "montserrat" ? montserratDayId : (row.dayId || budgetDayMap[row.id])) === day.id).map((row) => row.id)));
-    const tripWide = usableBudgetRows.filter((row) => !assignedIds.has(row.id)).map((row) => ({ id: row.id, title: row.title, amountEur: asEur(row), category: row.category, basis: row.status === "confirmed" || row.status === "確定済み" ? "確定額" : "見積" }));
+    const tripWide = usableBudgetRows.filter((row) => !assignedIds.has(row.id)).map((row) => ({ id: row.id, title: row.title, amountEur: asEur(row), category: row.category, basis: row.status === "confirmed" || row.status === "確定済み" ? `確定額｜${row.note || row.sourceLabel || "確認済み"}` : `見積｜${row.note || "旅行前に実額へ更新"}`, sourceUrl: row.sourceUrl || "", sourceLabel: row.sourceLabel || "", checkedAt: row.checkedAt || "" }));
     hotelStays.forEach((stay) => tripWide.push({ id: `hotel:${stay.id}`, title: `${stay.stay}・${stay.recommendation}`, amountEur: stay.totalEur, category: "宿泊", basis: `仮候補・未予約／${stay.priceCheckedAt} 3名検索` }));
     const allLines = [...days.flatMap((day) => day.lines), ...tripWide];
     const categories = ["食事", "交通", "観光", "宿泊", "買い物", "雑費", "その他"].map((category) => ({ category, amountEur: allLines.filter((line) => line.category === category).reduce((sum, line) => sum + line.amountEur, 0) })).filter((row) => row.amountEur > 0);
     const totalEur = allLines.reduce((sum, line) => sum + line.amountEur, 0);
-    return { days, tripWide, categories, totalEur, missing, assumptions: "食費は3人分の計画枠（朝€36・昼€75・夜€105を基本）で、店が決まったら更新します。市内交通も日別の仮予算です。ホテル€3,370は2026-07-25/26に大人3名・朝食なし・変更可能な料金を優先して調べた仮候補3滞在の合計で、未予約です。国際線は予約内容から総額を入力した後に加算します。" };
+    return { days, tripWide, categories, totalEur, missing, assumptions: "国際線は3名のeチケット控えで確認した発券済み総額です。食費は店ごとの注文内容と公式menuを優先し、価格非掲載・店未確定の食事だけ範囲付き計画枠にしています。日別合計には安全側の上限を採用します。ホテル€3,370は2026-07-25/26に大人3名・朝食なし・変更可能な料金を優先して調べた仮候補3滞在の合計で未予約です。Barcelona宿泊税€126は4つ星€8.40×3人×5泊の予備枠で、予約総額に含まれる場合は外します。" };
+  }
+  const operationalSourceRules = [
+    [/CA0|PVG|浦東|成田|国際線|帰国便|搭乗口|保安検査/, [{ label: "発券済みeチケット控え（非公開）", href: "", checkedAt: "2026-08-16", scope: "3名の便・日付・区間・発券済み総額を確認。予約番号と旅客情報は公開しません" }]],
+    [/Sants|Atocha|Barcelona.*Madrid|Madrid.*Barcelona|Córdoba.*列車|列車.*Córdoba|AVE|Renfe/, [{ label: "Renfe公式", href: "https://www.renfe.com/es/en", checkedAt: "2026-08-16", scope: "長距離列車の発売・運行・利用条件。採用便は発売後に再確認" }]],
+    [/Montserrat|Plaça Espanya|FGC|Aeri|Cremallera/, [{ label: "Montserrat公式｜営業時間", href: "https://www.montserratvisita.com/en/practical-information/opening-hours", checkedAt: "2026-08-16", scope: "山上施設の通常営業時間。天候と当日運行は出発前にも再確認" }, { label: "FGC Turistren公式", href: "https://turistren.cat/en/trains/montserrat-rack-railway-and-funiculars/", checkedAt: "2026-08-16", scope: "BarcelonaからMontserratへの鉄道・登山鉄道" }]],
+    [/Tarragona|Tarraco|円形闘技場|Circ|城壁/, [{ label: "UNESCO｜Archaeological Ensemble of Tarraco", href: "https://whc.unesco.org/en/list/875", checkedAt: "2026-08-16", scope: "Tarracoの構成資産と世界遺産としての位置づけ" }, { label: "Tarragona Turisme公式", href: "https://www.tarragonaturisme.cat/en", checkedAt: "2026-08-16", scope: "市内観光と年末の実用情報。各施設時間は直前に再確認" }]],
+    [/Córdoba|Cordoba|Mezquita|Judería/, [{ label: "Mezquita-Catedral公式", href: "https://mezquita-catedraldecordoba.es/en/", checkedAt: "2026-08-16", scope: "入場・通常営業時間・建物の公式情報。対象日の時間は予約時に再確認" }]],
+    [/Sagrada/, [{ label: "Sagrada Família公式", href: "https://sagradafamilia.org/en/tickets", checkedAt: "2026-08-16", scope: "入場券・見学条件。2026年末の枠は発売後に確定" }]],
+    [/Park Güell/, [{ label: "Park Güell公式", href: "https://parkguell.barcelona/en/planning-your-visit/prices-and-times", checkedAt: "2026-08-16", scope: "有料入場帯・料金・利用条件。枠は未購入" }]],
+    [/Casa Milà|La Pedrera/, [{ label: "La Pedrera公式", href: "https://www.lapedrera.com/en/visits", checkedAt: "2026-08-16", scope: "見学種類・通常時間・予約" }]],
+    [/Casa Batlló/, [{ label: "Casa Batlló公式", href: "https://www.casabatllo.es/en/online-tickets/", checkedAt: "2026-08-16", scope: "入場枠・利用条件" }]],
+    [/Prado/, [{ label: "Museo del Prado公式", href: "https://www.museodelprado.es/en/visit-the-museum", checkedAt: "2026-08-16", scope: "12月31日の短縮開館を含む訪問条件" }]],
+    [/Reina Sofía/, [{ label: "Museo Reina Sofía公式", href: "https://www.museoreinasofia.es/en/visit", checkedAt: "2026-08-16", scope: "開館日・通常時間・入場条件" }]],
+    [/Puerta del Sol|年越し|NYE/, [{ label: "Madrid公式観光案内｜New Year's Eve", href: "https://www.esmadrid.com/en/whats-on/new-years-eve-puerta-sol", checkedAt: "2026-08-16", scope: "年越し行事の概要。2026年の入場規制・交通は公式発表後に更新" }]],
+    [/Barcelona.*空港|空港.*Barcelona|El Prat|Aena/, [{ label: "Aena公式｜Barcelona空港", href: "https://www.aena.es/en/josep-tarradellas-barcelona-el-prat.html", checkedAt: "2026-08-16", scope: "空港施設・出発案内。terminalと搭乗口は当日確認" }]],
+    [/Barcelona.*地下鉄|地下鉄.*Barcelona|TMB/, [{ label: "TMB公式", href: "https://www.tmb.cat/en/home", checkedAt: "2026-08-16", scope: "Barcelona市内交通。年末の運行は直前確認" }]],
+    [/Madrid.*地下鉄|地下鉄.*Madrid|Metro/, [{ label: "Metro de Madrid公式", href: "https://www.metromadrid.es/en", checkedAt: "2026-08-16", scope: "Madrid市内交通。大晦日・元日の運行は直前確認" }]]
+  ];
+  function operationalSourcesFor(item) {
+    const text = `${item.id || ""} ${item.title || ""} ${list(item.notes).join(" ")}`;
+    return operationalSourceRules.filter(([pattern]) => pattern.test(text)).flatMap(([, sources]) => sources);
   }
   function detail(key) {
     if (!String(key).startsWith("canonical-")) return null;
@@ -853,18 +924,19 @@
     const booking = bookingById.get(item.bookingId);
     const article = articleById.get(item.articleId || list(place?.articleIds)[0]);
     const sourceIds = [...new Set([...list(place?.visitInfo?.sourceIds), ...list(booking?.sourceIds)])];
-    const sources = sourceIds.map((sourceId) => sourceById.get(sourceId)).filter(Boolean).slice(0, 5);
+    const canonicalSources = sourceIds.map((sourceId) => sourceById.get(sourceId)).filter(Boolean).map((source) => ({ label: source.title || source.label || source.id, href: source.url || source.href || "", checkedAt: source.checkedAt || place?.visitInfo?.checkedAt || "再確認待ち", scope: source.scope || source.whatWasChecked || "" }));
+    const sources = [...canonicalSources, ...operationalSourcesFor(item)].filter((source, index, all) => index === all.findIndex((candidate) => `${candidate.label}|${candidate.href}` === `${source.label}|${source.href}`)).slice(0, 5);
     const isTransit = ["transfer", "transport", "flight", "airport", "station", "train"].includes(item.kind) || /乗継|保安検査|搭乗口|空港|駅/.test(item.title);
     const facts = [["時刻", `${timingText(item)}${timingEnd(item) ? `–${timingEnd(item)}` : ""} ${zoneLabel(item.timing?.start?.timeZone)}`.trim()]];
     if (booking) facts.push(["予約", `${booking.title}：${statusText(booking.status)}`]);
     if (!isTransit && place?.visitInfo) facts.push(["訪問条件", place.visitInfo.recheckRequired ? "旅行前に公式情報を再確認" : statusText(place.visitInfo.status)]);
     if (!isTransit && place?.address) facts.push(["住所", place.address]);
-    const needsOperationalSource = !isTransit && Boolean(booking || place?.visitInfo || place?.officialUrl);
+    const needsOperationalSource = Boolean(isTransit || booking || place?.visitInfo || place?.officialUrl);
     return {
       eyebrow: kindText(item.kind), title: travelerText(item.title), status: itemStatus(item), note: travelerText(list(item.notes)[0] || place?.summary || "この予定の時刻と前後の移動を旅程で確認します。"),
       facts,
       links: [{ label: "詳しく学ぶ", href: article ? `ux-v1-learn.html?id=${encodeURIComponent(article.id)}` : "" }, { label: "公式情報", href: place?.officialUrl || booking?.actionUrl || "" }, { label: "地図", href: place?.mapUrl || "" }].filter((link) => link.href),
-      sources: sources.map((source) => ({ label: source.title || source.label || source.id, href: source.url || source.href || "", checkedAt: source.checkedAt || place?.visitInfo?.checkedAt || "再確認待ち" })).filter((source) => source.href),
+      sources,
       showSourceWarning: needsOperationalSource && sources.length === 0
     };
   }

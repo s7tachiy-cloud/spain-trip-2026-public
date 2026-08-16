@@ -251,7 +251,7 @@ function renderNav() {
 
 function renderDaySwitcher() {
   const context = document.querySelector(".day-context");
-  context.hidden = ["guide", "records", "schedule"].includes(state.tab);
+  context.hidden = ["home", "guide", "records", "schedule"].includes(state.tab);
   document.querySelector("[data-day-switcher]").innerHTML = Object.values(days).map((day) => `<button class="day-button" type="button" role="tab" data-day="${day.id}" aria-selected="${state.day === day.id}"><strong>${day.date} · ${day.city}</strong><small>${day.type}</small></button>`).join("");
 }
 
@@ -279,14 +279,38 @@ function tripCountdown(now = new Date()) {
 }
 
 function renderHome() {
-  const day = days[state.day];
-  screen.innerHTML = `${screenHeader("HOME", day.title, "今日の予定、次にすること、準備が必要なことをまとめています。")}
-    <section class="trip-hero" aria-label="スペイン旅行の概要"><div class="trip-hero-copy"><span class="eyebrow">SPAIN · 12 DAYS · 3 TRAVELERS</span><h2>BarcelonaとMadridに泊まり、海辺の古代都市とAndalucíaへ日帰りする旅</h2><p>12/25–1/5 · TarragonaとCórdobaへ。Montserratは晴天と体力がそろう日に選びます。</p><strong>${esc(tripCountdown())}</strong><div class="action-row">${action("12日間の旅程を見る", { tab: "schedule", contextDay: state.day, primary: true })}${action("町と食を楽しむ", { tab: "guide" })}</div><small class="image-disclosure">背景は都市イメージ・AI生成</small></div><div class="trip-hero-photos" aria-hidden="true"><span></span><span></span></div></section>
-    <div class="hero-layout">
-      ${primaryCard(day)}
-      <aside class="card side-summary"><span class="eyebrow">DAY CONTEXT</span><span class="big-number">${esc(day.date.slice(0,5))}</span><h3>${esc(day.city)}</h3><p>${esc(day.type)}</p><div class="action-row">${action("旅程を見る", { tab: "schedule", contextDay: day.id, primary: true })}</div></aside>
-    </div>
-    <section class="section"><div class="section-head"><div><span class="eyebrow">UP NEXT</span><h2>出発前に確認すること</h2></div></div><div class="grid two">${day.upcoming.map(([title, note, status]) => `<article class="card card-body"><div class="status-row">${pill(status, /不足|調査|依存/.test(status) ? "wait" : "info")}</div><h3>${esc(title)}</h3><p class="muted">${esc(note)}</p>${action("準備で確認", { tab: "plan" })}</article>`).join("")}</div></section>`;
+  const pendingBookings = allTripBookings().filter((booking) => bookingStatusLabel(booking) !== "予約済み");
+  const waitingOfficial = pendingBookings.filter((booking) => bookingStatusLabel(booking) === "公式発表待ち");
+  const transportOrRelease = (booking) => bookingStatusLabel(booking) === "発売待ち" || /列車|鉄道|Barcelona.*Madrid|Madrid.*Barcelona|Córdoba.*往復|Cordoba.*往復/.test(booking.title);
+  const waitingRelease = pendingBookings.filter((booking) => !waitingOfficial.includes(booking) && transportOrRelease(booking));
+  const readyToArrange = pendingBookings.filter((booking) => !waitingOfficial.includes(booking) && !waitingRelease.includes(booking) && bookingStatusLabel(booking) === "これから手配");
+  const taskGroups = [
+    ["今決める", [
+      ["1", "Barcelona・Madridのホテルを決める", "最優先", "3滞在とも仮候補・未予約です。3名1室、取消条件、宿泊税を同じ条件で比較して予約します。", "準備の「宿泊」で比較", "hotels"],
+      ["2", readyToArrange.length ? `${readyToArrange.length}件の入場・食事予約を進める` : "入場・食事予約を確認する", "手配可能", readyToArrange.length ? readyToArrange.slice(0, 3).map((booking) => booking.title).join("／") : "手配可能になった予約は準備へまとめます。", "準備の「予約」で確認", "bookings"]
+    ]],
+    ["発売・公式発表を待つ", [
+      ["3", `${waitingRelease.length}件の列車・入場枠`, "発売待ち", waitingRelease.slice(0, 4).map((booking) => booking.title).join("／") || "発売開始後に、採用日程の列車と入場枠を選びます。", "発売後に時刻と料金を確定", "bookings"],
+      ["4", `${waitingOfficial.length}件の年末年始情報`, "公式発表待ち", waitingOfficial.slice(0, 4).map((booking) => booking.title).join("／") || "特別営業時間・交通規制は公式発表後に更新します。", "12月に公式情報を再確認", "bookings"]
+    ]],
+    ["出発直前に確認", [
+      ["5", "TarragonaとMontserratの日を選ぶ", "12/26夜", "12/27–29の天気と交通を比較します。晴天と体力がそろえばMontserrat、条件が悪ければBarcelona市内です。", "旅程の3日間シナリオで切替", "schedule"],
+      ["6", "予約PDF・保険・通信をオフライン保存", "出発前", "航空券、ホテル、列車、入場券、保険、緊急連絡先を3人が通信なしでも見られる状態にします。", "準備の「書類・連絡」で確認", "documents"]
+    ]]
+  ];
+  screen.innerHTML = `<header class="screen-header home-task-header"><div><span class="eyebrow">HOME · NEXT ACTIONS</span><h1>出発までの残タスク</h1><p>今やること、発売を待つこと、出発直前に確認することだけを優先順で表示します。</p></div><div class="context-meta">${esc(tripCountdown())}<small>12/25–1/5 · 3人</small></div></header>
+    <section class="home-task-summary" aria-label="残タスクの概要"><article><span>最優先</span><strong>ホテル</strong><small>3滞在・未予約</small></article><article><span>手配・発売待ち</span><strong>${pendingBookings.length}件</strong><small>準備タブに詳細</small></article><article><span>旅程の条件分岐</span><strong>1件</strong><small>Montserratは天候次第</small></article></section>
+    <article class="card home-next-action"><div><span class="eyebrow">NEXT DECISION</span><h2>まずホテル3滞在を決める</h2><p>Barcelona → Madrid → Barcelonaの宿泊都市は固定。仮候補の料金・部屋・取消条件を同じ3名条件で比較します。</p></div><div class="action-row"><button class="button primary" type="button" data-home-plan-section="hotels" data-home-target="plan">ホテル比較を開く</button>${action("全体予算を見る", { tab: "records" })}</div></article>
+    <div class="home-task-groups">${taskGroups.map(([phase, tasks]) => `<section class="home-task-phase"><div class="section-head compact-head"><div><span class="eyebrow">TASK PHASE</span><h2>${esc(phase)}</h2></div><span>${tasks.length}件</span></div><div class="home-task-list">${tasks.map(([number, title, status, note, next, section]) => `<article class="card home-task-card"><span class="task-index">${number}</span><div><div class="status-row">${pill(status, /最優先|12\/26/.test(status) ? "wait" : "info")}</div><h3>${esc(title)}</h3><p>${esc(note)}</p><small>${esc(next)}</small></div><button class="button" type="button" data-home-plan-section="${esc(section)}" data-home-target="${section === "schedule" ? "schedule" : "plan"}">開く</button></article>`).join("")}</div></section>`).join("")}</div>
+    <section class="home-quick-links"><div><span class="eyebrow">PLAN ALREADY SET</span><h2>決まっている旅の骨格</h2><p>BarcelonaとMadridに宿泊し、TarragonaとCórdobaへ日帰り。Montserratは天候と体力で追加します。</p></div><div class="action-row">${action("12日間の旅程", { tab: "schedule", contextDay: state.day, primary: true })}${action("町と食のガイド", { tab: "guide" })}</div></section>`;
+}
+
+function mealBudgetRange(meal) {
+  const min = Number(meal?.budgetMinEur ?? meal?.budgetEur ?? 0);
+  const max = Number(meal?.budgetMaxEur ?? meal?.budgetEur ?? 0);
+  if (min === max) return dualMoney(max);
+  const euroNumber = (value) => value.toLocaleString("ja-JP", { minimumFractionDigits: Number.isInteger(value) ? 0 : 2, maximumFractionDigits: 2 });
+  return `${yen(min * recordsState.fx.EURJPY)}–${yen(max * recordsState.fx.EURJPY)} / €${euroNumber(min)}–€${euroNumber(max)}`;
 }
 
 function timelineDetail(item) {
@@ -298,7 +322,7 @@ function timelineDetail(item) {
   const map = `<a class="button primary" href="${esc(mapsUrl(`${item.title} ${day.city}`))}" target="_blank" rel="noreferrer">地図で確認</a>`;
   return `<span class="eyebrow">${esc(item.kind || "判断")}</span><h2>${esc(item.title)}</h2><div class="status-row">${pill(item.status || day.state, item.tone || day.stateTone)}</div><p>${esc(item.note)}</p>
     <dl class="fact-list"><div><dt>日付</dt><dd>${esc(day.date)}</dd></div><div><dt>時刻</dt><dd>${esc(item.time)}${item.end ? `–${esc(item.end)}` : ""}</dd></div></dl>
-    ${item.meal ? `<h3>食事の内容</h3><dl class="fact-list"><div><dt>場所</dt><dd>${esc(item.meal.area)}</dd></div><div><dt>食べるもの</dt><dd>${esc((item.meal.dishes || []).join("・"))}</dd></div><div><dt>3人分の予算</dt><dd>${dualMoney(item.meal.budgetEur)}</dd></div><div><dt>3人で頼むなら</dt><dd>${esc(item.meal.orderForThree)}</dd></div><div><dt>予約</dt><dd>${esc(item.meal.booking)}</dd></div><div><dt>満席時</dt><dd>${esc((item.meal.alternatives || []).join("／"))}</dd></div></dl>` : ""}
+    ${item.meal ? `<h3>食事の内容</h3><dl class="fact-list"><div><dt>場所</dt><dd>${esc(item.meal.area)}</dd></div><div><dt>食べるもの</dt><dd>${esc((item.meal.dishes || []).join("・"))}</dd></div><div><dt>3人分の予算</dt><dd>${mealBudgetRange(item.meal)}</dd></div><div><dt>予算の根拠</dt><dd>${esc(item.meal.budgetBasis || "店とmenuを決めた後に更新します。")}</dd></div><div><dt>3人で頼むなら</dt><dd>${esc(item.meal.orderForThree)}</dd></div><div><dt>予約</dt><dd>${esc(item.meal.booking)}</dd></div><div><dt>満席時</dt><dd>${esc((item.meal.alternatives || []).join("／"))}</dd></div></dl>${item.meal.sourceUrl ? `<p class="caption"><a class="source-link" href="${esc(item.meal.sourceUrl)}" target="_blank" rel="noreferrer">${esc(item.meal.sourceLabel || "予算根拠")}</a> · 確認 ${esc(item.meal.checkedAt || "2026-08-16")}</p>` : ""}` : ""}
     ${nextStep ? `<h3>次の場所へ</h3><p>${esc(nextStep)}</p>` : ""}
     <div class="action-row">${map}${action("関連ガイド", { tab: "guide" })}</div>`;
 }
@@ -309,7 +333,7 @@ function renderTimeline(day) {
     const next = day.timeline[index + 1];
     const connectorText = item.routeAfter || (next && !next.decision ? `次は ${next.time}「${next.title}」` : "");
     const connector = connectorText ? `<div class="connector"><div class="connector-line"></div><div class="connector-content">${esc(connectorText)}</div></div>` : "";
-    const mealFacts = item.meal ? `<dl class="timeline-facts"><div><dt>食べるもの</dt><dd>${esc((item.meal.dishes || []).join("・"))}</dd></div><div><dt>3人分</dt><dd>${dualMoney(item.meal.budgetEur)}</dd></div><div><dt>満席時</dt><dd>${esc((item.meal.alternatives || []).join("／"))}</dd></div></dl>` : "";
+    const mealFacts = item.meal ? `<dl class="timeline-facts"><div><dt>食べるもの</dt><dd>${esc((item.meal.dishes || []).join("・"))}</dd></div><div><dt>3人分</dt><dd>${mealBudgetRange(item.meal)}</dd></div><div><dt>満席時</dt><dd>${esc((item.meal.alternatives || []).join("／"))}</dd></div></dl>` : "";
     const mapHelps = !/乗継|保安検査|搭乗口/.test(item.title);
     const routeLink = mapHelps && (item.kind === "移動" || item.kind === "鉄道" || item.kind === "航空" || item.kind === "空港") ? `<a class="button" href="${esc(mapsUrl(`${item.title} ${day.city}`))}" target="_blank" rel="noreferrer">地図</a>` : "";
     return `<div><article class="timeline-item"><div class="timeline-time">${esc(item.time)}${item.end ? `<small>〜${esc(item.end)}</small>` : ""}${item.zone ? `<small class="timeline-zone">${esc(item.zone)}</small>` : ""}</div><div class="card timeline-card"><div class="status-row">${pill(item.kind)}${pill(item.status, item.tone)}</div><h3>${esc(item.title)}</h3>${item.note ? `<p class="muted">${esc(item.note)}</p>` : ""}${mealFacts}<div class="action-row">${action("詳細", { open: item.detail, detailDay: day.id, primary: true })}${routeLink}</div></div></article>${connector}</div>`;
@@ -691,16 +715,16 @@ const operationalGuide = {
 };
 
 const guideVisuals = {
-  "Romescoと魚介": { image: "assets/tarragona-food-v2.png", imageAlt: "romescoと魚介料理を描いたイメージ", imageKind: "AI生成イメージ" },
-  "Romesco／cassola": { image: "assets/tarragona-food-v2.png", imageAlt: "romescoと魚介料理を描いたイメージ", imageKind: "AI生成イメージ" },
+  "Romescoと魚介": { image: "assets/food-romesco-cassola-ai.webp", imageAlt: "魚介を温かいromescoで煮たcassolaの料理イメージ", imageKind: "料理イメージ・AI生成" },
+  "Romesco／cassola": { image: "assets/food-romesco-cassola-ai.webp", imageAlt: "魚介を温かいromescoで煮たcassolaの料理イメージ", imageKind: "料理イメージ・AI生成" },
   "魚介の米料理・fideus": { image: "assets/tarragona-food-v2.png", imageAlt: "Tarragonaの魚介料理と米料理を描いたイメージ", imageKind: "AI生成イメージ" },
   "魚介・tapas": { image: "assets/tarragona-food-v2.png", imageAlt: "Tarragonaの魚介と小皿料理を描いたイメージ", imageKind: "AI生成イメージ" },
   "Cordoba料理5選": { image: "assets/cordoba-food-v2.png", imageAlt: "Cordobaの郷土料理を描いたイメージ", imageKind: "AI生成イメージ" },
-  "Salmorejo": { image: "assets/cordoba-food-v2.png", imageAlt: "Cordobaのsalmorejoを含む郷土料理を描いたイメージ", imageKind: "AI生成イメージ" },
-  "Flamenquín": { image: "assets/cordoba-food-v2.png", imageAlt: "Cordobaのflamenquinを含む郷土料理を描いたイメージ", imageKind: "AI生成イメージ" },
-  "Rabo de toro": { image: "assets/cordoba-food-v2.png", imageAlt: "Cordobaのrabo de toroを含む郷土料理を描いたイメージ", imageKind: "AI生成イメージ" },
-  "Berenjenas con miel": { image: "assets/cordoba-food-v2.png", imageAlt: "Cordobaのberenjenas con mielを含む郷土料理を描いたイメージ", imageKind: "AI生成イメージ" },
-  "Pastel cordobés": { image: "assets/cordoba-food-v2.png", imageAlt: "Cordobaの郷土料理を描いたイメージ", imageKind: "AI生成イメージ" },
+  "Salmorejo": { image: "assets/food-salmorejo-ai.webp", imageAlt: "卵とjamónを添えたCordobaのsalmorejoの料理イメージ", imageKind: "料理イメージ・AI生成" },
+  "Flamenquín": { image: "assets/food-flamenquin-ai.webp", imageAlt: "豚肉とjamónを巻いて揚げたCordobaのflamenquínの料理イメージ", imageKind: "料理イメージ・AI生成" },
+  "Rabo de toro": { image: "assets/food-rabo-de-toro-ai.webp", imageAlt: "濃いsauceで煮込んだCordobaのrabo de toroの料理イメージ", imageKind: "料理イメージ・AI生成" },
+  "Berenjenas con miel": { image: "assets/food-berenjenas-miel-ai.webp", imageAlt: "揚げた茄子にmiel de cañaをかけたCordoba料理のイメージ", imageKind: "料理イメージ・AI生成" },
+  "Pastel cordobés": { image: "assets/food-pastel-cordobes-ai.webp", imageAlt: "cabello de ángelを包んだCordobaのpastelの料理イメージ", imageKind: "料理イメージ・AI生成" },
   "Pa amb tomàquet": { image: "assets/food-pa-amb-tomaquet.jpg", imageAlt: "トマトとオリーブ油をのせたパン・コン・トマテ", imageKind: "料理写真" },
   "パン・コン・トマテ": { image: "assets/food-pa-amb-tomaquet.jpg", imageAlt: "トマトとオリーブ油をのせたパン・コン・トマテ", imageKind: "料理写真" },
   "Crema catalana": { image: "assets/food-crema-catalana.jpg", imageAlt: "表面を香ばしく焼いたクレマ・カタラナ", imageKind: "料理写真" },
@@ -709,6 +733,8 @@ const guideVisuals = {
   "フィデウア": { image: "assets/food-fideua.webp", imageAlt: "短い麺と魚介を炊いたフィデウア", imageKind: "料理写真" },
   "チュロス": { image: "assets/food-churros-san-gines.jpg", imageAlt: "San Ginésのチョコレート・コン・チュロス", imageKind: "料理写真" },
   "Chocolate con churros": { image: "assets/food-churros-san-gines.jpg", imageAlt: "San Ginésのチョコレート・コン・チュロス", imageKind: "料理写真" },
+  "Cocido madrileño": { image: "assets/food-cocido-madrileno-ai.webp", imageAlt: "ひよこ豆、肉、野菜を盛り分けたMadridのcocido madrileñoの料理イメージ", imageKind: "料理イメージ・AI生成" },
+  "Bocadillo de calamares": { image: "assets/food-bocadillo-calamares-ai.webp", imageAlt: "揚げたcalamaresをパンに挟んだMadridのbocadilloの料理イメージ", imageKind: "料理イメージ・AI生成" },
   "カルカムサス": { image: "assets/food-carcamusas.jpg", imageAlt: "Toledo名物の豚肉と野菜の煮込みカルカムサス", imageKind: "料理写真" },
   "Carcamusas": { image: "assets/food-carcamusas.jpg", imageAlt: "Toledo名物の豚肉と野菜の煮込みカルカムサス", imageKind: "料理写真" },
   "カサ・バトリョ": { image: "assets/sight-casa-batllo.webp", imageAlt: "Passeig de Gràciaに面するカサ・バトリョの外観", imageKind: "現地写真" },
@@ -783,7 +809,7 @@ function areaCardsForCity(city, mode) {
 function renderAreaCards(mode) {
   const cities = guideCities.filter((city) => sortedGuideAreas().some((area) => area.city === city.id));
   if (!cities.length) return '<article class="card card-body"><h3>該当する町がありません</h3><p class="muted">都市または町・エリアの条件を変更してください。</p></article>';
-  return `<div class="city-sections">${cities.map((city) => `<section class="city-section city-${city.tone}" aria-labelledby="city-${city.tone}-title"><header class="city-section-header city-photo-header" style="--city-photo:url('${city.hero}')"><div><span class="eyebrow">${esc(city.label)}</span><h2 id="city-${city.tone}-title">${esc(city.id)}</h2><p>${esc(city.intro)}</p><small class="image-disclosure">都市イメージ・AI生成</small></div><aside><span>訪問予定</span><strong>${esc(city.visit)}</strong><small>${guideAreas.filter((area) => area.city === city.id).length}エリア</small></aside></header><div class="city-section-note"><strong>${mode === "eat" ? "この都市で食べたいもの" : "この都市を楽しむ鍵"}</strong><p>${esc(mode === "eat" ? city.food : city.learn)}</p></div>${areaCardsForCity(city, mode)}</section>`).join("")}</div>`;
+  return `<div class="city-sections">${cities.map((city) => `<section class="city-section city-${city.tone}" aria-labelledby="city-${city.tone}-title"><header class="city-section-header city-photo-header" style="--city-photo:url('${city.hero}')"><div><span class="eyebrow">${esc(city.label)}</span><h2 id="city-${city.tone}-title">${esc(city.id)}</h2><p>${esc(city.intro)}</p><small class="image-disclosure">都市イメージ・AI生成</small></div><aside><span>訪問予定</span><strong>${esc(city.visit)}</strong><small>${guideAreas.filter((area) => area.city === city.id).length}エリア</small></aside></header><div class="city-section-note"><div><strong>${mode === "eat" ? "この都市で食べたいもの" : "この都市を楽しむ鍵"}</strong><p>${esc(mode === "eat" ? city.food : city.learn)}</p></div>${city.articleId ? `<a class="button" href="ux-v1-learn.html?id=${encodeURIComponent(city.articleId)}">詳しく学ぶ</a>` : ""}</div>${areaCardsForCity(city, mode)}</section>`).join("")}</div>`;
 }
 
 function renderAreaDetail(area, mode) {
@@ -795,7 +821,7 @@ function renderAreaDetail(area, mode) {
 }
 
 function renderGuideLanding() {
-  return `<section class="guide-entrances" aria-label="ガイドの入口"><button class="guide-entry guide-entry-see" type="button" data-guide-section="see"><span class="entry-icon" aria-hidden="true">◇</span><span class="eyebrow">SIGHTS BY AREA</span><strong>観光する</strong><span>都市を知り、町・エリアごとの観光地を優先順で見る。</span><span class="entry-cta">観光地を探す →</span></button><button class="guide-entry guide-entry-eat" type="button" data-guide-section="eat"><span class="entry-icon" aria-hidden="true">○</span><span class="eyebrow">FOOD BY AREA</span><strong>食べる</strong><span>都市の食文化を知り、町・エリアごとの名物と店を探す。</span><span class="entry-cta">食べ物を探す →</span></button></section>${renderMustEatOverview()}<section class="section"><div class="section-head"><div><span class="eyebrow">CITY GUIDE</span><h2>まず訪れる都市・町を知る</h2></div><p>都市 → 町・エリア → 個別情報</p></div><div class="city-hub-grid">${guideCities.map((city) => `<article class="city-overview city-${city.tone}" style="--city-photo:url('${city.hero}')"><span class="eyebrow">${esc(city.label)}</span><h2>${esc(city.id)}</h2><p>${esc(city.intro)}</p><div class="city-overview-fact"><span>食</span><strong>${esc(city.food)}</strong></div><div class="city-overview-meta"><span>訪問予定 ${esc(city.visit)}</span><span>${guideAreas.filter((area) => area.city === city.id).length}エリア</span></div><small class="image-disclosure">都市イメージ・AI生成</small><div class="action-row"><button class="button primary" type="button" data-guide-city-entry="${city.id}" data-guide-mode="see">${esc(city.id)}の観光</button><button class="button" type="button" data-guide-city-entry="${city.id}" data-guide-mode="eat">${esc(city.id)}の食</button></div></article>`).join("")}</div></section>`;
+  return `<section class="guide-entrances" aria-label="ガイドの入口"><button class="guide-entry guide-entry-see" type="button" data-guide-section="see"><span class="entry-icon" aria-hidden="true">◇</span><span class="eyebrow">SIGHTS BY AREA</span><strong>観光する</strong><span>都市を知り、町・エリアごとの観光地を優先順で見る。</span><span class="entry-cta">観光地を探す →</span></button><button class="guide-entry guide-entry-eat" type="button" data-guide-section="eat"><span class="entry-icon" aria-hidden="true">○</span><span class="eyebrow">FOOD BY AREA</span><strong>食べる</strong><span>都市の食文化を知り、町・エリアごとの名物と店を探す。</span><span class="entry-cta">食べ物を探す →</span></button></section>${renderMustEatOverview()}<section class="section"><div class="section-head"><div><span class="eyebrow">CITY GUIDE</span><h2>まず訪れる都市・町を知る</h2></div><p>都市 → 町・エリア → 個別情報</p></div><div class="city-hub-grid">${guideCities.map((city) => `<article class="city-overview city-${city.tone}" style="--city-photo:url('${city.hero}')"><span class="eyebrow">${esc(city.label)}</span><h2>${esc(city.id)}</h2><p>${esc(city.intro)}</p><div class="city-overview-fact"><span>食</span><strong>${esc(city.food)}</strong></div><div class="city-overview-meta"><span>訪問予定 ${esc(city.visit)}</span><span>${guideAreas.filter((area) => area.city === city.id).length}エリア</span></div><small class="image-disclosure">都市イメージ・AI生成</small><div class="action-row"><button class="button primary" type="button" data-guide-city-entry="${city.id}" data-guide-mode="see">${esc(city.id)}の観光</button><button class="button" type="button" data-guide-city-entry="${city.id}" data-guide-mode="eat">${esc(city.id)}の食</button>${city.articleId ? `<a class="button" href="ux-v1-learn.html?id=${encodeURIComponent(city.articleId)}">詳しく学ぶ</a>` : ""}</div></article>`).join("")}</div></section>`;
 }
 
 function renderGuideBody() {
@@ -816,7 +842,8 @@ function actualEurForBudgetLine(lineId) {
 function renderBudgetLine(line, dayId = "trip") {
   const actualEur = actualEurForBudgetLine(line.id);
   const remainingEur = line.amountEur - actualEur;
-  return `<div class="budget-line" data-budget-line="${esc(line.id)}"><span class="budget-line-copy"><strong>${esc(line.title)}</strong><small>${esc(line.category)} · ${esc(line.basis)} · 残り ${dualMoney(remainingEur)}</small></span><span class="budget-line-money"><span>予算</span><strong>${yen(line.amountEur * recordsState.fx.EURJPY)}<small>${eur(line.amountEur)}</small></strong><span>実績</span><strong class="${actualEur > line.amountEur ? "is-over" : ""}">${actualEur ? yen(actualEur * recordsState.fx.EURJPY) : "—"}<small>${actualEur ? eur(actualEur) : "—"}</small></strong></span><button class="button" type="button" data-add-budget-actual data-budget-line-id="${esc(line.id)}" data-budget-day-id="${esc(dayId)}" data-budget-title="${esc(line.title)}" data-budget-category="${esc(line.category)}">実績を追加</button></div>`;
+  const source = line.sourceUrl ? `<a class="budget-source" href="${esc(line.sourceUrl)}" target="_blank" rel="noreferrer">${esc(line.sourceLabel || "根拠を見る")}</a>${line.checkedAt ? `<small>確認 ${esc(line.checkedAt)}</small>` : ""}` : "";
+  return `<div class="budget-line" data-budget-line="${esc(line.id)}"><span class="budget-line-copy"><strong>${esc(line.title)}</strong><small>${esc(line.category)} · ${esc(line.basis)} · 残り ${dualMoney(remainingEur)}</small>${source}</span><span class="budget-line-money"><span>予算</span><strong>${yen(line.amountEur * recordsState.fx.EURJPY)}<small>${eur(line.amountEur)}</small></strong><span>実績</span><strong class="${actualEur > line.amountEur ? "is-over" : ""}">${actualEur ? yen(actualEur * recordsState.fx.EURJPY) : "—"}<small>${actualEur ? eur(actualEur) : "—"}</small></strong></span><button class="button" type="button" data-add-budget-actual data-budget-line-id="${esc(line.id)}" data-budget-day-id="${esc(dayId)}" data-budget-title="${esc(line.title)}" data-budget-category="${esc(line.category)}">実績を追加</button></div>`;
 }
 
 function renderRecords() {
@@ -846,9 +873,9 @@ function renderRecords() {
   const dailyRows = budgetPlan.days.map((day, index) => { const dayActual = recordsState.expenses.filter((expense) => expense.dayId === day.id).reduce((sum, expense) => sum + toEur(expense.amountOriginal, expense.currency, expense.fxSnapshot), 0); return `<details class="daily-budget-card"${index === 0 ? " open" : ""}><summary><span><small>${esc(day.date)}</small><strong>${esc(day.city)}</strong></span><span class="daily-budget-money"><strong>${yen(day.totalEur * recordsState.fx.EURJPY)}</strong><small>${eur(day.totalEur)}</small><small>実績 ${dayActual ? dualMoney(dayActual) : "—"} · 1人予算 ${dualMoney(day.totalEur / 3)}</small></span></summary><div class="daily-budget-lines">${day.lines.map((line) => renderBudgetLine(line, day.id)).join("")}</div></details>`; }).join("");
   const tripWideRows = budgetPlan.tripWide.length ? `<div class="trip-wide-budget"><h3>旅行全体にかかる項目</h3>${budgetPlan.tripWide.map((line) => renderBudgetLine(line)).join("")}</div>` : "";
   const moneyBody = `
-    <section class="budget-hero" aria-label="旅行全体の予算"><div><span class="eyebrow">TOTAL TRIP BUDGET</span><h2>仮ホテルを含む現在の全体予算</h2><div class="hero-dual-money"><strong>${yen(budget * recordsState.fx.EURJPY)}</strong><strong>${eur(budget)}</strong></div><small>3人分 · 国際線総額は転記待ち</small></div><div class="budget-per-person"><span>1人あたり</span><strong>${yen(budget * recordsState.fx.EURJPY / 3)}</strong><strong>${eur(budget / 3)}</strong></div></section>
+    <section class="budget-hero" aria-label="旅行全体の予算"><div><span class="eyebrow">TOTAL TRIP BUDGET</span><h2>国際線・仮ホテルを含む現在の全体予算</h2><div class="hero-dual-money"><strong>${yen(budget * recordsState.fx.EURJPY)}</strong><strong>${eur(budget)}</strong></div><small>3人分 · 国際線は発券済み実額 · ホテルは仮候補</small></div><div class="budget-per-person"><span>1人あたり</span><strong>${yen(budget * recordsState.fx.EURJPY / 3)}</strong><strong>${eur(budget / 3)}</strong></div></section>
     ${missingCosts}
-    <section class="money-summary" aria-label="予算と実績"><article><span>全体予算</span><strong>${yen(budget * recordsState.fx.EURJPY)}</strong><strong>${eur(budget)}</strong><small>国際線総額を除く</small></article><article><span>実績</span><strong>${yen(actual * recordsState.fx.EURJPY)}</strong><strong>${eur(actual)}</strong></article><article><span>残額</span><strong>${yen((budget - actual) * recordsState.fx.EURJPY)}</strong><strong>${eur(budget - actual)}</strong><small>現在の予算との差</small></article><article><span>未精算</span><strong>${pending.length}件</strong><small>誰が誰へ返すか</small></article></section>
+    <section class="money-summary" aria-label="予算と実績"><article><span>全体予算</span><strong>${yen(budget * recordsState.fx.EURJPY)}</strong><strong>${eur(budget)}</strong><small>発券済み国際線を含む</small></article><article><span>実績</span><strong>${yen(actual * recordsState.fx.EURJPY)}</strong><strong>${eur(actual)}</strong></article><article><span>残額</span><strong>${yen((budget - actual) * recordsState.fx.EURJPY)}</strong><strong>${eur(budget - actual)}</strong><small>現在の予算との差</small></article><article><span>未精算</span><strong>${pending.length}件</strong><small>誰が誰へ返すか</small></article></section>
     <article class="card fx-strip"><div><span class="eyebrow">ONE EXCHANGE RATE</span><strong>全画面共通：€1 = ¥${esc(recordsState.fx.EURJPY)}</strong><small>${esc(recordsState.fx.checkedAt)} · ${esc(recordsState.fx.source)}</small></div><form class="fx-rate-form" data-fx-form><label class="field inline-field"><span>1ユーロの円レート</span><input name="EURJPY" type="number" min="1" step="0.01" value="${esc(recordsState.fx.EURJPY)}" required></label><button class="button primary" type="submit">全体へ反映</button></form><div class="fx-converter"><label class="field inline-field"><span>EURを試算</span><input type="number" min="0" step="0.01" value="90" data-fx-eur></label><output data-fx-output>${yen(90 * recordsState.fx.EURJPY)}</output></div></article>
     <section class="section"><div class="section-head"><div><span class="eyebrow">BY CATEGORY</span><h2>何にいくらかかるか</h2></div><p>3人分・現在の計画値</p></div><article class="card budget-breakdown">${categoryRows}</article></section>
     <section class="section"><div class="section-head"><div><span class="eyebrow">12-DAY DETAIL</span><h2>日ごとの予算と実績</h2></div><p>各行の「実績を追加」から支払額を積む</p></div><article class="card card-body info-card"><strong>計画値の前提</strong><p>${esc(budgetPlan.assumptions)}</p></article><div class="daily-budget-list">${dailyRows}</div>${tripWideRows}</section>
@@ -900,7 +927,7 @@ function detailContent(key, context = {}) {
     const mapLink = `<a class="button" href="${esc(mapsUrl(`${meal.primary} ${meal.area}`))}" target="_blank" rel="noreferrer">地図で確認</a>`;
     return {
       eyebrow: "食事の詳細", title: `${meal.period} · ${meal.primary}`,
-      body: `${visual}<div class="status-row">${pill(meal.area, "info")}${pill(meal.booking, /予約推奨|予約|確認/.test(meal.booking) ? "wait" : "info")}</div><p class="guide-detail-lead">${esc(meal.experience)}</p><article class="card card-body info-card"><h3>この食事の役割</h3><p>${esc(meal.purpose)}</p></article><section class="meal-order-card"><span class="eyebrow">ORDER FOR THREE</span><h3>3人で頼むなら</h3><p>${esc(meal.orderForThree)}</p></section><dl class="fact-list"><div><dt>時間</dt><dd>${esc(meal.window)}</dd></div><div><dt>場所</dt><dd>${esc(meal.area)}</dd></div><div><dt>おすすめ料理</dt><dd>${esc(meal.dishes.join("、"))}</dd></div><div><dt>3人分の予算</dt><dd>${dualMoney(meal.budgetEur)}</dd></div><div><dt>1人分の目安</dt><dd>${dualMoney(meal.budgetEur / 3)}</dd></div><div><dt>予約</dt><dd>${esc(meal.booking)}</dd></div><div><dt>営業時間・利用条件</dt><dd>${esc(meal.operation)}</dd></div><div><dt>満席・休業時</dt><dd>${esc(meal.alternatives.join("、"))}</dd></div></dl><div class="action-row">${mapLink}<button class="button primary" type="button" data-tab-target="guide">町の食ガイドを見る</button></div>`
+      body: `${visual}<div class="status-row">${pill(meal.area, "info")}${pill(meal.booking, /予約推奨|予約|確認/.test(meal.booking) ? "wait" : "info")}</div><p class="guide-detail-lead">${esc(meal.experience)}</p><article class="card card-body info-card"><h3>この食事の役割</h3><p>${esc(meal.purpose)}</p></article><section class="meal-order-card"><span class="eyebrow">ORDER FOR THREE</span><h3>3人で頼むなら</h3><p>${esc(meal.orderForThree)}</p></section><dl class="fact-list"><div><dt>時間</dt><dd>${esc(meal.window)}</dd></div><div><dt>場所</dt><dd>${esc(meal.area)}</dd></div><div><dt>おすすめ料理</dt><dd>${esc(meal.dishes.join("、"))}</dd></div><div><dt>3人分の予算</dt><dd>${mealBudgetRange(meal)}</dd></div><div><dt>1人分の目安</dt><dd>${mealBudgetRange({ budgetMinEur: meal.budgetMinEur / 3, budgetMaxEur: meal.budgetMaxEur / 3 })}</dd></div><div><dt>予算の根拠</dt><dd>${esc(meal.budgetBasis || "店とmenuを決めた後に更新します。")}</dd></div><div><dt>予約</dt><dd>${esc(meal.booking)}</dd></div><div><dt>営業時間・利用条件</dt><dd>${esc(meal.operation)}</dd></div><div><dt>満席・休業時</dt><dd>${esc(meal.alternatives.join("、"))}</dd></div></dl>${meal.sourceUrl ? `<section class="operational-facts"><h3>menu・予算の根拠</h3><p><a class="source-link" href="${esc(meal.sourceUrl)}" target="_blank" rel="noreferrer">${esc(meal.sourceLabel || "公式情報")}</a><small>${esc(meal.sourceScope || "価格・料理構成を確認")} · 確認 ${esc(meal.checkedAt || "2026-08-16")}</small></p></section>` : `<article class="card card-body warning-card"><h3>店またはmenuは未確定</h3><p>${esc(meal.sourceScope || "店が決まった後、実際のmenu価格で予算を更新します。")}</p></article>`}<div class="action-row">${mapLink}<button class="button primary" type="button" data-tab-target="guide">町の食ガイドを見る</button></div>`
     };
   }
   const scheduledItem = day.timeline.find((item) => item.detail === key);
@@ -909,7 +936,7 @@ function detailContent(key, context = {}) {
   if (canonical) {
     const facts = canonical.facts.map(([label, value]) => `<div><dt>${esc(label)}</dt><dd>${esc(value)}</dd></div>`).join("");
     const links = canonical.links.map((link) => `<a class="button ${link.label === "詳しく学ぶ" ? "primary" : ""}" href="${esc(link.href)}"${/^https?:/.test(link.href) ? ' target="_blank" rel="noreferrer"' : ""}>${esc(link.label)}</a>`).join("");
-    const sources = canonical.sources?.length ? `<section class="operational-facts"><h3>この予定で確認した公式情報</h3>${canonical.sources.map((source) => `<p><a class="source-link" href="${esc(source.href)}" target="_blank" rel="noreferrer">${esc(source.label)}</a><small>確認日: ${esc(source.checkedAt)}</small></p>`).join("")}</section>` : canonical.showSourceWarning ? `<article class="card card-body warning-card"><h3>旅行前に確認すること</h3><p>この予定の営業時間または予約条件を公式サイトで確認します。</p></article>` : "";
+    const sources = canonical.sources?.length ? `<section class="operational-facts"><h3>この予定で確認した情報</h3>${canonical.sources.map((source) => `<p>${source.href ? `<a class="source-link" href="${esc(source.href)}" target="_blank" rel="noreferrer">${esc(source.label)}</a>` : `<strong>${esc(source.label)}</strong>`}<small>${source.scope ? `${esc(source.scope)} · ` : ""}確認日: ${esc(source.checkedAt)}</small></p>`).join("")}</section>` : canonical.showSourceWarning ? `<article class="card card-body warning-card"><h3>旅行前に確認すること</h3><p>この予定の営業時間または予約条件を公式サイトで確認します。</p></article>` : "";
     const nextStep = scheduledItem?.routeAfter ? `<section class="detail-layer"><h3>次の場所へ</h3><p>${esc(scheduledItem.routeAfter)}</p></section>` : "";
     return { eyebrow: canonical.eyebrow, title: canonical.title, body: `<div class="status-row">${pill(canonical.status, toneForStatus(canonical.status))}</div><p class="guide-detail-lead">${esc(canonical.note)}</p>${facts ? `<dl class="fact-list">${facts}</dl>` : ""}${nextStep}<div class="action-row">${links}</div>${sources}` };
   }
@@ -1044,6 +1071,11 @@ function observeItineraryDays() {
 
 function bindScreen() {
   bindCommon(screen);
+  screen.querySelectorAll("[data-home-target]").forEach((button) => button.addEventListener("click", () => {
+    state.tab = button.dataset.homeTarget;
+    if (state.tab === "plan" && button.dataset.homePlanSection) state.planSection = button.dataset.homePlanSection;
+    render();
+  }));
   screen.querySelectorAll("[data-jump-day]").forEach((button) => button.addEventListener("click", () => scrollToItineraryDay(button.dataset.jumpDay)));
   screen.querySelectorAll("[data-toggle-itinerary-day]").forEach((button) => button.addEventListener("click", () => {
     const dayId = button.dataset.toggleItineraryDay;

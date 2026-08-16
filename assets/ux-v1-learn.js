@@ -66,9 +66,10 @@ function renderChapterVisual(sectionId) {
 function renderArticle(articleData) {
   const place = (trip.places || []).find((entry) => entry.id === articleData.placeId);
   const city = (trip.cities || []).find((entry) => entry.id === articleData.cityId);
-  const cityNames = { barcelona: "Barcelona", madrid: "Madrid", tarragona: "Tarragona", montserrat: "Montserrat", toledo: "Toledo" };
+  const cityNames = { barcelona: "Barcelona", madrid: "Madrid", tarragona: "Tarragona", montserrat: "Montserrat", cordoba: "Córdoba", toledo: "Toledo" };
   const cityLabel = city?.nameJa || city?.name || cityNames[articleData.cityId] || articleData.cityId || "Spain";
-  const hero = articleData.id === "sagrada" ? "assets/sagrada-interior.jpg" : ["madrid", "toledo"].includes(articleData.cityId) ? "assets/madrid-hero-v1.png" : "assets/barcelona-hero-v1.png";
+  const cityHeroes = { madrid: "assets/madrid-hero-v1.png", toledo: "assets/madrid-hero-v1.png", tarragona: "assets/tarragona-hero-v2.png", montserrat: "assets/montserrat-hero-v2.png", cordoba: "assets/cordoba-hero-v2.png", barcelona: "assets/barcelona-hero-v1.png" };
+  const hero = articleData.id === "sagrada" ? "assets/sagrada-interior.jpg" : cityHeroes[articleData.cityId] || "assets/barcelona-hero-v1.png";
   const heroAlt = articleData.id === "sagrada" ? "サグラダ・ファミリア内部の柱と光" : `${cityLabel}の旅行イメージ`;
   const visitDays = (articleData.visitDayIds || []).map((id) => (trip.days || []).find((day) => day.id === id)).filter(Boolean);
   const visitLabel = visitDays.length ? visitDays.map((day) => `${Number(day.date.slice(5, 7))}/${Number(day.date.slice(8, 10))}`).join("・") : "訪問予定との接続なし";
@@ -93,7 +94,7 @@ function renderArticle(articleData) {
       <div class="learn-hero-copy">
         <span class="eyebrow">LEARN BEFORE · ${escapeHtml(articleData.kind)}</span>
         <h1>${escapeHtml(articleData.title)}</h1>
-        <p>形を見るだけで終わらせず、歴史・構造・光・作者の違いを理解してから現地へ。読みたい深さを選べます。</p>
+        <p>形や景色を見るだけで終わらせず、歴史・町の構造・文化の重なりを理解してから現地へ。読みたい深さを選べます。</p>
         <div class="learn-meta"><span>訪問予定 ${escapeHtml(visitLabel)}</span><span>深掘り ${deepSections.length}章</span><span>公式・一次出典 ${sourceIds.length}件</span></div>
       </div>
     </section>
@@ -132,7 +133,7 @@ function renderArticle(articleData) {
           <ol class="source-list">${sourceIds.map((id, index) => { const source = sourceMap.get(id); return `<li id="source-${escapeHtml(id)}"><a href="${escapeHtml(source.url)}" target="_blank" rel="noreferrer">[${index + 1}] ${escapeHtml(source.title)}</a><span>${escapeHtml(source.publisher)} · ${escapeHtml(source.type)} · 確認 ${escapeHtml(source.checkedAt)}</span></li>`; }).join("")}</ol>
         </section>
 
-        <footer class="learn-footer-action"><div><strong>次は、現地で使う短い情報へ</strong><p>ガイド詳細には入口・時間・観察順だけを残しています。</p></div><a class="button primary" href="index.html?day=d1227&tab=guide">ガイドへ戻る</a></footer>
+        <footer class="learn-footer-action"><div><strong>次は、現地で使う短い情報へ</strong><p>ガイド詳細には入口・時間・観察順だけを残しています。</p></div><a class="button primary" href="index.html?day=${encodeURIComponent(returnDay)}&tab=guide">ガイドへ戻る</a></footer>
       </article>
     </div>`;
 
