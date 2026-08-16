@@ -387,6 +387,106 @@
   const statusText = (status) => ({ confirmed: "確認済み", draft: "旅行前に確認", needs_information: "旅行前に確認", blocked: "公表待ち", provisional: "仮の計画", adopted: "旅程に反映" }[status] || status || "旅行前に確認");
   const toneFor = (text) => /矛盾|不足|必要|未確認|要修正/.test(text) ? "warn" : /待ち|未公表|仮|発売|原本/.test(text) ? "wait" : "info";
   const kindText = (kind) => ({ transfer: "移動", transport: "移動", flight: "航空", airport: "空港", station: "駅", train: "鉄道", meal: "食事", restaurant: "飲食店", attraction: "観光", museum: "美術館・博物館", church: "教会", market: "市場", event: "行事", shop: "店", hotel: "宿泊", rest: "休憩", walk: "街歩き", decision: "判断" }[kind] || kind || "予定");
+  const actionTitleOverrides = new Map([
+    ["成田空港到着・航空会社／ターミナル確認", "成田空港に到着し、航空会社とターミナルを確認する"],
+    ["NRT T1 発", "NRT T1を出発する"],
+    ["PVG T2 着・同ターミナル乗継", "PVG T2に到着し、同じターミナルで乗り継ぐ"],
+    ["PVG乗継・保安検査・搭乗口確認", "PVGで乗継手続き・保安検査・搭乗口確認を済ませる"],
+    ["PVG T2 発 → BCN T1 着", "PVG T2を出発し、BCN T1に到着する"],
+    ["入国審査・荷物受取・税関", "入国審査・荷物受取・税関を済ませる"],
+    ["BCN空港 → 市内（荷物受取後）", "荷物を受け取り、BCN空港から市内へ移動する"],
+    ["休憩・身支度・遅延時の余裕", "ホテルで休憩し、身支度を整える"],
+    ["Montserratへ行くか最終判断", "天候と体調を見てMontserratへ行くか決める"],
+    ["ホテル → Plaça Espanya → Montserrat", "ホテルからPlaça Espanyaを経由してMontserratへ移動する"],
+    ["Montserrat修道院主要部と展望", "Montserrat修道院の主要部を見学し、展望を楽しむ"],
+    ["山上の短い散策", "山上を短く散策する"],
+    ["Montserrat → Plaça Espanya → ホテル", "MontserratからPlaça Espanyaを経由してホテルへ戻る"],
+    ["ホテル → Gothic Quarter", "ホテルからGothic Quarterへ移動する"],
+    ["昼食場所 → Passeig de Gràcia", "昼食場所からPasseig de Gràciaへ移動する"],
+    ["Modernisme建築の外観散歩", "Modernisme建築の外観を見ながら歩く"],
+    ["Passeig de Gràcia → ホテル", "Passeig de Gràciaからホテルへ戻る"],
+    ["ホテル → Barcelona Sants → Tarragona市内駅", "ホテルからBarcelona Santsを経由してTarragona市内駅へ移動する"],
+    ["Tarragona市内駅 → Roman city 主要予定", "Tarragona市内駅からローマ都市の主要遺跡へ移動する"],
+    ["Tarragona市内駅 → 円形闘技場", "Tarragona市内駅から円形闘技場へ移動する"],
+    ["円形闘技場・Circ・旧市街", "円形闘技場・Circ・旧市街を見学する"],
+    ["Roman interiorsと旧市街中央部", "ローマ遺構の内部と旧市街中央部を見学する"],
+    ["残りのRoman 主要予定", "残りの主要なローマ遺跡を見学する"],
+    ["城壁周辺とPart Alta", "城壁周辺とPart Altaを歩く"],
+    ["Rambla Novaと海辺を短く散歩", "Rambla Novaと海辺を短く散歩する"],
+    ["Tarragona市内駅 → Barcelona Sants → ホテル", "Tarragona市内駅からBarcelona Santsを経由してホテルへ戻る"],
+    ["Sagrada周辺へ移動", "サグラダ・ファミリア周辺へ移動する"],
+    ["ホテルへ戻る", "ホテルへ戻る"],
+    ["Barcelona Santsへ移動", "Barcelona Santsへ移動する"],
+    ["駅到着の余裕・乗車準備", "駅に早めに着き、乗車準備をする"],
+    ["iryo 06150 Barcelona Sants → Madrid Atocha", "iryo 06150に乗り、Barcelona SantsからMadrid Atochaへ移動する"],
+    ["プラド美術館", "プラド美術館を見学する"],
+    ["シベレス広場", "シベレス広場を見る"],
+    ["アルカラ門", "アルカラ門を見る"],
+    ["エル・レティーロ公園", "エル・レティーロ公園を散策する"],
+    ["ホテル休憩・防寒準備", "ホテルで休憩し、防寒の準備をする"],
+    ["Puerta del Sol カウントダウン（12粒のブドウ）", "Puerta del Solのカウントダウンに参加する"],
+    ["プエルタ・デル・ソル", "プエルタ・デル・ソルを歩く"],
+    ["マヨール広場", "マヨール広場を歩く"],
+    ["サン・イシドロ教会", "サン・イシドロ教会を見学する"],
+    ["マドリード王宮（外観）", "マドリード王宮の外観を見る"],
+    ["サン・フランシスコ・エル・グランデ（外観）", "サン・フランシスコ・エル・グランデの外観を見る"],
+    ["ホテル休憩", "ホテルで休憩する"],
+    ["Madrid Atocha到着・乗車準備", "Madrid Atochaに早めに着き、乗車準備をする"],
+    ["Madrid → Cordoba（高速鉄道・計画窓）", "MadridからCórdobaへ高速鉄道で移動する"],
+    ["Cordoba駅 → Mezquita-Catedral", "Córdoba駅からMezquita-Catedralへ移動する"],
+    ["Mezquita-Catedral", "Mezquita-Catedralを見学する"],
+    ["JuderíaとRoman Bridge", "JuderíaとRoman Bridgeを歩く"],
+    ["Alcázar de los Reyes Cristianos", "Alcázar de los Reyes Cristianosを見学する"],
+    ["Cordoba駅へ移動・乗車余裕", "Córdoba駅へ早めに移動し、乗車準備をする"],
+    ["Cordoba → Madrid（高速鉄道・計画窓）", "CórdobaからMadridへ高速鉄道で移動する"],
+    ["Madridホテルへ戻る", "Madridのホテルへ戻る"],
+    ["ソフィア王妃芸術センター（ゲルニカ／ダリ）", "ソフィア王妃芸術センターでGuernicaとDalí作品を見る"],
+    ["休憩・荷物回収", "休憩して荷物を回収する"],
+    ["Madrid Atochaへ移動", "Madrid Atochaへ移動する"],
+    ["駅到着余裕時間・乗車準備", "駅に早めに着き、乗車準備をする"],
+    ["iryo 061171 Madrid Atocha → Barcelona Sants", "iryo 061171に乗り、Madrid AtochaからBarcelona Santsへ移動する"],
+    ["タクシーでBCN T1へ（第一案）", "タクシーでBCN T1へ移動する"],
+    ["チェックイン・荷物預け・保安検査・出国", "チェックイン・荷物預け・保安検査・出国手続きを済ませる"],
+    ["BCN T1 発", "BCN T1を出発する"],
+    ["PVG T2 着", "PVG T2に到着する"],
+    ["PVG長時間乗継・食事・休憩", "PVGで食事と休憩をとりながら乗り継ぐ"],
+    ["PVG T2 発", "PVG T2を出発する"],
+    ["NRT T1 着", "NRT T1に到着する"],
+    ["入国・荷物受取・帰宅移動", "入国手続きと荷物受取を済ませ、自宅へ移動する"]
+  ]);
+  const hasActionEnding = (title) => /(する|済ませる|整える|決める|楽しむ|歩く|見る|戻る|乗り継ぐ|とる|食べる|買う|回収する)$/u.test(String(title || "").replace(/（仮候補）$/, ""));
+  function scheduleActionTitle(value, kind = "") {
+    const title = travelerText(value).trim();
+    if (!title || hasActionEnding(title)) return title;
+    if (actionTitleOverrides.has(title)) return actionTitleOverrides.get(title);
+    if (kind === "hotel") {
+      const core = title.replace(/（仮候補）$/, "");
+      if (/ホテルで休憩/.test(core)) return "ホテルで休憩する";
+      if (/チェックアウト.*荷物回収/.test(core)) return `${core.replace(/をチェックアウト.*$/, "")}をチェックアウトして荷物を回収する（仮候補）`;
+      if (/移動・チェックイン/.test(core)) return `${core.replace(/へ移動・チェックイン.*$/, "")}へ移動してチェックインする（仮候補）`;
+      if (/チェックイン/.test(core)) return `${core.replace(/へチェックイン.*$/, "")}へチェックインする（仮候補）`;
+      if (/荷物回収/.test(core)) return `${core.replace(/で荷物回収.*$/, "")}で荷物を回収する（仮候補）`;
+      if (/荷物預け/.test(core)) return `${core.replace(/へ荷物預け.*$/, "")}へ荷物を預ける（仮候補）`;
+    }
+    if (kind === "attraction") {
+      if (/外観/.test(title)) return `${title.replace(/[（(]外観[）)]/, "")}の外観を見る`;
+      return `${title}を見学する`;
+    }
+    if (kind === "event") return `${title}に参加する`;
+    if (kind === "rest") return `${title}をとる`;
+    if (["transfer", "transport", "train", "flight"].includes(kind)) return `${title}へ移動する`;
+    return title;
+  }
+  function mealActionTitle(meal) {
+    const original = travelerText(meal?.primary || "食事").trim();
+    if (hasActionEnding(original)) return original;
+    const period = /朝/.test(meal?.period) ? "朝食" : /昼/.test(meal?.period) ? "昼食" : /夜/.test(meal?.period) ? "夕食" : /軽食/.test(meal?.period) ? "軽食" : "食事";
+    if (/当日確認/.test(original)) return `${original.replace(/を当日確認.*$/, "")}の空席を確認して${period}をとる`;
+    if (/搭乗口に近い営業中店舗/.test(original)) return `${original}をとる`;
+    if (/持帰り|持ち帰り/.test(original)) return `${original.replace(/で到着直後に持帰り.*$/, "")}で持ち帰りの${period}を買う`;
+    const shop = original.replace(/（[^）]*）/g, "").replace(/で軽い昼食$/, "").trim();
+    return `${shop}で${period}をとる`;
+  }
   const dishCategoryText = (category) => ({ tapas: "小皿料理", seafood: "魚介料理", sweet: "甘味", drink: "飲み物", stew: "煮込み", rice: "米料理", market: "市場料理", other: "その他" }[category] || category || "名物");
   const timingText = (item) => {
     if (item?.timing?.start?.time) return item.timing.start.time;
@@ -503,6 +603,7 @@
         const transportNote = transportDetails[day.id]?.[item.title];
         if (transportNote) note = travelerText(transportNote);
         if (day.id === "d0105" && /入国・荷物受取・帰宅移動/.test(item.title)) item.zone = "日本時間";
+        title = scheduleActionTitle(title, item.kind);
         return { time: item.time, end: item.end, kind: kindText(item.kind), title, zone: item.zone, status, tone: toneFor(status), note, detail: detailKey, routeAfter: travelerText(connectionPlans[day.id]?.[item.title] || "") };
       });
       const mealItems = selected.items.filter((item) => item.kind === "meal");
@@ -524,12 +625,12 @@
       displayedMeals.forEach((meal, index) => {
         const row = timeline.find((item) => item.detail === `meal-${index}`);
         if (!row) return;
-        row.title = meal.primary;
+        row.title = mealActionTitle(meal);
         row.note = `${meal.area}｜${list(meal.dishes).join("・")}。${meal.booking}`;
         row.meal = meal;
       });
       if (!mealItems.length && travelMealFallbacks[day.id]) {
-        travelMealFallbacks[day.id].forEach((meal, index) => timeline.push({ time: meal.window.split("–")[0], end: meal.window.split("–")[1] || "", kind: "食事", title: meal.primary, zone: day.id === "d0105" ? "上海時間" : "スペイン時間", status: meal.operation, tone: toneFor(meal.operation), note: meal.purpose, detail: `meal-${index}` }));
+        travelMealFallbacks[day.id].forEach((meal, index) => timeline.push({ time: meal.window.split("–")[0], end: meal.window.split("–")[1] || "", kind: "食事", title: mealActionTitle(meal), zone: day.id === "d0105" ? "上海時間" : "スペイン時間", status: meal.operation, tone: toneFor(meal.operation), note: meal.purpose, detail: `meal-${index}` }));
         timeline.sort((a, b) => String(a.time).localeCompare(String(b.time), "ja"));
       }
       const primaryItem = selected.items.find((item) => ["flight", "train", "attraction", "event"].includes(item.kind)) || selected.items[0];
@@ -539,7 +640,7 @@
       return {
         ...base, city: selected.city || finalDayMeta[day.id]?.city || base.city, cityIds: selected.cityIds || finalDayMeta[day.id]?.cityIds || [], type: selectedType, title: travelerText(selected.title),
         state: "", stateTone: "info", summary: "",
-        primary: { ...base.primary, title: travelerText(primaryItem.title), lead: travelerText(primaryItem.note || "この予定を中心に、移動・食事・休憩を組んでいます。"), meta: [selectedType], actions: ["旅程を見る"] },
+        primary: { ...base.primary, title: scheduleActionTitle(primaryItem.title, primaryItem.kind), lead: travelerText(primaryItem.note || "この予定を中心に、移動・食事・休憩を組んでいます。"), meta: [selectedType], actions: ["旅程を見る"] },
         timeline, meals: displayedMeals, plan, upcoming: plan.slice(0, 2).map(([, title, status, note]) => [title, note, status]),
         timeZoneLabel: ["d1225", "d1226", "d0104", "d0105"].includes(day.id) ? "各予定の現地時間" : "スペイン時間"
       };
@@ -933,7 +1034,7 @@
     if (!isTransit && place?.address) facts.push(["住所", place.address]);
     const needsOperationalSource = Boolean(isTransit || booking || place?.visitInfo || place?.officialUrl);
     return {
-      eyebrow: kindText(item.kind), title: travelerText(item.title), status: itemStatus(item), note: travelerText(list(item.notes)[0] || place?.summary || "この予定の時刻と前後の移動を旅程で確認します。"),
+      eyebrow: kindText(item.kind), title: scheduleActionTitle(item.title, item.kind), status: itemStatus(item), note: travelerText(list(item.notes)[0] || place?.summary || "この予定の時刻と前後の移動を旅程で確認します。"),
       facts,
       links: [{ label: "詳しく学ぶ", href: article ? `ux-v1-learn.html?id=${encodeURIComponent(article.id)}` : "" }, { label: "公式情報", href: place?.officialUrl || booking?.actionUrl || "" }, { label: "地図", href: place?.mapUrl || "" }].filter((link) => link.href),
       sources,

@@ -25678,3 +25678,138 @@ window.TRIP = {
   const articleIds = new Set((trip.learningArticles || []).map((article) => article.id));
   trip.learningArticles = [...(trip.learningArticles || []), ...articles.filter((article) => !articleIds.has(article.id))];
 })(window.TRIP);
+
+(function enrichEditorialLearning(trip) {
+  const checkedAt = "2026-08-16";
+  const sources = [
+    { id: "source-sagrada-work-current-2026", title: "Work on the Basilica", url: "https://blog.sagradafamilia.org/en/work/", publisher: "Basílica de la Sagrada Família", type: "official", language: "en", checkedAt },
+    { id: "source-sagrada-jesus-tower-2026", title: "Blessing and inauguration of the tower of Jesus Christ", url: "https://sagradafamilia.org/en/-/benediccio-i-inauguracio-de-la-torre-de-jesucrist", publisher: "Basílica de la Sagrada Família", type: "official", language: "en", checkedAt },
+    { id: "source-sagrada-assumption-sculptors-2026", title: "The sculptors of the Chapel of the Assumption", url: "https://blog.sagradafamilia.org/en/sculptors-chapel-assumption-we-want-or-work-to-be-relatable/", publisher: "Basílica de la Sagrada Família", type: "official", language: "en", checkedAt },
+    { id: "source-sagrada-virtual-tour", title: "Virtual tour", url: "https://sagradafamilia.org/en/virtual-tour", publisher: "Basílica de la Sagrada Família", type: "official-media", language: "en", checkedAt },
+    { id: "source-bcn-world-capital-2026", title: "Barcelona named UNESCO-UIA World Capital of Architecture for 2026", url: "https://whc.unesco.org/en/news/2579", publisher: "UNESCO World Heritage Centre", type: "official", language: "en", checkedAt },
+    { id: "source-bcn-uia-program-2026", title: "World Capital of Architecture 2026", url: "https://uia2026bcn.org/world-capital-of-architecture-2026/", publisher: "UIA 2026 Barcelona", type: "official", language: "en", checkedAt },
+    { id: "source-madrid-history-official", title: "History of Madrid", url: "https://www.esmadrid.com/en/history-madrid", publisher: "Madrid Destino", type: "official", language: "en", checkedAt },
+    { id: "source-madrid-prado-retiro-unesco", title: "Paseo del Prado and Buen Retiro, a landscape of Arts and Sciences", url: "https://whc.unesco.org/en/list/1618/", publisher: "UNESCO World Heritage Centre", type: "official", language: "en", checkedAt },
+    { id: "source-media-bbc-sagrada-tech-2025", title: "The technology helping to finish Barcelona's Sagrada Família", url: "https://www.youtube.com/watch?v=waybIQLU-io", publisher: "BBC News / YouTube", type: "video", language: "en", checkedAt },
+    { id: "source-media-netflix-sagrada", title: "Sagrada: The Mystery of Creation", url: "https://www.netflix.com/title/80014860", publisher: "Netflix", type: "streaming", language: "multi", checkedAt },
+    { id: "source-media-netflix-cathedral-sea", title: "Cathedral of the Sea", url: "https://www.netflix.com/title/81001231", publisher: "Netflix", type: "streaming-fiction", language: "multi", checkedAt },
+    { id: "source-media-netflix-gun-city", title: "Gun City", url: "https://www.netflix.com/jp/title/80199806", publisher: "Netflix", type: "streaming-fiction", language: "ja", checkedAt },
+    { id: "source-muhba-gaudi-barcelona-media", title: "Gaudí and Barcelona", url: "https://www.barcelona.cat/museuhistoria/ca/properes/gaudi-i-barcelona", publisher: "MUHBA Barcelona History Museum", type: "museum-media", language: "ca", checkedAt }
+  ];
+  const sourceById = new Map((trip.sources || []).map((source) => [source.id, source]));
+  sources.forEach((source) => {
+    if (sourceById.has(source.id)) Object.assign(sourceById.get(source.id), source);
+  });
+  trip.sources = [...(trip.sources || []), ...sources.filter((source) => !sourceById.has(source.id))];
+
+  const articles = new Map((trip.learningArticles || []).map((article) => [article.id, article]));
+  const addSourceIds = (article, ids) => {
+    article.sourceIds = [...new Set([...(article.sourceIds || []), ...ids])];
+  };
+  const addSections = (article, sections) => {
+    const knownIds = new Set((article.deepSections || []).map((section) => section.id));
+    article.deepSections = [...(article.deepSections || []), ...sections.filter((section) => !knownIds.has(section.id))];
+  };
+  const normalizeReadingPaths = (article) => {
+    article.readingPaths = [
+      { id: "quick", label: "概要", target: "intro" },
+      { id: "deep", label: "詳しく学ぶ", target: "deep" },
+      { id: "onsite", label: "現地で見る", target: "onsite" }
+    ];
+  };
+
+  const barcelona = articles.get("barcelona-overview");
+  if (barcelona) {
+    barcelona.heroImage = "assets/barcelona-layers-study-v1.webp";
+    normalizeReadingPaths(barcelona);
+    addSections(barcelona, [
+      { id: "barcelona-layers-together", title: "4. 旧市街・Eixample・海辺を一つの都市として見る", blocks: [
+        { type: "paragraph", text: "Barcelonaは、ローマ都市の核と中世の細い街路、その外側へ19世紀に拡張されたEixample、そして現代の海辺が隣り合う町です。地区ごとに名所を切り離すより、道幅、建物の高さ、光、風、人の密度がどこで変わるかを見ると、都市が時代ごとに抱えた課題が読めます。", sourceIds: ["source-bcn-learn-city-history", "source-bcn-learn-eixample"] },
+        { type: "comparison", columns: [
+          { title: "旧市街", text: "細い道、石の壁、広場への開き方から、防御と徒歩の町を読む。" },
+          { title: "Eixample", text: "格子状の街路と面取りされた街区から、拡張・採光・交通の思想を読む。" },
+          { title: "海辺", text: "港と都市の距離、公共空間、観光と日常生活の重なりを見る。" }
+        ], sourceIds: ["source-bcn-learn-city-history", "source-bcn-learn-eixample"] }
+      ] },
+      { id: "barcelona-now-2026", title: "5. 2026年のBarcelonaは建築を町全体で考える年", blocks: [
+        { type: "paragraph", text: "2026年のBarcelonaはUNESCO-UIA World Capital of Architectureです。Gaudí没後100年という節目と重なりますが、主題は過去の名建築だけではありません。住宅、気候、公共空間、移動、文化遺産を、現在の暮らしの課題として町全体で考える年です。Gaudíを見た後に普通の集合住宅や広場へ目を向けると、建築が作品ではなく生活の器でもあることが分かります。", sourceIds: ["source-bcn-world-capital-2026", "source-bcn-uia-program-2026"] },
+        { type: "callout", title: "今回の歩き方", text: "有名建築を一つ見たら、その隣の住居、街路樹、ベンチ、店先を一つ見る。『美しいか』だけでなく、『誰がどう使う場所か』を比べると、2026年のBarcelonaを現在進行形の町として見られます。", sourceIds: ["source-bcn-uia-program-2026"] }
+      ] }
+    ]);
+    barcelona.mediaBlocks = [
+      { platform: "Netflix", type: "歴史フィクション", title: "Cathedral of the Sea", url: "https://www.netflix.com/title/81001231", reason: "14世紀Barcelonaを舞台に、Santa Maria del Marと町の階層・信仰・労働を物語として想像しやすくなります。", note: "歴史フィクションであり、史実の確認資料ではありません。時代の空気をつかむ入口として使い、日本での配信・字幕状況は視聴時に確認してください。", sourceIds: ["source-media-netflix-cathedral-sea"] },
+      { platform: "Netflix", type: "歴史ドラマ", title: "Gun City", url: "https://www.netflix.com/jp/title/80199806", reason: "1921年のBarcelonaを舞台に、近代都市の労働運動・暴力・政治的緊張を知る入口になります。", note: "フィクションです。旅行の事実確認ではなく、Modernisme後の都市社会を想像する補助として使います。", sourceIds: ["source-media-netflix-gun-city"] }
+    ];
+    addSourceIds(barcelona, ["source-bcn-world-capital-2026", "source-bcn-uia-program-2026", "source-media-netflix-cathedral-sea", "source-media-netflix-gun-city"]);
+  }
+
+  const gaudi = articles.get("gaudi-overview");
+  if (gaudi) {
+    gaudi.heroImage = "assets/gaudi-method-study-v1.webp";
+    normalizeReadingPaths(gaudi);
+    addSections(gaudi, [
+      { id: "gaudi-not-alone", title: "11. 『孤独な天才』だけではなく、協働する設計者として見る", blocks: [
+        { type: "paragraph", text: "Gaudíの作品は強い個性を持ちますが、一人で建物をつくったわけではありません。依頼主、職人、彫刻家、模型製作者と反復し、素材を実際に扱いながら形を決めました。現地では作者名だけを覚えるより、石、鉄、木、陶器のどこに別の手と技術が必要だったかを見ると、建築が共同制作であることが見えてきます。", sourceIds: ["source-sagrada-gaudi-architect", "source-muhba-gaudi-bcn-guide"] },
+        { type: "key-points", items: ["自然は装飾の見本ではなく、構造と環境を考える教師だった", "模型と実物大の試作を使い、目と手で確かめながら設計した", "複雑な曲面も、職人が施工できる幾何学と工程へ翻訳した"], sourceIds: ["source-sagrada-gaudi-architect", "source-sagrada-architecture-booklet"] }
+      ] },
+      { id: "gaudi-after-2026", title: "12. 2026年にGaudíを見る意味", blocks: [
+        { type: "paragraph", text: "2026年はGaudí没後100年であり、BarcelonaがWorld Capital of Architectureとなる年です。過去の巨匠を記念するだけでなく、Gaudíが考えた採光、換気、構造、手仕事、自然との関係を、現在の住宅・気候・公共空間の課題へつなげて見る機会です。作品を『奇抜な形』で終わらせず、どの問題に対する答えだったかを一つ持ち帰ると、町全体の見え方が変わります。", sourceIds: ["source-bcn-world-capital-2026", "source-bcn-uia-program-2026"] }
+      ] }
+    ]);
+    gaudi.mediaBlocks = [
+      { platform: "MUHBA", type: "講演・研究資料", title: "Gaudí and Barcelona", url: "https://www.barcelona.cat/museuhistoria/ca/properes/gaudi-i-barcelona", reason: "Gaudíを作品単体ではなく、Barcelonaの歴史と都市社会の中で理解できます。", note: "Catalan中心の資料です。題名と図版から興味のある回を選び、ブラウザ翻訳も併用してください。", sourceIds: ["source-muhba-gaudi-barcelona-media"] }
+    ];
+    addSourceIds(gaudi, ["source-bcn-world-capital-2026", "source-bcn-uia-program-2026", "source-muhba-gaudi-barcelona-media"]);
+  }
+
+  const sagrada = articles.get("sagrada");
+  if (sagrada) {
+    sagrada.heroImage = "assets/sagrada-makers-study-v1.webp";
+    normalizeReadingPaths(sagrada);
+    addSections(sagrada, [
+      { id: "sagrada-current-2026", title: "12. 2026年現在、完成したものと工事が続くもの", blocks: [
+        { type: "paragraph", text: "イエス・キリストの塔は高さ172.5mに達し、外装が2026年2月に完成、6月10日に祝別・完成記念式典が行われました。ただし、これは聖堂全体の完成ではありません。栄光のファサード、被昇天の礼拝堂、第二聖具室や回廊、塔内部などでは作業が続いています。『2026年に完成した建物』ではなく、『中心塔という大きな節目を迎えながら、なお造り続けられている建築』として見るのが正確です。", sourceIds: ["source-sagrada-work-current-2026", "source-sagrada-jesus-tower-2026"] },
+        { type: "callout", title: "現地で比べたいこと", text: "完成した中央塔の輪郭、長く使われてきた生誕のファサード、彫刻言語の異なる受難のファサード、工事が続く栄光のファサード側を見比べます。工事囲いも、完成像を邪魔するものではなく現在の一章です。", sourceIds: ["source-sagrada-work-current-2026"] }
+      ] },
+      { id: "sagrada-makers-today", title: "13. 今つくっている人たち", blocks: [
+        { type: "paragraph", text: "現在の主任建築家はJordi Faulíです。被昇天の礼拝堂では建築家Xisco Llabrésが調整を担い、彫刻家Mercè Riba、Béatrice Bizot、Teresa Ribaが、模型製作者、建築家、石工らと協働しています。巨大建築は一人の後継者がGaudíの答えを再現する仕事ではなく、残された模型や資料、建物そのものを読み、現代の構造・施工技術と対話しながら判断を積み重ねる共同制作です。", sourceIds: ["source-sagrada-jesus-tower-2026", "source-sagrada-assumption-sculptors-2026"] },
+        { type: "comparison", columns: [
+          { title: "主任建築家", text: "建物全体の設計判断とGaudíの計画の解釈を統合する。" },
+          { title: "彫刻家・石工", text: "象徴を人が読める形にし、石の性質と施工へ落とし込む。" },
+          { title: "模型・デジタル技術", text: "複雑な幾何学を検討し、部材と工程を共有できる形へ変える。" }
+        ], sourceIds: ["source-sagrada-assumption-sculptors-2026", "source-media-bbc-sagrada-tech-2025"] }
+      ] },
+      { id: "sagrada-open-ended", title: "14. 『Gaudíならどうしたか』に一つの正解はない", blocks: [
+        { type: "paragraph", text: "Gaudíが残した模型・図面・写真・建設済み部分は重要な手掛かりですが、戦災で失われた資料もあり、現代の安全基準や施工方法も異なります。現在のチームは、形だけを複製するのではなく、構造、象徴、光、典礼という設計原理を読み直しています。見学では『本物か偽物か』の二択より、どの部分に継承と現代の判断が見えるかを考えると面白くなります。", sourceIds: ["source-sagrada-work-current-2026", "source-sagrada-gaudi-architect"] }
+      ] }
+    ]);
+    sagrada.mediaBlocks = [
+      { platform: "Sagrada Família公式", type: "バーチャル見学", title: "Virtual tour", url: "https://sagradafamilia.org/en/virtual-tour", reason: "訪問前に入口・内部・塔の位置関係をつかみ、当日は光や細部を見る余裕をつくれます。", note: "無料の公式コンテンツです。画面で全て見切るより、内部中央と二つのファサードだけ先に確認する使い方がおすすめです。", sourceIds: ["source-sagrada-virtual-tour"] },
+      { platform: "YouTube / BBC News", type: "短い解説動画", title: "The technology helping to finish Barcelona's Sagrada Família", url: "https://www.youtube.com/watch?v=waybIQLU-io", reason: "模型、デジタル設計、石材加工など、現在の人々がどう建設を続けているかを映像で理解できます。", note: "英語動画です。自動字幕を使い、人物名より制作工程に注目してください。", sourceIds: ["source-media-bbc-sagrada-tech-2025"] },
+      { platform: "Netflix", type: "ドキュメンタリー", title: "Sagrada: The Mystery of Creation", url: "https://www.netflix.com/title/80014860", reason: "建築家や職人の思考を通して、完成を待つ建物ではなく、制作が続く現場として見られます。", note: "配信地域や字幕は変わります。日本での視聴可否は視聴時に確認してください。", sourceIds: ["source-media-netflix-sagrada"] }
+    ];
+    addSourceIds(sagrada, ["source-sagrada-work-current-2026", "source-sagrada-jesus-tower-2026", "source-sagrada-assumption-sculptors-2026", "source-sagrada-virtual-tour", "source-media-bbc-sagrada-tech-2025", "source-media-netflix-sagrada"]);
+  }
+
+  const madrid = articles.get("madrid-overview");
+  if (madrid) {
+    madrid.heroImage = "assets/madrid-layers-study-v1.webp";
+    normalizeReadingPaths(madrid);
+    addSections(madrid, [
+      { id: "madrid-layers-capital", title: "5. 城塞Mayritから宮廷・首都へ", blocks: [
+        { type: "paragraph", text: "Madridの出発点は9世紀のイスラム城塞Mayritです。16世紀に宮廷が置かれると、王権、行政、宗教施設、市場が集中し、Habsburg期の広場と街路、Bourbon期の宮殿・大通り・文化施設が重なりました。Sol、Plaza Mayor、王宮、Pradoを別々に見るより、『誰が町の中心をつくったか』を追うと首都の成長がつながります。", sourceIds: ["source-madrid-history-official"] },
+        { type: "timeline", entries: [
+          { date: "865頃", title: "Mayrit", text: "イスラム勢力が城塞を築き、北方防衛と水のある拠点をつくる。" },
+          { date: "1561", title: "宮廷の定着", text: "Felipe IIが宮廷を置き、政治と人口が急速に集中する。" },
+          { date: "18世紀", title: "Bourbon期の整備", text: "王宮やPrado周辺を含む、首都らしい都市空間が整えられる。" },
+          { date: "現在", title: "生活する首都", text: "国家施設、美術館、bar、barrioの日常が近い距離で共存する。" }
+        ], sourceIds: ["source-madrid-history-official"] }
+      ] },
+      { id: "madrid-landscape-light", title: "6. PradoとRetiroは『芸術と科学の景観』", blocks: [
+        { type: "paragraph", text: "Paseo del PradoとBuen Retiroは、美術館が集まるだけの地区ではありません。16世紀から続く並木道、王室庭園、植物園、科学施設、美術館が一体となり、芸術・科学・自然を市民の都市生活へ結びつけた文化的景観として世界遺産に登録されています。Pradoの名画を見た後、外の樹木、噴水、散歩する人まで同じ文化空間として見るとMadridらしさが残ります。", sourceIds: ["source-madrid-prado-retiro-unesco"] },
+        { type: "callout", title: "美術館の外でも続く見方", text: "Pradoを出たら、Paseo del Pradoの並木と噴水、Retiroの公共空間を一つだけ意識して歩きます。作品鑑賞と都市散歩を切り離さないのが、この地区の面白さです。", sourceIds: ["source-madrid-prado-retiro-unesco"] }
+      ] }
+    ]);
+    addSourceIds(madrid, ["source-madrid-history-official", "source-madrid-prado-retiro-unesco"]);
+  }
+})(window.TRIP);

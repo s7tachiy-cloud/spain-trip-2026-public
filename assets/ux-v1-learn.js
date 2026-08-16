@@ -22,6 +22,26 @@ const chapterVisuals = {
     alt: "青緑の光と橙赤の光が白い柱へ広がる内部空間の学習用イラスト",
     caption: "東西で異なる光と色を捉える学習用イラスト（AI生成）",
   },
+  "barcelona-layers-together": {
+    src: "assets/barcelona-layers-study-v1.webp",
+    alt: "ローマ都市、旧市街、Eixample、海辺へ続くBarcelonaの都市層を示す学習用イラスト",
+    caption: "Barcelonaの時代と都市構造の重なりを捉える学習用イラスト（AI生成・概念図）",
+  },
+  "gaudi-not-alone": {
+    src: "assets/gaudi-method-study-v1.webp",
+    alt: "懸垂線模型、幾何学、素材、植物の観察が並ぶGaudíの設計方法の学習用イラスト",
+    caption: "模型・幾何学・素材・自然観察をつなぐGaudíの設計方法（AI生成・概念図）",
+  },
+  "sagrada-makers-today": {
+    src: "assets/sagrada-makers-study-v1.webp",
+    alt: "建築家、模型製作者、石工、彫刻家、技術者が協働する現代の建設現場を表した学習用イラスト",
+    caption: "現在の建設を支える多職種の協働を表した学習用イラスト（AI生成・概念図）",
+  },
+  "madrid-layers-capital": {
+    src: "assets/madrid-layers-study-v1.webp",
+    alt: "Mayritの城壁、宮廷の広場、Prado、現代の街角へ続くMadridの都市層を示す学習用イラスト",
+    caption: "城塞から宮廷・文化都市・生活する首都へ続くMadrid（AI生成・概念図）",
+  },
 };
 
 function escapeHtml(value) {
@@ -51,7 +71,7 @@ function renderBlock(block) {
   if (block.type === "timeline") return `<div><ol class="learn-timeline">${(block.entries || []).map((entry) => `<li><time>${escapeHtml(entry.date)}</time><strong>${escapeHtml(entry.title)}</strong><span>${escapeHtml(entry.text)}</span></li>`).join("")}</ol>${markers}</div>`;
   if (block.type === "comparison") return `<div><div class="learn-comparison">${(block.columns || []).map((column) => `<article><h3>${escapeHtml(column.title)}</h3><p>${escapeHtml(column.text)}</p></article>`).join("")}</div>${markers}</div>`;
   if (block.type === "callout") return `<aside class="learn-callout"><h3>${escapeHtml(block.title)}</h3><p>${renderText(block.text)}</p>${markers}</aside>`;
-  if (block.type === "summary") return `<aside class="learn-summary"><span class="eyebrow">CONNECT THE DOTS</span><h3>${escapeHtml(block.title)}</h3><p>${renderText(block.text)}</p>${markers}</aside>`;
+  if (block.type === "summary") return `<aside class="learn-summary"><span class="eyebrow">ここまでをつなぐ</span><h3>${escapeHtml(block.title)}</h3><p>${renderText(block.text)}</p>${markers}</aside>`;
   if (block.type === "key-points") return `<div><ul class="block-points">${(block.items || []).map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>${markers}</div>`;
   if (block.type === "onsite-checklist") return `<div><ol class="onsite-checklist">${(block.items || []).map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ol>${markers}</div>`;
   return `<div class="learn-paragraph"><p>${renderText(block.text || "")}</p>${markers}</div>`;
@@ -63,26 +83,43 @@ function renderChapterVisual(sectionId) {
   return `<figure class="chapter-visual"><img src="${escapeHtml(visual.src)}" alt="${escapeHtml(visual.alt)}" loading="lazy" decoding="async"><figcaption>${escapeHtml(visual.caption)}<small>理解を助ける表現であり、現地写真・実測図ではありません。</small></figcaption></figure>`;
 }
 
+function renderMediaBlocks(mediaBlocks = []) {
+  if (!mediaBlocks.length) return "";
+  return `<section id="media" class="learn-section" data-observe-section>
+    <header class="learn-section-head"><span class="eyebrow">見てから行く</span><h2>映像・オンライン資料</h2><p>何を見るための資料かと、事実資料かフィクションかを分けて選びました。</p></header>
+    <div class="learn-media-grid">${mediaBlocks.map((item) => `<article class="learn-media-card">
+      <div class="learn-media-tags"><span>${escapeHtml(item.platform)}</span><span>${escapeHtml(item.type)}</span></div>
+      <h3>${escapeHtml(item.title)}</h3>
+      <dl><div><dt>見る理由</dt><dd>${escapeHtml(item.reason)}</dd></div><div><dt>見方・注意</dt><dd>${escapeHtml(item.note)}</dd></div></dl>
+      ${sourceMarkers(item.sourceIds)}
+      <a class="button primary" href="${escapeHtml(item.url)}" target="_blank" rel="noreferrer">視聴・閲覧ページを開く</a>
+    </article>`).join("")}</div>
+  </section>`;
+}
+
 function renderArticle(articleData) {
   const place = (trip.places || []).find((entry) => entry.id === articleData.placeId);
   const city = (trip.cities || []).find((entry) => entry.id === articleData.cityId);
   const cityNames = { barcelona: "Barcelona", madrid: "Madrid", tarragona: "Tarragona", montserrat: "Montserrat", cordoba: "Córdoba", toledo: "Toledo" };
   const cityLabel = city?.nameJa || city?.name || cityNames[articleData.cityId] || articleData.cityId || "Spain";
   const cityHeroes = { madrid: "assets/madrid-hero-v1.png", toledo: "assets/madrid-hero-v1.png", tarragona: "assets/tarragona-hero-v2.png", montserrat: "assets/montserrat-hero-v2.png", cordoba: "assets/cordoba-hero-v2.png", barcelona: "assets/barcelona-hero-v1.png" };
-  const hero = articleData.id === "sagrada" ? "assets/sagrada-interior.jpg" : cityHeroes[articleData.cityId] || "assets/barcelona-hero-v1.png";
-  const heroAlt = articleData.id === "sagrada" ? "サグラダ・ファミリア内部の柱と光" : `${cityLabel}の旅行イメージ`;
+  const hero = articleData.heroImage || (articleData.id === "sagrada" ? "assets/sagrada-interior.jpg" : cityHeroes[articleData.cityId] || "assets/barcelona-hero-v1.png");
+  const heroAlt = articleData.heroImage ? `${articleData.title}を学ぶためのイラスト` : articleData.id === "sagrada" ? "サグラダ・ファミリア内部の柱と光" : `${cityLabel}の旅行イメージ`;
   const visitDays = (articleData.visitDayIds || []).map((id) => (trip.days || []).find((day) => day.id === id)).filter(Boolean);
   const visitLabel = visitDays.length ? visitDays.map((day) => `${Number(day.date.slice(5, 7))}/${Number(day.date.slice(8, 10))}`).join("・") : "訪問予定との接続なし";
   const returnDay = visitDays[0]?.id || "d1227";
   const sourceIds = uniqueSourceIds(articleData);
   const deepSections = articleData.deepSections || [];
   const introParagraphs = String(articleData.intro?.summary || "").split(/\n\n+/);
-  const readingPaths = articleData.readingPaths || [];
+  const readingPaths = articleData.readingPaths?.length ? articleData.readingPaths : [{ target: "intro" }, { target: "deep" }, { target: "onsite" }];
+  const pathLabels = { intro: "概要", deep: "詳しく学ぶ", onsite: "現地で見る" };
+  const onsiteTitle = String(articleData.onsiteSections?.[0]?.title || "現地で見る順番").replace(/(?:まず|約)?\d+分(?:で|の)?/g, "").trim();
   const tocItems = [
     ["intro", "まず全体をつかむ"],
     ["terms", "知っておく用語"],
     ...deepSections.map((section) => [section.id, section.title]),
     ["onsite", "現地での確認ポイント"],
+    ...(articleData.mediaBlocks?.length ? [["media", "映像・オンライン資料"]] : []),
     ["sources", `出典（${sourceIds.length}件）`],
   ];
 
@@ -92,14 +129,14 @@ function renderArticle(articleData) {
     <section class="learn-hero">
       <img src="${hero}" alt="${escapeHtml(heroAlt)}">
       <div class="learn-hero-copy">
-        <span class="eyebrow">LEARN BEFORE · ${escapeHtml(articleData.kind)}</span>
+        <span class="eyebrow">行く前に学ぶ · ${escapeHtml(articleData.kind)}</span>
         <h1>${escapeHtml(articleData.title)}</h1>
         <p>形や景色を見るだけで終わらせず、歴史・町の構造・文化の重なりを理解してから現地へ。読みたい深さを選べます。</p>
-        <div class="learn-meta"><span>訪問予定 ${escapeHtml(visitLabel)}</span><span>深掘り ${deepSections.length}章</span><span>公式・一次出典 ${sourceIds.length}件</span></div>
+        <div class="learn-meta"><span>訪問予定 ${escapeHtml(visitLabel)}</span><span>詳しい解説 ${deepSections.length}章</span><span>公式・一次出典 ${sourceIds.length}件</span>${articleData.heroImage ? "<span>表紙はAI生成の概念図</span>" : ""}</div>
       </div>
     </section>
     <nav class="reading-paths" aria-label="読み方を選ぶ">
-      ${readingPaths.map((path) => `<a class="reading-path" href="#${escapeHtml(path.target)}"><span><strong>${escapeHtml(path.target === "deep" ? "詳しく学ぶ" : path.label)}</strong><small>${path.target === "intro" ? "全体像と4つの要点" : path.target === "deep" ? `${deepSections.length}章を順に読む` : "現地での確認ポイント"}</small></span></a>`).join("")}
+      ${readingPaths.map((path) => `<a class="reading-path" href="#${escapeHtml(path.target)}"><span><strong>${escapeHtml(pathLabels[path.target] || "詳しく見る")}</strong><small>${path.target === "intro" ? "全体像と要点" : path.target === "deep" ? `${deepSections.length}章から選ぶ` : "現地で見る順番"}</small></span></a>`).join("")}
     </nav>
     <div class="learn-layout">
       <aside class="learn-toc" aria-label="目次"><h2>目次</h2><ol>${tocItems.map(([id, label]) => `<li><a href="#${escapeHtml(id)}" data-toc-link="${escapeHtml(id)}">${escapeHtml(label)}</a></li>`).join("")}</ol></aside>
@@ -108,28 +145,30 @@ function renderArticle(articleData) {
           <header class="learn-section-head"><span class="eyebrow">まず知っておきたいこと</span><h2>全体をつかむ</h2><p>現地で何を見るべきかが分かる要点です。</p></header>
           <div class="intro-summary">${introParagraphs.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("")}</div>
           <ul class="key-points">${(articleData.intro?.keyPoints || []).map((point) => `<li>${escapeHtml(point)}</li>`).join("")}</ul>
-          <aside class="why-card"><span class="eyebrow">WHY IT MATTERS</span><h3>今回の旅で時間を使う理由</h3><p>${escapeHtml(articleData.intro?.whyItMatters)}</p>${sourceMarkers(articleData.intro?.sourceIds)}</aside>
+          <aside class="why-card"><span class="eyebrow">今回の旅とのつながり</span><h3>ここを学ぶ理由</h3><p>${escapeHtml(articleData.intro?.whyItMatters)}</p>${sourceMarkers(articleData.intro?.sourceIds)}</aside>
         </section>
 
         <section id="terms" class="learn-section" data-observe-section>
-          <header class="learn-section-head"><span class="eyebrow">WORDS TO KNOW</span><h2>先に知ると見え方が変わる用語</h2><p>現地解説で出てくる言葉を、建物の見方に結びつけます。</p></header>
+          <header class="learn-section-head"><span class="eyebrow">先に知る言葉</span><h2>知ると見え方が変わる用語</h2><p>現地解説で出てくる言葉を、建物の見方に結びつけます。</p></header>
           <div class="term-grid">${(articleData.terms || []).map((term) => `<article class="term-card"><h3>${escapeHtml(term.term)}</h3><p>${escapeHtml(term.definition)}</p>${sourceMarkers(term.sourceIds)}</article>`).join("")}</div>
         </section>
 
         <section id="deep" class="learn-section" data-observe-section>
-          <header class="learn-section-head"><span class="eyebrow">DEEP GUIDE</span><h2>${deepSections.length}章で深く学ぶ</h2><p>章を選んで開けます。最初の章だけ開いた状態にしています。</p></header>
+          <header class="learn-section-head"><span class="eyebrow">詳しく学ぶ</span><h2>${deepSections.length}章から選ぶ</h2><p>興味のある章を開けます。最初の章だけ開いた状態にしています。</p></header>
           ${deepSections.map((section, index) => `<details id="${escapeHtml(section.id)}" class="deep-chapter" data-observe-section ${index === 0 ? "open" : ""}><summary>${escapeHtml(section.title)}</summary><div class="deep-chapter-body">${renderChapterVisual(section.id)}${(section.blocks || []).map(renderBlock).join("")}${sourceMarkers(section.sourceIds)}</div></details>`).join("")}
         </section>
 
         <section id="onsite" class="learn-section onsite-card" data-observe-section>
           <span class="eyebrow">現地での確認ポイント</span>
-          <h2>${escapeHtml(articleData.onsiteSections?.[0]?.title || "現地で見る")}</h2>
+          <h2>${escapeHtml(onsiteTitle || "現地で見る順番")}</h2>
           <p>長い解説を読み直さなくても使える、現地用の観察順です。</p>
           ${(articleData.onsiteSections || []).flatMap((section) => section.blocks || []).map(renderBlock).join("")}
         </section>
 
+        ${renderMediaBlocks(articleData.mediaBlocks || [])}
+
         <section id="sources" class="learn-section" data-observe-section>
-          <header class="learn-section-head"><span class="eyebrow">SOURCES</span><h2>根拠を確認する</h2><p>本文の番号から、この一覧へ移動できます。運用情報は訪問直前にも公式で再確認します。</p></header>
+          <header class="learn-section-head"><span class="eyebrow">出典</span><h2>根拠を確認する</h2><p>本文の番号から、この一覧へ移動できます。運用情報は訪問直前にも公式で再確認します。</p></header>
           <ol class="source-list">${sourceIds.map((id, index) => { const source = sourceMap.get(id); return `<li id="source-${escapeHtml(id)}"><a href="${escapeHtml(source.url)}" target="_blank" rel="noreferrer">[${index + 1}] ${escapeHtml(source.title)}</a><span>${escapeHtml(source.publisher)} · ${escapeHtml(source.type)} · 確認 ${escapeHtml(source.checkedAt)}</span></li>`; }).join("")}</ol>
         </section>
 
@@ -150,7 +189,7 @@ function renderArticle(articleData) {
 
 if (!article) {
   document.title = "学習ガイドが見つかりません — Spain Trip";
-  learnRoot.innerHTML = `<section class="learn-not-found"><span class="eyebrow">NOT FOUND</span><h1>この学習ガイドはまだありません</h1><p>ガイドへ戻り、別の場所を選んでください。</p><a class="button primary" href="index.html?day=d1227&tab=guide">ガイドへ戻る</a></section>`;
+  learnRoot.innerHTML = `<section class="learn-not-found"><span class="eyebrow">ページが見つかりません</span><h1>この学習ガイドはまだありません</h1><p>ガイドへ戻り、別の場所を選んでください。</p><a class="button primary" href="index.html?day=d1227&tab=guide">ガイドへ戻る</a></section>`;
 } else {
   renderArticle(article);
 }
