@@ -143,7 +143,7 @@ function loadScenario() {
 function saveScenario(value) {
   try { localStorage.setItem(scenarioStorageKey, value); } catch (_) { /* This visit still uses the selected scenario. */ }
 }
-const state = { tab: "home", day: "d1227", scenario: loadScenario(), guideSection: "start", guideCity: "all", guideArea: "all", guideSort: "priority", guideLocationNote: "位置情報は未使用", planSection: "next", recordsSection: "money" };
+const state = { tab: "home", day: "d1227", scenario: loadScenario(), guideSection: "start", guideCity: "all", guideArea: "all", guideSort: "priority", guideLocationNote: "位置情報は未使用", planSection: "next", recordsSection: "money", collapsedDays: new Set() };
 let days = window.UXFullData?.buildDays(representativeDays, state.scenario) || representativeDays;
 const recordsStorageKey = "spain-trip-ux-v1-records";
 const recordsSeed = {
@@ -215,6 +215,9 @@ const screen = document.querySelector("#screen");
 const sheet = document.querySelector("[data-sheet]");
 const scrim = document.querySelector("[data-scrim]");
 let lastFocus = null;
+let itineraryObserver = null;
+let itineraryScrollLock = false;
+let itineraryScrollTimer = null;
 
 const esc = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
 const mapsUrl = (query) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(String(query || ""))}`;
@@ -248,7 +251,7 @@ function renderNav() {
 
 function renderDaySwitcher() {
   const context = document.querySelector(".day-context");
-  context.hidden = ["guide", "records"].includes(state.tab);
+  context.hidden = ["guide", "records", "schedule"].includes(state.tab);
   document.querySelector("[data-day-switcher]").innerHTML = Object.values(days).map((day) => `<button class="day-button" type="button" role="tab" data-day="${day.id}" aria-selected="${state.day === day.id}"><strong>${day.date} · ${day.city}</strong><small>${day.type}</small></button>`).join("");
 }
 
@@ -259,20 +262,29 @@ function screenHeader(label, title, description) {
 
 function pill(text, tone = "") { return `<span class="pill ${toneClass(tone)}">${esc(text)}</span>`; }
 function action(label, options = {}) {
-  const attrs = options.open ? ` data-open-detail="${esc(options.open)}"` : options.tab ? ` data-tab-target="${esc(options.tab)}"` : "";
+  const attrs = options.open ? ` data-open-detail="${esc(options.open)}"${options.detailDay ? ` data-detail-day="${esc(options.detailDay)}"` : ""}` : options.tab ? ` data-tab-target="${esc(options.tab)}"${options.contextDay ? ` data-context-day="${esc(options.contextDay)}"` : ""}` : "";
   return `<button class="button ${options.primary ? "primary" : options.ghost ? "ghost" : ""}" type="button"${attrs}>${esc(label)}</button>`;
 }
 
 function primaryCard(day) {
-  return `<article class="card primary-card"><span class="eyebrow">${esc(day.primary.eyebrow)}</span><h2>${esc(day.primary.title)}</h2><p class="lead">${esc(day.primary.lead)}</p>${day.primary.meta?.length ? `<div class="status-row">${day.primary.meta.map((x) => pill(x, "info")).join("")}</div>` : ""}<div class="action-row">${action("この日の旅程を見る", { tab: "schedule", primary: true })}</div></article>`;
+  return `<article class="card primary-card"><span class="eyebrow">${esc(day.primary.eyebrow)}</span><h2>${esc(day.primary.title)}</h2><p class="lead">${esc(day.primary.lead)}</p>${day.primary.meta?.length ? `<div class="status-row">${day.primary.meta.map((x) => pill(x, "info")).join("")}</div>` : ""}<div class="action-row">${action("この日の旅程を見る", { tab: "schedule", contextDay: day.id, primary: true })}</div></article>`;
+}
+
+function tripCountdown(now = new Date()) {
+  const departure = Date.parse("2026-12-25T09:00:00+09:00");
+  const returnHome = Date.parse("2027-01-05T18:00:00+09:00");
+  if (now.getTime() < departure) return `出発まであと${Math.max(1, Math.ceil((departure - now.getTime()) / 86400000))}日`;
+  if (now.getTime() <= returnHome) return "いま、スペイン旅行中";
+  return "旅の写真と思い出を振り返る";
 }
 
 function renderHome() {
   const day = days[state.day];
   screen.innerHTML = `${screenHeader("HOME", day.title, "今日の予定、次にすること、準備が必要なことをまとめています。")}
+    <section class="trip-hero" aria-label="スペイン旅行の概要"><div class="trip-hero-copy"><span class="eyebrow">SPAIN · 12 DAYS · 3 TRAVELERS</span><h2>BarcelonaとMadridに泊まり、海辺の古代都市とAndalucíaへ日帰りする旅</h2><p>12/25–1/5 · TarragonaとCórdobaへ。Montserratは晴天と体力がそろう日に選びます。</p><strong>${esc(tripCountdown())}</strong><div class="action-row">${action("12日間の旅程を見る", { tab: "schedule", contextDay: state.day, primary: true })}${action("町と食を楽しむ", { tab: "guide" })}</div><small class="image-disclosure">背景は都市イメージ・AI生成</small></div><div class="trip-hero-photos" aria-hidden="true"><span></span><span></span></div></section>
     <div class="hero-layout">
       ${primaryCard(day)}
-      <aside class="card side-summary"><span class="eyebrow">DAY CONTEXT</span><span class="big-number">${esc(day.date.slice(0,5))}</span><h3>${esc(day.city)}</h3><p>${esc(day.type)}</p><div class="action-row">${action("旅程を見る", { tab: "schedule", primary: true })}</div></aside>
+      <aside class="card side-summary"><span class="eyebrow">DAY CONTEXT</span><span class="big-number">${esc(day.date.slice(0,5))}</span><h3>${esc(day.city)}</h3><p>${esc(day.type)}</p><div class="action-row">${action("旅程を見る", { tab: "schedule", contextDay: day.id, primary: true })}</div></aside>
     </div>
     <section class="section"><div class="section-head"><div><span class="eyebrow">UP NEXT</span><h2>出発前に確認すること</h2></div></div><div class="grid two">${day.upcoming.map(([title, note, status]) => `<article class="card card-body"><div class="status-row">${pill(status, /不足|調査|依存/.test(status) ? "wait" : "info")}</div><h3>${esc(title)}</h3><p class="muted">${esc(note)}</p>${action("準備で確認", { tab: "plan" })}</article>`).join("")}</div></section>`;
 }
@@ -300,7 +312,7 @@ function renderTimeline(day) {
     const mealFacts = item.meal ? `<dl class="timeline-facts"><div><dt>食べるもの</dt><dd>${esc((item.meal.dishes || []).join("・"))}</dd></div><div><dt>3人分</dt><dd>${dualMoney(item.meal.budgetEur)}</dd></div><div><dt>満席時</dt><dd>${esc((item.meal.alternatives || []).join("／"))}</dd></div></dl>` : "";
     const mapHelps = !/乗継|保安検査|搭乗口/.test(item.title);
     const routeLink = mapHelps && (item.kind === "移動" || item.kind === "鉄道" || item.kind === "航空" || item.kind === "空港") ? `<a class="button" href="${esc(mapsUrl(`${item.title} ${day.city}`))}" target="_blank" rel="noreferrer">地図</a>` : "";
-    return `<div><article class="timeline-item"><div class="timeline-time">${esc(item.time)}${item.end ? `<small>〜${esc(item.end)}</small>` : ""}${item.zone ? `<small class="timeline-zone">${esc(item.zone)}</small>` : ""}</div><div class="card timeline-card"><div class="status-row">${pill(item.kind)}${pill(item.status, item.tone)}</div><h3>${esc(item.title)}</h3>${item.note ? `<p class="muted">${esc(item.note)}</p>` : ""}${mealFacts}<div class="action-row">${action("詳細", { open: item.detail, primary: true })}${routeLink}</div></div></article>${connector}</div>`;
+    return `<div><article class="timeline-item"><div class="timeline-time">${esc(item.time)}${item.end ? `<small>〜${esc(item.end)}</small>` : ""}${item.zone ? `<small class="timeline-zone">${esc(item.zone)}</small>` : ""}</div><div class="card timeline-card"><div class="status-row">${pill(item.kind)}${pill(item.status, item.tone)}</div><h3>${esc(item.title)}</h3>${item.note ? `<p class="muted">${esc(item.note)}</p>` : ""}${mealFacts}<div class="action-row">${action("詳細", { open: item.detail, detailDay: day.id, primary: true })}${routeLink}</div></div></article>${connector}</div>`;
   }).join("");
 }
 
@@ -310,25 +322,78 @@ function renderBarcelonaFlexDecision(day) {
   return `<section class="flex-decision" aria-labelledby="flex-decision-title"><div class="flex-decision-head"><span class="eyebrow">12/27–29の選択</span><h2 id="flex-decision-title">3日間のシナリオ</h2><p>12/26夜に天気と交通を比べて選びます。選ぶと3日分の旅程がすぐ入れ替わります。Montserratの日は当日朝にも判断し、条件が悪ければ予約不要のBarcelona市内案にします。</p></div><div class="scenario-selector" role="radiogroup" aria-label="3日間のシナリオ">${scenarios.map((scenario) => `<button class="scenario-option" type="button" role="radio" aria-checked="${state.scenario === scenario.id}" data-scenario="${esc(scenario.id)}"><strong>${esc(scenario.name)}</strong><span>${esc(scenario.summary)}</span>${state.scenario === scenario.id ? `<small>選択中</small>` : ""}</button>`).join("")}</div><p class="flex-note"><strong>選択中：</strong>${esc(window.UXFullData.flexScenarios[state.scenario].name)}。Tarragonaは火曜の一日案が基本で、シナリオ3だけ日曜14:30閉館に合わせた短縮案です。月曜には置きません。</p></section>`;
 }
 
+function itineraryDateId(day) {
+  const digits = day.id.slice(1);
+  return `${digits.startsWith("12") ? "2026" : "2027"}-${digits.slice(0, 2)}-${digits.slice(2, 4)}`;
+}
+
+function currentTripDayId(now = new Date()) {
+  const parts = new Intl.DateTimeFormat("en-CA", { timeZone: activeClockZone(now).timeZone, year: "numeric", month: "2-digit", day: "2-digit" }).formatToParts(now);
+  const value = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+  const today = `${value.year}-${value.month}-${value.day}`;
+  return Object.values(days).find((day) => itineraryDateId(day) === today)?.id || null;
+}
+
+function renderItineraryJumpbar() {
+  const current = currentTripDayId();
+  const target = current || state.day;
+  return `<nav class="itinerary-jumpbar" aria-label="旅程の日付"><button class="itinerary-today" type="button" data-jump-day="${esc(target)}">${current ? "今日へ" : "選択日へ"}</button><div class="itinerary-jumpdates">${Object.values(days).map((day) => `<button type="button" data-jump-day="${day.id}" aria-selected="${state.day === day.id}"><strong>${esc(day.date.slice(0, 5))}</strong><small>${esc(day.city.replace("Barcelona", "BCN").replace("Madrid", "MAD"))}</small></button>`).join("")}</div></nav>`;
+}
+
+function renderItineraryDay(day) {
+  const collapsed = state.collapsedDays.has(day.id);
+  return `<article class="itinerary-day${state.day === day.id ? " is-active" : ""}" id="itinerary-day-${day.id}" data-itinerary-day-card="${day.id}"><header class="itinerary-day-header"><div><span class="eyebrow">${esc(day.date)} · ${esc(day.city)} · ${esc(day.type)}</span><h2>${esc(day.title)}</h2><p>${esc(day.summary || day.primary?.lead || "")}</p></div><div class="itinerary-day-actions">${action("遅れ・雨・満席時", { open: "change", detailDay: day.id })}<button class="button ghost" type="button" data-toggle-itinerary-day="${day.id}" aria-expanded="${!collapsed}" aria-controls="itinerary-body-${day.id}">${collapsed ? "この日を開く" : "この日をたたむ"}</button></div></header><div id="itinerary-body-${day.id}"${collapsed ? " hidden" : ""}><div class="timeline itinerary-day-timeline">${renderTimeline(day)}</div></div></article>`;
+}
+
 function renderSchedule() {
-  const day = days[state.day];
-  const first = day.timeline.find((item) => !item.decision);
-  screen.innerHTML = `${screenHeader("ITINERARY", "旅程", "何時にどこへ行き、どう移動し、どこで食べるかを時刻順に確認できます。")}
-    <article class="card card-body"><div class="alert-row"><span class="alert-icon">${esc(day.date.slice(0, 5))}</span><div><span class="eyebrow">${esc(day.city)} · ${esc(day.type)}</span><h2>${esc(day.title)}</h2><div class="action-row">${action("遅れ・雨・満席時", { open: "change", primary: true })}${action("12日概要", { open: "overview" })}</div></div></div></article>
-    ${renderBarcelonaFlexDecision(day)}
-    <section class="section timeline-layout"><div class="timeline">${renderTimeline(day)}</div><aside class="card detail-pane">${timelineDetail(first)}</aside></section>`;
+  screen.innerHTML = `<header class="screen-header itinerary-screen-header"><div><span class="eyebrow">ITINERARY · ALL 12 DAYS</span><h1>旅程</h1><p>12日分を上から続けて読めます。日付バーはスクロール中も残り、いつでも別の日へ移動できます。</p></div><div class="context-meta">12/25–1/5<small>日本・上海・スペインの各現地時間</small></div></header>
+    ${renderItineraryJumpbar()}
+    ${renderBarcelonaFlexDecision(days.d1227)}
+    <div class="itinerary-days">${Object.values(days).map(renderItineraryDay).join("")}</div>`;
 }
 
 const planSections = [
   ["next", "次にやる"], ["bookings", "予約"], ["hotels", "宿泊"], ["documents", "書類・連絡"], ["packing", "持ち物"]
 ];
 
+function bookingStatusLabel(booking) {
+  const value = booking.status || booking.lifecycle || "";
+  if (/確定|confirmed/.test(value)) return "予約済み";
+  if (/waiting_release/.test(booking.lifecycle || "")) return "発売待ち";
+  if (/waiting_official|researching/.test(value) || /waiting_official/.test(booking.lifecycle || "")) return "公式発表待ち";
+  return "これから手配";
+}
+
+function bookingPublicNote(booking) {
+  return String(booking.publicNote || "")
+    .replace(/v2本編へ復元。/g, "")
+    .replace(/購入証拠なしに確定済みへ変更しない。/g, "購入後に予約内容を確認します。")
+    .replace(/現行便名・時刻は仮時刻。/g, "列車の発売後に時刻を選びます。")
+    .replace(/現行列車時刻は仮時刻。/g, "列車の発売後に時刻を選びます。")
+    .trim();
+}
+
+function allTripBookings() {
+  const currentScheduleIds = new Set(Object.values(days).flatMap((day) => day.timeline.map((item) => String(item.detail || "").replace(/^canonical-/, ""))));
+  return (window.UXFullData?.trip?.bookings || []).filter((booking) => {
+    if (/見送り|現在の訪問予定ではありません/.test(booking.publicNote || "")) return false;
+    if (booking.id === "flight") return true;
+    const itemIds = booking.relatedScheduleItemIds || [];
+    return !itemIds.length || itemIds.some((id) => currentScheduleIds.has(id));
+  });
+}
+
+function bookingVisitLabel(booking) {
+  if (/tarragona|montserrat/.test(booking.id)) return "12/27–29の選択日";
+  return (booking.relatedDayIds || []).map((id) => days[id]?.date?.split("（")[0]).filter(Boolean).join("・") || "旅行全体";
+}
+
 function renderPlanBody(day) {
   if (state.planSection === "next") return `<div class="stack">${day.plan.map(([n, title, status, note, owner, timing]) => `<article class="card task-card"><span class="task-index">${n}</span><div><div class="status-row">${pill(status, /調査|依存/.test(status) ? "warn" : /待ち/.test(status) ? "wait" : "info")}</div><h3>${esc(title)}</h3><p class="muted">${esc(note)}</p><small>担当: ${esc(owner)}</small></div><time>確認時期: ${esc(timing)}</time></article>`).join("")}</div>`;
   if (state.planSection === "bookings") {
-    const bookings = window.UXFullData?.bookingsForDay(state.day) || [];
-    const cards = bookings.map((booking) => `<article class="card card-body"><div class="status-row">${pill(booking.status || booking.lifecycle || "確認する", toneClass(/確定/.test(booking.status || "") ? "info" : "wait"))}</div><h3>${esc(booking.title)}</h3>${booking.publicNote ? `<p class="muted">${esc(booking.publicNote)}</p>` : ""}${booking.actionUrl ? `<a class="button primary" href="${esc(booking.actionUrl)}" target="_blank" rel="noreferrer">公式サイト</a>` : ""}</article>`).join("");
-    return `<div class="grid two">${cards || `<article class="card card-body"><h3>この日は事前予約の操作なし</h3><p class="muted">時間指定券や交通券が必要な予定は、「次にやる」に表示します。</p></article>`}<article class="card card-body info-card"><h3>予約番号・QRの保存</h3><p>予約後は端末とオフライン用PDFの両方へ保存し、3人が確認できる場所を共有します。</p></article></div>`;
+    const bookings = allTripBookings();
+    const cards = bookings.map((booking) => { const label = bookingStatusLabel(booking); return `<article class="card card-body booking-card"><div class="status-row">${pill(label, label === "予約済み" ? "info" : "wait")}${pill(bookingVisitLabel(booking), "info")}</div><h3>${esc(booking.title)}</h3>${bookingPublicNote(booking) ? `<p class="muted">${esc(bookingPublicNote(booking))}</p>` : ""}${booking.deadline ? `<p class="booking-deadline"><span>確認目安</span><strong>${esc(booking.deadline)}</strong></p>` : ""}${booking.actionUrl ? `<a class="button primary" href="${esc(booking.actionUrl)}" target="_blank" rel="noreferrer">公式サイト</a>` : ""}</article>`; }).join("");
+    return `<article class="card card-body booking-ledger-intro"><span class="eyebrow">TRIP-WIDE BOOKINGS</span><h2>旅行全体の予約・発売待ち</h2><p>日付を切り替えなくても、航空券・列車・入場券・年末の食事をまとめて確認できます。</p><div class="status-row">${pill(`予約対象 ${bookings.length}件`, "info")}${pill("個人情報は表示しない", "info")}</div></article><div class="grid two booking-ledger">${cards || `<article class="card card-body"><h3>予約対象を読み込めませんでした</h3><p class="muted">「次にやる」で発売待ちの項目を確認してください。</p></article>`}</div><article class="card card-body info-card booking-privacy"><h3>予約番号・QRは公開サイトに載せません</h3><p>予約後は家族だけが見られる保存先と端末のオフラインPDFへ保管します。この画面には、日付・予約状態・公式サイトだけを表示します。</p></article>`;
   }
   if (state.planSection === "hotels") {
     const stays = window.UXFullData?.hotelStays || [];
@@ -359,7 +424,12 @@ const practicalGuides = [
   { id: "holiday", title: "年末年始", summary: "特別営業時間と大晦日の規制に備えます。", points: ["12月31日と1月1日は通常営業時間を当てはめない", "食事と水は営業時間内に早めに確保する", "Puerta del Solは18:00に入口・駅閉鎖・天候を確認し、20:30に進むかホテルへ戻るか決める"] },
   { id: "shopping", title: "買い物・土産", summary: "荷物を増やしすぎず、町ごとの品を選びます。", points: ["壊れ物と液体は帰国便の荷物条件を確認してから買う", "市場では持ち歩き時間と保存温度を見る", "大きな買い物は最終Barcelona滞在まで保留し、日中の観光では持ち歩かない"] },
   { id: "payment", title: "支払・チップ", summary: "円換算と3人の立替をその場で記録します。", points: ["カード決済では現地通貨EURを選び、円建て換算を避ける", "支払った人と参加者を記録タブへ入力する", "チップはサービス料と店の形式を見て判断し、義務として一律計算しない"] },
-  { id: "language", title: "言葉・通信", summary: "通信が不安定でも移動と連絡を続けられるようにします。", points: ["ホテル名・住所・予約PDFをオフラインで見られるようにする", "地図は訪問エリアを事前保存する", "緊急時は場所、人数、必要な支援を短く伝え、EU共通緊急番号112を使う"] }
+  { id: "language", title: "すぐ使うスペイン語", summary: "店・駅・緊急時に、画面を見せながら使える短い表現です。", points: ["Somos tres.（3人です）", "Quisiera esto, por favor.（これをお願いします）", "La cuenta, por favor.（お会計をお願いします）", "¿Dónde está ...?（…はどこですか）", "¿A qué hora sale?（何時に出発しますか）", "Necesito ayuda.（助けが必要です）"] },
+  { id: "lost-items", title: "紛失・盗難", summary: "パスポート、カード、スマートフォンを失った時の順番を分けます。", points: ["まず同行者と安全な場所へ移動し、最後に使った場所と時刻を確認する", "カードは発行会社のアプリまたは緊急窓口で停止し、スマートフォンは別端末から紛失モードにする", "盗難は現地警察へ届け、受理番号または届出控えを保険請求用に保存する", "パスポート紛失は警察の届出後、日本大使館または総領事館へ連絡する"], sourceUrl: "https://www.es.emb-japan.go.jp/itpr_ja/00_000055.html", sourceLabel: "在スペイン日本国大使館｜盗難・紛失時の案内", checkedAt: "2026-08-16" },
+  { id: "health", title: "体調不良・病院", summary: "症状の重さで、休む・保険へ相談・112を呼ぶを切り替えます。", points: ["軽い体調不良はホテルへ戻り、水分、体温、服薬内容を記録する", "受診先に迷う時は旅行保険の日本語相談窓口へ連絡し、紹介先と支払方法を確認する", "意識障害、呼吸困難、大量出血など緊急時は112へ電話する", "受診時はパスポート情報、保険証券、服薬一覧、アレルギーを提示できるようにする"], sourceUrl: "https://europa.eu/youreurope/citizens/travel/security-and-emergencies/emergency/index_es.htm", sourceLabel: "EU公式｜共通緊急番号112", checkedAt: "2026-08-16" },
+  { id: "street-safety", title: "スリ・街中の注意", summary: "観光を楽しみながら、混雑する場所での被害を減らします。", points: ["地下鉄、駅、観光地の列では、スマートフォンと財布を外ポケットへ入れない", "声を掛けられて注意がそれた時も、荷物から手を離さない", "署名、物売り、汚れを指摘する人に囲まれたら、その場で対応せず明るい店内へ移動する", "現金とカードを分散し、全員が同じ場所へ貴重品をまとめない"], sourceUrl: "https://www.policia.es/miscelanea/participacion_ciudadana/triptico_plan_turismo_seguro.pdf", sourceLabel: "スペイン国家警察｜旅行者向け安全対策", checkedAt: "2026-08-16" },
+  { id: "souvenir-timing", title: "土産を買う町と時期", summary: "名物を逃さず、12日間ずっと持ち歩かない買い方にします。", points: ["Barcelona前半は候補と価格だけ見て、常温で持てる菓子や雑貨は最終滞在でまとめて買う", "TarragonaとCórdobaの土地の品は日帰り当日に買うが、液体・壊れ物・要冷蔵品は少量にする", "Madridの菓子や美術館ショップ品は1/3の移動前までに買い、列車の荷物を増やしすぎない", "液体、刃物、食品は帰国便の手荷物・税関条件を確認してから購入する"] },
+  { id: "communication", title: "通信・オフライン", summary: "通信が不安定でも移動と連絡を続けられるようにします。", points: ["ホテル名・住所・予約PDFをオフラインで見られるようにする", "訪問エリアの地図と翻訳言語を端末へ事前保存する", "3人の集合場所と、連絡できない時に待つ時間を毎朝決める", "緊急連絡先と保険証券は、スマートフォン以外にも一部を保存する"] }
 ];
 
 const representativeGuideCities = [
@@ -677,6 +747,19 @@ function recommendedShops(item) {
   return specific.length ? specific : (guideShopFallbacks[item.name] || []);
 }
 
+function mustEatItems() {
+  const cityOrder = ["Barcelona", "Tarragona", "Montserrat", "Madrid", "Cordoba"];
+  return cityOrder.flatMap((cityName) => {
+    const candidates = guideAreas.filter((area) => area.city === cityName && !(area.visit || []).every((visit) => /追加候補|未採用|代替/.test(visit))).flatMap((area) => area.foods.map((item) => ({ area, item }))).filter(({ item }) => !/追加候補|未採用|代替時のみ/.test(item.when || ""));
+    return candidates.sort((a, b) => a.item.priority - b.item.priority).slice(0, 2);
+  });
+}
+
+function renderMustEatOverview() {
+  const items = mustEatItems();
+  return `<section class="section must-eat-section"><div class="section-head"><div><span class="eyebrow">MUST EAT · TRIP OVERVIEW</span><h2>この旅行で食べたいもの</h2><p>いつ食べるか、どの町か、店の第一候補まで一度に確認できます。</p></div><button class="button" type="button" data-guide-section="eat">町ごとの食ガイドへ</button></div><div class="must-eat-grid">${items.map(({ area, item }, index) => { const visual = guideVisuals[item.name] || {}; const city = guideCities.find((entry) => entry.id === area.city); const image = visual.image || `${city?.hero?.startsWith("assets/") ? "" : "assets/"}${city?.hero || "barcelona-hero-v1.png"}`; const imageAlt = visual.imageAlt || `${area.city}の食文化を表す都市イメージ`; const imageKind = visual.imageKind || "都市イメージ・AI生成"; const shop = recommendedShops(item)[0] || "店は日程と営業を見て選ぶ"; return `<article class="card must-eat-card"><img src="${esc(image)}" alt="${esc(imageAlt)}"><div><span class="eyebrow">${index + 1} · ${esc(area.city)} · ${esc(area.name)}</span><h3>${esc(item.name)}</h3><dl><div><dt>予定</dt><dd>${esc(item.when)}</dd></div><div><dt>店候補</dt><dd>${esc(shop)}</dd></div></dl><small class="image-disclosure">画像: ${esc(imageKind)}</small><button class="button primary" type="button" data-open-detail="guide-eat-${area.id}-${item.priority}">料理と店を見る</button></div></article>`; }).join("")}</div></section>`;
+}
+
 function guideControls() {
   const visibleAreas = state.guideCity === "all" ? guideAreas : guideAreas.filter((area) => area.city === state.guideCity);
   const cityOptions = guideCities.map((city) => `<option value="${esc(city.id)}"${state.guideCity === city.id ? " selected" : ""}>${esc(city.id)}</option>`).join("");
@@ -712,7 +795,7 @@ function renderAreaDetail(area, mode) {
 }
 
 function renderGuideLanding() {
-  return `<section class="guide-entrances" aria-label="ガイドの入口"><button class="guide-entry guide-entry-see" type="button" data-guide-section="see"><span class="entry-icon" aria-hidden="true">◇</span><span class="eyebrow">SIGHTS BY AREA</span><strong>観光する</strong><span>都市を知り、町・エリアごとの観光地を優先順で見る。</span><span class="entry-cta">観光地を探す →</span></button><button class="guide-entry guide-entry-eat" type="button" data-guide-section="eat"><span class="entry-icon" aria-hidden="true">○</span><span class="eyebrow">FOOD BY AREA</span><strong>食べる</strong><span>都市の食文化を知り、町・エリアごとの名物と店を探す。</span><span class="entry-cta">食べ物を探す →</span></button></section><section class="section"><div class="section-head"><div><span class="eyebrow">CITY GUIDE</span><h2>まず訪れる都市・町を知る</h2></div><p>都市 → 町・エリア → 個別情報</p></div><div class="city-hub-grid">${guideCities.map((city) => `<article class="city-overview city-${city.tone}" style="--city-photo:url('${city.hero}')"><span class="eyebrow">${esc(city.label)}</span><h2>${esc(city.id)}</h2><p>${esc(city.intro)}</p><div class="city-overview-fact"><span>食</span><strong>${esc(city.food)}</strong></div><div class="city-overview-meta"><span>訪問予定 ${esc(city.visit)}</span><span>${guideAreas.filter((area) => area.city === city.id).length}エリア</span></div><small class="image-disclosure">都市イメージ・AI生成</small><div class="action-row"><button class="button primary" type="button" data-guide-city-entry="${city.id}" data-guide-mode="see">${esc(city.id)}の観光</button><button class="button" type="button" data-guide-city-entry="${city.id}" data-guide-mode="eat">${esc(city.id)}の食</button></div></article>`).join("")}</div></section>`;
+  return `<section class="guide-entrances" aria-label="ガイドの入口"><button class="guide-entry guide-entry-see" type="button" data-guide-section="see"><span class="entry-icon" aria-hidden="true">◇</span><span class="eyebrow">SIGHTS BY AREA</span><strong>観光する</strong><span>都市を知り、町・エリアごとの観光地を優先順で見る。</span><span class="entry-cta">観光地を探す →</span></button><button class="guide-entry guide-entry-eat" type="button" data-guide-section="eat"><span class="entry-icon" aria-hidden="true">○</span><span class="eyebrow">FOOD BY AREA</span><strong>食べる</strong><span>都市の食文化を知り、町・エリアごとの名物と店を探す。</span><span class="entry-cta">食べ物を探す →</span></button></section>${renderMustEatOverview()}<section class="section"><div class="section-head"><div><span class="eyebrow">CITY GUIDE</span><h2>まず訪れる都市・町を知る</h2></div><p>都市 → 町・エリア → 個別情報</p></div><div class="city-hub-grid">${guideCities.map((city) => `<article class="city-overview city-${city.tone}" style="--city-photo:url('${city.hero}')"><span class="eyebrow">${esc(city.label)}</span><h2>${esc(city.id)}</h2><p>${esc(city.intro)}</p><div class="city-overview-fact"><span>食</span><strong>${esc(city.food)}</strong></div><div class="city-overview-meta"><span>訪問予定 ${esc(city.visit)}</span><span>${guideAreas.filter((area) => area.city === city.id).length}エリア</span></div><small class="image-disclosure">都市イメージ・AI生成</small><div class="action-row"><button class="button primary" type="button" data-guide-city-entry="${city.id}" data-guide-mode="see">${esc(city.id)}の観光</button><button class="button" type="button" data-guide-city-entry="${city.id}" data-guide-mode="eat">${esc(city.id)}の食</button></div></article>`).join("")}</div></section>`;
 }
 
 function renderGuideBody() {
@@ -751,7 +834,12 @@ function renderRecords() {
     const settled = recordsState.settledTransferIds.includes(transfer.id);
     return `<article class="settlement-row ${settled ? "is-settled" : ""}"><div><span class="eyebrow">${settled ? "SETTLED" : "TO SETTLE"}</span><strong>${esc(transfer.from)} → ${esc(transfer.to)}</strong><small>${settled ? "精算済み" : "未精算"}</small></div><strong>${yen(transfer.amount * recordsState.fx.EURJPY)}<small>${eur(transfer.amount)}</small></strong><button class="button" type="button" data-toggle-settlement="${transfer.id}">${settled ? "未精算へ戻す" : "精算済みにする"}</button></article>`;
   }).join("") : `<article class="card card-body"><p>現在、返金が必要な残高はありません。</p></article>`;
-  const memoryCards = recordsState.memories.map((memory) => { const memoryDay = days[memory.dayId]; return `<article class="card memory-card">${memory.photoDataUrl ? `<img src="${memory.photoDataUrl}" alt="${esc(memory.photoAlt || `${memory.place}の旅行写真`)}">` : `<div class="memory-photo" role="img" aria-label="写真なし"></div>`}<div><span class="eyebrow">${esc(memoryDay?.date || "日付未設定")} · ${memory.best ? "BEST MEMORY" : "TRIP MEMORY"}</span><h3>${esc(memory.place)}</h3><p>${esc(memory.note)}</p><small>${esc(memory.food || "食事記録なし")}</small></div></article>`; }).join("");
+  const changeLabels = { planned: "予定どおり", changed: "予定を変更", extra: "予定外の発見", skipped: "今回は見送り" };
+  const memoryCards = recordsState.memories.map((memory) => { const memoryDay = days[memory.dayId]; return `<article class="card memory-card">${memory.photoDataUrl ? `<img src="${memory.photoDataUrl}" alt="${esc(memory.photoAlt || `${memory.place}の旅行写真`)}">` : `<div class="memory-photo" role="img" aria-label="写真なし"></div>`}<div><div class="status-row">${pill(memoryDay?.date || "日付未設定", "info")}${pill(changeLabels[memory.planChange] || "旅の記録", memory.planChange === "changed" || memory.planChange === "skipped" ? "wait" : "info")}${memory.best ? pill("ベスト体験", "info") : ""}</div><h3>${esc(memory.place)}</h3><p>${esc(memory.note)}</p>${memory.changeNote ? `<p class="memory-change"><strong>予定との違い</strong>${esc(memory.changeNote)}</p>` : ""}<small>${esc(memory.food || "食事記録なし")}</small></div></article>`; }).join("");
+  const memoriesWithPhotos = recordsState.memories.filter((memory) => memory.photoDataUrl).length;
+  const changedMemories = recordsState.memories.filter((memory) => ["changed", "extra", "skipped"].includes(memory.planChange)).length;
+  const bestMemories = recordsState.memories.filter((memory) => memory.best).length;
+  const reviewedDays = Object.values(days).map((day) => ({ day, memories: recordsState.memories.filter((memory) => memory.dayId === day.id) })).filter((row) => row.memories.length);
   const missingCosts = budgetPlan.missing.length ? `<article class="card missing-costs"><div><span class="eyebrow">NOT INCLUDED YET</span><h2>合計に入っていない大きな費用</h2><p>金額がない項目は0円として隠さず、合計の外に置いています。</p></div><ul>${budgetPlan.missing.map((row) => `<li><strong>${esc(row.title)}</strong><span>${esc(row.note)}</span></li>`).join("")}</ul></article>` : "";
   const maxCategory = Math.max(...budgetPlan.categories.map((row) => row.amountEur), 1);
   const categoryRows = budgetPlan.categories.map((row) => `<div class="budget-category-row"><span>${esc(row.category)}</span><div><i style="width:${Math.max(4, row.amountEur / maxCategory * 100)}%"></i></div><strong>${yen(row.amountEur * recordsState.fx.EURJPY)}<small>${eur(row.amountEur)}</small></strong></div>`).join("");
@@ -767,7 +855,7 @@ function renderRecords() {
     <section class="section"><div class="section-head"><div><span class="eyebrow">ADD MONEY RECORD</span><h2>追加する</h2></div><p>予算枠にない支出や雑費はこちら</p></div><div class="record-actions money-actions"><button class="record-action" type="button" data-open-detail="expense"><span>¥</span><strong>支出を記録</strong><small>日付・支払者・分担</small></button><button class="record-action" type="button" data-open-detail="misc-budget"><span>＋</span><strong>雑費・予算を追加</strong><small>旅行全体または特定日</small></button></div></section>
     <section class="section"><div class="section-head"><div><span class="eyebrow">ACTUAL EXPENSES</span><h2>支出実績</h2></div><p>一人あたりと換算レートを保存</p></div><div class="expense-table-wrap"><table class="expense-table"><thead><tr><th>内容</th><th>金額</th><th>支払者</th><th>一人あたり</th></tr></thead><tbody>${expenseRows}</tbody></table></div><div class="action-row"><button class="button" type="button" data-export-records>JSONを書き出す</button><button class="button" type="button" data-export-csv>支出CSV</button><button class="button" type="button" data-import-records>JSONを読み込む</button><input type="file" accept="application/json" data-import-file hidden></div></section>
     <section class="section"><div class="section-head"><div><span class="eyebrow">WHO OWES WHOM</span><h2>誰が誰へ返すか</h2></div><p>A / B / Cの支払実績から計算</p></div><div class="stack">${transferRows}</div></section>`;
-  const memoriesBody = `<section class="memory-entry card"><div><span class="eyebrow">TRIP MEMORIES</span><h2>旅の写真と言葉を残す</h2><p>旅行日、場所、食べたもの、写真と一言をひとつずつ記録します。</p></div><button class="button primary" type="button" data-open-detail="experience">思い出を追加</button></section><section class="section"><div class="section-head"><div><span class="eyebrow">MEMORY TIMELINE</span><h2>日付で並ぶ思い出</h2></div><p>各記録に旅行日を保存</p></div><div class="memory-grid">${memoryCards || `<article class="card memory-placeholder"><div class="memory-photo" role="img" aria-label="旅行写真を追加する場所"></div><div><h3>まだ思い出はありません</h3><p class="muted">「思い出を追加」から日付、場所、食べたもの、写真と一言を残せます。</p></div></article>`}</div></section>`;
+  const memoriesBody = `<section class="memory-entry card"><div><span class="eyebrow">TRIP MEMORIES</span><h2>予定と実際、写真と言葉を残す</h2><p>旅行日ごとに、行った場所、食べたもの、予定との違い、写真と一言を記録します。</p></div><button class="button primary" type="button" data-open-detail="experience">思い出を追加</button></section><section class="trip-review-summary" aria-label="旅の記録まとめ"><article><span>思い出</span><strong>${recordsState.memories.length}</strong><small>件</small></article><article><span>写真</span><strong>${memoriesWithPhotos}</strong><small>枚</small></article><article><span>予定変更・発見</span><strong>${changedMemories}</strong><small>件</small></article><article><span>ベスト体験</span><strong>${bestMemories}</strong><small>件</small></article></section>${reviewedDays.length ? `<section class="section"><div class="section-head"><div><span class="eyebrow">TRIP REVIEW</span><h2>日ごとの振り返り</h2></div><p>計画と実際を後からたどる</p></div><div class="reviewed-days">${reviewedDays.map(({ day, memories }) => `<article class="card"><span class="eyebrow">${esc(day.date)} · ${esc(day.city)}</span><strong>${memories.length}件</strong><p>${esc(memories.map((memory) => memory.place).join("・"))}</p></article>`).join("")}</div></section>` : ""}<section class="section"><div class="section-head"><div><span class="eyebrow">MEMORY TIMELINE</span><h2>日付で並ぶ思い出</h2></div><p>各記録に旅行日と予定との差を保存</p></div><div class="memory-grid">${memoryCards || `<article class="card memory-placeholder"><div class="memory-photo" role="img" aria-label="旅行写真を追加する場所"></div><div><h3>まだ思い出はありません</h3><p class="muted">「思い出を追加」から日付、場所、食べたもの、予定との違い、写真と一言を残せます。</p></div></article>`}</div></section>`;
   screen.innerHTML = `<header class="screen-header records-header"><div><span class="eyebrow">TRIP RECORDS</span><h1>記録</h1><p>お金と旅の思い出を、使う目的ごとに分けて残します。</p></div><div class="context-meta">3人分・全12日<small>${state.recordsSection === "money" ? "基準通貨 EUR" : `${recordsState.memories.length}件の思い出`}</small></div></header><nav class="subtabs records-subtabs" aria-label="記録の分類"><button class="subtab" type="button" data-records-section="money" aria-selected="${state.recordsSection === "money"}">お金</button><button class="subtab" type="button" data-records-section="memories" aria-selected="${state.recordsSection === "memories"}">思い出</button></nav>${state.recordsSection === "money" ? moneyBody : memoriesBody}`;
 }
 
@@ -841,10 +929,10 @@ function detailContent(key, context = {}) {
   }
   if (key === "budget" || key === "misc-budget") { const misc = key === "misc-budget"; return { eyebrow: "TRIP BUDGET", title: misc ? "雑費・予算を追加" : "予算を追加", body: `<form data-budget-form><label class="field"><span>旅行全体／日付</span><select name="dayId">${recordDayOptions("trip", true)}</select></label><label class="field"><span>項目</span><input name="title" required value="${misc ? "雑費・予備費" : ""}" placeholder="お土産、洗濯、追加交通"></label><div class="form-grid"><label class="field"><span>カテゴリ</span><select name="category">${["食事","交通","観光","宿泊","雑費","その他"].map((category) => `<option${misc && category === "雑費" ? " selected" : ""}>${category}</option>`).join("")}</select></label><label class="field"><span>状態</span><select name="status"><option value="estimate">概算</option><option value="confirmed">確定額</option></select></label></div><div class="form-grid"><label class="field"><span>3人分の金額</span><input name="amount" type="number" min="0" step="0.01" required></label><label class="field"><span>通貨</span><select name="currency"><option>EUR</option><option>JPY</option></select></label></div><p class="muted">全体予算へ加算し、特定日を選んだ場合はその日の内訳にも表示します。</p><button class="button primary" type="submit">予算へ追加</button></form>` }; }
   if (key === "expense") { const selectedDay = context.dayId && context.dayId !== "trip" ? context.dayId : state.day; const linkedNote = context.budgetLineId ? `<p class="info-note">「${esc(context.title)}」の予算枠へ実績を追加します。</p>` : ""; return { eyebrow: "支出の入力", title: context.budgetLineId ? `${context.title}の実績` : "支出を記録", body: `${linkedNote}<form data-expense-form><input type="hidden" name="budgetLineId" value="${esc(context.budgetLineId || "")}"><label class="field"><span>旅行日</span><select name="dayId">${recordDayOptions(selectedDay)}</select></label><div class="form-grid"><label class="field"><span>金額</span><input name="amount" type="number" min="0.01" step="0.01" required placeholder="90"></label><label class="field"><span>通貨</span><select name="currency"><option>EUR</option><option>JPY</option></select></label></div><label class="field"><span>項目</span><input name="title" required value="${esc(context.title || "")}" placeholder="夕食、地下鉄、チケット"></label><div class="form-grid"><label class="field"><span>カテゴリ</span><select name="category">${recordCategoryOptions(context.category || "食事")}</select></label><label class="field"><span>支払者</span><select name="payer"><option>A</option><option>B</option><option>C</option></select></label></div><fieldset class="participant-field"><legend>参加者</legend>${["A", "B", "C"].map((person) => `<label><input type="checkbox" name="participant" value="${person}" checked> ${person}</label>`).join("")}</fieldset><label class="field"><span>分け方</span><select name="splitMode" data-split-mode><option value="equal">均等割</option><option value="custom">個別金額</option></select></label><div class="custom-shares" data-custom-shares hidden>${["A", "B", "C"].map((person) => `<label class="field"><span>${person}の負担額</span><input name="share${person}" type="number" min="0" step="0.01" placeholder="0"></label>`).join("")}</div><p class="muted">換算レート €1=¥${esc(recordsState.fx.EURJPY)} と確認日を、その支出を記録した時点の値として保存します。</p><button class="button primary" type="submit">実績を保存</button></form>` }; }
-  if (key === "experience") return { eyebrow: "TRIP MEMORY", title: "思い出を追加", body: `<form data-experience-form><label class="field"><span>旅行日</span><select name="dayId">${recordDayOptions()}</select></label><label class="field"><span>場所</span><input name="place" required placeholder="Cordoba旧市街、Tarragona円形闘技場"></label><label class="field"><span>食べたもの</span><input name="food" placeholder="料理・店"></label><label class="field"><span>一言感想</span><textarea name="note" required placeholder="一番印象に残ったこと"></textarea></label><label class="field"><span>写真（1.5MBまで・この端末に保存）</span><input name="photo" type="file" accept="image/*"></label><label class="field"><span>写真の説明</span><input name="photoAlt" placeholder="例：夕方のステンドグラス"></label><label><input name="best" type="checkbox"> ベスト体験にする</label><div class="action-row"><button class="button primary" type="submit">保存する</button></div></form>` };
+  if (key === "experience") return { eyebrow: "TRIP MEMORY", title: "思い出を追加", body: `<form data-experience-form><label class="field"><span>旅行日</span><select name="dayId">${recordDayOptions()}</select></label><label class="field"><span>場所</span><input name="place" required placeholder="Cordoba旧市街、Tarragona円形闘技場"></label><label class="field"><span>食べたもの</span><input name="food" placeholder="料理・店"></label><label class="field"><span>一言感想</span><textarea name="note" required placeholder="一番印象に残ったこと"></textarea></label><label class="field"><span>予定と比べて</span><select name="planChange"><option value="planned">予定どおり</option><option value="changed">予定を変更した</option><option value="extra">予定外の発見があった</option><option value="skipped">今回は見送った</option></select></label><label class="field"><span>予定との違い・変更した理由</span><textarea name="changeNote" placeholder="雨でMontserratをやめてBarcelona市内へ。そこで偶然見つけた店が良かった、など"></textarea></label><label class="field"><span>写真（1.5MBまで・この端末に保存）</span><input name="photo" type="file" accept="image/*"></label><label class="field"><span>写真の説明</span><input name="photoAlt" placeholder="例：夕方のステンドグラス"></label><label><input name="best" type="checkbox"> ベスト体験にする</label><div class="action-row"><button class="button primary" type="submit">保存する</button></div></form>` };
   if (key.startsWith("practical-")) {
     const guide = practicalGuides.find((item) => item.id === key.slice("practical-".length));
-    if (guide) return { eyebrow: "街・実用", title: guide.title, body: `<p class="guide-detail-lead">${esc(guide.summary)}</p><ol class="detail-list practical-list">${guide.points.map((point) => `<li>${esc(point)}</li>`).join("")}</ol>` };
+    if (guide) return { eyebrow: "街・実用", title: guide.title, body: `<p class="guide-detail-lead">${esc(guide.summary)}</p><ol class="detail-list practical-list">${guide.points.map((point) => `<li>${esc(point)}</li>`).join("")}</ol>${guide.sourceUrl ? `<section class="operational-facts"><h3>公式情報</h3><a class="source-link" href="${esc(guide.sourceUrl)}" target="_blank" rel="noreferrer">${esc(guide.sourceLabel)}</a><small>確認日: ${esc(guide.checkedAt)}</small></section>` : ""}` };
   }
   if (key.startsWith("guide-")) {
     const match = key.match(/^guide-(eat|see)-(.+)-(\d+)$/);
@@ -913,16 +1001,59 @@ function switchTab(tab) {
   state.tab = tab;
   window.scrollTo({ top: 0 });
   render();
+  if (tab === "schedule") requestAnimationFrame(() => scrollToItineraryDay(state.day, false));
 }
 
 function bindCommon(root = document) {
-  root.querySelectorAll("[data-tab-target]").forEach((button) => button.addEventListener("click", () => switchTab(button.dataset.tabTarget)));
-  root.querySelectorAll("[data-open-detail]").forEach((button) => button.addEventListener("click", () => openSheet(button.dataset.openDetail)));
+  root.querySelectorAll("[data-tab-target]").forEach((button) => button.addEventListener("click", () => { if (days[button.dataset.contextDay]) state.day = button.dataset.contextDay; switchTab(button.dataset.tabTarget); }));
+  root.querySelectorAll("[data-open-detail]").forEach((button) => button.addEventListener("click", () => { if (days[button.dataset.detailDay]) state.day = button.dataset.detailDay; openSheet(button.dataset.openDetail); }));
   root.querySelectorAll("[data-guide-jump]").forEach((button) => button.addEventListener("click", () => { closeSheet(); state.tab = "guide"; state.guideSection = button.dataset.guideJump; render(); }));
+}
+
+function markItineraryDay(dayId) {
+  if (!days[dayId]) return;
+  state.day = dayId;
+  screen.querySelectorAll("[data-itinerary-day-card]").forEach((card) => card.classList.toggle("is-active", card.dataset.itineraryDayCard === dayId));
+  screen.querySelectorAll("[data-jump-day]").forEach((button) => button.setAttribute("aria-selected", String(button.dataset.jumpDay === dayId)));
+  history.replaceState(null, "", `?day=${state.day}&tab=${state.tab}`);
+}
+
+function scrollToItineraryDay(dayId, smooth = false) {
+  const target = document.querySelector(`#itinerary-day-${dayId}`);
+  if (!target) return;
+  itineraryScrollLock = true;
+  clearTimeout(itineraryScrollTimer);
+  markItineraryDay(dayId);
+  const previousScrollBehavior = document.documentElement.style.scrollBehavior;
+  if (!smooth) document.documentElement.style.scrollBehavior = "auto";
+  target.scrollIntoView({ behavior: smooth ? "smooth" : "auto", block: "start" });
+  if (!smooth) requestAnimationFrame(() => { document.documentElement.style.scrollBehavior = previousScrollBehavior; });
+  itineraryScrollTimer = setTimeout(() => { itineraryScrollLock = false; markItineraryDay(dayId); }, smooth ? 850 : 0);
+}
+
+function observeItineraryDays() {
+  itineraryObserver?.disconnect();
+  if (state.tab !== "schedule" || !("IntersectionObserver" in window)) return;
+  itineraryObserver = new IntersectionObserver((entries) => {
+    if (itineraryScrollLock) return;
+    const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+    if (visible) markItineraryDay(visible.target.dataset.itineraryDayCard);
+  }, { rootMargin: "-170px 0px -62% 0px", threshold: 0 });
+  screen.querySelectorAll("[data-itinerary-day-card]").forEach((card) => itineraryObserver.observe(card));
 }
 
 function bindScreen() {
   bindCommon(screen);
+  screen.querySelectorAll("[data-jump-day]").forEach((button) => button.addEventListener("click", () => scrollToItineraryDay(button.dataset.jumpDay)));
+  screen.querySelectorAll("[data-toggle-itinerary-day]").forEach((button) => button.addEventListener("click", () => {
+    const dayId = button.dataset.toggleItineraryDay;
+    const body = screen.querySelector(`#itinerary-body-${dayId}`);
+    const collapse = !body.hidden;
+    body.hidden = collapse;
+    button.setAttribute("aria-expanded", String(!collapse));
+    button.textContent = collapse ? "この日を開く" : "この日をたたむ";
+    if (collapse) state.collapsedDays.add(dayId); else state.collapsedDays.delete(dayId);
+  }));
   screen.querySelectorAll("[data-add-budget-actual]").forEach((button) => button.addEventListener("click", () => openSheet("expense", { budgetLineId: button.dataset.budgetLineId, dayId: button.dataset.budgetDayId, title: button.dataset.budgetTitle, category: button.dataset.budgetCategory })));
   screen.querySelectorAll("[data-records-section]").forEach((button) => button.addEventListener("click", () => { state.recordsSection = button.dataset.recordsSection; render(); }));
   screen.querySelectorAll("[data-scenario]").forEach((button) => button.addEventListener("click", () => {
@@ -994,6 +1125,7 @@ function bindScreen() {
       recordsState = { ...parsed, memories: parsed.memories || [], settledTransferIds: parsed.settledTransferIds || [] }; saveRecords(); render(); toast("記録JSONを読み込みました。");
     } catch { toast("この記録ファイルは読み込めません。書き出した元ファイルを選んでください。"); }
   });
+  observeItineraryDays();
 }
 
 function bindSheet() {
@@ -1048,7 +1180,7 @@ function bindSheet() {
     if (photo?.size > 1_500_000) return toast("写真は1.5MB以下にしてください。");
     let photoDataUrl = "";
     if (photo?.size) photoDataUrl = await new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = () => resolve(reader.result); reader.onerror = reject; reader.readAsDataURL(photo); });
-    recordsState.memories.push({ id: `memory-${Date.now()}`, dayId: form.get("dayId"), place: form.get("place"), food: form.get("food"), note: form.get("note"), photoAlt: form.get("photoAlt"), photoDataUrl, best: form.get("best") === "on" });
+    recordsState.memories.push({ id: `memory-${Date.now()}`, dayId: form.get("dayId"), place: form.get("place"), food: form.get("food"), note: form.get("note"), planChange: form.get("planChange") || "planned", changeNote: form.get("changeNote") || "", photoAlt: form.get("photoAlt"), photoDataUrl, best: form.get("best") === "on" });
     saveRecords(); closeSheet(); render(); toast("写真と思い出をこの端末に保存しました。");
   });
 }
@@ -1064,5 +1196,6 @@ const params = new URLSearchParams(location.search);
 if (days[params.get("day")]) state.day = params.get("day");
 if (renderers[params.get("tab")]) state.tab = params.get("tab");
 render();
+if (state.tab === "schedule") requestAnimationFrame(() => scrollToItineraryDay(state.day, false));
 updateLocalClock();
 setInterval(updateLocalClock, 30_000);
