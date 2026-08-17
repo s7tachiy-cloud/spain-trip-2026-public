@@ -398,13 +398,18 @@ function bookingPublicNote(booking) {
 }
 
 function allTripBookings() {
-  const currentScheduleIds = new Set(Object.values(days).flatMap((day) => day.timeline.map((item) => String(item.detail || "").replace(/^canonical-/, ""))));
-  return (window.UXFullData?.trip?.bookings || []).filter((booking) => {
-    if (/見送り|現在の訪問予定ではありません/.test(booking.publicNote || "")) return false;
-    if (booking.id === "flight") return true;
-    const itemIds = booking.relatedScheduleItemIds || [];
-    return !itemIds.length || itemIds.some((id) => currentScheduleIds.has(id));
-  });
+  const activeIds = new Set(["flight", "sagrada", "mila", "batllo", "tarragona-train", "montserrat-transport", "iryo-out", "prado", "nye-dinner", "reinasofia", "iryo-back"]);
+  const dayOverrides = { sagrada: ["d1230"], "tarragona-train": ["d1227", "d1228", "d1229"], "montserrat-transport": ["d1227", "d1228", "d1229"] };
+  const canonical = (window.UXFullData?.trip?.bookings || [])
+    .filter((booking) => activeIds.has(booking.id))
+    .map((booking) => ({ ...booking, relatedDayIds: dayOverrides[booking.id] || booking.relatedDayIds }));
+  const currentAdditions = [
+    { id: "cordoba-rail", title: "Madrid–Córdoba往復列車", status: "waiting_release", lifecycle: "waiting_release", relatedDayIds: ["d0102"], deadline: "発売後", publicNote: "07:30前後の往路と17:15前後の帰路を比較し、最終便を避けて3名分を購入します。", actionUrl: "https://www.renfe.com/es/en" },
+    { id: "cordoba-mezquita", title: "Mezquita-Catedral", status: "waiting_release", lifecycle: "waiting_official", relatedDayIds: ["d0102"], deadline: "旅行7日前", publicNote: "1/2の入場時間と礼拝による変更を確認し、利用できる公式枠を3名分手配します。", actionUrl: "https://mezquita-catedraldecordoba.es/en/" },
+    { id: "casa-alberto", title: "Casa Alberto restaurant", status: "waiting_official", lifecycle: "waiting_official", relatedDayIds: ["d1230"], deadline: "2026/12/01", publicNote: "20:00のrestaurant席と年末営業を直接確認します。取れなければAtochaで持帰りを購入します。", actionUrl: "https://www.casaalberto.es/" },
+    { id: "bodega-secretos", title: "Bodega de los Secretos", status: "waiting_official", lifecycle: "waiting_official", relatedDayIds: ["d1231"], deadline: "予約受付後", publicNote: "12/31 13:30、3名で予約し、14:45までに退店できるか確認します。", actionUrl: "https://bodegadelossecretos.com/en/" }
+  ];
+  return [...canonical, ...currentAdditions];
 }
 
 function bookingVisitLabel(booking) {
@@ -413,7 +418,7 @@ function bookingVisitLabel(booking) {
 }
 
 function renderPlanBody(day) {
-  if (state.planSection === "next") return `<div class="stack">${day.plan.map(([n, title, status, note, owner, timing]) => `<article class="card task-card"><span class="task-index">${n}</span><div><div class="status-row">${pill(status, /調査|依存/.test(status) ? "warn" : /待ち/.test(status) ? "wait" : "info")}</div><h3>${esc(title)}</h3><p class="muted">${esc(note)}</p><small>担当: ${esc(owner)}</small></div><time>確認時期: ${esc(timing)}</time></article>`).join("")}</div>`;
+  if (state.planSection === "next") return `<div class="stack">${day.plan.map(([n, title, status, note, owner, timing, sources = []]) => `<article class="card task-card"><span class="task-index">${n}</span><div><div class="status-row">${pill(status, /調査|依存/.test(status) ? "warn" : /待ち/.test(status) ? "wait" : "info")}</div><h3>${esc(title)}</h3><p class="muted">${esc(note)}</p><small>担当: ${esc(owner)}</small>${sources.length ? `<div class="action-row">${sources.map((source) => `<a class="button" href="${esc(source.href)}" target="_blank" rel="noreferrer">${esc(source.label)}</a>`).join("")}</div><small>公式情報の確認日: ${esc(sources.map((source) => source.checkedAt).filter(Boolean).join("・"))}</small>` : ""}</div><time>確認時期: ${esc(timing)}</time></article>`).join("")}</div>`;
   if (state.planSection === "bookings") {
     const bookings = allTripBookings();
     const cards = bookings.map((booking) => { const label = bookingStatusLabel(booking); return `<article class="card card-body booking-card"><div class="status-row">${pill(label, label === "予約済み" ? "info" : "wait")}${pill(bookingVisitLabel(booking), "info")}</div><h3>${esc(booking.title)}</h3>${bookingPublicNote(booking) ? `<p class="muted">${esc(bookingPublicNote(booking))}</p>` : ""}${booking.deadline ? `<p class="booking-deadline"><span>確認目安</span><strong>${esc(booking.deadline)}</strong></p>` : ""}${booking.actionUrl ? `<a class="button primary" href="${esc(booking.actionUrl)}" target="_blank" rel="noreferrer">公式サイト</a>` : ""}</article>`; }).join("");

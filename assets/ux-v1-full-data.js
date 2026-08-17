@@ -22,6 +22,7 @@
     .replace(/再検証/g, "余裕時間を確認")
     .replace(/再計算/g, "時刻を確定")
     .replace(/航空会社原本/g, "航空会社の予約内容")
+    .replace(/原本確認後/g, "航空会社または店への直接確認後")
     .replace(/Drive v2本編。料金・時間・公開範囲は旅行前に公式情報で再確認する。/g, "候補に加える場合は、営業時間と入場条件を公式サイトで確認します。")
     .replace(/Drive v2本編/g, "旅行ガイド")
     .replace(/canonical/gi, "旅程データ")
@@ -39,6 +40,7 @@
   const bookingById = byId(trip.bookings);
   const sourceById = byId(trip.sources);
   const dishById = byId(trip.dishes);
+  const plannedDetailByKey = new Map();
 
   const cityMeta = {
     flight: { id: "移動日", tone: "flight", label: "INTERNATIONAL TRANSIT", intro: "日本とスペインをつなぐ長距離移動。空港到着、乗継、手荷物と休息を優先する。", food: "空港・機内では時刻と体調を優先し、確実に食べられる選択肢を持つ。", learn: "航空会社、ターミナル、乗継条件は私的な予約証拠で確認する。", hero: "barcelona-hero-v1.png" },
@@ -95,7 +97,7 @@
       status: "仮候補・未予約", recommendation: "Pestana Arena Barcelona", address: "Carrer del Consell de Cent 51–53, Barcelona",
       room: "Superior Family・1室（公式で3名対応）", layout: "twin＋sofa bed（予約画面で最終確認）",
       size: "約30㎡", totalEur: 202, perPersonEur: 67.33,
-      reason: "3名対応と広さが明確で、Sants駅まで約700m。20:42到着と翌朝の空港移動をつなぎやすい。",
+      reason: "3名対応と広さが明確で、Sants駅まで約700m。20:30前後の到着と翌朝の空港移動をつなぎやすい。",
       caution: "荷物を持って駅から約8–10分歩く。到着が遅れたらタクシーへ切り替える。",
       cancellation: "2026-07-25の検索時点では1/2より前まで無料取消", payment: "2026-07-25の検索時点では12/31まで支払い不要",
       alternative: { name: "Moxy Barcelona", totalEur: null, note: "Sants徒歩約3分だが、対象日の3名料金と取消条件をまだ比較できていない" },
@@ -135,7 +137,7 @@
     ],
     d1230: [
       { area: "Rambla de Catalunya 102・仮ホテル近く", primary: "Mauri Pastisseriaで軽い昼食", dishes: ["bocadillo", "甘くないペストリー", "水"], booking: "不要", operation: "混雑時は持帰りにして12:10出発を守る", alternatives: ["365 Obrador", "SantsのEnrique Tomás"] },
-      { area: "Madrid・Las Letras", primary: "Casa Alberto（ホテル隣・通常水曜夜営業）", dishes: ["callos", "bacalao a la madrileña"], booking: "予約推奨", operation: "年末特別営業と20:00前後の枠を再確認", alternatives: ["Room Mate Alba周辺のtapas", "Atochaで持帰り"] }
+      { area: "Madrid・Las Letras", primary: "Casa Alberto restaurant（20:00）", dishes: ["callos", "bacalao a la madrileña"], booking: "20:00のrestaurant席を予約。2026/12/01に年末営業を直接確認", operation: "restaurant dinnerの通常提供は20:00–23:00。年末営業と20:00枠を直接確認してから利用する", alternatives: ["到着前にAtochaで3人分の持帰りを買う", "Room Mate Alba周辺で20:00に営業中のtapas店を選ぶ"] }
     ],
     d1231: [
       { area: "San Blas 4・Paseo del Arte", primary: "Bodega de los Secretos（13:30昼食）", dishes: ["地中海料理", "温かい主菜"], booking: "13:30枠を予約", operation: "公式は12/31夕食休業だが昼営業あり。2026年の昼枠を再確認", alternatives: ["La Tapería del Prado", "Atochaで持帰り"] },
@@ -143,18 +145,18 @@
     ],
     d0101: [
       { period: "軽食", area: "Centro・San Ginés", primary: "Chocolatería San Ginés本店", dishes: ["chocolate con churros"], booking: "年末年始は予約不可", operation: "公式は通年24時間営業。元日は行列前提", alternatives: ["持帰り", "Plaza Mayor周辺の営業中カフェ"] },
-      { area: "Botoneras 6・Plaza Mayor横", primary: "La Campana", dishes: ["bocadillo de calamares", "tortilla"], booking: "予約不要・持帰り可", operation: "Madrid公式観光案内では日曜–木曜09:00–23:00。元日特別営業は当週確認", alternatives: ["Don Calamar（Plaza Mayor 7）", "前日購入した持帰り食"] },
-      { area: "Room Mate Alba館内", primary: "El Bar de Alba／客室メニュー", dishes: ["温かい軽食", "スープまたは寿司"], booking: "チェックイン時に元日の提供時間を確認", operation: "公式にはbarあり。デジタルメニューはMiss Sushi 19:30–23:30、元日提供は再確認", alternatives: ["Don Calamar", "前日購入した保存食"] }
+      { area: "Botoneras 6・Plaza Mayor横", primary: "La Campana（元日営業を12/31までに直接確認できた場合）", dishes: ["bocadillo de calamares", "tortilla"], booking: "予約不要・持帰り可。元日営業の確認が利用条件", operation: "通常営業時間だけでは元日営業を確定しない。2026/12/01に公式情報を確認し、12/31にも店頭または電話で確認する", alternatives: ["12/31に購入した保存食", "当日営業を確認できたPlaza Mayor周辺の持帰り店"] },
+      { area: "Room Mate Alba客室", primary: "12/31に確保した保存食を客室で食べる", dishes: ["常温保存できる主食3人分", "水", "果物または甘味"], booking: "元日の店・ホテルサービスに依存しない", operation: "El Bar de Albaの元日提供をチェックイン時に直接確認できた場合のみ、温かい料理へ切り替える", alternatives: ["提供確認済みのEl Bar de Alba", "当日営業を確認できたホテル近隣の持帰り店"] }
     ],
     d0102: [{ area: "Cordoba旧市街・Mezquitaから徒歩圏", primary: "Taberna Salinas", dishes: ["salmorejo", "flamenquín", "rabo de toro", "berenjenas con miel"], booking: "旅行前に電話で営業確認、12:45–13:00入店", operation: "土曜通常12:30–16:00。14:30退店を守り、2027/1/2の営業は旅行7日前に確認", alternatives: ["Taberna Casa Pepe Salinas（Puerta de Almodóvar 2）", "第一候補と代替店が休業なら、Mezquitaから駅方向で4品中3品以上を出す営業中のtaberna"] }],
     d0103: [
       { area: "Madrid Atocha駅構内", primary: "Enrique Tomás Estación Atocha", dishes: ["jamónのbocadillo", "tortilla", "水"], booking: "予約不要", operation: "荷物回収と列車bufferを優先し、持帰りを選ぶ", alternatives: ["駅構内のRodilla", "列車内用の軽食を購入"] },
-      { area: "Barcelona Sants駅構内", primary: "Enrique Tomás Kiosko Santsで到着直後に持帰り", dishes: ["jamónのbocadillo", "飲料"], booking: "不要", operation: "21時台の営業を旅行前に再確認。閉店ならホテルへ直行", alternatives: ["Pestana Arenaの提供内容を確認", "列車乗車前にMadridで購入した保存食"] }
+      { area: "Madrid Atochaで乗車前に購入し、Barcelona到着後に食べる", primary: "Enrique Tomás Estación Atochaで持帰り夕食を確保", dishes: ["jamónのbocadillo 3個", "飲料3本"], booking: "予約不要。列車乗車前に購入", operation: "Atocha店舗は公式に概ね21:30まで。Sants Kioskoの営業時間には依存しない", alternatives: ["AtochaのRodillaで3人分を購入", "Madrid市内で常温保存できる3人分を先に購入"] }
     ],
     d0104: [{ area: "BCN T1・保安検査後 Boarding Area B", primary: "Coffee & Fresh Food", dishes: ["sandwich", "果物", "café", "水"], booking: "不要", operation: "Aena公式通常05:00–21:00。搭乗口がArea B以外なら同一動線上の営業店へ変更", alternatives: ["FOODIES' A21–A22（06:00から）", "前夜購入・機内食"] }],
     d0105: [
-      { area: "PVG T2・国際線乗継", primary: "搭乗口に近い営業中店舗で朝食", dishes: ["温かい朝食", "水"], booking: "不要", operation: "乗継手続きと搭乗口を確認してから、同じ制限区域内で選ぶ", alternatives: ["利用条件を満たすラウンジ", "機内食・携帯食"] },
-      { area: "PVG T2・国際線乗継", primary: "搭乗口に近い営業中店舗で13:30までに昼食", dishes: ["温かい麺またはご飯", "水"], booking: "不要", operation: "14:25便の搭乗口と再検査位置を先に確認し、移動時間を残す", alternatives: ["制限区域内売店の持帰り", "次の機内食までの携帯食"] }
+      { area: "PVG T2・国際線乗継の実際に利用できる制限区域", primary: "D71–D75付近の点心店（同じ制限区域から到達できる場合）", dishes: ["点心を3人分", "温かい飲み物3杯", "水3本"], booking: "不要。乗継係員に到達可否を確認", operation: "空港公式掲載は概ね07:00–22:00。国際線同士の実経路はAir China確認待ちで、入国や区域移動を前提にしない", alternatives: ["現在の搭乗口と同じ制限区域の営業中店舗", "機内食・出発前に用意した携帯食"] },
+      { area: "PVG T2・搭乗口と同じ制限区域", primary: "13:30までに営業中店舗を係員案内で選ぶ", dishes: ["温かい麺またはご飯を3人分", "水3本"], booking: "不要。搭乗口と再検査位置を先に確認", operation: "14:25便の移動時間を残す。ラウンジ、入国、別ゲート区域への移動を仮定しない", alternatives: ["同じ制限区域内売店の持帰り", "次の機内食までの携帯食"] }
     ]
   };
   const travelMealFallbacks = {
@@ -269,8 +271,9 @@
     },
     d0103: {
       "Madrid Atochaへ移動": "Room Mate Albaで荷物回収後、タクシーでMadrid Atochaへ約10分。駅到着後に列車表示とホームを確認する。",
-      "iryo 061171 Madrid Atocha → Barcelona Sants": "高速鉄道の候補便。発売後に列車番号・時刻・座席を置換し、Atochaの90分bufferは残す。",
-      "Santsで夕食購入・Barcelona最終泊へ移動": "Barcelona Sants到着後、構内で夕食を買ってからPestana Arena Barcelonaへ荷物徒歩約8–10分。雨・遅延・疲労時はタクシー。"
+      "Atochaで持帰り夕食を購入": "Madrid Atocha構内で3人分の夕食と飲料を購入し、Barcelona到着後の店の営業には依存しない。",
+      "Madrid Atocha → Barcelona Sants（高速鉄道・計画窓）": "発売後に列車番号・時刻・座席を確定し、Atochaの90分前到着は残す。",
+      "Barcelona最終泊へ移動・チェックイン": "Barcelona SantsからPestana Arena Barcelonaへ荷物徒歩約8–10分。雨・遅延・疲労時はタクシー。"
     },
     d0104: {
       "タクシーでBCN T1へ（本案）": "Pestana Arena Barcelonaを06:55出発。前夜にタクシーを手配し、BCN T1へ通常25–35分、07:40到着を守る。",
@@ -342,7 +345,7 @@
       "サン・イシドロ教会": "徒歩｜Madrid王宮へ約15分",
       "マドリード王宮（外観）": "徒歩｜San Francisco el Grandeへ約12分",
       "サン・フランシスコ・エル・グランデ（外観）": "徒歩またはタクシー｜ホテルへ約20分／車10分",
-      "ホテル休憩": "館内｜El Bar de Alba／客室メニューを19:30に利用"
+      "ホテル休憩": "館内｜12/31に確保した保存食を19:00に客室で食べる。El Bar de Albaは元日提供を確認できた場合のみ利用"
     },
     d0102: {
       "Toledo駅 → 旧市街": "徒歩｜ZocodoverからToledo Cathedralへ約8分",
@@ -356,8 +359,8 @@
       "ソフィア王妃芸術センター（ゲルニカ／ダリ）": "徒歩｜Atocha駅構内のEnrique Tomásへ約8分",
       "Atocha周辺で昼食": "タクシー｜Atocha→ホテルへ荷物回収、約10分",
       "休憩・荷物回収": "タクシー｜Room Mate Alba→Madrid Atocha、約10分",
-      "iryo 061171 Madrid Atocha → Barcelona Sants": "駅構内で夕食購入→徒歩｜Sants→Pestana Arena、約8–10分",
-      "Santsで夕食購入・Barcelona最終泊へ移動": "客室｜Santsで購入した夕食を食べ、翌朝のタクシーを確認"
+      "Madrid Atocha → Barcelona Sants（高速鉄道・計画窓）": "徒歩｜Sants→Pestana Arena、約8–10分。雨・遅延・疲労時はタクシー",
+      "Barcelona最終泊へ移動・チェックイン": "客室｜Atochaで購入済みの夕食を食べ、翌朝のタクシーを確認"
     },
     d0104: {
       "タクシーでBCN T1へ（本案）": "徒歩｜T1航空会社カウンターへ。便表示でカウンター列を確認",
@@ -454,7 +457,7 @@
     ["NRT T1 着", "NRT T1に到着する"],
     ["入国・荷物受取・帰宅移動", "入国手続きと荷物受取を済ませ、自宅へ移動する"]
   ]);
-  const hasActionEnding = (title) => /(する|済ませる|整える|決める|楽しむ|歩く|見る|戻る|乗り継ぐ|とる|食べる|買う|回収する)$/u.test(String(title || "").replace(/（仮候補）$/, ""));
+  const hasActionEnding = (title) => /(する|済ませる|整える|決める|楽しむ|歩く|見る|戻る|乗り継ぐ|とる|食べる|買う|回収する)$/u.test(String(title || "").replace(/（[^）]+）$/, ""));
   function scheduleActionTitle(value, kind = "") {
     const title = travelerText(value).trim();
     if (!title || hasActionEnding(title)) return title;
@@ -573,21 +576,25 @@
   function buildDays(representativeDays, scenarioId = "scenario1") {
     const selectedScenario = flexScenarios[scenarioId] || flexScenarios.scenario1;
     const normalize = (value) => String(value || "").replace(/[（(].*?[）)]/g, "").replace(/[・／/\s]/g, "").toLowerCase();
-    const findCanonical = (title) => {
+    const findCanonical = (dayId, title) => {
       const needle = normalize(title);
-      return list(trip.scheduleItems).find((item) => { const candidate = normalize(item.title); return candidate === needle || (needle.length > 5 && (candidate.includes(needle) || needle.includes(candidate))); });
+      const sameDay = list(trip.scheduleItems).filter((item) => item.dayId === dayId);
+      return sameDay.find((item) => normalize(item.title) === needle)
+        || sameDay.find((item) => { const candidate = normalize(item.title); return needle.length > 5 && (candidate.includes(needle) || needle.includes(candidate)); })
+        || null;
     };
     const applyFinalPlan = (day, base) => {
       const selected = selectedScenario.days[day.id] || finalPlan.days?.[day.id];
       if (!selected?.items?.length) return base;
       let selectedMealIndex = 0;
-      const timeline = selected.items.map((item) => {
-        const canonical = findCanonical(item.title);
+      const timeline = selected.items.map((item, itemIndex) => {
+        const canonical = findCanonical(day.id, item.title);
         const hotel = hotelForItem(day.id, item);
         let title = travelerText(item.title);
         let note = travelerText(item.note);
         let status = travelerStatus(item.status);
-        let detailKey = canonical ? `canonical-${canonical.id}` : `canonical-day-${day.id}`;
+        let time = item.time; let end = item.end; let zone = item.zone;
+        let detailKey = `planned-${scenarioId}-${day.id}-${itemIndex}`;
         if (item.kind === "meal") detailKey = `meal-${selectedMealIndex++}`;
         if (hotel && item.kind === "hotel") {
           if (/checkout|チェックアウト/i.test(item.title)) title = `${hotel.recommendation}をチェックアウト・荷物回収（仮候補）`;
@@ -602,9 +609,33 @@
         if (hotel && day.id === "d0104" && item.kind === "transfer" && /BCN T1|タクシー/.test(item.title)) note = `${hotel.recommendation}を06:55出発する仮計画。前夜に車を手配し、07:40 BCN T1着を守る。`;
         const transportNote = transportDetails[day.id]?.[item.title];
         if (transportNote) note = travelerText(transportNote);
-        if (day.id === "d0105" && /入国・荷物受取・帰宅移動/.test(item.title)) item.zone = "日本時間";
+        if (day.id === "d1230" && /Barcelona Sants.*Madrid Atocha/.test(item.title)) {
+          title = "Barcelona SantsからMadrid Atochaへ高速鉄道で移動する";
+          time = "14:30前後"; end = "18:00前後";
+          status = "発売・時刻表公表待ち";
+          note = "発売前の目標窓です。列車番号と分単位の時刻は未確定。発売後に実便へ置き換え、Sants到着90分前の余裕は残します。2026/10/01から毎月確認します。";
+        }
+        if (day.id === "d0103" && /Madrid Atocha.*Barcelona Sants/.test(item.title)) {
+          title = "Madrid AtochaからBarcelona Santsへ高速鉄道で移動する";
+          time = "17:00前後"; end = "20:30前後";
+          status = "発売・時刻表公表待ち";
+          note = "発売前の目標窓です。列車番号と分単位の時刻は未確定。発売後に実便へ置き換え、Atocha到着90分前の余裕は残します。2026/10/01から毎月確認します。";
+        }
+        if (day.id === "d0102" && /Madrid.*Cordoba|Cordoba.*Madrid/.test(item.title)) {
+          status = "発売・時刻表公表待ち";
+          note = travelerText(transportDetails.d0102[item.title] || item.note);
+          if (/Madrid.*Cordoba/.test(item.title)) { time = "07:30前後"; end = "09:30前後"; }
+          else { time = "17:15前後"; end = "19:15前後"; }
+        }
+        if (day.id === "d1230" && item.kind === "meal" && /Casa Alberto/.test(item.title)) { time = "20:00"; end = "21:30"; }
+        if (day.id === "d0101" && /サン・イシドロ教会/.test(item.title)) { time = "17:00"; end = "17:30"; note = "通常の午後再開後に見学します。元日の特別運用は12/31に公式情報と現地表示で再確認し、開いていなければ外観だけにします。"; }
+        if (day.id === "d0101" && item.kind === "rest" && /ホテル休憩/.test(item.title)) { time = "17:45"; end = "19:00"; }
+        if (day.id === "d0104" && /PVG T2 着/.test(item.title)) { title = "帰国便でPVG T2に到着する"; note = "Barcelonaから上海へ戻る帰国区間。翌日05:55到着後はInternational Transfer表示へ進みます。"; }
+        if (day.id === "d0105" && /PVG T2 発/.test(item.title)) { title = "帰国便でPVG T2を出発し、NRT T1に到着する"; note = "上海から成田へ向かう帰国区間。Barcelona行きの往路情報ではありません。"; }
+        if (day.id === "d0105" && /入国・荷物受取・帰宅移動/.test(item.title)) zone = "日本時間";
         title = scheduleActionTitle(title, item.kind);
-        return { time: item.time, end: item.end, kind: kindText(item.kind), title, zone: item.zone, status, tone: toneFor(status), note, detail: detailKey, routeAfter: travelerText(connectionPlans[day.id]?.[item.title] || "") };
+        if (!detailKey.startsWith("meal-") && !detailKey.startsWith("hotel-")) plannedDetailByKey.set(detailKey, { dayId: day.id, title, kind: item.kind, status, note, time, end, zone, canonical });
+        return { time, end, kind: kindText(item.kind), title, zone, status, tone: toneFor(status), note, detail: detailKey, routeAfter: travelerText(connectionPlans[day.id]?.[item.title] || "") };
       });
       const mealItems = selected.items.filter((item) => item.kind === "meal");
       const meals = mealItems.map((item, index) => {
@@ -784,7 +815,11 @@
     ],
     d1226: [
       ["1", "Casa MilàとCasa Batllóの入場枠を確定", "発売後に予約", "14:30前後のCasa Milàと16:30前後のCasa Batllóを、到着遅延時の取消条件も見て予約する。", "本人", "発売後"],
-      ["2", "Barcelona前半ホテルを決定", "ホテル相談後", "仮候補3名1室の広さ、ベッド、取消条件を確認して住所を旅程へ反映する。", "本人", "ホテル相談後"]
+      ["2", "Barcelona前半ホテルを決定", "ホテル相談後", "仮候補3名1室の広さ、ベッド、取消条件を確認して住所を旅程へ反映する。", "本人", "ホテル相談後"],
+      ["3", "EESとETIASの入国条件を確認", "公式発表を定期確認", "EESは2026/04/10から非EU短期滞在者向けに全面運用中。ETIASはQ4 2026予定で開始日未公表のため、EU公式を2026/09/01から毎月、遅くとも2026/12/01に再確認する。", "EU公式発表", "毎月1日・開始ルール判明まで", [
+        { label: "EU公式｜EES", href: "https://travel-europe.europa.eu/ees_en", checkedAt: "2026-08-17" },
+        { label: "EU公式｜ETIAS", href: "https://travel-europe.europa.eu/etias_en", checkedAt: "2026-08-17" }
+      ]]
     ],
     d1227: [
       ["1", "3日間の天候シナリオを決定", "12/26夜に判断", "12/27–29の視界・風・降水と交通運行を比べ、Montserratを日・月・火のどこに置くか決める。", "家族", "12/26 20:00"],
@@ -800,7 +835,7 @@
     ],
     d1230: [
       ["1", "Sagrada Família 09:00を予約", "発売後に予約", "12/30 09:00のオンライン日時指定券を購入し、入口と変更条件を3人で共有する。", "本人", "発売開始後"],
-      ["2", "BarcelonaからMadridの列車を確定", "発売待ち", "14:50前後の便と取消条件を比較し、Santsへ発車90分前に着く予定を守る。", "本人", "発売後"],
+      ["2", "BarcelonaからMadridの列車を確定", "発売待ち", "14:30前後の便と取消条件を比較し、Santsへ発車90分前に着く予定を守る。", "本人", "発売後"],
       ["3", "荷物預けとSants経路を確定", "ホテル相談後", "決定ホテルで朝のcheckout・荷物預け可否を確認し、Sagrada往復と12:40 Sants着の経路を更新する。", "本人", "ホテル決定後"]
     ],
     d1231: [
@@ -809,7 +844,7 @@
       ["3", "Solの当日規制を確認", "当日確認", "18:00に入口、駅閉鎖、天候を確認し、20:30に進むかホテルへ戻るか決める。", "本人", "12/31 18:00"]
     ],
     d0101: [
-      ["1", "元日の営業を前日に確認", "前日に確認", "San Ginés、La Campana、ホテルの食事提供を確認し、休業時の持帰りを確保する。", "本人", "12/31"],
+      ["1", "元日の食事を前日に確保", "12/31に実施", "San GinésとLa Campanaの元日営業を直接確認し、確認できない昼食と夕食のために3人分の保存食・水を12/31のうちに購入する。", "本人", "12/31 16:00まで"],
       ["2", "元日の街歩き範囲を決める", "当日判断", "疲労と天候を見て、王宮外観以降を短縮するか決める。", "本人", "1/1 朝"]
     ],
     d0102: [
@@ -819,9 +854,9 @@
       ["4", "Taberna Salinasの営業を確認", "旅行前に確認", "13:00入店、3人、4品の提供と1/2営業を確認し、休業なら選択ルールで代替する。", "本人", "旅行7日前"]
     ],
     d0103: [
-      ["1", "MadridからBarcelonaの列車を確定", "発売待ち", "17:22前後の便を予約し、Atochaへ発車90分前に着く予定を守る。", "本人", "発売後"],
+      ["1", "MadridからBarcelonaの列車を確定", "発売待ち", "17:00前後の便を予約し、Atochaへ発車90分前に着く予定を守る。", "本人", "発売後"],
       ["2", "Barcelona最終泊ホテルを決定", "ホテル相談後", "3名対応、Santsからの移動、翌朝の空港タクシーを確認する。", "本人", "ホテル相談後"],
-      ["3", "Santsの夕食購入先を確認", "旅行前に確認", "Enrique Tomásの21時台営業を確認し、閉店時はMadridで持帰りを買う。", "本人", "旅行7日前"]
+      ["3", "Atochaで夕食を購入", "列車に乗る前", "15:30前後にEnrique TomásまたはRodillaで3人分と飲料を購入し、Barcelona到着後の店舗営業時間に依存しない。", "本人", "1/3 乗車前"]
     ],
     d0104: [
       ["1", "帰国便のチェックイン条件を確認", "予約内容を確認", "BCN T1のカウンター、荷物、搭乗開始、座席を予約内容で確認する。", "本人", "出発24時間前"],
@@ -848,7 +883,7 @@
     [/Enrique Tomás/, "駅でjamónの香りを楽しみながら、列車の余裕時間を守って食べられる移動日の一食です。"],
     [/Casa Alberto/, "Las LetrasでMadridらしい煮込みと魚料理を味わい、到着日の夜を街の食文化につなげます。"],
     [/Bodega de los Secretos/, "地下空間の雰囲気と温かい主菜を楽しみ、大晦日の長い一日に備える昼食です。"],
-    [/持帰り夕食/, "年越しの混雑に振り回されず、好きなものを揃えて客室で落ち着いて食べる安全な夕食です。"],
+    [/持帰り夕食|確保した保存食|保存食を客室/, "年末年始の混雑や休業に振り回されず、前日に揃えたものを客室で落ち着いて食べる安全な夕食です。"],
     [/San Ginés/, "元日のMadridで、熱いchocolateにchurrosを浸して食べる定番の甘い体験です。"],
     [/La Campana/, "Plaza Mayor横で揚げたてのイカをパンに挟む、Madridらしい気軽な昼食です。"],
     [/El Bar de Alba|客室メニュー/, "元日の夜はホテルで温かい料理を取り、翌日のCordobaに向けて休みます。"],
@@ -872,7 +907,7 @@
     [/Enrique Tomás/, "jamónのbocadilloを2個、tortillaを1個、水を3本。列車内でも分けやすい形にします。"],
     [/Casa Alberto/, "callosを1皿、bacalaoを2皿、パンを1皿。3人でMadridの味を分け合います。"],
     [/Bodega de los Secretos/, "ランチの主菜を3人分。異なる料理を選び、前菜を1皿追加してシェアします。"],
-    [/持帰り夕食/, "bocadilloまたは温かい持帰りを3人分、水を3本、年越し用ぶどうを3人分用意します。"],
+    [/持帰り夕食|確保した保存食|保存食を客室/, "常温保存できる主食を3人分、水を3本、果物または甘味を用意します。大晦日は年越し用ぶどうも3人分加えます。"],
     [/San Ginés/, "churrosを6本前後、chocolateを3杯。まず2本ずつ食べ、足りなければ追加します。"],
     [/La Campana/, "bocadillo de calamaresを2個、tortillaを1皿。3人で半分ずつ交換します。"],
     [/El Bar de Alba|客室メニュー/, "温かい軽食を2皿、スープまたは寿司を1皿。3人で分け、足りなければ1皿追加します。"],
@@ -897,9 +932,9 @@
     [/365 Obrador/, { min: 25, max: 38, basis: "bocadillo 2個＋croissant 1個＋coffee 3杯＋水の3人分計画枠。", sourceUrl: "https://365obrador.com/", sourceLabel: "365 Obrador公式", sourceScope: "店舗・商品構成。対象店の年末営業時間と価格は直前確認" }],
     [/Cuines Santa Caterina/, { min: 65, max: 95, basis: "魚料理・季節野菜・パンを3人で共有する計画枠。menuは季節で変わるため、当日価格を見て選ぶ。", sourceUrl: "https://grupotragaluz.com/restaurantes/cuines-santa-caterina/", sourceLabel: "Cuines Santa Caterina公式", sourceScope: "店舗・料理構成・予約案内。価格は当日menuで確認" }],
     [/El Xampanyet/, { min: 55, max: 80, basis: "anchoa 1皿＋conservas 2皿＋温菜1皿＋cava 3杯の3人分計画枠。", sourceUrl: "https://www.elxampanyet.es/", sourceLabel: "El Xampanyet公式", sourceScope: "店舗情報。年末営業時間と価格は直前確認" }],
-    [/Seventeen Restaurant/, { min: 70, max: 100, basis: "tortilla 1皿＋主菜2皿＋パンと飲み物を3人で共有する到着日用の計画枠。", sourceUrl: "https://www.hotelbarcelonacenter.com/", sourceLabel: "Hotel Barcelona Center公式", sourceScope: "館内restaurantの提供。料理価格と年末時間は到着後確認" }],
-    [/Balmes 103/, { min: 70, max: 105, basis: "軽い主菜2皿＋soup 1皿＋パンと飲み物、必要なら主菜1皿追加する3人分。", sourceUrl: "https://www.hotelbarcelonacenter.com/", sourceLabel: "Hotel Barcelona Center公式", sourceScope: "館内restaurantの提供。料理価格と年末時間は到着後確認" }],
-    [/持帰り夕食/, { min: 45, max: 75, basis: "持帰り主食3人分＋水＋年越し用ぶどうの計画枠。購入店未確定のため価格根拠は商品選択時に更新。", sourceUrl: "", sourceLabel: "計画枠", sourceScope: "店が決まるまでmenu根拠なし" }],
+    [/Seventeen Restaurant/, { min: 70, max: 100, basis: "tortilla 1皿＋主菜2皿＋パンと飲み物を3人で共有する到着日用の計画枠。", sourceUrl: "https://www.oliviabalmeshotel.com/gastronomia/", sourceLabel: "Olivia Balmes公式｜Seventeen", sourceScope: "料理提供時間とrestaurant情報。年末時間と価格は利用前に再確認" }],
+    [/Balmes 103/, { min: 70, max: 105, basis: "軽い主菜2皿＋soup 1皿＋パンと飲み物、必要なら主菜1皿追加する3人分。", sourceUrl: "https://www.hotelescenter.es/en/hotel-barcelona-center/gastronomy/?repeat=w3tc", sourceLabel: "Hotel Barcelona Center公式｜Gastronomy", sourceScope: "館内restaurantと通常提供時間。年末時間と価格は利用前に再確認" }],
+    [/持帰り夕食|確保した保存食|保存食を客室/, { min: 45, max: 75, basis: "保存できる主食3人分＋水＋果物または甘味の計画枠。購入店未確定のため価格根拠は商品選択時に更新。", sourceUrl: "", sourceLabel: "計画枠", sourceScope: "購入時に商品・価格・保存条件を確認" }],
     [/Enrique Tomás/, { min: 25, max: 45, basis: "jamónのbocadillo 2個＋tortilla 1個＋水3本の3人分計画枠。", sourceUrl: "https://www.enriquetomas.com/", sourceLabel: "Enrique Tomás公式", sourceScope: "商品構成。駅店舗の営業時間と価格は直前確認" }],
     [/Coffee & Fresh Food|FOODIES/, { min: 40, max: 60, basis: "sandwich 2個＋果物＋coffee 3杯＋水3本の空港内3人分計画枠。", sourceUrl: "https://www.aena.es/en/josep-tarradellas-barcelona-el-prat/airport-services/shops-and-restaurants.html", sourceLabel: "Aena公式店舗案内", sourceScope: "保安検査後の店舗・通常営業時間。搭乗口と価格は当日確認" }],
     [/El Bar de Alba|客室メニュー/, { min: 60, max: 100, basis: "温かい軽食2皿＋soupまたはsushi 1皿＋飲み物の3人分計画枠。元日の提供はcheck-in時に確認。", sourceUrl: "https://room-matehotels.com/gb/hotel-alba-madrid/", sourceLabel: "Room Mate Alba公式", sourceScope: "館内barの存在。元日menu・提供時間・価格は現地確認" }],
@@ -944,7 +979,7 @@
       sourceUrl: evidence?.sourceUrl || "",
       sourceLabel: evidence?.sourceLabel || "計画枠",
       sourceScope: evidence?.sourceScope || "menu根拠は未接続",
-      checkedAt: "2026-08-16",
+      checkedAt: "2026-08-17",
       experience: meal.experience || firstRuleValue(mealExperienceRules, meal.primary) || "その町の料理と雰囲気を、前後の予定に無理なくつなげて楽しむ食事です。",
       orderForThree: meal.orderForThree || firstRuleValue(mealOrderRules, meal.primary) || defaultOrderForThree(meal)
     };
@@ -1012,7 +1047,82 @@
     const text = `${item.id || ""} ${item.title || ""} ${list(item.notes).join(" ")}`;
     return operationalSourceRules.filter(([pattern]) => pattern.test(text)).flatMap(([, sources]) => sources);
   }
+  const uniqueSources = (sources) => sources.filter((source, index, all) => source && index === all.findIndex((candidate) => `${candidate.label}|${candidate.href}` === `${source.label}|${source.href}`));
+  function canonicalPresentation(item) {
+    if (!item) return { facts: [], links: [], sources: [], needsOperationalSource: false };
+    const place = placeById.get(item.placeId);
+    const booking = bookingById.get(item.bookingId);
+    const article = articleById.get(item.articleId || list(place?.articleIds)[0]);
+    const sourceIds = [...new Set([...list(place?.visitInfo?.sourceIds), ...list(booking?.sourceIds)])];
+    const sources = sourceIds.map((sourceId) => sourceById.get(sourceId)).filter(Boolean).map((source) => ({ label: source.title || source.label || source.id, href: source.url || source.href || "", checkedAt: source.checkedAt || place?.visitInfo?.checkedAt || "再確認待ち", scope: source.scope || source.whatWasChecked || "" }));
+    const isTransit = ["transfer", "transport", "flight", "airport", "station", "train"].includes(item.kind) || /乗継|保安検査|搭乗口|空港|駅/.test(item.title);
+    const facts = [];
+    if (booking) facts.push(["予約", `${booking.title}：${statusText(booking.status)}`]);
+    if (!isTransit && place?.visitInfo) facts.push(["訪問条件", place.visitInfo.recheckRequired ? "旅行前に公式情報を再確認" : statusText(place.visitInfo.status)]);
+    if (!isTransit && place?.address) facts.push(["住所", place.address]);
+    const links = [{ label: "詳しく学ぶ", href: article ? `ux-v1-learn.html?id=${encodeURIComponent(article.id)}` : "" }, { label: "公式情報", href: place?.officialUrl || booking?.actionUrl || "" }, { label: "地図", href: place?.mapUrl || "" }].filter((link) => link.href);
+    return { facts, links, sources, needsOperationalSource: Boolean(isTransit || booking || place?.visitInfo || place?.officialUrl) };
+  }
+  function plannedSourcesFor(item) {
+    const checkedAt = "2026-08-17";
+    const privateTicket = { label: "発券済みeチケット控え（非公開）", href: "", checkedAt: "2026-08-16", scope: "3名の便・日付・区間を確認。予約番号・航空券番号・旅客情報は公開しません" };
+    const renfe = { label: "Renfe公式", href: "https://www.renfe.com/es/en", checkedAt, scope: "高速鉄道・Regionalの発売、運行、利用条件。採用便は発売後に再確認" };
+    const rodalies = { label: "Rodalies de Catalunya公式｜時刻表", href: "https://rodalies.gencat.cat/en/horaris/index.html", checkedAt, scope: "Barcelona–Tarragona間のRegional系統。2026年末ダイヤは公表後に確認" };
+    const shanghaiAirport = { label: "上海空港公式｜PVG T2 D71–D75", href: "https://www.shairport.com/pudongairport1019/info_itemid_5106.html", checkedAt, scope: "T2国際線D71–D75付近の飲食店案内。実際に到達できる区域かは乗継係員に確認" };
+    const airChinaPvg = { label: "Air China公式｜Shanghai Pudong", href: "https://webresource.airchina.com.cn/en-US/content/travel_info/preparing/conditions/destination/china/sha/", checkedAt, scope: "Air China利用時のPVG空港・ターミナル案内" };
+    const naritaAirChina = { label: "成田空港公式｜Air China", href: "https://www.narita-airport.jp/en/flight/airline-search/cca/", checkedAt, scope: "Air Chinaの利用ターミナルと空港案内" };
+    const naritaFlight = { label: "成田空港公式｜フライト情報", href: "https://www.narita-airport.jp/en/flight/", checkedAt, scope: "成田到着便とターミナルの当日確認" };
+    const aenaAirChina = { label: "Aena公式｜Air China", href: "https://www.aena.es/es/josep-tarradellas-barcelona-el-prat/aerolineas/air-china.html", checkedAt, scope: "Barcelona空港でのAir China案内" };
+    const aenaArrivals = { label: "Aena公式｜BCN到着", href: "https://www.aena.es/en/josep-tarradellas-barcelona-el-prat/airport-services/categories-and-terminals/arrivals-area.html", checkedAt, scope: "BCN到着後の入国・荷物受取・到着区域" };
+    const aenaDepartures = { label: "Aena公式｜BCN出発", href: "https://www.aena.es/en/josep-tarradellas-barcelona-el-prat/airport-services/categories-and-terminals/departures-area.html", checkedAt, scope: "BCN出発時のチェックイン・保安検査・出発区域" };
+    if (item.dayId === "d1225" && /成田空港|NRT T1を出発/.test(item.title)) return [privateTicket, naritaAirChina];
+    if (item.dayId === "d1225" && /BCN T1に到着/.test(item.title)) return [privateTicket, aenaArrivals, aenaAirChina];
+    if (item.dayId === "d1225" && /PVG/.test(item.title)) return [privateTicket, airChinaPvg, shanghaiAirport];
+    if (item.dayId === "d1226" && /入国審査|BCN空港/.test(item.title)) return [
+      { label: "EU公式｜Entry/Exit System (EES)", href: "https://travel-europe.europa.eu/ees_en", checkedAt, scope: "非EU短期滞在者へのEES全面運用開始日と入国手続" },
+      aenaArrivals
+    ];
+    if (item.dayId === "d1229" && /Tarragona市内駅|Barcelona Sants.*Tarragona|Tarragona.*Barcelona Sants/.test(item.title)) return [rodalies];
+    if (item.dayId === "d1229" && /円形闘技場|Circ|Roman|城壁|Part Alta/.test(item.title)) return [
+      { label: "Tarragona Turisme公式", href: "https://www.tarragonaturisme.cat/en", checkedAt, scope: "市内のRoman monumentsと年末の訪問情報。対象日の時間は直前に確認" },
+      { label: "UNESCO｜Tarraco", href: "https://whc.unesco.org/en/list/875", checkedAt, scope: "Tarracoの構成資産と世界遺産としての位置づけ" }
+    ];
+    if (["d1227", "d1228", "d1229"].includes(item.dayId) && /Montserrat|Plaça Espanya/.test(item.title)) return [
+      { label: "Montserrat公式｜営業時間", href: "https://www.montserratvisita.com/en/practical-information/opening-hours", checkedAt, scope: "山上施設の通常営業時間。天候と当日運行も出発前に確認" },
+      { label: "FGC Turistren公式", href: "https://turistren.cat/en/trains/montserrat-rack-railway-and-funiculars/", checkedAt, scope: "BarcelonaからMontserratへの鉄道・登山鉄道" }
+    ];
+    if (["d1230", "d0103"].includes(item.dayId) && /Barcelona Sants.*Madrid Atocha|Madrid Atocha.*Barcelona Sants/.test(item.title)) return [renfe];
+    if (item.dayId === "d0102" && /Madrid.*Córdoba|Córdoba.*Madrid/.test(item.title)) return [renfe];
+    if (item.dayId === "d0102" && /Mezquita-Catedral/.test(item.title)) return [{ label: "Mezquita-Catedral公式", href: "https://mezquita-catedraldecordoba.es/en/", checkedAt, scope: "1/2/2027枠は未公表。発売後の入場枠と礼拝変更を確認" }];
+    if (item.dayId === "d0102" && /Alcázar de los Reyes Cristianos/.test(item.title)) return [{ label: "Córdoba Turismo公式｜Alcázar", href: "https://www.turismodecordoba.org/alcazar-de-los-reyes-cristianos", checkedAt, scope: "施設の訪問案内。1/2/2027の開館は旅行前に再確認" }];
+    if (item.dayId === "d0104" && /BCN T1へ|チェックイン|保安検査|出国/.test(item.title)) return [aenaDepartures, aenaAirChina];
+    if (item.dayId === "d0104" && /BCN T1を出発/.test(item.title)) return [privateTicket, aenaAirChina, aenaDepartures];
+    if (item.dayId === "d0104" && /PVG T2に到着/.test(item.title)) return [privateTicket, airChinaPvg, shanghaiAirport];
+    if (item.dayId === "d0105" && /PVG T2を出発し、NRT T1に到着/.test(item.title)) return [privateTicket, airChinaPvg, naritaFlight];
+    if (item.dayId === "d0105" && /NRT T1に到着|入国手続き/.test(item.title)) return [privateTicket, naritaFlight, naritaAirChina];
+    if (item.dayId === "d0105" && /PVG|点心|営業中店舗/.test(item.title)) return [shanghaiAirport, airChinaPvg];
+    return item.canonical ? operationalSourcesFor(item.canonical) : [];
+  }
+  function plannedLearningLink(item) {
+    if (/Mezquita-Catedral|Judería|Roman Bridge|Alcázar de los Reyes Cristianos/.test(item.title)) return { label: "詳しく学ぶ", href: "ux-v1-learn.html?id=cordoba" };
+    if (/Tarragona|円形闘技場|Circ|Roman|城壁|Part Alta/.test(item.title)) return { label: "詳しく学ぶ", href: "ux-v1-learn.html?id=tarragona" };
+    return null;
+  }
   function detail(key) {
+    if (String(key).startsWith("planned-")) {
+      const item = plannedDetailByKey.get(String(key));
+      if (!item) return null;
+      const canonical = canonicalPresentation(item.canonical);
+      const sourceSet = uniqueSources([...canonical.sources, ...plannedSourcesFor(item)]).slice(0, 5);
+      const fallbackLearn = plannedLearningLink(item);
+      const links = canonical.links.some((link) => link.label === "詳しく学ぶ") || !fallbackLearn ? canonical.links : [fallbackLearn, ...canonical.links];
+      return {
+        eyebrow: kindText(item.kind), title: item.title, status: item.status, note: item.note,
+        facts: [["日付", jpDate(dayById.get(item.dayId))], ["時刻", `${item.time}${item.end ? `–${item.end}` : ""} ${item.zone || ""}`.trim()], ...canonical.facts],
+        links, sources: sourceSet,
+        showSourceWarning: (["transfer", "transport", "flight", "airport", "station", "train"].includes(item.kind) || canonical.needsOperationalSource) && sourceSet.length === 0
+      };
+    }
     if (!String(key).startsWith("canonical-")) return null;
     const id = String(key).slice("canonical-".length);
     if (id.startsWith("day-")) {

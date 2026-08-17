@@ -585,15 +585,15 @@ window.UXFinalPlan = {
         },
         {
           "id": "final-d1230-09",
-          "time": "14:50",
-          "end": "17:52",
-          "timeText": "14:50–17:52",
+          "time": "14:30",
+          "end": "18:00",
+          "timeText": "14:30–18:00",
           "zone": "スペイン時間",
-          "title": "iryo 06150 Barcelona Sants → Madrid Atocha",
+          "title": "Barcelona Sants → Madrid Atocha（高速鉄道・計画窓）",
           "kind": "transfer",
           "confidence": "needs_information",
           "status": "発売・予約後に確定",
-          "note": "14:50発は現在の仮計画。年末ダイヤ発売後に列車番号と時刻を確定する。"
+          "note": "14:30前後発・18:00前後着の目標窓。年末ダイヤ発売後に実在便と座席へ置き換え、発車90分前のSants到着は守る。"
         },
         {
           "id": "final-d1230-10",
@@ -609,15 +609,15 @@ window.UXFinalPlan = {
         },
         {
           "id": "final-d1230-11",
-          "time": "19:30",
-          "end": "20:30",
-          "timeText": "19:30–20:30",
+          "time": "20:00",
+          "end": "21:30",
+          "timeText": "20:00–21:30",
           "zone": "スペイン時間",
-          "title": "Casa AlbertoでMadrid料理の夕食",
+          "title": "Casa Alberto restaurantでMadrid料理の夕食",
           "kind": "meal",
           "confidence": "needs_information",
-          "status": "当日調整",
-          "note": "仮ホテルの隣。年末営業と20:00前後の枠を確認し、満席時はLas Letrasの予約不要tapasへ切り替える。"
+          "status": "予定時刻",
+          "note": "仮ホテルの隣。restaurantの20:00枠と年末営業を2026/12/01までに直接確認し、取れなければAtochaで持帰りを購入する。"
         }
       ]
     },
@@ -704,11 +704,11 @@ window.UXFinalPlan = {
           "end": "19:15",
           "timeText": "18:15–19:15",
           "zone": "スペイン時間",
-          "title": "早めの大晦日夕食",
+          "title": "昼のうちに確保した持帰り夕食をホテルで食べる",
           "kind": "meal",
           "confidence": "needs_information",
-          "status": "発売・予約後に確定",
-          "note": "店舗・予約枠未選定。満席時は事前確保した持帰り食へ。"
+          "status": "予定時刻",
+          "note": "12/31昼食後から16:00までに3人分の夕食、水、年越し用のぶどうを購入する。夜の店舗営業に依存しない。"
         },
         {
           "id": "final-d1231-08",
@@ -779,15 +779,15 @@ window.UXFinalPlan = {
         },
         {
           "id": "final-d0101-05",
-          "time": "14:10",
-          "end": "14:30",
-          "timeText": "14:10–14:30",
+          "time": "17:00",
+          "end": "17:30",
+          "timeText": "17:00–17:30",
           "zone": "スペイン時間",
           "title": "サン・イシドロ教会",
           "kind": "attraction",
           "confidence": "needs_information",
-          "status": "予定時刻",
-          "note": ""
+          "status": "原本確認後に確定",
+          "note": "通常の午後再開後に見学。元日の特別運用は12/31に公式・現地で再確認する。"
         },
         {
           "id": "final-d0101-06",
@@ -815,15 +815,15 @@ window.UXFinalPlan = {
         },
         {
           "id": "final-d0101-08",
-          "time": "17:00",
+          "time": "17:45",
           "end": "19:00",
-          "timeText": "17:00–19:00",
+          "timeText": "17:45–19:00",
           "zone": "スペイン時間",
           "title": "ホテル休憩",
           "kind": "rest",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": ""
+          "note": "翌日のCordobaに備え、外出を増やさない。"
         },
         {
           "id": "final-d0101-09",
@@ -831,11 +831,11 @@ window.UXFinalPlan = {
           "end": "20:00",
           "timeText": "19:00–20:00",
           "zone": "スペイン時間",
-          "title": "営業確認済み候補で夕食",
+          "title": "12/31に確保した保存食を客室で食べる",
           "kind": "meal",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": ""
+          "note": "元日の営業店に依存しない。チェックイン時にEl Bar de Albaの元日提供が確認できた場合のみ、温かい料理へ切り替える。"
         }
       ]
     },
@@ -1034,50 +1034,50 @@ window.UXFinalPlan = {
         {
           "id": "final-d0103-06",
           "time": "15:30",
-          "end": "17:22",
-          "timeText": "15:30–17:22",
+          "end": "15:50",
+          "timeText": "15:30–15:50",
           "zone": "スペイン時間",
-          "title": "駅到着buffer・乗車準備",
-          "kind": "rest",
-          "confidence": "needs_information",
-          "status": "予定時刻",
-          "note": "列車時刻変更後も90分以上を確保。"
-        },
-        {
-          "id": "final-d0103-07",
-          "time": "17:22",
-          "end": "20:42",
-          "timeText": "17:22–20:42",
-          "zone": "スペイン時間",
-          "title": "iryo 061171 Madrid Atocha → Barcelona Sants",
-          "kind": "transfer",
-          "confidence": "needs_information",
-          "status": "発売・予約後に確定",
-          "note": "2027時刻未公表。発売後に置換。"
-        },
-        {
-          "id": "final-d0103-08",
-          "time": "20:42",
-          "end": "21:20",
-          "timeText": "20:42–21:20",
-          "zone": "スペイン時間",
-          "title": "Santsで夕食購入・Barcelona最終泊へ移動",
-          "kind": "hotel",
-          "confidence": "needs_information",
-          "status": "予定時刻",
-          "note": "Sants構内で持帰り夕食を確保してから、仮ホテルPestana Arenaへ徒歩約8–10分。"
-        },
-        {
-          "id": "final-d0103-09",
-          "time": "21:20",
-          "end": "22:00",
-          "timeText": "21:20–22:00",
-          "zone": "スペイン時間",
-          "title": "客室で持帰り夕食",
+          "title": "Atochaで持帰り夕食を購入",
           "kind": "meal",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "駅構内で購入できなければ、ホテル到着後に営業中の近隣店を選ぶ。"
+          "note": "Enrique TomásまたはRodillaで3人分と飲料を購入。Barcelona到着後の店舗営業に依存しない。"
+        },
+        {
+          "id": "final-d0103-07",
+          "time": "15:50",
+          "end": "17:00",
+          "timeText": "15:50–17:00",
+          "zone": "スペイン時間",
+          "title": "駅到着の余裕・乗車準備",
+          "kind": "rest",
+          "confidence": "needs_information",
+          "status": "発売・予約後に確定",
+          "note": "発売後に実便の発車90分前へ調整する。"
+        },
+        {
+          "id": "final-d0103-08",
+          "time": "17:00",
+          "end": "20:30",
+          "timeText": "17:00–20:30",
+          "zone": "スペイン時間",
+          "title": "Madrid Atocha → Barcelona Sants（高速鉄道・計画窓）",
+          "kind": "transfer",
+          "confidence": "needs_information",
+          "status": "発売・予約後に確定",
+          "note": "17:00前後発・20:30前後着の目標窓。年末年始ダイヤ発売後に実在便と座席へ置き換える。"
+        },
+        {
+          "id": "final-d0103-09",
+          "time": "20:30",
+          "end": "21:15",
+          "timeText": "20:30–21:15",
+          "zone": "スペイン時間",
+          "title": "Barcelona最終泊へ移動・チェックイン",
+          "kind": "hotel",
+          "confidence": "needs_information",
+          "status": "当日調整",
+          "note": "仮ホテルPestana Arenaへ徒歩約8–10分。雨・遅延・疲労時はタクシーを使い、Atochaで購入済みの夕食を客室で食べる。"
         }
       ]
     },
