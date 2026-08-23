@@ -109,7 +109,7 @@ window.UXFinalPlan = {
           "kind": "transfer",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "到着90分遅延時も11:30市内着を目安に後続を縮小。"
+          "note": "T1公式タクシー乗り場 → abba Rambla Hotel（Rambla del Raval 4C）。空港から15km、通常25–40分。"
         },
         {
           "id": "final-d1226-04",
@@ -117,11 +117,11 @@ window.UXFinalPlan = {
           "end": "10:30",
           "timeText": "10:00–10:30",
           "zone": "スペイン時間",
-          "title": "ホテルへ荷物預け",
+          "title": "abba Rambla Hotelへ荷物預け",
           "kind": "hotel",
           "confidence": "needs_information",
-          "status": "原本確認後に確定",
-          "note": "ホテル所在地・預入可否は私的予約情報で要確認。"
+          "status": "予定時刻",
+          "note": "チェックインは14:00から。到着時は荷物のみ預ける。"
         },
         {
           "id": "final-d1226-05",
@@ -141,11 +141,11 @@ window.UXFinalPlan = {
           "end": "14:00",
           "timeText": "12:00–14:00",
           "zone": "スペイン時間",
-          "title": "休憩・身支度・遅延時の余裕",
+          "title": "Passeig de Gràcia周辺で休憩・身支度・遅延時の余裕",
           "kind": "rest",
           "confidence": "needs_information",
           "status": "当日調整",
-          "note": "90分遅延または強い疲労時はここを削らずCasa Batllóを見送る。"
+          "note": "客室に入れるのは14:00以降。ここでは店か広場で休み、90分遅延または強い疲労時はCasa Batllóを見送る。"
         },
         {
           "id": "final-d1226-07",
@@ -173,6 +173,18 @@ window.UXFinalPlan = {
         },
         {
           "id": "final-d1226-09",
+          "time": "18:00",
+          "end": "18:30",
+          "timeText": "18:00–18:30",
+          "zone": "スペイン時間",
+          "title": "abba Rambla Hotelへチェックイン・客室で荷物整理",
+          "kind": "hotel",
+          "confidence": "needs_information",
+          "status": "予定時刻",
+          "note": "14:00以降に入室。夕食前に15〜30分で荷物を整える。"
+        },
+        {
+          "id": "final-d1226-10",
           "time": "18:30",
           "end": "19:30",
           "timeText": "18:30–19:30",
@@ -181,7 +193,7 @@ window.UXFinalPlan = {
           "kind": "meal",
           "confidence": "needs_information",
           "status": "当日調整",
-          "note": "到着後に当日枠を確認。入れなければHotel Barcelona Center内Balmes 103か365 Obradorの持帰りへ切り替える。"
+          "note": "到着後に当日枠を確認。入れなければPasseig de Gràcia周辺で営業中の店から、軽い主菜を3人で分けられ、合計€70–100に収まる店を選ぶ。"
         }
       ]
     },
@@ -204,15 +216,15 @@ window.UXFinalPlan = {
         },
         {
           "id": "final-d1227-02",
-          "time": "08:30",
-          "end": "09:15",
-          "timeText": "08:30–09:15",
+          "time": "07:45",
+          "end": "08:30",
+          "timeText": "07:45–08:30",
           "zone": "スペイン時間",
-          "title": "365 Obradorで朝食",
+          "title": "ホテルのビュッフェ朝食",
           "kind": "meal",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "予約不要。Montserratなら持帰りも用意する。"
+          "note": "08:30出発。朝食開始時刻は未確認のため、間に合わない場合は早朝のコーヒー・紅茶サービスと前夜の買い置きで代替する。"
         },
         {
           "id": "final-d1227-03",
@@ -268,11 +280,11 @@ window.UXFinalPlan = {
           "end": "21:00",
           "timeText": "20:00–21:00",
           "zone": "スペイン時間",
-          "title": "Balmes 103で軽い夕食",
+          "title": "Raval周辺で軽い夕食",
           "kind": "meal",
           "confidence": "needs_information",
           "status": "当日調整",
-          "note": "予約なしで当日確認。満席ならSeventeen Restaurant、疲れていれば365 Obradorの持帰り。"
+          "note": "ホテルから徒歩10分以内で当日営業を確認し、地中海料理の軽い主菜2皿、スープ1皿、パンと飲み物を3人で分ける。予算は3人€70–105。満席なら同条件の営業店、疲れていれば持帰りへ切り替える。"
         }
       ]
     },
@@ -295,15 +307,15 @@ window.UXFinalPlan = {
         },
         {
           "id": "final-d1228-02",
-          "time": "08:30",
-          "end": "09:15",
-          "timeText": "08:30–09:15",
+          "time": "07:45",
+          "end": "08:30",
+          "timeText": "07:45–08:30",
           "zone": "スペイン時間",
-          "title": "365 Obradorで朝食",
+          "title": "ホテルのビュッフェ朝食",
           "kind": "meal",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "予約不要。Montserratなら持帰りも用意する。"
+          "note": "朝食開始時刻は未確認。Montserratの日に間に合わなければ、早朝サービスと前夜の買い置きで代替する。"
         },
         {
           "id": "final-d1228-03",
@@ -362,8 +374,8 @@ window.UXFinalPlan = {
           "title": "El Xampanyetで魚介の小皿とcava",
           "kind": "meal",
           "confidence": "needs_information",
-          "status": "予定時刻",
-          "note": "予約不可。20分以上待つ場合はBar Joan、さらに難しければBalmes 103へ。"
+          "status": "当日調整",
+          "note": "予約不可。20分以上待つ場合はBar Joan、さらに難しければRaval周辺で当日営業を確認できる持帰り店へ。"
         }
       ]
     },
@@ -386,6 +398,18 @@ window.UXFinalPlan = {
         },
         {
           "id": "final-d1229-02",
+          "time": "07:00",
+          "end": "07:40",
+          "timeText": "07:00–07:40",
+          "zone": "スペイン時間",
+          "title": "ホテルのビュッフェ朝食",
+          "kind": "meal",
+          "confidence": "needs_information",
+          "status": "予定時刻",
+          "note": "朝食開始時刻は未確認。間に合わなければ早朝サービスと前夜の買い置きで代替し、列車出発を優先する。"
+        },
+        {
+          "id": "final-d1229-03",
           "time": "08:15",
           "end": "09:45",
           "timeText": "08:15–09:45",
@@ -397,7 +421,7 @@ window.UXFinalPlan = {
           "note": "2026年末の列車時刻を公表後に確認し、選んだ列車の有効な乗車券を購入する。座席指定なしでも乗車券は必要。"
         },
         {
-          "id": "final-d1229-03",
+          "id": "final-d1229-04",
           "time": "10:00",
           "end": "12:30",
           "timeText": "10:00–12:30",
@@ -409,7 +433,7 @@ window.UXFinalPlan = {
           "note": "火曜は円形闘技場、Circ、城壁など中央部を徒歩でつなぐ。Pont del DiableやBUSPLANAは使わない。Montserrat選択時は修道院主要部へ。"
         },
         {
-          "id": "final-d1229-04",
+          "id": "final-d1229-05",
           "time": "12:30",
           "end": "13:00",
           "timeText": "12:30–13:00",
@@ -421,7 +445,7 @@ window.UXFinalPlan = {
           "note": "地中海の眺望とRambla Novaを楽しむ。"
         },
         {
-          "id": "final-d1229-05",
+          "id": "final-d1229-06",
           "time": "13:15",
           "end": "14:45",
           "timeText": "13:15–14:45",
@@ -433,7 +457,7 @@ window.UXFinalPlan = {
           "note": "Part AltaのEl Llagutを第一候補。満席・休業なら徒歩10分以内で「romescoまたは魚介の米料理があり15:00までに着席できる店」を選び、見つからなければMercat Centralで軽食。"
         },
         {
-          "id": "final-d1229-06",
+          "id": "final-d1229-07",
           "time": "15:00",
           "end": "17:00",
           "timeText": "15:00–17:00",
@@ -445,7 +469,7 @@ window.UXFinalPlan = {
           "note": "帰路に余裕を残して中央部だけを巡る。Montserrat選択時は景観を見て早めに下山。"
         },
         {
-          "id": "final-d1229-07",
+          "id": "final-d1229-08",
           "time": "17:00",
           "end": "18:30",
           "timeText": "17:00–18:30",
@@ -457,7 +481,7 @@ window.UXFinalPlan = {
           "note": "公表後の時刻で帰路を選び、一本後にも対応できる余裕を持つ。"
         },
         {
-          "id": "final-d1229-08",
+          "id": "final-d1229-09",
           "time": "18:30",
           "end": "20:00",
           "timeText": "18:30–20:00",
@@ -469,7 +493,7 @@ window.UXFinalPlan = {
           "note": ""
         },
         {
-          "id": "final-d1229-09",
+          "id": "final-d1229-10",
           "time": "20:00",
           "end": "21:30",
           "timeText": "20:00–21:30",
@@ -478,7 +502,7 @@ window.UXFinalPlan = {
           "kind": "meal",
           "confidence": "needs_information",
           "status": "当日調整",
-          "note": "当日空きがあれば利用。満席なら7 Portes、疲れていればBalmes 103へ。"
+          "note": "当日空きがあれば利用。満席なら7 Portes、疲れていればRaval周辺で当日営業を確認できる持帰り店へ。"
         }
       ]
     },
@@ -489,15 +513,15 @@ window.UXFinalPlan = {
       "items": [
         {
           "id": "final-d1230-01",
-          "time": "07:45",
+          "time": "07:30",
           "end": "08:15",
-          "timeText": "07:45–08:15",
+          "timeText": "07:30–08:15",
           "zone": "スペイン時間",
-          "title": "ホテルcheckout・荷物預け",
-          "kind": "hotel",
+          "title": "ホテルのビュッフェ朝食",
+          "kind": "meal",
           "confidence": "needs_information",
-          "status": "当日調整",
-          "note": "Hotel Barcelona Centerを基準に、チェックアウトと当日荷物預けを事前確認する。"
+          "status": "予定時刻",
+          "note": "朝食開始時刻は未確認。08:15出発に間に合わなければ早朝サービスと前夜の買い置きで代替する。"
         },
         {
           "id": "final-d1230-02",
@@ -509,7 +533,7 @@ window.UXFinalPlan = {
           "kind": "transfer",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "仮ホテルからDiagonal駅へ徒歩、Metro L5でSagrada Família駅へ向かう想定。ホテル変更時は同じ09:00入場を守る経路へ更新する。"
+          "note": "abba Rambla Hotel → Liceu（L3）→ Passeig de Gràcia → L2乗換 → Sagrada Família。約20–25分。タクシーなら約15分。"
         },
         {
           "id": "final-d1230-03",
@@ -533,7 +557,7 @@ window.UXFinalPlan = {
           "kind": "transfer",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "Metro L5でDiagonalへ戻る想定。"
+          "note": "往路と同じMetro経路を逆にたどる。"
         },
         {
           "id": "final-d1230-05",
@@ -541,11 +565,11 @@ window.UXFinalPlan = {
           "end": "11:35",
           "timeText": "11:15–11:35",
           "zone": "スペイン時間",
-          "title": "荷物回収",
+          "title": "チェックアウト・荷物回収",
           "kind": "hotel",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "荷物を受け取り、3人と荷物が揃ってから昼食へ。"
+          "note": "12:00の期限内にチェックアウトし、3人と荷物が揃ってから昼食へ。"
         },
         {
           "id": "final-d1230-06",
@@ -553,11 +577,11 @@ window.UXFinalPlan = {
           "end": "12:10",
           "timeText": "11:35–12:10",
           "zone": "スペイン時間",
-          "title": "Mauri Pastisseriaで軽い昼食",
+          "title": "ホテル周辺またはSants駅で軽い昼食",
           "kind": "meal",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "混雑時は持帰りにし、Sants到着を優先する。"
+          "note": "3人分のbocadilloまたは軽食と水を€25–45で買える営業店を選ぶ。ホテル周辺で決まらなければSants駅のEnrique Tomásを第一候補にし、混雑時は駅構内の持帰り店へ切り替える。列車の余裕を優先する。"
         },
         {
           "id": "final-d1230-07",
@@ -569,7 +593,7 @@ window.UXFinalPlan = {
           "kind": "transfer",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "仮ホテルから荷物ごとタクシーを想定。"
+          "note": "abba Rambla Hotelから荷物ごとタクシーで約10–15分（約3km）。"
         },
         {
           "id": "final-d1230-08",
@@ -601,11 +625,11 @@ window.UXFinalPlan = {
           "end": "19:00",
           "timeText": "18:15–19:00",
           "zone": "スペイン時間",
-          "title": "Room Mate Collection Albaへ移動・チェックイン（仮候補）",
+          "title": "Room Mate Marioへ移動・チェックイン",
           "kind": "hotel",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "Atochaからタクシーで約10分を見込み、荷物を置いてから徒歩で夕食へ向かう。"
+          "note": "Atocha公式タクシー乗り場から約10–15分。チェックイン15:00から、受付終了24:00。時間外チェックインは不可。"
         },
         {
           "id": "final-d1230-11",
@@ -617,7 +641,7 @@ window.UXFinalPlan = {
           "kind": "meal",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "仮ホテルの隣。restaurantの20:00枠と年末営業を2026/12/01までに直接確認し、取れなければAtochaで持帰りを購入する。"
+          "note": "Campomanes 4から徒歩約12分。restaurantの20:00枠と年末営業を2026/12/01までに直接確認し、取れなければAtochaで持帰りを購入する。"
         }
       ]
     },
@@ -628,6 +652,18 @@ window.UXFinalPlan = {
       "items": [
         {
           "id": "final-d1231-01",
+          "time": "08:00",
+          "end": "09:00",
+          "timeText": "08:00–09:00",
+          "zone": "スペイン時間",
+          "title": "ホテルのビュッフェ朝食",
+          "kind": "meal",
+          "confidence": "needs_information",
+          "status": "予定時刻",
+          "note": "07:00–12:00提供。10:00のPrado入場に間に合うよう09:00までに終える。"
+        },
+        {
+          "id": "final-d1231-02",
           "time": "10:00",
           "end": "12:00",
           "timeText": "10:00–12:00",
@@ -639,7 +675,7 @@ window.UXFinalPlan = {
           "note": "12/31短縮営業の2026公表後に枠確定。"
         },
         {
-          "id": "final-d1231-02",
+          "id": "final-d1231-03",
           "time": "12:15",
           "end": "12:35",
           "timeText": "12:15–12:35",
@@ -651,7 +687,7 @@ window.UXFinalPlan = {
           "note": ""
         },
         {
-          "id": "final-d1231-03",
+          "id": "final-d1231-04",
           "time": "12:45",
           "end": "13:05",
           "timeText": "12:45–13:05",
@@ -663,7 +699,7 @@ window.UXFinalPlan = {
           "note": ""
         },
         {
-          "id": "final-d1231-04",
+          "id": "final-d1231-05",
           "time": "13:30",
           "end": "14:30",
           "timeText": "13:30–14:30",
@@ -675,7 +711,7 @@ window.UXFinalPlan = {
           "note": "公式通常ランチは13:30開始。12/31は夜休業のため昼に利用し、旅行日の特別営業は直前再確認。"
         },
         {
-          "id": "final-d1231-05",
+          "id": "final-d1231-06",
           "time": "14:45",
           "end": "16:00",
           "timeText": "14:45–16:00",
@@ -687,7 +723,7 @@ window.UXFinalPlan = {
           "note": ""
         },
         {
-          "id": "final-d1231-06",
+          "id": "final-d1231-07",
           "time": "16:30",
           "end": "18:15",
           "timeText": "16:30–18:15",
@@ -699,19 +735,19 @@ window.UXFinalPlan = {
           "note": ""
         },
         {
-          "id": "final-d1231-07",
+          "id": "final-d1231-08",
           "time": "18:15",
           "end": "19:15",
           "timeText": "18:15–19:15",
           "zone": "スペイン時間",
-          "title": "昼のうちに確保した持帰り夕食をホテルで食べる",
+          "title": "昼のうちに確保した持帰り夕食をRoom Mate Mario客室で食べる",
           "kind": "meal",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "12/31昼食後から16:00までに3人分の夕食、水、年越し用のぶどうを購入する。夜の店舗営業に依存しない。"
+          "note": "12/31昼食後から16:00までに3人分の夕食、水、年越し用のぶどうを購入する。館内dinerの大晦日・元日の運用は未確認のため、夜の店舗営業には依存しない。"
         },
         {
-          "id": "final-d1231-08",
+          "id": "final-d1231-09",
           "time": "20:00",
           "end": "00:00",
           "timeText": "20:00–00:00",
@@ -719,8 +755,8 @@ window.UXFinalPlan = {
           "title": "Puerta del Sol カウントダウン（12粒のブドウ）",
           "kind": "event",
           "confidence": "needs_information",
-          "status": "発売・予約後に確定",
-          "note": "2026警備・入口・駅閉鎖未公表。強雨・体調不良時はホテル年越しへ。"
+          "status": "当日調整",
+          "note": "Campomanes 4からCalle Arenal経由で徒歩約7–8分。ただし12/31夜は警備規制で通行ルートが変わるため当日の公式案内を優先する。強雨・体調不良時はホテル年越しへ。"
         }
       ]
     },
@@ -731,6 +767,18 @@ window.UXFinalPlan = {
       "items": [
         {
           "id": "final-d0101-01",
+          "time": "09:30",
+          "end": "10:30",
+          "timeText": "09:30–10:30",
+          "zone": "スペイン時間",
+          "title": "ホテルのビュッフェ朝食",
+          "kind": "meal",
+          "confidence": "needs_information",
+          "status": "予定時刻",
+          "note": "通常07:00–12:00だが、元日の提供は未確認。チェックイン時に確認し、提供がなければ12/31に確保した食事へ切り替える。"
+        },
+        {
+          "id": "final-d0101-02",
           "time": "11:00",
           "end": "11:30",
           "timeText": "11:00–11:30",
@@ -742,7 +790,7 @@ window.UXFinalPlan = {
           "note": ""
         },
         {
-          "id": "final-d0101-02",
+          "id": "final-d0101-03",
           "time": "11:30",
           "end": "12:15",
           "timeText": "11:30–12:15",
@@ -751,10 +799,10 @@ window.UXFinalPlan = {
           "kind": "meal",
           "confidence": "needs_information",
           "status": "当日調整",
-          "note": "元日営業と行列を直前確認。満席ならPlaza Mayor周辺で代替。"
+          "note": "Room Mate MarioからArenal通り沿いに徒歩約5分。元日営業と行列を直前確認し、満席ならPlaza Mayor周辺で代替する。"
         },
         {
-          "id": "final-d0101-03",
+          "id": "final-d0101-04",
           "time": "12:20",
           "end": "13:00",
           "timeText": "12:20–13:00",
@@ -763,10 +811,10 @@ window.UXFinalPlan = {
           "kind": "attraction",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": ""
+          "note": "Room Mate Marioから徒歩約8分。"
         },
         {
-          "id": "final-d0101-04",
+          "id": "final-d0101-05",
           "time": "13:00",
           "end": "14:00",
           "timeText": "13:00–14:00",
@@ -778,7 +826,7 @@ window.UXFinalPlan = {
           "note": ""
         },
         {
-          "id": "final-d0101-05",
+          "id": "final-d0101-06",
           "time": "17:00",
           "end": "17:30",
           "timeText": "17:00–17:30",
@@ -790,7 +838,7 @@ window.UXFinalPlan = {
           "note": "通常の午後再開後に見学。元日の特別運用は12/31に公式・現地で再確認する。"
         },
         {
-          "id": "final-d0101-06",
+          "id": "final-d0101-07",
           "time": "15:00",
           "end": "15:45",
           "timeText": "15:00–15:45",
@@ -799,10 +847,10 @@ window.UXFinalPlan = {
           "kind": "attraction",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": ""
+          "note": "Room Mate Marioから徒歩約5分。"
         },
         {
-          "id": "final-d0101-07",
+          "id": "final-d0101-08",
           "time": "16:00",
           "end": "16:30",
           "timeText": "16:00–16:30",
@@ -814,7 +862,7 @@ window.UXFinalPlan = {
           "note": ""
         },
         {
-          "id": "final-d0101-08",
+          "id": "final-d0101-09",
           "time": "17:45",
           "end": "19:00",
           "timeText": "17:45–19:00",
@@ -826,16 +874,16 @@ window.UXFinalPlan = {
           "note": "翌日のCordobaに備え、外出を増やさない。"
         },
         {
-          "id": "final-d0101-09",
+          "id": "final-d0101-10",
           "time": "19:00",
           "end": "20:00",
           "timeText": "19:00–20:00",
           "zone": "スペイン時間",
-          "title": "12/31に確保した保存食を客室で食べる",
+          "title": "12/31に確保した保存食をRoom Mate Mario客室で食べる",
           "kind": "meal",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "元日の営業店に依存しない。チェックイン時にEl Bar de Albaの元日提供が確認できた場合のみ、温かい料理へ切り替える。"
+          "note": "元日の営業店に依存しない。Room Mate Marioの朝食会場dinerは元日の夕食提供が未確認のため、温かい料理を推測で当てにしない。"
         }
       ]
     },
@@ -846,6 +894,18 @@ window.UXFinalPlan = {
       "items": [
         {
           "id": "final-d0102-01",
+          "time": "06:15",
+          "end": "06:40",
+          "timeText": "06:15–06:40",
+          "zone": "スペイン時間",
+          "title": "前夜に確保した持帰り朝食を移動中または車内で食べる",
+          "kind": "meal",
+          "confidence": "needs_information",
+          "status": "予定時刻",
+          "note": "ホテル朝食は07:00開始で出発に間に合わない。1/1のうちに主食・飲み物を3人分買っておく。"
+        },
+        {
+          "id": "final-d0102-02",
           "time": "06:45",
           "end": "07:30",
           "timeText": "06:45–07:30",
@@ -854,10 +914,10 @@ window.UXFinalPlan = {
           "kind": "transfer",
           "confidence": "needs_information",
           "status": "発売・予約後に確定",
-          "note": "Room Mate Albaからタクシーを想定。列車番号は未公表のため発売後に確定する。"
+          "note": "Room Mate Marioからタクシーで約10–15分。列車番号は未公表のため発売後に確定する。"
         },
         {
-          "id": "final-d0102-02",
+          "id": "final-d0102-03",
           "time": "07:30",
           "end": "09:30",
           "timeText": "07:30–09:30",
@@ -869,7 +929,7 @@ window.UXFinalPlan = {
           "note": "07:30前後発・09:30前後着を目標とする計画窓。実在しない列車番号は置かない。"
         },
         {
-          "id": "final-d0102-03",
+          "id": "final-d0102-04",
           "time": "09:30",
           "end": "10:00",
           "timeText": "09:30–10:00",
@@ -881,7 +941,7 @@ window.UXFinalPlan = {
           "note": "タクシーまたは駅前から旧市街へ移動。"
         },
         {
-          "id": "final-d0102-04",
+          "id": "final-d0102-05",
           "time": "10:00",
           "end": "11:45",
           "timeText": "10:00–11:45",
@@ -893,7 +953,7 @@ window.UXFinalPlan = {
           "note": "公式の2027/1/2入場時間と礼拝による変更を旅行前に確認し、公式券を用意する。"
         },
         {
-          "id": "final-d0102-05",
+          "id": "final-d0102-06",
           "time": "11:45",
           "end": "12:45",
           "timeText": "11:45–12:45",
@@ -905,7 +965,7 @@ window.UXFinalPlan = {
           "note": "Mezquita周辺の白い路地から橋まで徒歩でつなぐ。"
         },
         {
-          "id": "final-d0102-06",
+          "id": "final-d0102-07",
           "time": "13:00",
           "end": "14:30",
           "timeText": "13:00–14:30",
@@ -917,7 +977,7 @@ window.UXFinalPlan = {
           "note": "第一候補。salmorejo、flamenquín、rabo de toro、berenjenas con mielを3人で共有。満席・休業なら徒歩15分以内で4品中3品以上があるtabernaを選び、なければCasa Pepe de la Judería。"
         },
         {
-          "id": "final-d0102-07",
+          "id": "final-d0102-08",
           "time": "14:45",
           "end": "16:15",
           "timeText": "14:45–16:15",
@@ -929,7 +989,7 @@ window.UXFinalPlan = {
           "note": "午後の主役は一施設だけ。旅行日の開館が確認できなければ旧市街散策へ替える。"
         },
         {
-          "id": "final-d0102-08",
+          "id": "final-d0102-09",
           "time": "16:15",
           "end": "17:15",
           "timeText": "16:15–17:15",
@@ -941,7 +1001,7 @@ window.UXFinalPlan = {
           "note": "カフェ休憩を含め、帰路の発車45分前までに駅へ。"
         },
         {
-          "id": "final-d0102-09",
+          "id": "final-d0102-10",
           "time": "17:15",
           "end": "19:15",
           "timeText": "17:15–19:15",
@@ -953,7 +1013,7 @@ window.UXFinalPlan = {
           "note": "17:15前後発・19:15前後着を目標。最終便は選ばず、発売後に往復を確定する。"
         },
         {
-          "id": "final-d0102-10",
+          "id": "final-d0102-11",
           "time": "19:15",
           "end": "20:00",
           "timeText": "19:15–20:00",
@@ -977,11 +1037,11 @@ window.UXFinalPlan = {
           "end": "09:00",
           "timeText": "08:30–09:00",
           "zone": "スペイン時間",
-          "title": "Madridホテルcheckout・荷物預け",
+          "title": "Room Mate Marioをチェックアウト・荷物預け",
           "kind": "hotel",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": ""
+          "note": "12:00までにチェックアウト。24時間フロントの荷物預かりを利用する。"
         },
         {
           "id": "final-d0103-02",
@@ -993,7 +1053,7 @@ window.UXFinalPlan = {
           "kind": "attraction",
           "confidence": "needs_information",
           "status": "発売・予約後に確定",
-          "note": "日曜営業時間・Guernica展示状況・入場枠を再確認。"
+          "note": "Campomanes 4から徒歩約25分、またはMetro（Ópera L2 → Sol → L1 Atocha）。日曜営業時間・Guernica展示状況・入場枠を再確認。"
         },
         {
           "id": "final-d0103-03",
@@ -1029,7 +1089,7 @@ window.UXFinalPlan = {
           "kind": "transfer",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": ""
+          "note": "Room Mate Marioからタクシーで約10–15分。"
         },
         {
           "id": "final-d0103-06",
@@ -1041,7 +1101,7 @@ window.UXFinalPlan = {
           "kind": "meal",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "Enrique TomásまたはRodillaで3人分と飲料を購入。Barcelona到着後の店舗営業に依存しない。"
+          "note": "Enrique TomásまたはRodillaで3人分と飲料を購入。郊外泊のため必ずここで確保し、Barcelona到着後の店舗営業に依存しない。"
         },
         {
           "id": "final-d0103-07",
@@ -1070,14 +1130,14 @@ window.UXFinalPlan = {
         {
           "id": "final-d0103-09",
           "time": "20:30",
-          "end": "21:15",
-          "timeText": "20:30–21:15",
+          "end": "21:30",
+          "timeText": "20:30–21:30",
           "zone": "スペイン時間",
-          "title": "Barcelona最終泊へ移動・チェックイン",
+          "title": "B&B HOTEL Barcelona Viladecansへ移動・チェックイン",
           "kind": "hotel",
           "confidence": "needs_information",
           "status": "当日調整",
-          "note": "仮ホテルPestana Arenaへ徒歩約8–10分。雨・遅延・疲労時はタクシーを使い、Atochaで購入済みの夕食を客室で食べる。"
+          "note": "Barcelona Sants → Rodalies R2 SudでViladecansへ約16分・日中約15分間隔。駅からホテルはほぼ正面〜徒歩約7分。荷物3人分があり、雨・遅延・疲労時はSantsからタクシー約20–25分へ切り替える。チェックイン受付は24:00まで。列車が大幅に遅れた場合はタクシーへ切り替える。"
         }
       ]
     },
@@ -1088,18 +1148,30 @@ window.UXFinalPlan = {
       "items": [
         {
           "id": "final-d0104-01",
-          "time": "06:55",
-          "end": "07:35",
-          "timeText": "06:55–07:35",
+          "time": "06:00",
+          "end": "06:40",
+          "timeText": "06:00–06:40",
+          "zone": "スペイン時間",
+          "title": "ホテルで朝食",
+          "kind": "meal",
+          "confidence": "needs_information",
+          "status": "予定時刻",
+          "note": "コンチネンタルブレックファストは06:00–10:00。出発準備を済ませてから3人で食べ、06:40までに終える。"
+        },
+        {
+          "id": "final-d0104-02",
+          "time": "07:00",
+          "end": "07:15",
+          "timeText": "07:00–07:15",
           "zone": "スペイン時間",
           "title": "タクシーでBCN T1へ（本案）",
           "kind": "transfer",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "ホテル位置未確認。07:40 BCN T1着を超えないよう予約時に逆算。"
+          "note": "B&B HOTEL Barcelona ViladecansからBCN T1へタクシー約10分（約5–7km）。前夜にフロントで手配し、07:40までの到着を守る。"
         },
         {
-          "id": "final-d0104-02",
+          "id": "final-d0104-03",
           "time": "07:40",
           "end": "10:10",
           "timeText": "07:40–10:10",
@@ -1111,19 +1183,19 @@ window.UXFinalPlan = {
           "note": "10:40非Schengen便の3時間前目安。"
         },
         {
-          "id": "final-d0104-03",
+          "id": "final-d0104-04",
           "time": "08:15",
           "end": "09:00",
           "timeText": "08:15–09:00",
           "zone": "スペイン時間",
-          "title": "BCN T1保安検査後に朝食",
+          "title": "BCN T1保安検査後の予備朝食",
           "kind": "meal",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "搭乗口確定後、airsideの営業中店舗で確保。搭乗開始を優先。"
+          "note": "ホテル朝食を取れなかった場合だけ、搭乗口確定後にairsideの営業中店舗で確保する。搭乗開始を優先する。"
         },
         {
-          "id": "final-d0104-04",
+          "id": "final-d0104-05",
           "time": "10:40",
           "end": "",
           "timeText": "10:40",
@@ -1135,7 +1207,7 @@ window.UXFinalPlan = {
           "note": ""
         },
         {
-          "id": "final-d0104-05",
+          "id": "final-d0104-06",
           "time": "05:55",
           "end": "",
           "timeText": "05:55",

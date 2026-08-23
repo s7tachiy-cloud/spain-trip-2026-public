@@ -142,7 +142,7 @@ window.TRIP = {
       "title": "Barcelona到着・ガウディ群",
       "city": "barcelona",
       "status": "pending",
-      "statusLabel": "施設未予約",
+      "statusLabel": "入場枠未予約",
       "id": "d1226",
       "cityId": "barcelona",
       "cityLabel": "Barcelona",
@@ -19418,7 +19418,7 @@ window.TRIP = {
     },
     {
       "id": "task-hotels",
-      "title": "未予約ホテル3滞在を比較・選定",
+      "title": "予約済みホテル3滞在のベッド構成と支払いを確認",
       "category": "now",
       "status": "not_started",
       "deadline": "2026-08-15",
@@ -19555,7 +19555,7 @@ window.TRIP = {
       "blockedReason": "予約済み内容待ち",
       "informationNeeded": [
         "航空券と購入済み列車／施設／飲食店の必要事実だけ",
-        "ホテルは未予約のため証拠対象外。予約番号・QR・旅券・決済情報は不要"
+        "ホテル3件は予約済み。住所・時刻・金額・取消期限だけを扱い、予約番号・QR・旅券・決済情報は不要"
       ]
     },
     {
