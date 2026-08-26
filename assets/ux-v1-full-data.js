@@ -119,17 +119,17 @@
       id: "tarragona-return", route: "2026-12-29(火) Barcelona Sants ⇄ Tarragona", timeWindow: "往路08:15前後発／復路17:00前後発", duration: "片道 約1時間15分", stations: "Barcelona Sants ⇄ Tarragona市内駅（Camp de Tarragonaは使わない）", operators: "Renfe（Regional / Media Distancia）", passengers: "大人3名", luggage: "運行会社で異なる。購入会社決定後に確定（iryoは80×55×35cmの記載あり）", status: "年末年始ダイヤ未発売", constraint: "Camp de Tarragonaは市街から離れ、バス連絡が必要なためTarragona市内駅を使う。"
     },
     {
-      id: "barcelona-madrid", route: "2026-12-30(水) Barcelona Sants → Madrid Puerta de Atocha", timeWindow: "14:30〜15:30発", duration: "約2時間45分〜3時間", stations: "Barcelona Sants → Madrid Puerta de Atocha", operators: "Renfe AVE / iryo / Ouigo", passengers: "大人3名", luggage: "運行会社で異なる。購入会社決定後に確定（iryoは80×55×35cmの記載あり）", status: "未発売", constraint: "チェックアウト12:00。Sants到着は発車60分前を下回らない。"
+      id: "barcelona-madrid", route: "2026-12-30(水) Barcelona Sants → Madrid Puerta de Atocha", timeWindow: "14:30〜15:30発", duration: "約2時間45分〜3時間", stations: "Barcelona Sants → Madrid Puerta de Atocha", operators: "Renfe AVE / iryo / Ouigo", passengers: "大人3名", luggage: "運行会社で異なる。購入会社決定後に確定（iryoは80×55×35cmの記載あり）", status: "Renfe・Ouigo未発売／iryoは発売済みの可能性・要確認", constraint: "チェックアウト12:00。Sants到着は発車60分前を下回らない。"
     },
     {
-      id: "madrid-day-trip", route: "2027-01-02(土) Madrid Puerta de Atocha ⇄ Córdoba（往復）", timeWindow: "往路07:30前後発／復路17:15前後発", duration: "片道 約1時間45分〜2時間", stations: "Madrid Puerta de Atocha ⇄ Córdoba", operators: "Renfe AVE / iryo", passengers: "大人3名", luggage: "運行会社で異なる。購入会社決定後に確定（iryoは80×55×35cmの記載あり）", status: "未発売", constraint: "Córdoba が休業・運休・満席で成立しない場合だけ Toledo（Avant・片道約33分）へ切り替える。Toledo は代替であり第一候補ではない。Granada は今回行かない。"
+      id: "madrid-day-trip", route: "2027-01-02(土) Madrid Puerta de Atocha ⇄ Córdoba（往復）", timeWindow: "往路07:30前後発／復路17:15前後発", duration: "片道 約1時間45分〜2時間", stations: "Madrid Puerta de Atocha ⇄ Córdoba", operators: "Renfe AVE / iryo", passengers: "大人3名", luggage: "運行会社で異なる。購入会社決定後に確定（iryoは80×55×35cmの記載あり）", status: "Renfe・Ouigo未発売／iryoは発売済みの可能性・要確認", constraint: "Córdoba が休業・運休・満席で成立しない場合だけ Toledo（Avant・片道約33分）へ切り替える。Toledo は代替であり第一候補ではない。Granada は今回行かない。"
     },
     {
-      id: "madrid-barcelona", route: "2027-01-03(日) Madrid Puerta de Atocha → Barcelona Sants", timeWindow: "16:30〜17:00発", duration: "約2時間45分〜3時間", stations: "Madrid Puerta de Atocha → Barcelona Sants", operators: "Renfe AVE / iryo / Ouigo", passengers: "大人3名", luggage: "運行会社で異なる。購入会社決定後に確定（iryoは80×55×35cmの記載あり）", status: "未発売", constraint: "到着後はB&B ViladecansまでRodalies R2 Sud約16分、またはタクシー約20〜25分。"
+      id: "madrid-barcelona", route: "2027-01-03(日) Madrid Puerta de Atocha → Barcelona Sants", timeWindow: "16:30〜17:00発", duration: "約2時間45分〜3時間", stations: "Madrid Puerta de Atocha → Barcelona Sants", operators: "Renfe AVE / iryo / Ouigo", passengers: "大人3名", luggage: "運行会社で異なる。購入会社決定後に確定（iryoは80×55×35cmの記載あり）", status: "Renfe・Ouigo未発売／iryoは発売済みの可能性・要確認", constraint: "到着後はB&B ViladecansまでRodalies R2 Sud約16分、またはタクシー約20〜25分。"
     }
   ].map((booking) => ({
     ...booking,
-    releaseNote: "2026-08-25時点でRenfeは12/13より先の年末年始ダイヤを未発売。2026-10-01から週次で発売状況を確認する。",
+    releaseNote: "2026-08-26時点でRenfeは12/13より先、Ouigoは12/12までしか発売していない。iryoは8/23にTrainlineで12/30の価格（1人¥6,632）が出ていたため発売済みの可能性が高く、まずiryo公式で12/30・1/2・1/3を確認する。Renfe／Ouigoは2026-10-01から週次で確認する。",
     purchaseSites: [
       { label: "Renfe", href: "https://www.renfe.com/" },
       { label: "iryo", href: "https://iryo.eu/" },
