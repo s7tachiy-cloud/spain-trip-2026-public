@@ -8166,7 +8166,7 @@ window.TRIP = {
       "kind": "meal",
       "parentId": null,
       "placeId": null,
-      "title": "Casa AlbertoでMadrid料理の夕食",
+      "title": "Casa CiriacoでMadrid料理の夕食",
       "durationIdealMinutes": null,
       "durationMinimumMinutes": null,
       "travelMinutesBefore": null,

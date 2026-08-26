@@ -295,12 +295,12 @@ function renderHome() {
   const readyToArrange = pendingBookings.filter((booking) => !waitingOfficial.includes(booking) && !waitingRelease.includes(booking) && bookingStatusLabel(booking) === "これから手配");
   const taskGroups = [
     ["今決める", [
-      ["1", "列車3区間の発売を待って購入する", "発売待ち", "12/30 Barcelona→Madrid、1/2 Madrid↔Cordoba、1/3 Madrid→Barcelona。発売中はベッド構成をホテルへ確認します。", "準備の「予約」で確認", "bookings"],
-      ["2", readyToArrange.length ? `${readyToArrange.length}件の入場・食事予約を進める` : "入場・食事予約を確認する", "手配可能", readyToArrange.length ? readyToArrange.slice(0, 3).map((booking) => booking.title).join("／") : "手配可能になった予約は準備へまとめます。", "準備の「予約」で確認", "bookings"]
+      ["1", "列車4区間の発売を待って購入する", "発売待ち", "12/29 Barcelona⇄Tarragona、12/30 Barcelona→Madrid、1/2 Madrid⇄Córdoba、1/3 Madrid→Barcelona。発売中はベッド構成をホテルへ確認します。", "準備の「予約」で確認", "bookings"],
+      ["2", "7件の入場・食事予約を進める", "手配可能", "サグラダ・ファミリア／グエル公園／カサ・ミラ／グエル邸／モンジュイック城／プラド美術館／王宮", "準備の「予約」で確認", "bookings"]
     ]],
     ["発売・公式発表を待つ", [
       ["3", `${waitingRelease.length}件の列車・入場枠`, "発売待ち", waitingRelease.slice(0, 4).map((booking) => booking.title).join("／") || "発売開始後に、採用日程の列車と入場枠を選びます。", "発売後に時刻と料金を確定", "bookings"],
-      ["4", `${waitingOfficial.length}件の年末年始情報`, "公式発表待ち", waitingOfficial.slice(0, 4).map((booking) => booking.title).join("／") || "特別営業時間・交通規制は公式発表後に更新します。", "12月に公式情報を再確認", "bookings"]
+      ["4", "6件の年末年始情報", "公式発表待ち", "Montserrat往復交通／大晦日ディナー／Mezquita-Catedral／Tablao Cordobés（12/29）／Casa Ciriaco（12/30）／Sant Esteveのカネロネス（12/26）", "12月に公式情報を再確認", "bookings"]
     ]],
     ["出発直前に確認", [
       ["5", "TarragonaとMontserratの日を選ぶ", "12/26夜", "12/27–29の天気と交通を比較します。晴天と体力がそろえばMontserrat、条件が悪ければBarcelona市内です。", "旅程の3日間シナリオで切替", "schedule"],
@@ -309,7 +309,7 @@ function renderHome() {
   ];
   screen.innerHTML = `<header class="screen-header home-task-header"><div><span class="eyebrow">次にやること</span><h1>出発までの残タスク</h1><p>今やること、発売を待つこと、出発直前に確認することだけを優先順で表示します。</p></div><div class="context-meta">${esc(tripCountdown())}<small>12/25–1/5 · 3人</small></div></header>
     <section class="home-task-summary" aria-label="残タスクの概要"><article><span>予約済み</span><strong>ホテル3滞在</strong><small>支払・取消期限を確認</small></article><article><span>手配・発売待ち</span><strong>${pendingBookings.length}件</strong><small>準備タブに詳細</small></article><article><span>旅程の条件分岐</span><strong>1件</strong><small>Montserratは天候次第</small></article></section>
-    <article class="card home-next-action"><div><span class="eyebrow">次に進めること</span><h2>列車3区間の発売を待って買う</h2><p>12/30・1/2・1/3の列車は発売後に購入します。待っている間に、MadridとViladecansのベッド構成をホテルへ確認できます。</p></div><div class="action-row"><button class="button primary" type="button" data-home-plan-section="bookings" data-home-target="plan">列車の準備を見る</button>${action("宿泊予約を見る", { tab: "plan", primary: false })}</div></article>
+    <article class="card home-next-action"><div><span class="eyebrow">次に進めること</span><h2>列車4区間の発売を待って買う</h2><p>12/29・12/30・1/2・1/3の列車は発売後に購入します。待っている間に、MadridとViladecansのベッド構成をホテルへ確認できます。</p></div><div class="action-row"><button class="button primary" type="button" data-home-plan-section="bookings" data-home-target="plan">列車の準備を見る</button>${action("宿泊予約を見る", { tab: "plan", primary: false })}</div></article>
     <div class="home-task-groups">${taskGroups.map(([phase, tasks]) => `<section class="home-task-phase"><div class="section-head compact-head"><div><span class="eyebrow">準備の段階</span><h2>${esc(phase)}</h2></div><span>${tasks.length}件</span></div><div class="home-task-list">${tasks.map(([number, title, status, note, next, section]) => `<article class="card home-task-card"><span class="task-index">${number}</span><div><div class="status-row">${pill(status, /最優先|12\/26/.test(status) ? "wait" : "info")}</div><h3>${esc(title)}</h3><p>${esc(note)}</p><small>${esc(next)}</small></div><button class="button" type="button" data-home-plan-section="${esc(section)}" data-home-target="${section === "schedule" ? "schedule" : "plan"}">内容を確認する</button></article>`).join("")}</div></section>`).join("")}</div>
     <section class="home-quick-links"><div><span class="eyebrow">すでに決まっていること</span><h2>決まっている旅の骨格</h2><p>BarcelonaとMadridに宿泊し、TarragonaとCórdobaへ日帰り。Montserratは天候と体力で追加します。</p></div><div class="action-row">${action("12日間の旅程", { tab: "schedule", contextDay: state.day, primary: true })}${action("町と食のガイド", { tab: "guide" })}</div></section>`;
 }
@@ -415,8 +415,8 @@ function allTripBookings() {
   const currentAdditions = [
     { id: "cordoba-rail", title: "Madrid–Córdoba往復列車", status: "waiting_release", lifecycle: "waiting_release", relatedDayIds: ["d0102"], deadline: "発売後", publicNote: "07:30前後の往路と17:15前後の帰路を比較し、最終便を避けて3名分を購入します。", actionUrl: "https://www.renfe.com/es/en" },
     { id: "cordoba-mezquita", title: "Mezquita-Catedral", status: "waiting_release", lifecycle: "waiting_official", relatedDayIds: ["d0102"], deadline: "旅行7日前", publicNote: "1/2の入場時間と礼拝による変更を確認し、利用できる公式枠を3名分手配します。", actionUrl: "https://mezquita-catedraldecordoba.es/en/" },
-    { id: "casa-alberto", title: "Casa Alberto restaurant", status: "waiting_official", lifecycle: "waiting_official", relatedDayIds: ["d1230"], deadline: "2026/12/01", publicNote: "20:00のrestaurant席と年末営業を直接確認します。取れなければAtochaで持帰りを購入します。", actionUrl: "https://www.casaalberto.es/" },
-    { id: "bodega-secretos", title: "Bodega de los Secretos", status: "waiting_official", lifecycle: "waiting_official", relatedDayIds: ["d1231"], deadline: "予約受付後", publicNote: "12/31 13:30、3名で予約し、14:45までに退店できるか確認します。", actionUrl: "https://bodegadelossecretos.com/en/" }
+    { id: "casa-ciriaco", title: "Casa Ciriaco", status: "waiting_official", lifecycle: "waiting_official", relatedDayIds: ["d1230"], deadline: "2026/12/01", publicNote: "12/30 21:00、3名で予約し、年末営業を直接確認します。", actionUrl: "" },
+    { id: "bodega-secretos", title: "Bodega de los Secretos", status: "waiting_official", lifecycle: "waiting_official", relatedDayIds: ["d1231"], deadline: "予約受付後", publicNote: "12/31 14:15、3名で予約し、15:30までに退店できるか確認します。", actionUrl: "https://bodegadelossecretos.com/en/" }
   ];
   return [...canonical, ...currentAdditions];
 }
@@ -430,12 +430,16 @@ function renderPlanBody(day) {
   if (state.planSection === "next") return `<div class="stack">${day.plan.map(([n, title, status, note, owner, timing, sources = []]) => `<article class="card task-card"><span class="task-index">${n}</span><div><div class="status-row">${pill(status, /調査|依存/.test(status) ? "warn" : /待ち/.test(status) ? "wait" : "info")}</div><h3>${esc(title)}</h3><p class="muted">${esc(note)}</p><small>担当: ${esc(owner)}</small>${sources.length ? `<div class="action-row">${sources.map((source) => `<a class="button" href="${esc(source.href)}" target="_blank" rel="noreferrer">${esc(source.label)}</a>`).join("")}</div><small>公式情報の確認日: ${esc(sources.map((source) => source.checkedAt).filter(Boolean).join("・"))}</small>` : ""}</div><time>確認時期: ${esc(timing)}</time></article>`).join("")}</div>`;
   if (state.planSection === "bookings") {
     const bookings = allTripBookings();
+    const railBookings = window.UXFullData?.railBookings || [];
+    const closureFacts = window.UXFullData?.closureFacts || [];
     const cards = bookings.map((booking) => { const label = bookingStatusLabel(booking); return `<article class="card card-body booking-card"><div class="status-row">${pill(label, label === "予約済み" ? "info" : "wait")}${pill(bookingVisitLabel(booking), "info")}</div><h3>${esc(booking.title)}</h3>${bookingPublicNote(booking) ? `<p class="muted">${esc(bookingPublicNote(booking))}</p>` : ""}${booking.deadline ? `<p class="booking-deadline"><span>確認目安</span><strong>${esc(booking.deadline)}</strong></p>` : ""}${booking.actionUrl ? `<a class="button primary" href="${esc(booking.actionUrl)}" target="_blank" rel="noreferrer">公式サイト</a>` : ""}</article>`; }).join("");
-    return `<article class="card card-body booking-ledger-intro"><span class="eyebrow">旅行全体の手配</span><h2>旅行全体の予約・発売待ち</h2><p>日付を切り替えなくても、航空券・列車・入場券・年末の食事をまとめて確認できます。</p><div class="status-row">${pill(`予約対象 ${bookings.length}件`, "info")}${pill("個人情報は表示しない", "info")}</div></article><div class="grid two booking-ledger">${cards || `<article class="card card-body"><h3>予約対象を読み込めませんでした</h3><p class="muted">「次にやる」で発売待ちの項目を確認してください。</p></article>`}</div><article class="card card-body info-card booking-privacy"><h3>予約番号・QRは公開サイトに載せません</h3><p>予約後は家族だけが見られる保存先と端末のオフラインPDFへ保管します。この画面には、日付・予約状態・公式サイトだけを表示します。</p></article>`;
+    const railCards = railBookings.map((rail) => `<article class="card card-body booking-card"><div class="status-row">${pill(rail.status, "wait")}${pill(rail.passengers, "info")}</div><h3>${esc(rail.route)}</h3><dl class="fact-list"><div><dt>希望時刻窓</dt><dd>${esc(rail.timeWindow)}</dd></div><div><dt>所要目安</dt><dd>${esc(rail.duration)}</dd></div><div><dt>発着駅</dt><dd>${esc(rail.stations)}</dd></div><div><dt>運行会社候補</dt><dd>${esc(rail.operators)}</dd></div><div><dt>荷物規定</dt><dd>${esc(rail.luggage)}</dd></div><div><dt>購入条件</dt><dd>${esc(rail.constraint)}</dd></div></dl><p class="muted">${esc(rail.releaseNote)}</p><div class="action-row">${rail.purchaseSites.map((site) => `<a class="button" href="${esc(site.href)}" target="_blank" rel="noreferrer">${esc(site.label)}</a>`).join("")}</div></article>`).join("");
+    const closureCards = closureFacts.map((fact) => `<article class="card card-body"><div class="status-row">${pill("公式情報で確定", "info")}</div><h3>${esc(fact.place)}</h3><p>${esc(fact.fact)}</p><a class="button" href="${esc(fact.sourceUrl)}" target="_blank" rel="noreferrer">${esc(fact.sourceLabel)}</a></article>`).join("");
+    return `<article class="card card-body booking-ledger-intro"><span class="eyebrow">旅行全体の手配</span><h2>旅行全体の予約・発売待ち</h2><p>日付を切り替えなくても、航空券・列車・入場券・年末の食事をまとめて確認できます。</p><div class="status-row">${pill(`予約対象 ${bookings.length}件`, "info")}${pill("個人情報は表示しない", "info")}</div></article><div class="grid two booking-ledger">${cards || `<article class="card card-body"><h3>予約対象を読み込めませんでした</h3><p class="muted">「次にやる」で発売待ちの項目を確認してください。</p></article>`}</div><article class="card card-body booking-ledger-intro"><span class="eyebrow">家族が購入する列車</span><h2>列車予約カード</h2><p>確定していない列車番号は使わず、発売後に時刻・荷物条件・取消条件を比較して購入します。</p></article><div class="grid two booking-ledger">${railCards}</div><article class="card card-body booking-ledger-intro"><span class="eyebrow">休館・開館の確定情報</span><h2>旅程判断に使う公式営業時間</h2></article><div class="grid two booking-ledger">${closureCards}</div><article class="card card-body info-card booking-privacy"><h3>予約番号・QRは公開サイトに載せません</h3><p>予約後は家族だけが見られる保存先と端末のオフラインPDFへ保管します。この画面には、日付・予約状態・公式サイトだけを表示します。</p></article>`;
   }
   if (state.planSection === "hotels") {
     const stays = window.UXFullData?.hotelStays || [];
-    return `<div class="stack"><article class="card card-body info-card"><span class="eyebrow">予約済みの宿泊</span><h3>3件とも予約済みです</h3><p>Barcelona前半は全額現地払い、Madridは支払済み、Viladecansは地方税のみ施設払いです。各予約には無料キャンセル期限があります。</p></article>${stays.map((stay, i) => `<article class="card card-body"><span class="eyebrow">滞在${i + 1} · ${esc(stay.dates)}</span><h3>${esc(stay.stay)}｜${esc(stay.recommendation)}</h3><div class="status-row">${pill(stay.status, "info")}${pill(`${stay.nights}泊・3名`, "info")}</div><p>${esc(stay.locationNote)}</p><dl class="fact-list"><div><dt>予約総額</dt><dd>${nativeDualMoney(stay.amount.total, stay.amount.currency)}（1人 ${nativeDualMoney(stay.amount.total / 3, stay.amount.currency)}）</dd></div><div><dt>部屋</dt><dd>${esc(stay.room)}</dd></div><div><dt>支払</dt><dd>${esc(paymentText(stay.payment))}</dd></div><div><dt>無料キャンセル</dt><dd>${esc(stay.freeCancelUntil)}</dd></div><div><dt>注意</dt><dd>${esc(stay.caution)}</dd></div></dl>${action("予約の詳細を見る", { open: `hotel-candidate-${stay.id}`, primary: true })}</article>`).join("")}</div>`;
+    return `<div class="stack"><article class="card card-body info-card"><span class="eyebrow">予約済みの宿泊</span><h3>3件とも予約済みです</h3><p>Barcelona前半とViladecansは一部支払済みで施設払い分があり、Madridは支払済みです。各予約には無料キャンセル期限があります。</p></article>${stays.map((stay, i) => `<article class="card card-body"><span class="eyebrow">滞在${i + 1} · ${esc(stay.dates)}</span><h3>${esc(stay.stay)}｜${esc(stay.recommendation)}</h3><div class="status-row">${pill(stay.status, "info")}${pill(`${stay.nights}泊・3名`, "info")}</div><p>${esc(stay.locationNote)}</p><dl class="fact-list"><div><dt>Hotels.com旅程番号</dt><dd>${esc(stay.bookingRef)}</dd></div><div><dt>チェックイン受付</dt><dd>${esc(stay.checkIn)}–${esc(stay.checkInDeadline)}</dd></div><div><dt>無料キャンセル</dt><dd>${esc(stay.freeCancelUntil)}</dd></div><div><dt>予約総額</dt><dd>${nativeDualMoney(stay.amount.total, stay.amount.currency)}（1人 ${nativeDualMoney(stay.amount.total / 3, stay.amount.currency)}）</dd></div><div><dt>部屋</dt><dd>${esc(stay.room)}</dd></div><div><dt>支払</dt><dd>${esc(paymentText(stay.payment))}</dd></div><div><dt>注意</dt><dd>${esc(stay.caution)}</dd></div></dl>${action("予約の詳細を見る", { open: `hotel-candidate-${stay.id}`, primary: true })}</article>`).join("")}</div>`;
   }
   if (state.planSection === "documents") return `<div class="grid two">${["パスポート・入国", "航空券・予約内容", "保険・緊急連絡", "通信・支払手段"].map((x, i) => `<article class="card card-body"><h3>${x}</h3><div class="status-row">${pill(i < 2 ? "入力待ち" : "旅行前に再確認", i < 2 ? "warn" : "wait")}</div><p class="muted">3人分の準備状況、保存場所、通信なしで見られるか、確認期限を表示します。</p></article>`).join("")}</div>`;
   if (state.planSection === "packing") {
@@ -768,7 +772,7 @@ const shopTeaserRules = [
   [/La Campana/, "Plaza Mayor横で揚げたてのイカをパンに挟む、短時間でもMadridらしさがある店です。"],
   [/El Quim/, "市場のカウンターで調理の様子を見ながら、その日の卵料理や魚介を選べます。"],
   [/El Trébol/, "Toledo名物carcamusasとBombaを、坂歩きの途中で気軽に分けられます。"],
-  [/Casa Alberto/, "Las LetrasでcallosなどMadridの伝統料理を味わい、到着日の夜を楽しめます。"],
+  [/Casa Ciriaco/, "Madridの老舗で鶏のペピトリアとcallosを味わい、到着日の夜を楽しめます。"],
   [/La Pubilla/, "Gràciaの市場前で季節のランチを選び、観光地とは違う普段のBarcelonaを感じられます。"],
   [/El Xampanyet/, "El Bornの活気あるバルで、魚介の小皿とcavaを少しずつ試せます。"]
 ];
@@ -778,7 +782,7 @@ function shopTeaser(shop, item, index) {
 const guideShopFallbacks = {
   "Escalivada": ["Can Culleretes", "La Pubilla"], "Catalunyaの炭火料理": ["Terraza Martínez", "Can Culleretes"],
   "Tapas盛り合わせ": ["El Xampanyet", "Quimet & Quimet"], "Cocido madrileño": ["Malacatín", "La Daniela Medinaceli"],
-  "Tortilla española": ["Casa Dani", "Juana La Loca"], "Callos a la madrileña": ["Casa Alberto", "Lhardy"],
+  "Tortilla española": ["Casa Dani", "Juana La Loca"], "Callos a la madrileña": ["Casa Ciriaco", "Lhardy"],
   "Tortillaの軽食": ["Enrique Tomás Estación Atocha", "Rodilla Atocha"], "Jamónのbocadillo": ["Enrique Tomás Estación Atocha", "Enrique Tomás Kiosko Sants"]
 };
 function recommendedShops(item) {

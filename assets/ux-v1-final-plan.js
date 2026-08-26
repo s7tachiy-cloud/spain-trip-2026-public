@@ -73,7 +73,7 @@ window.UXFinalPlan = {
     "d1226": {
       "id": "d1226",
       "date": "2026-12-26",
-      "title": "Barcelona到着・Eixample住宅比較",
+      "title": "Barcelona到着・Montjuïc",
       "items": [
         {
           "id": "final-d1226-01",
@@ -109,7 +109,7 @@ window.UXFinalPlan = {
           "kind": "transfer",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "T1公式タクシー乗り場 → abba Rambla Hotel（Rambla del Raval 4C）。空港から15km、通常25–40分。"
+          "note": "T1公式タクシー乗り場 → Oriente Atiram Hotel Barcelona（La Rambla 45）。空港から約15km、通常25–40分。"
         },
         {
           "id": "final-d1226-04",
@@ -117,7 +117,7 @@ window.UXFinalPlan = {
           "end": "10:30",
           "timeText": "10:00–10:30",
           "zone": "スペイン時間",
-          "title": "abba Rambla Hotelへ荷物預け",
+          "title": "Oriente Atiram Hotelへ荷物預け",
           "kind": "hotel",
           "confidence": "needs_information",
           "status": "予定時刻",
@@ -141,59 +141,107 @@ window.UXFinalPlan = {
           "end": "14:00",
           "timeText": "12:00–14:00",
           "zone": "スペイン時間",
-          "title": "Passeig de Gràcia周辺で休憩・身支度・遅延時の余裕",
+          "title": "ホテル周辺で休憩・軽食",
           "kind": "rest",
           "confidence": "needs_information",
-          "status": "当日調整",
-          "note": "客室に入れるのは14:00以降。ここでは店か広場で休み、90分遅延または強い疲労時はCasa Batllóを見送る。"
+          "status": "予定時刻",
+          "note": "14:00のチェックインまで休み、機内2泊明けの体調を優先する。"
         },
         {
           "id": "final-d1226-07",
-          "time": "14:30",
-          "end": "16:00",
-          "timeText": "14:30–16:00",
+          "time": "14:00",
+          "end": "14:30",
+          "timeText": "14:00–14:30",
           "zone": "スペイン時間",
-          "title": "カサ・ミラ（ラ・ペドレラ）",
-          "kind": "attraction",
-          "confidence": "needs_information",
-          "status": "発売・予約後に確定",
-          "note": "2026入場枠未公表。14:30前後の枠を発売後に確定。"
-        },
-        {
-          "id": "final-d1226-08",
-          "time": "16:30",
-          "end": "17:45",
-          "timeText": "16:30–17:45",
-          "zone": "スペイン時間",
-          "title": "カサ・バトリョ",
-          "kind": "attraction",
-          "confidence": "needs_information",
-          "status": "当日調整",
-          "note": "到着90分遅延、疲労、前施設遅延時の第一削減。"
-        },
-        {
-          "id": "final-d1226-09",
-          "time": "18:00",
-          "end": "18:30",
-          "timeText": "18:00–18:30",
-          "zone": "スペイン時間",
-          "title": "abba Rambla Hotelへチェックイン・客室で荷物整理",
+          "title": "チェックイン・荷物整理",
           "kind": "hotel",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "14:00以降に入室。夕食前に15〜30分で荷物を整える。"
+          "note": ""
+        },
+        {
+          "id": "final-d1226-08",
+          "time": "14:30",
+          "end": "14:55",
+          "timeText": "14:30–14:55",
+          "zone": "スペイン時間",
+          "title": "ホテル → Liceu（L3）→ Paral·lel",
+          "kind": "transfer",
+          "confidence": "needs_information",
+          "status": "予定時刻",
+          "note": ""
+        },
+        {
+          "id": "final-d1226-09",
+          "time": "14:55",
+          "end": "15:10",
+          "timeText": "14:55–15:10",
+          "zone": "スペイン時間",
+          "title": "Funicular de Montjuïc",
+          "kind": "transfer",
+          "confidence": "confirmed",
+          "status": "確認済み",
+          "note": "TMBのメトロ運賃に含まれ、別料金不要。"
         },
         {
           "id": "final-d1226-10",
-          "time": "18:30",
-          "end": "19:30",
-          "timeText": "18:30–19:30",
+          "time": "15:15",
+          "end": "15:35",
+          "timeText": "15:15–15:35",
           "zone": "スペイン時間",
-          "title": "Seventeen Restaurantで軽い夕食",
+          "title": "Telefèric de Montjuïc（Parc de Montjuïc → Castell）",
+          "kind": "transfer",
+          "confidence": "needs_information",
+          "status": "予定時刻",
+          "note": "Telefèric del Portは使わない。Torre Jaume I閉鎖中でコロンブス記念塔側から乗れない。"
+        },
+        {
+          "id": "final-d1226-11",
+          "time": "15:40",
+          "end": "17:00",
+          "timeText": "15:40–17:00",
+          "zone": "スペイン時間",
+          "title": "Castell de Montjuïc",
+          "kind": "attraction",
+          "confidence": "needs_information",
+          "status": "予定時刻",
+          "note": "冬季10:00–18:00、券売17:30まで。日没は17:30ごろ。"
+        },
+        {
+          "id": "final-d1226-12",
+          "time": "17:00",
+          "end": "17:45",
+          "timeText": "17:00–17:45",
+          "zone": "スペイン時間",
+          "title": "ロープウェイとケーブルカーで下山",
+          "kind": "transfer",
+          "confidence": "needs_information",
+          "status": "予定時刻",
+          "note": ""
+        },
+        {
+          "id": "final-d1226-13",
+          "time": "17:50",
+          "end": "18:20",
+          "timeText": "17:50–18:20",
+          "zone": "スペイン時間",
+          "title": "コロンブス記念塔・ランブラス",
+          "kind": "attraction",
+          "confidence": "needs_information",
+          "status": "予定時刻",
+          "note": "ホテルへ戻る道すがら。Barcelona大聖堂はこの夕方に外観を見る扱い。"
+        },
+        {
+          "id": "final-d1226-14",
+          "time": "19:30",
+          "end": "21:00",
+          "timeText": "19:30–21:00",
+          "zone": "スペイン時間",
+          "title": "Sant Esteveのカネロネス",
           "kind": "meal",
           "confidence": "needs_information",
           "status": "当日調整",
-          "note": "到着後に当日枠を確認。入れなければPasseig de Gràcia周辺で営業中の店から、軽い主菜を3人で分けられ、合計€70–100に収まる店を選ぶ。"
+          "note": "12/26はCatalunyaの家庭がカネロネスを食べる日。家族客で埋まるか休業する日でもあるため、当日探さず12/1までに予約する。"
         }
       ]
     },
@@ -232,11 +280,11 @@ window.UXFinalPlan = {
           "end": "12:30",
           "timeText": "09:30–12:30",
           "zone": "スペイン時間",
-          "title": "選択A：Montserrat主要部／選択B：Gothic QuarterとBorn散策",
+          "title": "選択A：Montserrat主要部／選択B：サグラダ・ファミリア（日曜10:30–12:30）とグエル公園",
           "kind": "attraction",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "Montserratは良好な視界・体力・運行時のみ。市内案は外観と街歩きだけで成立し、Park GüellやPalau内部を必要としない。"
+          "note": "選択AではEscolania（少年聖歌隊）が日祝の12:00と18:45に歌う。日曜12:00は日帰りで聞ける唯一の機会だが、年末年始に休みへ入る可能性があるため旅行前に公式で確認する。選択Bのサグラダは11から2月の日曜は10:30開館で、10:00には入れない。"
         },
         {
           "id": "final-d1227-04",
@@ -244,11 +292,11 @@ window.UXFinalPlan = {
           "end": "14:15",
           "timeText": "13:00–14:15",
           "zone": "スペイン時間",
-          "title": "Can Culleretesで昼食",
+          "title": "選択A：山上のLa Cafeteriaまたは持参食／選択B：Gràcia地区のLa Pubilla",
           "kind": "meal",
           "confidence": "needs_information",
-          "status": "当日調整",
-          "note": "日曜市内案の第一候補。予約なしで入れなければBar del Pla、さらに満席ならSanta Caterina市場周辺の営業店を選ぶ。Montserrat時は山上のLa Cafeteriaまたは持参食。"
+          "status": "予定時刻",
+          "note": "選択Aは山上の営業状況を確認し、混雑時は持参食へ切り替える。選択BはLa Pubillaの日曜営業と空席を事前確認する。"
         },
         {
           "id": "final-d1227-05",
@@ -256,11 +304,11 @@ window.UXFinalPlan = {
           "end": "17:00",
           "timeText": "14:30–17:00",
           "zone": "スペイン時間",
-          "title": "選択A：Montserrat景観／選択B：Modernisme外観散歩",
+          "title": "選択A：Montserrat景観／選択B：カサ・ミラとカサ・バトリョ（外観のみ）",
           "kind": "attraction",
           "confidence": "needs_information",
           "status": "当日調整",
-          "note": "Morenetaとfunicularは同日利用できる場合だけ追加。市内案はPasseig de Gràciaの外観を楽しみ、任意の当日券があればPark GüellまたはPalauを追加できる。"
+          "note": "選択Aは風と帰路を見ながら歩ける範囲だけ楽しむ。選択BはPasseig de Gràciaで両建築の外観を見る。"
         },
         {
           "id": "final-d1227-06",
@@ -277,14 +325,14 @@ window.UXFinalPlan = {
         {
           "id": "final-d1227-07",
           "time": "20:00",
-          "end": "21:00",
-          "timeText": "20:00–21:00",
+          "end": "21:30",
+          "timeText": "20:00–21:30",
           "zone": "スペイン時間",
-          "title": "Raval周辺で軽い夕食",
+          "title": "フィデウアまたは魚介の米料理（Barceloneta方面）",
           "kind": "meal",
           "confidence": "needs_information",
           "status": "当日調整",
-          "note": "ホテルから徒歩10分以内で当日営業を確認し、地中海料理の軽い主菜2皿、スープ1皿、パンと飲み物を3人で分ける。予算は3人€70–105。満席なら同条件の営業店、疲れていれば持帰りへ切り替える。"
+          "note": "Can Soléを第一候補とする。日曜夜の営業は未確認。満席・休業ならBarceloneta周辺で魚介の米料理を出す営業店へ切り替える。"
         }
       ]
     },
@@ -303,7 +351,7 @@ window.UXFinalPlan = {
           "kind": "rest",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "月曜が最も明瞭なシナリオだけMontserratへ。Tarragonaは月曜休館のため置かない。"
+          "note": "月曜が最も明瞭なシナリオだけMontserratへ。Tarragonaは祝日を除く月曜にMHT全館休館のため置かない（Tarragona市公式：https://www.tarragona.cat/patrimoni/museu-historia/visites/horaris）。"
         },
         {
           "id": "final-d1228-02",
@@ -319,42 +367,66 @@ window.UXFinalPlan = {
         },
         {
           "id": "final-d1228-03",
-          "time": "09:30",
-          "end": "12:30",
-          "timeText": "09:30–12:30",
+          "time": "09:00",
+          "end": "11:00",
+          "timeText": "09:00–11:00",
           "zone": "スペイン時間",
-          "title": "選択A：Montserrat主要部／選択B：Gothic QuarterとBorn散策",
+          "title": "選択A：Montserrat主要部／選択B：サグラダ・ファミリア",
           "kind": "attraction",
           "confidence": "needs_information",
-          "status": "予定時刻",
-          "note": "市内案は大聖堂外観、Plaça del Rei、Bornの路地を歩く。内部予約なしで楽しめる。"
+          "status": "発売・予約後に確定",
+          "note": "サグラダは11から2月の平日は9:00開館。発売後に入場枠を確保する。"
         },
         {
           "id": "final-d1228-04",
-          "time": "13:00",
-          "end": "14:00",
-          "timeText": "13:00–14:00",
+          "time": "11:15",
+          "end": "13:00",
+          "timeText": "11:15–13:00",
           "zone": "スペイン時間",
-          "title": "Santa Caterina市場周辺で昼食",
-          "kind": "meal",
+          "title": "選択A：Montserrat美術館／選択B：グエル公園",
+          "kind": "attraction",
           "confidence": "needs_information",
-          "status": "当日調整",
-          "note": "Cuines Santa Caterinaを当日確認し、満席なら市場内で魚・野菜・パンを3人分選ぶ。Montserrat時はLa Cafeteriaまたは持参食。"
+          "status": "予定時刻",
+          "note": "グエル公園は冬季9:30〜17:30。運行表示と予約時刻を確認して向かう。"
         },
         {
           "id": "final-d1228-05",
-          "time": "14:30",
-          "end": "17:00",
-          "timeText": "14:30–17:00",
+          "time": "13:15",
+          "end": "14:45",
+          "timeText": "13:15–14:45",
           "zone": "スペイン時間",
-          "title": "選択A：Montserrat景観／選択B：Modernisme外観散歩",
-          "kind": "attraction",
+          "title": "選択A：山上のLa Cafeteriaまたは持参食／選択B：Gràcia地区のLa Pubilla",
+          "kind": "meal",
           "confidence": "needs_information",
-          "status": "当日調整",
-          "note": "市内案はPalau外観、Passeig de Gràcia、Casa Amatller外観。Park GüellまたはPalau内部は当日空きがある場合だけ任意追加。"
+          "status": "予定時刻",
+          "note": "選択Aは山上の営業状況を確認し、混雑時は持参食へ切り替える。選択Bは13:15の3名席を予約する。"
         },
         {
           "id": "final-d1228-06",
+          "time": "15:00",
+          "end": "16:00",
+          "timeText": "15:00–16:00",
+          "zone": "スペイン時間",
+          "title": "選択A：Montserrat景観／選択B：カサ・ミラ（屋上と屋根裏）",
+          "kind": "attraction",
+          "confidence": "needs_information",
+          "status": "当日調整",
+          "note": "疲労時の削減順はカサ・ミラ、次にグエル公園。屋上の煙突群と屋根裏のカテナリー・アーチは代替不能で、サグラダとグエル公園の理解に直結する。片方だけ入るならカサ・ミラ。"
+        },
+        {
+          "id": "final-d1228-07",
+          "time": "16:15",
+          "end": "16:35",
+          "timeText": "16:15–16:35",
+          "zone": "スペイン時間",
+          "title": "選択B：カサ・バトリョ（向かいから外観のみ）",
+          "kind": "attraction",
+          "confidence": "needs_information",
+          "status": "予定時刻",
+          "note": "内部には入らない。ファサード・バルコニー・屋根は通りから無料で見え、内部は近年の没入型演出の比重が高い。"
+        },
+        {
+          "id": "final-d1228-08",
           "time": "17:00",
           "end": "19:00",
           "timeText": "17:00–19:00",
@@ -362,20 +434,20 @@ window.UXFinalPlan = {
           "title": "ホテル休憩",
           "kind": "rest",
           "confidence": "needs_information",
-          "status": "予定時刻",
-          "note": ""
+          "status": "当日調整",
+          "note": "翌朝08:15発のTarragonaに備えるため、疲労時もこの休憩は最後まで守る。"
         },
         {
-          "id": "final-d1228-07",
-          "time": "19:00",
-          "end": "20:00",
-          "timeText": "19:00–20:00",
+          "id": "final-d1228-09",
+          "time": "19:30",
+          "end": "21:00",
+          "timeText": "19:30–21:00",
           "zone": "スペイン時間",
-          "title": "El Xampanyetで魚介の小皿とcava",
+          "title": "Barcelona市内で夕食",
           "kind": "meal",
           "confidence": "needs_information",
           "status": "当日調整",
-          "note": "予約不可。20分以上待つ場合はBar Joan、さらに難しければRaval周辺で当日営業を確認できる持帰り店へ。"
+          "note": "ホテル徒歩圏で当日営業を確認し、3人分の注文と代替候補を決める。"
         }
       ]
     },
@@ -450,11 +522,11 @@ window.UXFinalPlan = {
           "end": "14:45",
           "timeText": "13:15–14:45",
           "zone": "スペイン時間",
-          "title": "El Llagutでromescoと魚介の昼食",
+          "title": "カルソッツとロメスコの昼食",
           "kind": "meal",
           "confidence": "needs_information",
           "status": "当日調整",
-          "note": "Part AltaのEl Llagutを第一候補。満席・休業なら徒歩10分以内で「romescoまたは魚介の米料理があり15:00までに着席できる店」を選び、見つからなければMercat Centralで軽食。"
+          "note": "カルソッツのシーズンは11月から4月で、本場のVallsはタラゴナ県。冬のこの時期にタラゴナで食べる意味がある。焼いた青ネギをロメスコソースで食べる。扱う店は季節営業のため、旅行前に営業を確認する。満席・休業ならPart AltaのEl Llagut（romescoと魚介）へ切り替える。"
         },
         {
           "id": "final-d1229-07",
@@ -483,10 +555,10 @@ window.UXFinalPlan = {
         {
           "id": "final-d1229-09",
           "time": "18:30",
-          "end": "20:00",
-          "timeText": "18:30–20:00",
+          "end": "19:30",
+          "timeText": "18:30–19:30",
           "zone": "スペイン時間",
-          "title": "ホテル休憩",
+          "title": "ホテルへ戻る・休憩・着替え",
           "kind": "rest",
           "confidence": "needs_information",
           "status": "予定時刻",
@@ -494,15 +566,39 @@ window.UXFinalPlan = {
         },
         {
           "id": "final-d1229-10",
-          "time": "20:00",
-          "end": "21:30",
-          "timeText": "20:00–21:30",
+          "time": "19:45",
+          "end": "21:00",
+          "timeText": "19:45–21:00",
           "zone": "スペイン時間",
-          "title": "Can Soléで魚介の米料理・fideuà",
+          "title": "Tablao Cordobésでディナー",
           "kind": "meal",
           "confidence": "needs_information",
+          "status": "予定時刻",
+          "note": "La Rambla 35。宿泊ホテル（La Rambla 45）から徒歩1〜2分で、タラゴナから戻ってから移動が要らない。ディナー中はビール・ワイン・サングリア・ソフトドリンクが飲み放題。ビーガン・ベジタリアン・ハラル・グルテンフリーに対応。ディナーの開始時刻は公演の約1時間半前が目安で、予約時に確定する。"
+        },
+        {
+          "id": "final-d1229-11",
+          "time": "21:00",
+          "end": "22:10",
+          "timeText": "21:00–22:10",
+          "zone": "スペイン時間",
+          "title": "フラメンコ・ショー（Tablao Cordobés）",
+          "kind": "event",
+          "confidence": "needs_information",
           "status": "当日調整",
-          "note": "当日空きがあれば利用。満席なら7 Portes、疲れていればRaval周辺で当日営業を確認できる持帰り店へ。"
+          "note": "1970年創業で2025年の「世界最高のタブラオ」。公演は60〜70分。21:00の回を取る。理由: 17:00にタラゴナを出て18:30に戻る行程に対し、19:15の回では余裕がなく、22:30の回では翌朝が遅れる。12/1までに予約する。年末は席が埋まりやすい。満席・休業ならPalau Dalmases（Born・12世紀の邸宅・€30〜）またはLos Tarantos（Plaça Reial・1963年創業・40分・€25〜）へ切り替える。"
+        },
+        {
+          "id": "final-d1229-12",
+          "time": "22:10",
+          "end": "22:20",
+          "timeText": "22:10–22:20",
+          "zone": "スペイン時間",
+          "title": "徒歩でホテルへ戻る",
+          "kind": "transfer",
+          "confidence": "needs_information",
+          "status": "予定時刻",
+          "note": "Tablao Cordobésから宿泊ホテルへ徒歩1〜2分で戻る。"
         }
       ]
     },
@@ -525,123 +621,123 @@ window.UXFinalPlan = {
         },
         {
           "id": "final-d1230-02",
-          "time": "08:15",
-          "end": "08:45",
-          "timeText": "08:15–08:45",
+          "time": "08:30",
+          "end": "09:40",
+          "timeText": "08:30–09:40",
           "zone": "スペイン時間",
-          "title": "Sagrada周辺へ移動",
-          "kind": "transfer",
-          "confidence": "needs_information",
-          "status": "予定時刻",
-          "note": "abba Rambla Hotel → Liceu（L3）→ Passeig de Gràcia → L2乗換 → Sagrada Família。約20–25分。タクシーなら約15分。"
+          "title": "ブケリア市場",
+          "kind": "attraction",
+          "confidence": "confirmed",
+          "status": "確認済み",
+          "note": "水曜8:00–20:30。日曜休なのでこの日しかない。ターロンを買う。遅れたら切り上げて先へ進む。"
         },
         {
           "id": "final-d1230-03",
-          "time": "09:00",
-          "end": "10:45",
-          "timeText": "09:00–10:45",
+          "time": "09:50",
+          "end": "11:10",
+          "timeText": "09:50–11:10",
           "zone": "スペイン時間",
-          "title": "サグラダ・ファミリア",
+          "title": "グエル邸",
           "kind": "attraction",
           "confidence": "needs_information",
-          "status": "発売・予約後に確定",
-          "note": "オンライン日時指定券を発売後に購入。塔や追加体験は必須にしない。"
+          "status": "予定時刻",
+          "note": "水曜10:00開館、ホテルから徒歩2分、€12、券売16:30まで。この日の削り代はグエル邸。"
         },
         {
           "id": "final-d1230-04",
-          "time": "10:45",
-          "end": "11:15",
-          "timeText": "10:45–11:15",
+          "time": "11:20",
+          "end": "11:40",
+          "timeText": "11:20–11:40",
           "zone": "スペイン時間",
-          "title": "ホテルへ戻る",
-          "kind": "transfer",
-          "confidence": "needs_information",
-          "status": "予定時刻",
-          "note": "往路と同じMetro経路を逆にたどる。"
-        },
-        {
-          "id": "final-d1230-05",
-          "time": "11:15",
-          "end": "11:35",
-          "timeText": "11:15–11:35",
-          "zone": "スペイン時間",
-          "title": "チェックアウト・荷物回収",
+          "title": "ホテルへ戻る・チェックアウト",
           "kind": "hotel",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "12:00の期限内にチェックアウトし、3人と荷物が揃ってから昼食へ。"
+          "note": "期限12:00。"
         },
         {
-          "id": "final-d1230-06",
-          "time": "11:35",
-          "end": "12:10",
-          "timeText": "11:35–12:10",
+          "id": "final-d1230-05",
+          "time": "12:00",
+          "end": "12:50",
+          "timeText": "12:00–12:50",
           "zone": "スペイン時間",
-          "title": "ホテル周辺またはSants駅で軽い昼食",
+          "title": "ホテル周辺で軽い昼食",
           "kind": "meal",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "3人分のbocadilloまたは軽食と水を€25–45で買える営業店を選ぶ。ホテル周辺で決まらなければSants駅のEnrique Tomásを第一候補にし、混雑時は駅構内の持帰り店へ切り替える。列車の余裕を優先する。"
+          "note": "列車の余裕を優先する。"
         },
         {
-          "id": "final-d1230-07",
-          "time": "12:10",
-          "end": "12:40",
-          "timeText": "12:10–12:40",
+          "id": "final-d1230-06",
+          "time": "13:00",
+          "end": "13:15",
+          "timeText": "13:00–13:15",
           "zone": "スペイン時間",
-          "title": "Barcelona Santsへ移動",
+          "title": "タクシーでBarcelona Santsへ",
           "kind": "transfer",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "abba Rambla Hotelから荷物ごとタクシーで約10–15分（約3km）。"
+          "note": "約3.5km。"
         },
         {
-          "id": "final-d1230-08",
-          "time": "12:40",
-          "end": "14:50",
-          "timeText": "12:40–14:50",
+          "id": "final-d1230-07",
+          "time": "13:15",
+          "end": "14:30",
+          "timeText": "13:15–14:30",
           "zone": "スペイン時間",
           "title": "駅到着の余裕・乗車準備",
           "kind": "rest",
           "confidence": "needs_information",
           "status": "発売・予約後に確定",
-          "note": "発車90分前を下回らない。14:50は仮計画で発売後に確定する。"
+          "note": "発売後に実便へ合わせる。"
         },
         {
-          "id": "final-d1230-09",
+          "id": "final-d1230-08",
           "time": "14:30",
-          "end": "18:00",
-          "timeText": "14:30–18:00",
+          "end": "17:30",
+          "timeText": "14:30–17:30",
           "zone": "スペイン時間",
           "title": "Barcelona Sants → Madrid Atocha（高速鉄道・計画窓）",
           "kind": "transfer",
           "confidence": "needs_information",
           "status": "発売・予約後に確定",
-          "note": "14:30前後発・18:00前後着の目標窓。年末ダイヤ発売後に実在便と座席へ置き換え、発車90分前のSants到着は守る。"
+          "note": "14:30〜15:30発から所要約3時間以内の便を選ぶ。発売後に実在便と座席へ置き換える。"
         },
         {
-          "id": "final-d1230-10",
-          "time": "18:15",
-          "end": "19:00",
-          "timeText": "18:15–19:00",
+          "id": "final-d1230-09",
+          "time": "17:45",
+          "end": "18:15",
+          "timeText": "17:45–18:15",
           "zone": "スペイン時間",
           "title": "Room Mate Marioへ移動・チェックイン",
           "kind": "hotel",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "Atocha公式タクシー乗り場から約10–15分。チェックイン15:00から、受付終了24:00。時間外チェックインは不可。"
+          "note": "Atocha公式タクシー乗り場から約10–15分。18:30の美術館入場を守れる便だけ採用する。"
+        },
+        {
+          "id": "final-d1230-10",
+          "time": "18:30",
+          "end": "20:30",
+          "timeText": "18:30–20:30",
+          "zone": "スペイン時間",
+          "title": "ソフィア王妃芸術センター",
+          "kind": "attraction",
+          "confidence": "needs_information",
+          "status": "予定時刻",
+          "note": "水曜は21:00まで。ゲルニカが主役。1/3は14:30閉館、12/31と1/1は休館、火曜も休館のため、12/30夜が唯一ゆとりのある枠。"
         },
         {
           "id": "final-d1230-11",
-          "time": "20:00",
-          "end": "21:30",
-          "timeText": "20:00–21:30",
+          "time": "21:00",
+          "end": "22:15",
+          "timeText": "21:00–22:15",
           "zone": "スペイン時間",
-          "title": "Casa Alberto restaurantでMadrid料理の夕食",
+          "title": "Casa Ciriacoで夕食",
           "kind": "meal",
           "confidence": "needs_information",
-          "status": "予定時刻",
-          "note": "Campomanes 4から徒歩約12分。restaurantの20:00枠と年末営業を2026/12/01までに直接確認し、取れなければAtochaで持帰りを購入する。"
+          "status": "当日調整",
+          "note": "Calle Mayor 84。Room Mate Marioから徒歩約10分。ソフィア王妃を20:30に出てからタクシーまたはMetro（Atocha→Ópera）で向かい、21:00着。12/1までに3名を予約する。満席ならÓpera Victoria、またはÓpera周辺で当日営業の店へ切り替える。"
         }
       ]
     },
@@ -665,68 +761,68 @@ window.UXFinalPlan = {
         {
           "id": "final-d1231-02",
           "time": "10:00",
-          "end": "12:00",
-          "timeText": "10:00–12:00",
+          "end": "11:40",
+          "timeText": "10:00–11:40",
           "zone": "スペイン時間",
           "title": "プラド美術館",
           "kind": "attraction",
-          "confidence": "needs_information",
-          "status": "予定時刻",
-          "note": "12/31短縮営業の2026公表後に枠確定。"
+          "confidence": "confirmed",
+          "status": "確認済み",
+          "note": "12/31は10:00–14:00の短縮。"
         },
         {
           "id": "final-d1231-03",
-          "time": "12:15",
-          "end": "12:35",
-          "timeText": "12:15–12:35",
+          "time": "11:50",
+          "end": "12:10",
+          "timeText": "11:50–12:10",
           "zone": "スペイン時間",
-          "title": "シベレス広場",
-          "kind": "attraction",
+          "title": "プラドから王宮へ移動",
+          "kind": "transfer",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": ""
+          "note": "徒歩25分、またはBanco de España L2→Óperaで約15分。"
         },
         {
           "id": "final-d1231-04",
-          "time": "12:45",
-          "end": "13:05",
-          "timeText": "12:45–13:05",
+          "time": "12:15",
+          "end": "14:00",
+          "timeText": "12:15–14:00",
           "zone": "スペイン時間",
-          "title": "アルカラ門",
+          "title": "マドリード王宮（内部）",
           "kind": "attraction",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": ""
+          "note": "12/31は10:00–15:00、最終入場は閉館1時間前。1/1は休館。内部に入れるのはこの日だけ。"
         },
         {
           "id": "final-d1231-05",
-          "time": "13:30",
-          "end": "14:30",
-          "timeText": "13:30–14:30",
+          "time": "14:15",
+          "end": "15:30",
+          "timeText": "14:15–15:30",
           "zone": "スペイン時間",
           "title": "Bodega de los Secretosで昼食",
           "kind": "meal",
           "confidence": "needs_information",
-          "status": "原本確認後に確定",
-          "note": "公式通常ランチは13:30開始。12/31は夜休業のため昼に利用し、旅行日の特別営業は直前再確認。"
+          "status": "予定時刻",
+          "note": "王宮（Calle de Bailén）から徒歩約20分、またはタクシー。年末営業を12/1までに確認する。"
         },
         {
           "id": "final-d1231-06",
-          "time": "14:45",
+          "time": "15:30",
           "end": "16:00",
-          "timeText": "14:45–16:00",
+          "timeText": "15:30–16:00",
           "zone": "スペイン時間",
-          "title": "エル・レティーロ公園",
-          "kind": "attraction",
+          "title": "夕食・水・年越し用ぶどう12粒を買う",
+          "kind": "shopping",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": ""
+          "note": "夕方はSan Silvestre Vallecana（10kmロードレース）による通行規制に注意。"
         },
         {
           "id": "final-d1231-07",
-          "time": "16:30",
-          "end": "18:15",
-          "timeText": "16:30–18:15",
+          "time": "16:00",
+          "end": "18:00",
+          "timeText": "16:00–18:00",
           "zone": "スペイン時間",
           "title": "ホテル休憩・防寒準備",
           "kind": "rest",
@@ -1046,14 +1142,14 @@ window.UXFinalPlan = {
         {
           "id": "final-d0103-02",
           "time": "10:00",
-          "end": "12:00",
-          "timeText": "10:00–12:00",
+          "end": "11:30",
+          "timeText": "10:00–11:30",
           "zone": "スペイン時間",
-          "title": "ソフィア王妃芸術センター（ゲルニカ／ダリ）",
+          "title": "San Miguel市場・Cava de San Miguel通り",
           "kind": "attraction",
           "confidence": "needs_information",
-          "status": "発売・予約後に確定",
-          "note": "Campomanes 4から徒歩約25分、またはMetro（Ópera L2 → Sol → L1 Atocha）。日曜営業時間・Guernica展示状況・入場枠を再確認。"
+          "status": "予定時刻",
+          "note": "年始に店頭へ並ぶロスコン・デ・レジェスも買い物候補にする。"
         },
         {
           "id": "final-d0103-03",
@@ -1136,8 +1232,8 @@ window.UXFinalPlan = {
           "title": "B&B HOTEL Barcelona Viladecansへ移動・チェックイン",
           "kind": "hotel",
           "confidence": "needs_information",
-          "status": "当日調整",
-          "note": "Barcelona Sants → Rodalies R2 SudでViladecansへ約16分・日中約15分間隔。駅からホテルはほぼ正面〜徒歩約7分。荷物3人分があり、雨・遅延・疲労時はSantsからタクシー約20–25分へ切り替える。チェックイン受付は24:00まで。列車が大幅に遅れた場合はタクシーへ切り替える。"
+          "status": "予定時刻",
+          "note": "Barcelona Santsからタクシー約20–25分を第一手段にする。R2 Sud約16分は第二手段。日曜夜の運行間隔が公表資料で確認できず、3人分の荷物と乗換階段があるため。受付は24:00まで。"
         }
       ]
     },

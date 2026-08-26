@@ -70,18 +70,18 @@
   const hotelStays = [
     {
       id: "barcelona-front", stay: "Barcelona前半", dates: "2026/12/26–12/30", nights: 4,
-      status: "予約済み", recommendation: "abba Rambla Hotel", bookingRef: "73527607178426", bookedAt: "2026-08-22", bookedBy: "家族が予約",
-      checkIn: "12/26（土）14:00", checkOut: "12/30（水）12:00", checkInDeadline: null,
-      address: "C/ Rambla del Raval 4C, 08001 Barcelona", phone: "+34 93 505 54 00",
+      status: "予約済み", recommendation: "Oriente Atiram Hotel Barcelona", bookingRef: "73528306312892", bookedAt: "2026-08-23", bookedBy: "家族が予約",
+      checkIn: "12/26（土）14:00", checkOut: "12/30（水）12:00", checkInDeadline: "24:00（到着が0時を過ぎる場合は事前に施設へ連絡）",
+      address: "La Rambla 45, 08002 Barcelona", phone: null,
       room: "トリプルルーム 1室・大人3名・禁煙", layout: "トリプルルーム（ベッド構成は予約確認書に記載なし）", size: "未確認",
       breakfast: "ビュッフェ朝食込み・提供時間は未確認", reception: "24時間",
-      amount: { currency: "EUR", total: 1025.71, taxAtProperty: 92.40 },
-      payment: { state: "payAtProperty", paidAmount: 0, paidCurrency: "EUR", dueAtProperty: 1025.71, dueCurrency: "EUR", method: "現地で支払方法を確認" },
-      freeCancelUntil: "2026/12/25 23:59（施設現地時間）", cancelPenalty: "期限後は1泊目相当の手数料",
-      locationNote: "Liceu駅（Metro L3）が徒歩圏。Sants駅までは約3kmで、荷物がある移動はタクシーを優先する。",
-      caution: "朝食開始時刻とベッド構成は未確認。現地払いの方法と支払時点も出発前に確認する。",
-      officialUrl: "https://www.abbahoteles.com/en/destinations/abba-rambla-hotel/hotel.html",
-      mapUrl: "https://www.google.com/maps/search/?api=1&query=abba+Rambla+Hotel", factsCheckedAt: "2026-08-23"
+      amount: { currency: "JPY", total: 209379, taxAtProperty: 17152 },
+      payment: { state: "partial", paidAmount: 192227, paidCurrency: "JPY", dueAtProperty: 17152, dueCurrency: "JPY", method: "MasterCard 下4桁8334" },
+      freeCancelUntil: "2026/12/25 14:00（施設現地時間）", cancelPenalty: "期限後は1泊目相当の手数料",
+      locationNote: "Liceu駅（Metro L3）がホテル正面。L3はSants Estacióまで乗換なしで直通。Sants駅までは約3.5kmで、荷物がある移動はタクシーを優先する。",
+      caution: "予約確認書に「事前に施設へ連絡してチェックイン手順を確認する」と明記されている。チェックイン最低年齢16歳。朝食開始時刻とベッド構成は未確認。地方税17,152円は施設で支払う。",
+      officialUrl: "https://www.atiramhotels.com/en/hotels/hotel-oriente-atiram",
+      mapUrl: "https://www.google.com/maps/search/?api=1&query=Oriente+Atiram+Hotel+Barcelona+La+Rambla+45", factsCheckedAt: "2026-08-26"
     },
     {
       id: "madrid", stay: "Madrid", dates: "2026/12/30–2027/1/3", nights: 4,
@@ -101,18 +101,45 @@
     {
       id: "barcelona-final", stay: "Barcelona最終泊", dates: "2027/1/3–1/4", nights: 1,
       status: "予約済み", recommendation: "B&B HOTEL Barcelona Viladecans", bookingRef: "73527615564619", bookedAt: "2026-08-22", bookedBy: "家族が予約",
-      checkIn: "1/3（日）14:00", checkOut: "1/4（月）12:00", checkInDeadline: "24:00（時間外チェックイン不可）",
+      checkIn: "1/3（日）14:00", checkOut: "1/4（月）12:00", checkInDeadline: "24:00（受付終了。それ以降の到着は事前に施設へ連絡）",
       address: "Av. Olof Palme 24, 08840 Viladecans", phone: null,
       room: "トリプルルーム 1室・大人3名・禁煙", layout: "ベッド構成は予約確認書に記載なし", size: "未確認",
       breakfast: "コンチネンタルブレックファスト込み・06:00–10:00", reception: "24時間・24時間カフェ（コーヒー・紅茶無料）",
       amount: { currency: "JPY", total: 24890, taxAtProperty: 551 },
       payment: { state: "partial", paidAmount: 24339, paidCurrency: "JPY", dueAtProperty: 551, dueCurrency: "JPY", method: "MasterCard 下4桁8334" },
       freeCancelUntil: "2027/1/2 18:00（施設現地時間）", cancelPenalty: "期限後は支払総額100%",
-      locationNote: "Viladecans駅からほぼ正面〜徒歩約7分。SantsからR2 Sudで約16分、空港へはタクシー約10分。",
-      caution: "ベッド構成は未確認。到着が遅れる場合は24:00の受付終了を守ってタクシーへ切り替える。",
+      locationNote: "Viladecans駅からほぼ正面〜徒歩約7分。1/3夜はBarcelona Santsからタクシー約20〜25分を第一手段にし、R2 Sud約16分は第二手段とする。空港へはタクシー約10分。",
+      caution: "ベッド構成は未確認。日曜夜のR2 Sud運行間隔が公表資料で確認できず、3人分の荷物と乗換階段があるため、Santsからタクシーを第一手段にする。24:00の受付終了を守る。",
       officialUrl: "https://www.hotel-bb.com/en/hotel/barcelona-viladecans",
       mapUrl: "https://www.google.com/maps/search/?api=1&query=B%26B+HOTEL+Barcelona+Viladecans", factsCheckedAt: "2026-08-23"
     }
+  ];
+  const railBookings = [
+    {
+      id: "tarragona-return", route: "2026-12-29(火) Barcelona Sants ⇄ Tarragona", timeWindow: "往路08:15前後発／復路17:00前後発", duration: "片道 約1時間15分", stations: "Barcelona Sants ⇄ Tarragona市内駅（Camp de Tarragonaは使わない）", operators: "Renfe（Regional / Media Distancia）", passengers: "大人3名", luggage: "運行会社で異なる。購入会社決定後に確定（iryoは80×55×35cmの記載あり）", status: "年末年始ダイヤ未発売", constraint: "Camp de Tarragonaは市街から離れ、バス連絡が必要なためTarragona市内駅を使う。"
+    },
+    {
+      id: "barcelona-madrid", route: "2026-12-30(水) Barcelona Sants → Madrid Puerta de Atocha", timeWindow: "14:30〜15:30発", duration: "約2時間45分〜3時間", stations: "Barcelona Sants → Madrid Puerta de Atocha", operators: "Renfe AVE / iryo / Ouigo", passengers: "大人3名", luggage: "運行会社で異なる。購入会社決定後に確定（iryoは80×55×35cmの記載あり）", status: "未発売", constraint: "チェックアウト12:00。Sants到着は発車60分前を下回らない。"
+    },
+    {
+      id: "madrid-day-trip", route: "2027-01-02(土) Madrid Puerta de Atocha ⇄ Córdoba（往復）", timeWindow: "往路07:30前後発／復路17:15前後発", duration: "片道 約1時間45分〜2時間", stations: "Madrid Puerta de Atocha ⇄ Córdoba", operators: "Renfe AVE / iryo", passengers: "大人3名", luggage: "運行会社で異なる。購入会社決定後に確定（iryoは80×55×35cmの記載あり）", status: "未発売", constraint: "Córdoba が休業・運休・満席で成立しない場合だけ Toledo（Avant・片道約33分）へ切り替える。Toledo は代替であり第一候補ではない。Granada は今回行かない。"
+    },
+    {
+      id: "madrid-barcelona", route: "2027-01-03(日) Madrid Puerta de Atocha → Barcelona Sants", timeWindow: "16:30〜17:00発", duration: "約2時間45分〜3時間", stations: "Madrid Puerta de Atocha → Barcelona Sants", operators: "Renfe AVE / iryo / Ouigo", passengers: "大人3名", luggage: "運行会社で異なる。購入会社決定後に確定（iryoは80×55×35cmの記載あり）", status: "未発売", constraint: "到着後はB&B ViladecansまでRodalies R2 Sud約16分、またはタクシー約20〜25分。"
+    }
+  ].map((booking) => ({
+    ...booking,
+    releaseNote: "2026-08-25時点でRenfeは12/13より先の年末年始ダイヤを未発売。2026-10-01から週次で発売状況を確認する。",
+    purchaseSites: [
+      { label: "Renfe", href: "https://www.renfe.com/" },
+      { label: "iryo", href: "https://iryo.eu/" },
+      { label: "Ouigo", href: "https://www.ouigo.com/es/" }
+    ]
+  }));
+  const closureFacts = [
+    { place: "アルハンブラ宮殿（Granada）", fact: "年間の休館日は12/31と1/1の2日だけ。冬季（10/15〜3/31）は8:30〜18:00。", sourceLabel: "アルハンブラ宮殿公式｜営業時間・料金", sourceUrl: "https://www.alhambra-patronato.es/visitar/horarios-y-tarifas" },
+    { place: "タラゴナ歴史博物館 MHT", fact: "祝日を除く月曜は全館休館。冬季（10/27〜3/31）は火〜金9:00〜20:00、土9:30〜20:00、日祝9:30〜14:30。1/1・12/24〜26・12/31は休館。12/28は月曜のためTarragonaを置かない。", sourceLabel: "Tarragona市公式｜MHT営業時間", sourceUrl: "https://www.tarragona.cat/patrimoni/museu-historia/visites/horaris" },
+    { place: "サグラダ・ファミリア", fact: "11〜2月の日曜は10:30開館、平日は9:00開館。18:00閉館・最終入場17:00。12/27（日）は10:30より前に入れない。", sourceLabel: "サグラダ・ファミリア公式", sourceUrl: "https://sagradafamilia.org/en/tickets" }
   ];
   const hotelByDay = {
     d1226: hotelStays[0], d1227: hotelStays[0], d1228: hotelStays[0], d1229: hotelStays[0], d1230: hotelStays[1],
@@ -128,31 +155,31 @@
     d1225: [{ area: "成田空港T1中央ビル4F・保安検査前", primary: "京成友膳（KEISEI YUZEN）", dishes: ["魚または肉の和定食", "うどん", "水を確保"], booking: "予約不要", operation: "公式通常07:00–20:30 L.O.。17:00入店を優先", alternatives: ["同じ4Fのだし茶漬け えん", "保安検査後のTokyo Food Bar"] }],
     d1226: [
       { period: "朝昼", area: "Rambla de Catalunya 102・ホテルから徒歩約5分", primary: "Mauri Pastisseria", dishes: ["bocadillo", "甘くないペストリー", "café"], booking: "予約不要", operation: "土曜通常09:00から。到着遅延時はBCN T1で先に購入", alternatives: ["365 Obrador Còrsega 264", "Casa Milà近くの営業中カフェ"] },
-      { area: "Calle Balmes 117・Passeig de Gràcia周辺", primary: "Seventeen Restaurant", dishes: ["Catalunya・地中海料理", "tortillaまたは軽い主菜"], booking: "到着後に当日枠を確認", operation: "公式は料理を12:30–22:30提供。疲労時は早い時間に軽く食べる", alternatives: ["Passeig de Gràcia周辺の営業店", "Ravalへ戻る前に3人分を持帰り"] }
+      { area: "Oriente Atiram Hotelから徒歩圏", primary: "Sant Esteveのカネロネスを出す予約店", dishes: ["カネロネス3人分", "季節の前菜", "飲み物"], booking: "12/1までに3名で予約", operation: "12/26はSant Esteveで、Catalunyaの家庭がカネロネスを食べる日。同時に家族客で埋まるか休業する日でもあるため当日探さない", alternatives: ["予約時に紹介された近隣店", "事前に営業確認した持帰り店"] }
     ],
     d1227: [
-      { period: "朝", area: "abba Rambla Hotel館内", primary: "ホテルのビュッフェ朝食", dishes: ["ビュッフェの主食", "果物", "飲み物"], booking: "宿泊に含まれる", operation: "08:30出発。開始時刻は未確認のため、間に合わなければ早朝のコーヒー・紅茶と前夜の買い置きへ", alternatives: ["早朝のコーヒー・紅茶サービス", "前夜に用意した3人分の朝食"] },
+      { period: "朝", area: "Oriente Atiram Hotel館内", primary: "ホテルのビュッフェ朝食", dishes: ["ビュッフェの主食", "果物", "飲み物"], booking: "宿泊に含まれる", operation: "08:30出発。開始時刻は未確認のため、間に合わなければ早朝のコーヒー・紅茶と前夜の買い置きへ", alternatives: ["早朝のコーヒー・紅茶サービス", "前夜に用意した3人分の朝食"] },
       { area: "Ciutat Vella・旧市街", primary: "Can Culleretes（日曜の市内案）／Montserrat時はLa Cafeteria", dishes: ["escudella", "canelons", "crema catalana"], booking: "事前予約を前提にしない", operation: "市内案は当日空席確認。Montserrat時は山上の営業状況を確認", alternatives: ["Bar del Pla", "Santa Caterina市場周辺の営業店"] },
-      { area: "Raval・abba Rambla Hotelから徒歩10分以内", primary: "ホテル周辺で当日営業を確認して選ぶ", dishes: ["地中海料理の軽い主菜", "スープ", "パン"], booking: "当日営業と空席を確認", operation: "軽い主菜2皿、スープ1皿、パンと飲み物を3人で分け、€70–105に収める", alternatives: ["同条件の営業店", "持帰りを客室で食べる"] }
+      { area: "Barceloneta方面・Sant Carles 4", primary: "Can Solé", dishes: ["fideuà", "魚介の米料理", "季節の前菜"], booking: "日曜夜の営業を要確認", operation: "日曜夜の営業を確認できた場合だけ利用する", alternatives: ["7 Portes", "Barcelonetaで魚介の米料理を出す営業確認済み店"] }
     ],
     d1228: [
-      { period: "朝", area: "abba Rambla Hotel館内", primary: "ホテルのビュッフェ朝食", dishes: ["ビュッフェの主食", "果物", "飲み物"], booking: "宿泊に含まれる", operation: "開始時刻は未確認。出発に間に合わなければ早朝サービスと前夜の買い置きへ", alternatives: ["早朝のコーヒー・紅茶サービス", "前夜に用意した3人分の朝食"] },
+      { period: "朝", area: "Oriente Atiram Hotel館内", primary: "ホテルのビュッフェ朝食", dishes: ["ビュッフェの主食", "果物", "飲み物"], booking: "宿泊に含まれる", operation: "開始時刻は未確認。出発に間に合わなければ早朝サービスと前夜の買い置きへ", alternatives: ["早朝のコーヒー・紅茶サービス", "前夜に用意した3人分の朝食"] },
       { area: "Santa Caterina市場周辺", primary: "Cuines Santa Caterina／Montserrat時はLa Cafeteria", dishes: ["市場の魚料理", "季節野菜", "パン"], booking: "当日空席で利用", operation: "市内案は市場周辺で当日選択。Montserrat時は山上の営業状況を確認", alternatives: ["市場内で3人分を選ぶ", "Bar Joan"] },
       { area: "Montcada 22・El Born", primary: "El Xampanyet", dishes: ["anchoa", "conservas", "cava"], booking: "予約不可・並んで入る", operation: "公式は月曜19:00–23:00。19:00入店、20分超待ちなら撤退", alternatives: ["Bar Joanで軽食", "Raval周辺で当日営業を確認できる持帰り店"] }
     ],
     d1229: [
-      { period: "朝", area: "abba Rambla Hotel館内", primary: "ホテルのビュッフェ朝食", dishes: ["ビュッフェの主食", "果物", "飲み物"], booking: "宿泊に含まれる", operation: "開始時刻は未確認。列車に間に合わなければ早朝サービスと前夜の買い置きへ", alternatives: ["早朝のコーヒー・紅茶サービス", "前夜に用意した3人分の朝食"] },
-      { area: "Tarragona Part Alta", primary: "El Llagut（Montserrat選択時はLa Cafeteria）", dishes: ["romescoを使う魚介", "魚介の米料理", "季節の前菜"], booking: "当日空席で利用", operation: "15:00までに着席。Montserrat時は山上の営業状況を確認", alternatives: ["徒歩10分以内でromescoまたは魚介の米料理がある店", "Mercat Centralの軽食"] },
-      { area: "Sant Carles 4・Barceloneta", primary: "Can Solé（火曜20:00）", dishes: ["魚介の米料理", "fideuà"], booking: "20:00枠を予約", operation: "通常は火曜20:00–23:00。年末営業を再確認", alternatives: ["7 Portes", "Raval周辺で当日営業を確認できる持帰り店"] }
+      { period: "朝", area: "Oriente Atiram Hotel館内", primary: "ホテルのビュッフェ朝食", dishes: ["ビュッフェの主食", "果物", "飲み物"], booking: "宿泊に含まれる", operation: "開始時刻は未確認。列車に間に合わなければ早朝サービスと前夜の買い置きへ", alternatives: ["早朝のコーヒー・紅茶サービス", "前夜に用意した3人分の朝食"] },
+      { area: "Tarragona Part Alta", primary: "カルソッツとロメスコを出す店", dishes: ["calçots", "romesco", "肉料理または魚介"], booking: "12/29昼の提供を事前確認", operation: "カルソッツは11月〜4月が季節。本場VallsのあるTarragona県で冬に味わう", alternatives: ["El Llagut（romescoと魚介）", "徒歩10分以内でromescoを出す店"] },
+      { period: "夜", area: "La Rambla 35・Oriente Atiram Hotelから徒歩1〜2分", primary: "Tablao Cordobésのディナー付き21:00公演", dishes: ["ディナーメニュー3人分", "ビール・ワイン・サングリア・ソフトドリンク飲み放題", "ショー中のドリンク1杯"], booking: "2026/12/01までに3名で予約", operation: "ディナーは19:45開始を計画。開始時刻は公演の約1時間半前が目安で予約時に確定する。ビーガン・ベジタリアン・ハラル・グルテンフリーに対応", alternatives: ["Palau Dalmases（Born・12世紀の邸宅・€30〜）", "Los Tarantos（Plaça Reial・1963年創業・40分・€25〜）"], experience: "ホテルの隣でディナーと、2025年に世界最高のタブラオに選ばれた舞台を続けて楽しめます。", orderForThree: "ディナー付き21:00公演を3名分予約し、食事制限があれば予約時に伝えます。ディナー中の飲み放題とショー中のドリンク1杯が含まれます。" }
     ],
     d1230: [
-      { period: "朝", area: "abba Rambla Hotel館内", primary: "ホテルのビュッフェ朝食", dishes: ["ビュッフェの主食", "果物", "飲み物"], booking: "宿泊に含まれる", operation: "開始時刻は未確認。08:15出発に間に合わなければ早朝サービスと前夜の買い置きへ", alternatives: ["早朝のコーヒー・紅茶サービス", "前夜に用意した3人分の朝食"] },
+      { period: "朝", area: "Oriente Atiram Hotel館内", primary: "ホテルのビュッフェ朝食", dishes: ["ビュッフェの主食", "果物", "飲み物"], booking: "宿泊に含まれる", operation: "開始時刻は未確認。08:15出発に間に合わなければ早朝サービスと前夜の買い置きへ", alternatives: ["早朝のコーヒー・紅茶サービス", "前夜に用意した3人分の朝食"] },
       { area: "RavalまたはBarcelona Sants", primary: "ホテル周辺またはSants駅で軽い昼食", dishes: ["bocadilloまたは軽食3人分", "水3本"], booking: "当日営業を確認", operation: "€25–45で選び、ホテル周辺で決まらなければSants駅のEnrique Tomásへ。列車の余裕を優先", alternatives: ["Enrique Tomás Estación Sants", "Sants駅構内の持帰り店"] },
-      { area: "Madrid・Las Letras", primary: "Casa Alberto restaurant（20:00）", dishes: ["callos", "bacalao a la madrileña"], booking: "20:00のrestaurant席を予約。2026/12/01に年末営業を直接確認", operation: "Room Mate Marioから徒歩約12分。年末営業と20:00枠を直接確認してから利用する", alternatives: ["到着前にAtochaで3人分の持帰りを買う", "Campomanes周辺で20:00に営業中のtapas店を選ぶ"] }
+      { period: "夜", area: "Calle Mayor 84・Ópera周辺", primary: "Casa Ciriacoで夕食", dishes: ["gallina en pepitoria（鶏のペピトリア）", "callos（モツ煮）", "パンと飲み物"], booking: "12/1までに21:00で3名を予約", operation: "1917年創業のMadridの老舗。Room Mate Mario（Campomanes 4）からCalle Mayorを西へ徒歩約10分。ソフィア王妃を20:30に出てからタクシーまたはMetro（Atocha→Ópera）で向かい、21:00着。", alternatives: ["Ópera Victoria（Plaza de Isabel II・ホテルから徒歩1分・地中海料理）", "Ópera周辺で当日営業の店"] }
     ],
     d1231: [
       { period: "朝", area: "Room Mate Mario館内", primary: "ホテルのビュッフェ朝食", dishes: ["ビュッフェの主食", "果物", "飲み物"], booking: "宿泊に含まれる", operation: "07:00–12:00。Pradoへ向かうため09:00までに終える", alternatives: ["前夜に用意した朝食", "Pradoへ向かう途中の営業中カフェ"] },
-      { area: "San Blas 4・Paseo del Arte", primary: "Bodega de los Secretos（13:30昼食）", dishes: ["地中海料理", "温かい主菜"], booking: "13:30枠を予約", operation: "公式は12/31夕食休業だが昼営業あり。2026年の昼枠を再確認", alternatives: ["La Tapería del Prado", "Atochaで持帰り"] },
+      { area: "San Blas 4・Paseo del Arte", primary: "Bodega de los Secretos（14:15昼食）", dishes: ["地中海料理", "温かい主菜"], booking: "14:15枠を予約", operation: "公式の通常ランチは13:30開始。王宮を14:00に出てから向かうため14:15で予約する", alternatives: ["La Tapería del Prado", "Atochaで持帰り"] },
       { area: "Room Mate Mario客室", primary: "昼食後に購入した持帰り夕食を18:15に食べる", dishes: ["bocadilloまたは温かい持帰り", "水", "年越し用ぶどう"], booking: "レストラン予約に依存しない安全案", operation: "館内dinerの大晦日・元日運用は未確認。18:00までに代替食とぶどうを確保", alternatives: ["当日営業を確認できた持帰り店", "Solへ持参できる軽食"] }
     ],
     d0101: [
@@ -185,12 +212,13 @@
 
   const flexItem = (time, end, kind, title, note) => ({ time, end, kind, title, status: "当日確認", note });
   const flexMeals = {
-    breakfast: { period: "朝", area: "abba Rambla Hotel館内", primary: "ホテルのビュッフェ朝食", dishes: ["ビュッフェの主食", "果物", "飲み物"], booking: "宿泊に含まれる", operation: "開始時刻は未確認。出発に間に合わなければ早朝サービスと前夜の買い置きへ", alternatives: ["早朝のコーヒー・紅茶サービス", "前夜に用意した3人分の朝食"] },
+    breakfast: { period: "朝", area: "Oriente Atiram Hotel館内", primary: "ホテルのビュッフェ朝食", dishes: ["ビュッフェの主食", "果物", "飲み物"], booking: "宿泊に含まれる", operation: "開始時刻は未確認。出発に間に合わなければ早朝サービスと前夜の買い置きへ", alternatives: ["早朝のコーヒー・紅茶サービス", "前夜に用意した3人分の朝食"] },
     montserrat: { period: "昼", area: "Montserrat山上", primary: "La Cafeteria", dishes: ["温かいCatalunya料理", "bocadillo", "matóと蜂蜜"], booking: "予約不要・当日の営業を確認", operation: "混雑時は持参した軽食を先に食べ、帰路を遅らせない", alternatives: ["Montserrat Buffet", "前夜に用意したbocadilloと水"] },
-    citySunday: { period: "昼", area: "Ciutat Vella・旧市街", primary: "Can Culleretes（日曜の市内案のみ）", dishes: ["escudella", "canelons", "crema catalana"], booking: "事前予約を前提にせず当日空席を確認", operation: "20分以上待つ場合は次の候補へ移る", alternatives: ["Bar del Pla", "Santa Caterina市場周辺の営業店"] },
-    cityWeekday: { period: "昼", area: "Santa Caterina市場周辺", primary: "Cuines Santa Caterinaを当日確認", dishes: ["市場の魚料理", "季節野菜", "パン"], booking: "予約不要・当日空席で利用", operation: "満席なら市場内で魚・野菜・パンを3人分選ぶ", alternatives: ["市場内の営業中カウンター", "Bar Joan"] },
-    tarragona: { period: "昼", area: "Tarragona Part Alta・Carrer de Natzaret 10", primary: "El Llagut", dishes: ["romesco／cassola系の魚介", "魚介の米料理またはfideus", "軽い前菜またはデザート"], booking: "電話予約が可能。予約しない場合は開店時に空席確認", operation: "火–土12:30–15:30、日12:30–15:30、月休。火曜は13:15、日曜短縮は12:45入店", alternatives: ["Part Altaでromesco／cassolaを掲示する営業店を徒歩10分以内で選ぶ", "該当店がなければ魚介の米料理またはfideusがある店へ切り替える"] },
-    dinner: { period: "夜", area: "Raval・abba Rambla Hotelから徒歩10分以内", primary: "ホテル周辺で当日営業を確認して選ぶ", dishes: ["地中海料理の軽い主菜", "スープ", "パン"], booking: "当日営業と空席を確認", operation: "軽い主菜2皿、スープ1皿、パンと飲み物を3人で分け、€70–105に収める", alternatives: ["同条件の営業店", "持帰りを客室で食べる"] }
+    citySunday: { period: "昼", area: "Gràcia地区", primary: "La Pubillaを営業確認", dishes: ["季節のCatalunya料理", "野菜料理", "米料理"], booking: "日曜営業と空席を事前確認", operation: "14:45入店を守り、カサ・ミラとホテル休憩を遅らせない", alternatives: ["Gràciaで同じ注文ができる営業店", "Park Güell周辺の予約済み店"] },
+    cityWeekday: { period: "昼", area: "Gràcia地区", primary: "La Pubilla", dishes: ["季節のCatalunya料理", "野菜料理", "米料理"], booking: "13:15の3名席を予約", operation: "14:45までに退店し、カサ・ミラへ向かう", alternatives: ["Gràciaで同じ注文ができる営業店", "Park Güell周辺の予約済み店"] },
+    tarragona: { period: "昼", area: "Tarragona Part Alta", primary: "カルソッツとロメスコを出す店", dishes: ["calçots", "romesco", "肉料理または魚介"], booking: "12/29昼の提供と3名席を事前確認", operation: "11月〜4月の季節料理を本場VallsのあるTarragona県で味わう", alternatives: ["El Llagut（romescoと魚介）", "Part Altaでromescoを出す営業店"] },
+    dinner: { period: "夜", area: "ゴシック地区とRaval・Oriente Atiram Hotelから徒歩10分以内", primary: "ホテル周辺で当日営業を確認して選ぶ", dishes: ["地中海料理の軽い主菜", "スープ", "パン"], booking: "当日営業と空席を確認", operation: "軽い主菜2皿、スープ1皿、パンと飲み物を3人で分け、€70–105に収める", alternatives: ["同条件の営業店", "持帰りを客室で食べる"] },
+    tablaoDinner: { period: "夜", area: "La Rambla 35・Oriente Atiram Hotelから徒歩1〜2分", primary: "Tablao Cordobésのディナー付き21:00公演", dishes: ["ディナーメニュー3人分", "ビール・ワイン・サングリア・ソフトドリンク飲み放題", "ショー中のドリンク1杯"], booking: "2026/12/01までに3名で予約", operation: "ディナーは19:45開始を計画。開始時刻は公演の約1時間半前が目安で予約時に確定する。ビーガン・ベジタリアン・ハラル・グルテンフリーに対応", alternatives: ["Palau Dalmases（Born・12世紀の邸宅・€30〜）", "Los Tarantos（Plaça Reial・1963年創業・40分・€25〜）"], experience: "ホテルの隣でディナーと、2025年に世界最高のタブラオに選ばれた舞台を続けて楽しめます。", orderForThree: "ディナー付き21:00公演を3名分予約し、食事制限があれば予約時に伝えます。ディナー中の飲み放題とショー中のドリンク1杯が含まれます。" }
   };
   const montserratDay = (dayId) => ({
     title: "Montserrat日帰り（朝に最終判断）", city: "Montserrat", cityIds: ["montserrat", "barcelona"],
@@ -207,17 +235,17 @@
     ], mealPlans: [flexMeals.breakfast, flexMeals.montserrat, flexMeals.dinner], dayId
   });
   const cityDay = (dayId, sunday = false) => ({
-    title: "予約不要で楽しむBarcelona市内日", city: "Barcelona", cityIds: ["barcelona"],
+    title: "ガウディの日", city: "Barcelona", cityIds: ["barcelona"],
     items: [
       flexItem("07:45", "08:30", "meal", "ホテルのビュッフェ朝食", "開始時刻が間に合わなければ早朝サービスと前夜の買い置きへ切り替える。"),
-      flexItem("09:00", "09:30", "transfer", "ホテル → Gothic Quarter", "徒歩とMetro L3でLiceuへ向かい、大聖堂外観側から街歩きを始める。"),
-      flexItem("09:30", "12:30", "attraction", "Gothic QuarterとBornを歩く", "Barcelona大聖堂外観、Plaça del Rei、Bornの路地を予約なしで巡る。雨や疲労時は範囲を半分にする。"),
-      flexItem("12:45", "14:00", "meal", sunday ? "Can Culleretesを当日確認" : "Santa Caterina市場周辺で昼食", sunday ? "日曜の市内案だけの候補。待ち時間が20分を超えればBar del Plaか市場周辺へ移る。" : "Cuines Santa Caterinaの空席を確認し、満席なら市場内で3人分を具体的に選ぶ。"),
-      flexItem("14:00", "14:30", "transfer", "昼食場所 → Passeig de Gràcia", "徒歩とMetroでPasseig de Gràciaへ移動する。予約施設へは向かわない。"),
-      flexItem("14:30", "16:30", "attraction", "Modernisme建築の外観散歩", "Casa Batlló、Casa Amatller、Casa Milàの外観を歩いて楽しむ。内部入場や事前予約には依存しない。"),
-      flexItem("16:30", "17:00", "transfer", "Passeig de Gràcia → ホテル", "徒歩でホテルへ戻る。雨や疲労時は散歩を早く切り上げる。"),
-      flexItem("17:00", "19:30", "hotel", "ホテルで休憩", "足を休め、翌日の交通と天気を確認する。"),
-      flexItem("20:00", "21:15", "meal", "Raval周辺で軽い夕食", "徒歩10分以内で当日営業を確認し、3人€70–105で選ぶ。満席なら同条件の店か持帰りへ切り替える。")
+      flexItem(sunday ? "10:30" : "09:00", sunday ? "12:30" : "11:00", "attraction", "サグラダ・ファミリア", sunday ? "11〜2月の日曜は10:30開館。発売後に入場枠を確保する。" : "11〜2月の平日は9:00開館。発売後に入場枠を確保する。"),
+      flexItem(sunday ? "12:45" : "11:15", sunday ? "13:15" : "11:45", "transfer", "バス92でグエル公園へ", "運行表示を確認し、グエル公園の予約時刻へ向かう。"),
+      flexItem(sunday ? "13:30" : "12:00", sunday ? "14:30" : "13:00", "attraction", "グエル公園", "冬季9:30〜17:30。疲労時はカサ・ミラを先に、次にグエル公園を落とす。"),
+      flexItem(sunday ? "14:45" : "13:15", sunday ? "16:15" : "14:45", "meal", "Gràcia地区で昼食", "3人分の具体的な料理と代替候補を食事詳細で確認する。"),
+      flexItem(sunday ? "16:30" : "15:00", sunday ? "17:30" : "16:00", "attraction", "カサ・ミラ（屋上と屋根裏）", "屋上の煙突群と屋根裏のカテナリー・アーチは代替不能。片方だけ内部に入るならカサ・ミラ。"),
+      flexItem(sunday ? "17:45" : "16:15", sunday ? "18:05" : "16:35", "attraction", "カサ・バトリョ（向かいから外観のみ）", "ファサード・バルコニー・屋根は通りから無料で見える。内部は近年の没入型演出の比重が高いため入らない。"),
+      flexItem(sunday ? "18:30" : "17:00", sunday ? "19:30" : "19:00", "hotel", "ホテルで休憩", "翌朝08:15発のTarragonaに備える。疲労時もこの休憩は最後まで守る。"),
+      flexItem("19:30", "21:00", "meal", "夕食", "ホテル徒歩圏で3人分の注文と代替候補を確認する。")
     ], mealPlans: [flexMeals.breakfast, sunday ? flexMeals.citySunday : flexMeals.cityWeekday, flexMeals.dinner], dayId
   });
   const tarragonaFullDay = (dayId) => ({
@@ -240,7 +268,7 @@
       flexItem("07:00", "07:40", "meal", "ホテルのビュッフェ朝食", "開始時刻が間に合わなければ早朝サービスと前夜の買い置きへ切り替え、列車を優先する。"),
       flexItem("07:15", "09:15", "transfer", "ホテル → Barcelona Sants → Tarragona市内駅", "Regional系統の公表後の時刻を確認し、有効な乗車券を購入する。"),
       flexItem("09:15", "09:30", "transfer", "Tarragona市内駅 → 円形闘技場", "徒歩で中央遺跡群へ直行する。"),
-      flexItem("09:30", "12:45", "attraction", "Roman interiorsと旧市街中央部", "日曜の内部見学を先に行い、すべて14:30までに終える。閉鎖時は外観、地中海のバルコニー、旧市街へ切り替える。"),
+      flexItem("09:30", "12:45", "attraction", "Roman interiorsと旧市街中央部", "MHTは日祝9:30〜14:30。日曜の内部見学を先に行い、すべて14:30までに終える。閉鎖時は外観、地中海のバルコニー、旧市街へ切り替える。"),
       flexItem("12:45", "13:45", "meal", "El Llagutで昼食", "日曜ランチの空席を確認し、満席ならPart Altaの明示した選択ルールで代替する。"),
       flexItem("13:45", "14:30", "attraction", "残りのRoman core", "内部見学は14:30まで。時間がなければ外観だけにして終了する。"),
       flexItem("14:30", "16:00", "attraction", "Rambla Novaと海辺を短く散歩", "予約不要の屋外だけを歩き、疲労や雨なら駅へ直行する。"),
@@ -254,6 +282,19 @@
     scenario2: { id: "scenario2", name: "シナリオ2", summary: "日 Barcelona市内／月 Montserrat／火 Tarragona一日", days: { d1227: cityDay("d1227", true), d1228: montserratDay("d1228"), d1229: tarragonaFullDay("d1229") } },
     scenario3: { id: "scenario3", name: "シナリオ3", summary: "日 Tarragona短縮／月 Barcelona市内／火 Montserrat", days: { d1227: tarragonaShortDay("d1227"), d1228: cityDay("d1228"), d1229: montserratDay("d1229") } }
   };
+  Object.values(flexScenarios).forEach((scenario) => {
+    const day = scenario.days.d1229;
+    const rest = [...day.items].reverse().find((item) => ["hotel", "rest"].includes(item.kind));
+    const dinner = [...day.items].reverse().find((item) => item.kind === "meal");
+    if (rest) Object.assign(rest, { time: "18:30", end: "19:30", title: "ホテルへ戻る・休憩・着替え", note: "タラゴナから戻ったらホテルで休み、徒歩1〜2分の会場へ向かう準備をする。" });
+    if (dinner) Object.assign(dinner, {
+      time: "19:45", end: "21:00", title: "Tablao Cordobésでディナー",
+      note: "La Rambla 35。宿泊ホテル（La Rambla 45）から徒歩1〜2分で、タラゴナから戻ってから移動が要らない。ディナー中はビール・ワイン・サングリア・ソフトドリンクが飲み放題。ビーガン・ベジタリアン・ハラル・グルテンフリーに対応。ディナーの開始時刻は公演の約1時間半前が目安で、予約時に確定する。"
+    });
+    day.mealPlans[day.mealPlans.length - 1] = flexMeals.tablaoDinner;
+    day.items.push(flexItem("21:00", "22:10", "event", "フラメンコ・ショー（Tablao Cordobés）", "1970年創業で2025年の「世界最高のタブラオ」。公演は60〜70分。21:00の回を取る。理由: 17:00にタラゴナを出て18:30に戻る行程に対し、19:15の回では余裕がなく、22:30の回では翌朝が遅れる。12/1までに予約する。年末は席が埋まりやすい。満席・休業ならPalau Dalmases（Born・12世紀の邸宅・€30〜）またはLos Tarantos（Plaça Reial・1963年創業・40分・€25〜）へ切り替える。"));
+    day.items.push(flexItem("22:10", "22:20", "transfer", "徒歩でホテルへ戻る", "Tablao Cordobésから宿泊ホテルへ徒歩1〜2分で戻る。"));
+  });
 
   const transportDetails = {
     d1225: {
@@ -262,8 +303,8 @@
     },
     d1226: {
       "入国審査・荷物受取・税関": "BCN T1で入国審査→受取レーン→税関の順。3人と荷物が揃ってから到着ロビーへ出る。",
-      "BCN空港 → 市内（荷物受取後）": "T1公式タクシー乗り場→abba Rambla Hotel（Rambla del Raval 4C）。空港から15km、通常25–40分。",
-      "abba Rambla Hotelへ荷物預け": "チェックインは14:00から。到着時は荷物のみ預け、貴重品は携行する。",
+      "BCN空港 → 市内（荷物受取後）": "T1公式タクシー乗り場 → Oriente Atiram Hotel Barcelona（La Rambla 45）。空港から約15km、通常25–40分。",
+      "Oriente Atiram Hotelへ荷物預け": "チェックインは14:00から。到着時は荷物のみ預け、貴重品は携行する。",
       "Passeig de Gràcia周辺で休憩・身支度・遅延時の余裕": "客室に入れるのは14:00以降。ここでは店か広場で休む。"
     },
     d1229: {
@@ -276,11 +317,11 @@
       "Aeri de Montserrat → Espanya駅": "FGC R5でPlaça Espanyaへ。到着後はL3でDiagonalへ戻り、ホテルまで徒歩。"
     },
     d1230: {
-      "Sagrada周辺へ移動": "abba Rambla Hotel → Liceu（L3）→ Passeig de Gràcia → L2乗換 → Sagrada Família。約20–25分。タクシーなら約15分。",
+      "Sagrada周辺へ移動": "ホテル正面のLiceu（L3）→ Passeig de Gràcia → L2乗換 → Sagrada Família。約20分。タクシーなら約15分。",
       "ホテルへ戻る": "Sagrada Família駅からMetro L5でDiagonal駅へ戻り、仮ホテルへ徒歩。",
-      "Barcelona Santsへ移動": "abba Rambla Hotelから荷物ごとタクシーでBarcelona Santsへ約10–15分（約3km）。地下鉄の階段・乗換を避ける。",
-      "iryo 06150 Barcelona Sants → Madrid Atocha": "高速鉄道の候補便。発売後に列車番号・発着時刻・車両・座席を置換し、Santsには発車90分前到着を維持する。",
-      "Room Mate Marioへ移動・チェックイン": "Madrid Atocha公式タクシー乗り場→Room Mate Mario（Campomanes 4）へ約10–15分。受付終了24:00、時間外チェックイン不可。"
+      "Barcelona Santsへ移動": "Oriente Atiram Hotelから荷物ごとタクシーで約10–15分（約3.5km）。Liceu（L3）からSants Estacióまで乗換なしでも行けるが、荷物3人分があるためタクシーを優先する。",
+      "Barcelona Sants → Madrid Atocha（高速鉄道・計画窓）": "発売後に運行会社・発着時刻・車両・座席を確定し、Santsには発車90分前到着を維持する。",
+      "Room Mate Marioへ移動・チェックイン": "Madrid Atocha公式タクシー乗り場→Room Mate Mario（Campomanes 4）へ約10–15分。受付は24:00まで。"
     },
     d0102: {
       "Madrid Atocha到着・乗車準備": "Room Mate MarioからAtochaへタクシー約10–15分。高速鉄道の発車45分前までに駅へ着く。",
@@ -312,7 +353,7 @@
       "PVG乗継・保安検査・搭乗口確認": "徒歩｜乗継保安検査後に搭乗口へ移動し、00:15発の便に備える"
     },
     d1226: {
-      "abba Rambla Hotelへ荷物預け": "タクシーまたはMetro｜Raval → Passeig de Gràcia周辺へ移動",
+      "Oriente Atiram Hotelへ荷物預け": "タクシーまたはMetro｜La Rambla 45 → Passeig de Gràcia周辺へ移動",
       "到着後の軽い朝昼食": "徒歩｜ホテルへ戻る 5分",
       "休憩・身支度・遅延buffer": "徒歩｜ホテル → Casa Milà 7分",
       "カサ・ミラ（ラ・ペドレラ）": "徒歩｜Passeig de GràciaをCasa Batllóまで約8分",
@@ -343,15 +384,13 @@
     d1230: {
       "ボケリア市場散策＋El Quim朝食候補": "Metro L3｜Liceu→Diagonal＋徒歩でホテルへ、約20分",
       "チェックアウト・荷物回収": "徒歩｜ホテル周辺またはSantsで軽食を確保後、荷物とタクシーへ",
-      "ホテル周辺またはSants駅で軽い昼食": "タクシー｜abba Rambla Hotel→Barcelona Sants、約10–15分",
+      "ホテル周辺またはSants駅で軽い昼食": "タクシー｜Oriente Atiram Hotel→Barcelona Sants、約10–15分（約3.5km）",
       "駅到着buffer・乗車準備": "駅構内徒歩｜列車表示→改札→指定車両。水と昼食を持ってホームへ",
-      "iryo 06150 Barcelona Sants → Madrid Atocha": "タクシー｜Atocha公式乗り場→Room Mate Mario、約10–15分",
-      "Room Mate Marioへ移動・チェックイン": "徒歩｜Campomanes 4→Casa Alberto、約12分"
+      "Barcelona Sants → Madrid Atocha（高速鉄道・計画窓）": "タクシー｜Atocha公式乗り場→Room Mate Mario、約10–15分",
+      "Room Mate Marioへ移動・チェックイン": "徒歩｜Campomanes 4→Casa Ciriaco、約10分"
     },
     d1231: {
-      "プラド美術館": "徒歩｜Paseo del PradoをCibelesへ約10分",
-      "シベレス広場": "徒歩｜Calle de Alcaláをアルカラ門へ約10分",
-      "アルカラ門": "徒歩｜Bodega de los Secretosへ約20分。13:30予約に合わせる",
+      "マドリード王宮（内部）": "徒歩約20分またはタクシー｜Bodega de los Secretosへ。14:15予約に合わせる",
       "Bodega de los Secretosで昼食": "徒歩｜Retiro公園入口へ約20分",
       "エル・レティーロ公園": "タクシー｜公園→Room Mate Mario、約10–15分",
       "ホテル休憩・防寒準備": "館内｜18:15に事前購入した夕食と年越し用ぶどうを確認",
@@ -441,7 +480,7 @@
     ["ホテルへ戻る", "ホテルへ戻る"],
     ["Barcelona Santsへ移動", "Barcelona Santsへ移動する"],
     ["駅到着の余裕・乗車準備", "駅に早めに着き、乗車準備をする"],
-    ["iryo 06150 Barcelona Sants → Madrid Atocha", "iryo 06150に乗り、Barcelona SantsからMadrid Atochaへ移動する"],
+    ["Barcelona Sants → Madrid Atocha（高速鉄道・計画窓）", "高速鉄道でBarcelona SantsからMadrid Atochaへ移動する"],
     ["プラド美術館", "プラド美術館を見学する"],
     ["シベレス広場", "シベレス広場を見る"],
     ["アルカラ門", "アルカラ門を見る"],
@@ -467,7 +506,7 @@
     ["休憩・荷物回収", "休憩して荷物を回収する"],
     ["Madrid Atochaへ移動", "Madrid Atochaへ移動する"],
     ["駅到着余裕時間・乗車準備", "駅に早めに着き、乗車準備をする"],
-    ["iryo 061171 Madrid Atocha → Barcelona Sants", "iryo 061171に乗り、Madrid AtochaからBarcelona Santsへ移動する"],
+    ["Madrid Atocha → Barcelona Sants（高速鉄道・計画窓）", "高速鉄道でMadrid AtochaからBarcelona Santsへ移動する"],
     ["タクシーでBCN T1へ（第一案）", "タクシーでBCN T1へ移動する"],
     ["チェックイン・荷物預け・保安検査・出国", "チェックイン・荷物預け・保安検査・出国手続きを済ませる"],
     ["BCN T1 発", "BCN T1を出発する"],
@@ -647,7 +686,7 @@
           if (/Madrid.*Cordoba/.test(item.title)) { time = "07:30前後"; end = "09:30前後"; }
           else { time = "17:15前後"; end = "19:15前後"; }
         }
-        if (day.id === "d1230" && item.kind === "meal" && /Casa Alberto/.test(item.title)) { time = "20:00"; end = "21:30"; }
+        if (day.id === "d1230" && item.kind === "meal" && /Casa Ciriaco/.test(item.title)) { time = "21:00"; end = "22:15"; }
         if (day.id === "d0101" && /サン・イシドロ教会/.test(item.title)) { time = "17:00"; end = "17:30"; note = "通常の午後再開後に見学します。元日の特別運用は12/31に公式情報と現地表示で再確認し、開いていなければ外観だけにします。"; }
         if (day.id === "d0101" && item.kind === "rest" && /ホテル休憩/.test(item.title)) { time = "17:45"; end = "19:00"; }
         if (day.id === "d0104" && /PVG T2 着/.test(item.title)) { title = "帰国便でPVG T2に到着する"; note = "Barcelonaから上海へ戻る帰国区間。翌日05:55到着後はInternational Transfer表示へ進みます。"; }
@@ -812,11 +851,20 @@
   }
 
   const budgetDayMap = {
-    sagrada: "d1230", "iryo-out": "d1230", "iryo-back": "d0103", aerobus: "d1226", montserrat: "d1229",
-    mila: "d1226", batllo: "d1226", prado: "d1231", reinasofia: "d0103"
+    sagrada: "d1228", "iryo-out": "d1230", "iryo-back": "d0103", montserrat: "d1229",
+    mila: "d1228", prado: "d1231", reinasofia: "d1230"
   };
-  const selectedCanonicalBudgetIds = new Set(["intl-flight", "sagrada", "iryo-out", "iryo-back", "aerobus", "montserrat", "mila", "batllo", "prado", "reinasofia"]);
+  const selectedCanonicalBudgetIds = new Set(["intl-flight", "sagrada", "iryo-out", "iryo-back", "montserrat", "mila", "prado", "reinasofia"]);
   const planOnlyAdmissions = {
+    d1226: [
+      { id: "plan:d1226:montjuic-castle", title: "モンジュイック城", amountEur: 36, category: "観光", basis: "€12×3名" },
+      { id: "plan:d1226:montjuic-cable", title: "Telefèric de Montjuïc", amountEur: 54, category: "交通", basis: "3名分の計画枠・発売後に実額へ更新" }
+    ],
+    d1228: [
+      { id: "plan:d1228:park-guell", title: "グエル公園", amountEur: 54, category: "観光", basis: "€18×3名" }
+    ],
+    d1229: [{ id: "plan:d1229:flamenco", title: "Tablao Cordobésのディナー付き公演", amountEur: 177, category: "観光", basis: "Tablao Cordobésのディナー付き公演 €59×3名。夕食込みのため食費には別計上せず、予約後に実額へ更新" }],
+    d1230: [{ id: "plan:d1230:palau-guell", title: "グエル邸", amountEur: 36, category: "観光", basis: "€12×3名" }],
     d0102: [
       { id: "plan:d0102:cordoba-rail", title: "Madrid–Cordoba高速鉄道往復", amountEur: 240, category: "交通", basis: "3名分の計画枠・発売後に実額へ更新" },
       { id: "plan:d0102:mezquita", title: "Mezquita-Catedral", amountEur: 45, category: "観光", basis: "2026/4/1以降の一般€15×3名・旅行前に公式枠を確認" },
@@ -825,7 +873,7 @@
   };
   const mealAllowances = {
     d1225: [0, 0, 60], d1226: [0, 75, 105], d1227: [36, 75, 105], d1228: [36, 75, 105],
-    d1229: [36, 75, 105], d1230: [36, 60, 90], d1231: [36, 75, 120], d0101: [36, 75, 105],
+    d1229: [36, 75, 177], d1230: [36, 60, 90], d1231: [36, 75, 120], d0101: [36, 75, 105],
     d0102: [36, 75, 105], d0103: [36, 60, 90], d0104: [36, 45, 60], d0105: [30, 45, 90]
   };
   const planTaskOverrides = {
@@ -834,10 +882,11 @@
       ["2", "PVG乗継の手順を保存", "出発前に確認", "International Transfer、乗継保安検査、搭乗口確認の順を端末へ保存する。", "本人", "出発前"]
     ],
     d1226: [
-      ["1", "Casa MilàとCasa Batllóの入場枠を確定", "発売後に予約", "14:30前後のCasa Milàと16:30前後のCasa Batllóを、到着遅延時の取消条件も見て予約する。", "本人", "発売後"],
-      ["2", "12/26のアーリーチェックイン可否を問い合わせる", "出発2週間前", "機内2泊で到着するため、14:00より前に入室できるかabba Rambla Hotelへ確認する。空室次第と理解し、回答を3人で共有できたら終わり。", "本人", "出発2週間前"],
-      ["3", "abba Rambla Hotelの朝食開始時刻を確認する", "チェックイン時", "08:30出発の日に間に合うかを12/26のチェックイン時に確認し、間に合わなければ前夜の買い置きを決めたら終わり。", "本人", "12/26チェックイン時"],
-      ["4", "Barcelonaの現地払い€1,025.71の支払い方法を決める", "出発1か月前まで", "カード可否、決済通貨、海外事務手数料、チェックイン時かチェックアウト時かを確認し、使う方法を決めたら終わり。", "本人", "出発1か月前"],
+      ["1", "12/26のカネロネスの店を予約", "12/1まで", "Sant Esteveにカネロネスを出し、3名で19:30に入れるホテル徒歩圏の店を予約する。", "本人", "2026/12/01"],
+      ["1b", "モンジュイック城の入場枠を確保", "発売後に予約", "15:40前後の3名枠を確保する。Funicularはメトロ運賃内で別券不要。", "本人", "発売開始後"],
+      ["2", "12/26のアーリーチェックイン可否を問い合わせる", "出発2週間前", "機内2泊で到着するため、14:00より前に入室できるかOriente Atiram Hotelへ確認する。空室次第と理解し、回答を3人で共有できたら終わり。", "本人", "出発2週間前"],
+      ["3", "Oriente Atiram Hotelの朝食開始時刻を確認する", "チェックイン時", "08:30出発の日に間に合うかを12/26のチェックイン時に確認し、間に合わなければ前夜の買い置きを決めたら終わり。", "本人", "12/26チェックイン時"],
+      ["4", "Barcelonaの地方税17,152円の支払いを共有する", "出発1か月前まで", "予約時に192,227円支払済み。施設で支払う地方税17,152円とMasterCard下4桁8334を3人で共有したら終わり。", "本人", "出発1か月前"],
       ["5", "夜の帰路の決めごとを共有する", "出発前", "ランブラス通り周辺では明るい通りを使う、3人がばらけない、タクシーはホテル前まで乗る、を家族で共有できたら終わり。", "家族", "出発前", [{ label: "外務省｜安全対策基礎データ", href: "https://www.anzen.mofa.go.jp/info/pcsafetymeasure_161.html", checkedAt: "2026-08-23" }]],
       ["6", "EESとETIASの入国条件を確認", "公式発表を定期確認", "EESは2026/04/10から非EU短期滞在者向けに全面運用中。ETIASはQ4 2026予定で開始日未公表のため、EU公式を2026/09/01から毎月、遅くとも2026/12/01に再確認する。", "EU公式発表", "毎月1日・開始ルール判明まで", [
         { label: "EU公式｜EES", href: "https://travel-europe.europa.eu/ees_en", checkedAt: "2026-08-17" },
@@ -846,24 +895,27 @@
     ],
     d1227: [
       ["1", "3日間の天候シナリオを決定", "12/26夜に判断", "12/27–29の視界・風・降水と交通運行を比べ、Montserratを日・月・火のどこに置くか決める。", "家族", "12/26 20:00"],
-      ["2", "Montserratの朝go/no-go", "当日判断", "視界・風・体力・FGC／山上交通を確認し、悪条件なら予約不要のBarcelona市内案へ切り替える。", "家族", "対象日07:45"]
+      ["2", "Montserratの朝go/no-go", "当日判断", "視界・風・体力・FGC／山上交通を確認し、悪条件ならBarcelona市内のガウディの日へ切り替える。Aeriは毎年1月に年次整備で運休するため、2026年12月の運行を確認し、Cremallera（Monistrol de Montserrat発）を代替にする。", "家族", "対象日07:45"],
+      ["3", "Aeri運行とEscolania年末年始日程を確認", "12/1まで", "Aeriの2026年12月運行とEscolaniaの年末年始日程を確認する。通常は月〜木18:45、日祝12:00と18:45、土曜は歌わない。", "本人", "2026/12/01"]
     ],
     d1228: [
-      ["1", "予約不要の市内案を保存", "旅行前に確認", "Gothic Quarter、Born、Modernisme外観、ホテル休憩、食事の順をオフラインで見られるようにする。", "本人", "旅行7日前"],
-      ["2", "任意の当日券だけ確認", "当日判断", "Park GüellまたはPalau内部は空きがあり、街歩きと休憩を崩さない場合だけ追加する。", "家族", "市内案当日"]
+      ["1", "ガウディの日の入場枠を確保", "発売後に予約", "サグラダ、グエル公園、カサ・ミラの対象日枠を確保する。日曜ならサグラダは10:30以降。", "本人", "発売開始後"],
+      ["2", "疲労時の削減順を共有", "旅行前に確認", "カサ・ミラ、次にグエル公園を落とし、17:00のホテル休憩は最後まで守る。", "家族", "旅行7日前"]
     ],
     d1229: [
-      ["1", "Tarragonaの年末運行・開館を確認", "公表後に確認", "12/29のRegional往復時刻と有効な乗車券、Roman monumentsの2026 Christmas運用を公式で確認する。", "本人", "2026年末情報の公表後"],
-      ["2", "日曜短縮案の開館を確認", "シナリオ3のみ", "12/27はRoman interiorsを14:30までに終え、中央部だけに縮める。Pont del DiableとBUSPLANAは入れない。", "本人", "12/26夜"]
+      ["1", "Tarragonaの年末運行を確認", "公表後に確認", "MHTは祝日を除く月曜休館、冬季の火曜は9:00〜20:00と確定済み。12/29のRegional往復時刻と有効な乗車券を公式で確認する。", "本人", "2026年末情報の公表後"],
+      ["2", "日曜短縮案の開館を確認", "シナリオ3のみ", "12/27はRoman interiorsを14:30までに終え、中央部だけに縮める。Tarragona市内駅から円形闘技場は海沿いに徒歩8分。Camp de Tarragonaは町から離れバス連絡が必要なので使わない。", "本人", "12/26夜"],
+      ["3", "12/29のフラメンコを予約", "12/1まで", "第一候補のTablao Cordobés（La Rambla 35・ホテルから徒歩1〜2分）で、ディナー付き21:00公演を3名で予約する。満席ならPalau DalmasesかLos Tarantosへ切り替える。", "本人", "2026/12/01"]
     ],
     d1230: [
-      ["1", "Sagrada Família 09:00を予約", "発売後に予約", "12/30 09:00のオンライン日時指定券を購入し、入口と変更条件を3人で共有する。", "本人", "発売開始後"],
+      ["1", "グエル邸の入場枠を確保", "発売後に予約", "12/30 10:00前後の3名枠を確保する。遅延時の削り代はグエル邸。", "本人", "発売開始後"],
       ["2", "BarcelonaからMadridの列車を確定", "発売待ち", "14:30前後の便と取消条件を比較し、Santsへ発車90分前に着く予定を守る。", "本人", "発売後"],
-      ["3", "マドリードのベッド構成を確認する", "今すぐ", "Room Mate Marioへ直接確認し、リクエスト扱いのThree single bedsが確保できるか、3名の寝方が確定したら終わり。", "本人", "今すぐ"],
-      ["4", "無料キャンセル期限を把握しておく", "出発前に共有", "Barcelona 12/25 23:59、Madrid 12/29 12:00、Viladecans 1/2 18:00。Barcelonaは搭乗後になるため、実質の判断期限を12/25出発前として3人で共有したら終わり。", "家族", "12/25出発前"]
+      ["3", "12/30 Casa Ciriacoの夕食を予約", "12/1まで", "21:00で3名を予約し、年末営業を確認する。", "本人", "2026/12/01"],
+      ["4", "マドリードのベッド構成を確認する", "今すぐ", "Room Mate Marioへ直接確認し、リクエスト扱いのThree single bedsが確保できるか、3名の寝方が確定したら終わり。", "本人", "今すぐ"],
+      ["5", "無料キャンセル期限を把握しておく", "出発前に共有", "Barcelona 12/25 14:00、Madrid 12/29 12:00、Viladecans 1/2 18:00。Barcelonaは搭乗後になるため、実質の判断期限を12/25出発前として3人で共有したら終わり。", "家族", "12/25出発前"]
     ],
     d1231: [
-      ["1", "Bodega de los Secretosの昼食を予約", "旅行前に確認", "12/31 13:30、3人で予約し、14:45までに退店できるか確認する。", "本人", "予約受付後"],
+      ["1", "Bodega de los Secretosの昼食を予約", "旅行前に確認", "12/31 14:15、3人で予約し、15:30までに退店する。", "本人", "予約受付後"],
       ["2", "年越し用の夕食とぶどうを確保", "当日18:00まで", "昼食後に3人分の持帰り夕食、水、12粒ずつのぶどうを購入する。", "本人", "12/31 18:00まで"],
       ["3", "Solの当日規制を確認", "当日確認", "18:00に入口、駅閉鎖、天候を確認し、20:30に進むかホテルへ戻るか決める。", "本人", "12/31 18:00"]
     ],
@@ -906,7 +958,7 @@
     [/Taberna Salinas/, "歴史あるtabernaでCordobaの代表4品を少しずつ分け、Andalucíaの味を一度に楽しみます。"],
     [/Can Solé/, "Barcelonetaで魚介の香りが立つ米料理とfideuàを囲む、この日のご褒美になる夕食です。"],
     [/Enrique Tomás/, "駅でjamónの香りを楽しみながら、列車の余裕時間を守って食べられる移動日の一食です。"],
-    [/Casa Alberto/, "Las LetrasでMadridらしい煮込みと魚料理を味わい、到着日の夜を街の食文化につなげます。"],
+    [/Casa Ciriaco/, "1917年創業の老舗で鶏のペピトリアとcallosを囲み、Madrid到着日の夜を街の食文化につなげます。"],
     [/Bodega de los Secretos/, "地下空間の雰囲気と温かい主菜を楽しみ、大晦日の長い一日に備える昼食です。"],
     [/持帰り夕食|確保した保存食|保存食を客室/, "年末年始の混雑や休業に振り回されず、前日に揃えたものを客室で落ち着いて食べる安全な夕食です。"],
     [/San Ginés/, "元日のMadridで、熱いchocolateにchurrosを浸して食べる定番の甘い体験です。"],
@@ -930,7 +982,7 @@
     [/Taberna Salinas/, "salmorejo、flamenquín、rabo de toro、berenjenas con mielを各1皿。パンと水を加えて3人でシェアします。"],
     [/Can Solé/, "fideuàまたは魚介の米料理を2人前、魚介の前菜を1皿。3人で取り分けます。"],
     [/Enrique Tomás/, "jamónのbocadilloを2個、tortillaを1個、水を3本。列車内でも分けやすい形にします。"],
-    [/Casa Alberto/, "callosを1皿、bacalaoを2皿、パンを1皿。3人でMadridの味を分け合います。"],
+    [/Casa Ciriaco/, "callosを1皿、gallina en pepitoriaを2皿、パンと飲み物。3人でMadridの味を分け合います。"],
     [/Bodega de los Secretos/, "ランチの主菜を3人分。異なる料理を選び、前菜を1皿追加してシェアします。"],
     [/持帰り夕食|確保した保存食|保存食を客室/, "常温保存できる主食を3人分、水を3本、果物または甘味を用意します。大晦日は年越し用ぶどうも3人分加えます。"],
     [/San Ginés/, "churrosを6本前後、chocolateを3杯。まず2本ずつ食べ、足りなければ追加します。"],
@@ -944,7 +996,7 @@
   function firstRuleValue(rules, value) { return rules.find(([pattern]) => pattern.test(String(value || "")))?.[1] || ""; }
   const mealEvidenceRules = [
     [/El Llagut/, { min: 60, max: 85, basis: "公式現行menu：romesco系前菜€13＋米・fideus 2人前€34–52＋パン€3.60。水・飲み物と価格変動を加えた3人分。", sourceUrl: "https://www.elllagut.com/la-carta/", sourceLabel: "El Llagut公式menu", sourceScope: "料理名、税込価格、パン代、最低2人注文の条件" }],
-    [/Casa Alberto/, { min: 88, max: 110, basis: "公式現行menu：callos €26.50＋bacalao 2皿€50＋パン3人€4.50。飲み物またはdessertの余裕を加えた3人分。", sourceUrl: "https://www.casaalberto.es/carta-restaurante?idIdioma=1", sourceLabel: "Casa Alberto公式menu", sourceScope: "callos、bacalao、パンの税込価格" }],
+    [/Casa Ciriaco/, { min: 80, max: 105, basis: "callos 1皿＋gallina en pepitoria 2皿＋パンと飲み物の3人分計画枠。公式menuが未確認のため予約時に料理と価格を確認する。", sourceUrl: "", sourceLabel: "計画枠", sourceScope: "公式menu未確認。予約時に料理・価格・年末営業を確認" }],
     [/Bodega de los Secretos/, { min: 95, max: 130, basis: "公式現行menu：主菜3皿€66–99＋前菜€18–25＋パン3人€7.50。飲み物を含む3人分。", sourceUrl: "https://bodegadelossecretos.com/en/carta/", sourceLabel: "Bodega de los Secretos公式menu", sourceScope: "料理・パンの税込価格と12/31昼営業" }],
     [/Can Solé/, { min: 85, max: 125, basis: "公式menuの魚介前菜と米・fideuàを2人前頼む3人分の範囲。年末の料理と価格は予約時に再確認。", sourceUrl: "https://restaurantcansole.com/carta/", sourceLabel: "Can Solé公式menu", sourceScope: "魚介料理・米料理・fideuàの掲載価格" }],
     [/Can Culleretes/, { min: 45, max: 70, basis: "公式menu掲載のescudella・canelons・crema catalanaを基準に、店内価格差と飲み物を加えた3人分。", sourceUrl: "https://culleretes.com/carta-i-menus/", sourceLabel: "Can Culleretes公式menu", sourceScope: "Catalunya料理の提供内容。店内価格は利用前に再確認" }],
@@ -979,8 +1031,8 @@
     if (/Can Culleretes|crema catalana/i.test(haystack)) return { image: "assets/food-crema-catalana.jpg", imageAlt: "表面を香ばしく焼いたcrema catalana", imageKind: "料理写真" };
     if (/San Ginés|churros/i.test(haystack)) return { image: "assets/food-churros-san-gines.jpg", imageAlt: "chocolateとchurros", imageKind: "料理写真" };
     if (/El Trébol|carcamusas/i.test(haystack)) return { image: "assets/food-carcamusas.jpg", imageAlt: "Toledo名物carcamusas", imageKind: "料理写真" };
-    if (/Barcelona|Catalunya|Rambla|Còrsega|Balmes|Gràcia|El Born|Barceloneta|Montserrat|Sants|Santa Caterina/i.test(`${meal.area} ${meal.primary}`)) return { image: "assets/barcelona-hero-v1.png", imageAlt: "BarcelonaとCatalunyaの街のイメージ", imageKind: "街のイメージ・AI生成" };
-    if (/Madrid|Atocha|Cordoba|Toledo|Salinas|Mezquita|Sol|San Ginés|Plaza Mayor|Las Letras|Paseo del Arte|San Blas|Room Mate|La Campana|Botoneras/i.test(`${meal.area} ${meal.primary}`)) return { image: "assets/madrid-hero-v1.png", imageAlt: "Madridと内陸・Andalucíaの街のイメージ", imageKind: "街のイメージ・AI生成" };
+    if (/Barcelona|Catalunya|Rambla|Raval|ゴシック地区|Oriente Atiram|Còrsega|Balmes|Gràcia|El Born|Barceloneta|Montserrat|Sants|Santa Caterina/i.test(`${meal.area} ${meal.primary}`)) return { image: "assets/barcelona-hero-v1.png", imageAlt: "BarcelonaとCatalunyaの街のイメージ", imageKind: "街のイメージ・AI生成" };
+    if (/Madrid|Atocha|Cordoba|Toledo|Salinas|Mezquita|Sol|San Ginés|Plaza Mayor|Las Letras|Paseo del Arte|San Blas|Room Mate|La Campana|Botoneras|Casa Ciriaco|Calle Mayor/i.test(`${meal.area} ${meal.primary}`)) return { image: "assets/madrid-hero-v1.png", imageAlt: "Madridと内陸・Andalucíaの街のイメージ", imageKind: "街のイメージ・AI生成" };
     return {};
   }
   function defaultOrderForThree(meal) {
@@ -1031,7 +1083,7 @@
         sourceUrl: meal.sourceUrl || "",
         sourceLabel: meal.sourceLabel || "計画枠",
         checkedAt: meal.checkedAt || "2026-08-16"
-      })).filter((line) => line.amountEur > 0 && !(/ホテルの(ビュッフェ朝食|コンチネンタルブレックファスト)/.test(line.title)) && !/予備朝食/.test(line.title));
+      })).filter((line) => line.amountEur > 0 && !(/ホテルの(ビュッフェ朝食|コンチネンタルブレックファスト)/.test(line.title)) && !/予備朝食|Tablao Cordobésのディナー付き21:00公演/.test(line.title));
       const lines = [...mealLines];
       if ((localTransportAllowances[day.id] || 0) > 0) lines.push({ id: `plan:${day.id}:local-transport`, title: "市内交通・短距離移動", amountEur: localTransportAllowances[day.id], category: "交通", basis: "3人分の計画枠・長距離鉄道は別行" });
       list(planOnlyAdmissions[day.id]).forEach((row) => lines.push({ ...row }));
@@ -1056,7 +1108,7 @@
     const categories = ["食事", "交通", "観光", "宿泊", "買い物", "雑費", "その他"].map((category) => ({ category, amountEur: allLines.filter((line) => line.category === category).reduce((sum, line) => sum + line.amountEur, 0) })).filter((row) => row.amountEur > 0);
     const totalEur = allLines.reduce((sum, line) => sum + line.amountEur, 0);
     const totalJpy = Math.round(totalEur * eurRate);
-    return { days, tripWide, categories, totalEur, totalJpy, missing, assumptions: `国際線は3名のeチケット控えで確認した発券済み総額です。宿泊は予約済み3件で、Barcelona前半はEUR 1,025.71（全額現地払い、地方税EUR 92.40を含む）、MadridはJPY 199,867（支払済み）、ViladecansはJPY 24,890（JPY 24,339支払済み、地方税JPY 551は施設払い）です。円を集計軸にし、EUR建てだけ€1=¥${eurRate.toLocaleString("ja-JP")}でレート換算しています。ホテル泊の朝食は宿泊費に含まれるため、12/27・12/28・12/29・12/30・12/31・1/1・1/3・1/4の日別食費から外しました。12/25・12/26・1/2・1/5はホテル朝食で賄えないため残しています。食費は店ごとの3人分の注文内容を優先し、店が決まっていない食事だけ範囲付き計画枠にしています。` };
+    return { days, tripWide, categories, totalEur, totalJpy, missing, assumptions: `国際線は3名のeチケット控えで確認した発券済み総額です。宿泊は予約済み3件で、Barcelona前半はJPY 209,379（JPY 192,227支払済み、地方税JPY 17,152は施設払い）、MadridはJPY 199,867（支払済み）、ViladecansはJPY 24,890（JPY 24,339支払済み、地方税JPY 551は施設払い）です。円を集計軸にし、EUR建てだけ€1=¥${eurRate.toLocaleString("ja-JP")}でレート換算しています。ホテル泊の朝食は宿泊費に含まれるため、12/27・12/28・12/29・12/30・12/31・1/1・1/3・1/4の日別食費から外しました。12/25・12/26・1/2・1/5はホテル朝食で賄えないため残しています。食費は店ごとの3人分の注文内容を優先し、店が決まっていない食事だけ範囲付き計画枠にしています。` };
   }
   const operationalSourceRules = [
     [/CA0|PVG|浦東|成田|国際線|帰国便|搭乗口|保安検査/, [{ label: "発券済みeチケット控え（非公開）", href: "", checkedAt: "2026-08-16", scope: "3名の便・日付・区間・発券済み総額を確認。予約番号と旅客情報は公開しません" }]],
@@ -1186,6 +1238,6 @@
 
   global.UXFullData = {
     trip, flexScenarios, buildDays, buildGuide, buildBudget, buildBudgetPlan, detail, rowsForDay, tasksForDay, bookingsForDay,
-    packingItems: list(trip.packingItems), budgetEstimates: list(trip.budgetEstimates), articles: list(trip.learningArticles), cityMeta, hotelStays
+    packingItems: list(trip.packingItems), budgetEstimates: list(trip.budgetEstimates), articles: list(trip.learningArticles), cityMeta, hotelStays, railBookings, closureFacts
   };
 })(window);
