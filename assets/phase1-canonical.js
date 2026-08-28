@@ -24811,9 +24811,29 @@ window.TRIP = {
       "title": "Casa Batlló",
       "status": "estimate",
       "currency": "EUR",
-      "amount": 33,
+      "amount": 35,
       "quantity": 3,
-      "note": "Drive v2見込み"
+      "note": "€35×3の計画枠。発売後に確認する。"
+    },
+    {
+      "id": "palau-musica",
+      "category": "観光",
+      "title": "カタルーニャ音楽堂ガイドツアー",
+      "status": "needs_information",
+      "currency": "EUR",
+      "amount": 22,
+      "quantity": 3,
+      "note": "€22×3の計画枠。発売後に確認する。"
+    },
+    {
+      "id": "sant-joan-funicular",
+      "category": "交通",
+      "title": "Sant Joan funicular",
+      "status": "needs_information",
+      "currency": "EUR",
+      "amount": 18,
+      "quantity": 3,
+      "note": "3名分の計画枠。冬季運行と料金を12/1までに確認する。"
     },
     {
       "id": "guell-palace",
@@ -24836,16 +24856,6 @@ window.TRIP = {
       "note": "旧見込み"
     },
     {
-      "id": "montjuic",
-      "category": "観光",
-      "title": "Montjuïc城",
-      "status": "estimate",
-      "currency": "EUR",
-      "amount": 12,
-      "quantity": 3,
-      "note": "旧見込み"
-    },
-    {
       "id": "columbus",
       "category": "観光",
       "title": "Columbus記念塔",
@@ -24856,14 +24866,44 @@ window.TRIP = {
       "note": "Drive v2見込み"
     },
     {
-      "id": "teleferic",
-      "category": "交通",
-      "title": "Telefèric del Port",
-      "status": "estimate",
+      "id": "botin",
+      "category": "食事",
+      "title": "Botín",
+      "status": "needs_information",
       "currency": "EUR",
-      "amount": 17.1,
+      "amount": 60,
       "quantity": 3,
-      "note": "Drive v2見込み"
+      "note": "€60×3の計画枠。予約時に確認する。"
+    },
+    {
+      "id": "nye-dinner",
+      "category": "食事",
+      "title": "年越しディナー",
+      "status": "needs_information",
+      "currency": "EUR",
+      "amount": 120,
+      "quantity": 3,
+      "note": "€120×3の計画枠。店の決定時に確認する。"
+    },
+    {
+      "id": "casa-lucio",
+      "category": "食事",
+      "title": "Casa Lucio",
+      "status": "needs_information",
+      "currency": "EUR",
+      "amount": 50,
+      "quantity": 3,
+      "note": "3名分の計画枠。予約時に確認する。"
+    },
+    {
+      "id": "la-bola",
+      "category": "食事",
+      "title": "La Bola",
+      "status": "needs_information",
+      "currency": "EUR",
+      "amount": 40,
+      "quantity": 3,
+      "note": "€40×3の計画枠。予約時に確認する。"
     },
     {
       "id": "barcelona-cathedral",

@@ -296,11 +296,11 @@ function renderHome() {
   const taskGroups = [
     ["今決める", [
       ["1", "列車4区間の発売を待って購入する", "発売待ち", "12/29 Barcelona⇄Tarragona、12/30 Barcelona→Madrid、1/2 Madrid⇄Córdoba、1/3 Madrid→Barcelona。発売中はベッド構成をホテルへ確認します。", "準備の「予約」で確認", "bookings"],
-      ["2", "7件の入場・食事予約を進める", "手配可能", "サグラダ・ファミリア／グエル公園／カサ・ミラ／グエル邸／モンジュイック城／プラド美術館／王宮", "準備の「予約」で確認", "bookings"]
+      ["2", "優先施設の入場・食事予約を進める", "手配可能", "サグラダ・ファミリア／グエル公園／カサ・ミラ／カサ・バトリョ／カタルーニャ音楽堂／グエル邸／プラド美術館／王宮", "準備の「予約」で確認", "bookings"]
     ]],
     ["発売・公式発表を待つ", [
       ["3", `${waitingRelease.length}件の列車・入場枠`, "発売待ち", waitingRelease.slice(0, 4).map((booking) => booking.title).join("／") || "発売開始後に、採用日程の列車と入場枠を選びます。", "発売後に時刻と料金を確定", "bookings"],
-      ["4", "6件の年末年始情報", "公式発表待ち", "Montserrat往復交通／大晦日ディナー／Mezquita-Catedral／Tablao Cordobés（12/29）／Casa Ciriaco（12/30）／Sant Esteveのカネロネス（12/26）", "12月に公式情報を再確認", "bookings"]
+      ["4", "年末年始情報", "公式発表待ち", "Montserrat往復交通／Botín／La Bola／年越しディナー／Mezquita-Catedral／Tablao Cordobés（12/29）／Casa Ciriaco（12/30）／Sant Esteveのカネロネス（12/26）", "12月に公式情報を再確認", "bookings"]
     ]],
     ["出発直前に確認", [
       ["5", "TarragonaとMontserratの日を選ぶ", "12/26夜", "12/27–29の天気と交通を比較します。晴天と体力がそろえばMontserrat、条件が悪ければBarcelona市内です。", "旅程の3日間シナリオで切替", "schedule"],
@@ -416,7 +416,9 @@ function allTripBookings() {
     { id: "cordoba-rail", title: "Madrid–Córdoba往復列車", status: "waiting_release", lifecycle: "waiting_release", relatedDayIds: ["d0102"], deadline: "発売後", publicNote: "07:30前後の往路と17:15前後の帰路を比較し、最終便を避けて3名分を購入します。", actionUrl: "https://www.renfe.com/es/en" },
     { id: "cordoba-mezquita", title: "Mezquita-Catedral", status: "waiting_release", lifecycle: "waiting_official", relatedDayIds: ["d0102"], deadline: "旅行7日前", publicNote: "1/2の入場時間と礼拝による変更を確認し、利用できる公式枠を3名分手配します。", actionUrl: "https://mezquita-catedraldecordoba.es/en/" },
     { id: "casa-ciriaco", title: "Casa Ciriaco", status: "waiting_official", lifecycle: "waiting_official", relatedDayIds: ["d1230"], deadline: "2026/12/01", publicNote: "12/30 21:00、3名で予約し、年末営業を直接確認します。", actionUrl: "" },
-    { id: "bodega-secretos", title: "Bodega de los Secretos", status: "waiting_official", lifecycle: "waiting_official", relatedDayIds: ["d1231"], deadline: "予約受付後", publicNote: "12/31 14:15、3名で予約し、15:30までに退店できるか確認します。", actionUrl: "https://bodegadelossecretos.com/en/" }
+    { id: "botin", title: "Botín", status: "waiting_official", lifecycle: "waiting_official", relatedDayIds: ["d1231"], deadline: "2026/12/01", publicNote: "12/31 14:15、3名で予約し、12/31営業を確認します。", actionUrl: "" },
+    { id: "la-bola", title: "La Bola", status: "waiting_official", lifecycle: "waiting_official", relatedDayIds: ["d0103"], deadline: "2026/12/01", publicNote: "1/3 13:30、3名で予約します。", actionUrl: "https://labola.es/" },
+    { id: "palau-musica", title: "カタルーニャ音楽堂", status: "waiting_release", lifecycle: "waiting_release", relatedDayIds: ["d1230"], deadline: "発売後すぐ", publicNote: "12/30 10:00のガイドツアーを3名で予約します。", actionUrl: "" }
   ];
   return [...canonical, ...currentAdditions];
 }

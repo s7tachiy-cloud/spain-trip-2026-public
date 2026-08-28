@@ -73,7 +73,7 @@ window.UXFinalPlan = {
     "d1226": {
       "id": "d1226",
       "date": "2026-12-26",
-      "title": "Barcelona到着・Montjuïc",
+      "title": "Barcelona到着・ゴシック地区とボルン",
       "items": [
         {
           "id": "final-d1226-01",
@@ -97,7 +97,7 @@ window.UXFinalPlan = {
           "kind": "transfer",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "混雑時は後続のCasa Batllóを削る。"
+          "note": ""
         },
         {
           "id": "final-d1226-03",
@@ -105,50 +105,38 @@ window.UXFinalPlan = {
           "end": "10:00",
           "timeText": "09:15–10:00",
           "zone": "スペイン時間",
-          "title": "BCN空港 → 市内（荷物受取後）",
+          "title": "タクシーでホテルへ・荷物預け",
           "kind": "transfer",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "T1公式タクシー乗り場 → Oriente Atiram Hotel Barcelona（La Rambla 45）。空港から約15km、通常25–40分。"
+          "note": "Oriente Atiram Hotel（La Rambla 45）。"
         },
         {
           "id": "final-d1226-04",
-          "time": "10:00",
-          "end": "10:30",
-          "timeText": "10:00–10:30",
+          "time": "10:15",
+          "end": "11:15",
+          "timeText": "10:15–11:15",
           "zone": "スペイン時間",
-          "title": "Oriente Atiram Hotelへ荷物預け",
-          "kind": "hotel",
-          "confidence": "needs_information",
-          "status": "予定時刻",
-          "note": "チェックインは14:00から。到着時は荷物のみ預ける。"
+          "title": "Bar Pinotxoで朝昼食",
+          "kind": "meal",
+          "confidence": "confirmed",
+          "status": "確認済み",
+          "note": "ブケリア市場・ホテルから徒歩2分・予約不可。"
         },
         {
           "id": "final-d1226-05",
-          "time": "10:45",
-          "end": "11:45",
-          "timeText": "10:45–11:45",
+          "time": "11:30",
+          "end": "14:00",
+          "timeText": "11:30–14:00",
           "zone": "スペイン時間",
-          "title": "Mauri Pastisseriaで朝昼食",
-          "kind": "meal",
-          "confidence": "needs_information",
-          "status": "予定時刻",
-          "note": "到着遅延時はBCN T1で先に食べ、ホテル到着後の休憩を守る。"
+          "title": "ホテル周辺で休憩",
+          "kind": "rest",
+          "confidence": "confirmed",
+          "status": "確認済み",
+          "note": "客室は14:00から。"
         },
         {
           "id": "final-d1226-06",
-          "time": "12:00",
-          "end": "14:00",
-          "timeText": "12:00–14:00",
-          "zone": "スペイン時間",
-          "title": "ホテル周辺で休憩・軽食",
-          "kind": "rest",
-          "confidence": "needs_information",
-          "status": "予定時刻",
-          "note": "14:00のチェックインまで休み、機内2泊明けの体調を優先する。"
-        },
-        {
-          "id": "final-d1226-07",
           "time": "14:00",
           "end": "14:30",
           "timeText": "14:00–14:30",
@@ -160,88 +148,64 @@ window.UXFinalPlan = {
           "note": ""
         },
         {
-          "id": "final-d1226-08",
+          "id": "final-d1226-07",
           "time": "14:30",
-          "end": "14:55",
-          "timeText": "14:30–14:55",
+          "end": "15:45",
+          "timeText": "14:30–15:45",
           "zone": "スペイン時間",
-          "title": "ホテル → Liceu（L3）→ Paral·lel",
-          "kind": "transfer",
+          "title": "バルセロナ大聖堂（内部）→王の広場→サン・ジャウマ広場",
+          "kind": "attraction",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": ""
+          "note": "予約不要。土曜の観光入場は9:30–17:15・最終入場16:30。"
+        },
+        {
+          "id": "final-d1226-08",
+          "time": "15:45",
+          "end": "17:00",
+          "timeText": "15:45–17:00",
+          "zone": "スペイン時間",
+          "title": "ボルン地区：サンタ・マリア・デル・マル→路地散策",
+          "kind": "attraction",
+          "confidence": "confirmed",
+          "status": "確認済み",
+          "note": "予約不要。"
         },
         {
           "id": "final-d1226-09",
-          "time": "14:55",
-          "end": "15:10",
-          "timeText": "14:55–15:10",
+          "time": "17:00",
+          "end": "17:40",
+          "timeText": "17:00–17:40",
           "zone": "スペイン時間",
-          "title": "Funicular de Montjuïc",
-          "kind": "transfer",
-          "confidence": "confirmed",
-          "status": "確認済み",
-          "note": "TMBのメトロ運賃に含まれ、別料金不要。"
+          "title": "Granja Viaderでクレマ・カタラナとチョコラーテ",
+          "kind": "meal",
+          "confidence": "needs_information",
+          "status": "予定時刻",
+          "note": "月〜土 9–13:30／17–20:30・日曜休。17:00開店に合わせる。ホテルから徒歩3分。"
         },
         {
           "id": "final-d1226-10",
-          "time": "15:15",
-          "end": "15:35",
-          "timeText": "15:15–15:35",
+          "time": "17:45",
+          "end": "19:45",
+          "timeText": "17:45–19:45",
           "zone": "スペイン時間",
-          "title": "Telefèric de Montjuïc（Parc de Montjuïc → Castell）",
-          "kind": "transfer",
-          "confidence": "needs_information",
-          "status": "予定時刻",
-          "note": "Telefèric del Portは使わない。Torre Jaume I閉鎖中でコロンブス記念塔側から乗れない。"
-        },
-        {
-          "id": "final-d1226-11",
-          "time": "15:40",
-          "end": "17:00",
-          "timeText": "15:40–17:00",
-          "zone": "スペイン時間",
-          "title": "Castell de Montjuïc",
-          "kind": "attraction",
-          "confidence": "needs_information",
-          "status": "予定時刻",
-          "note": "冬季10:00–18:00、券売17:30まで。日没は17:30ごろ。"
-        },
-        {
-          "id": "final-d1226-12",
-          "time": "17:00",
-          "end": "17:45",
-          "timeText": "17:00–17:45",
-          "zone": "スペイン時間",
-          "title": "ロープウェイとケーブルカーで下山",
-          "kind": "transfer",
-          "confidence": "needs_information",
-          "status": "予定時刻",
+          "title": "ホテル休憩",
+          "kind": "rest",
+          "confidence": "confirmed",
+          "status": "確認済み",
           "note": ""
         },
         {
-          "id": "final-d1226-13",
-          "time": "17:50",
-          "end": "18:20",
-          "timeText": "17:50–18:20",
+          "id": "final-d1226-11",
+          "time": "20:00",
+          "end": "21:30",
+          "timeText": "20:00–21:30",
           "zone": "スペイン時間",
-          "title": "コロンブス記念塔・ランブラス",
-          "kind": "attraction",
-          "confidence": "needs_information",
-          "status": "予定時刻",
-          "note": "ホテルへ戻る道すがら。Barcelona大聖堂はこの夕方に外観を見る扱い。"
-        },
-        {
-          "id": "final-d1226-14",
-          "time": "19:30",
-          "end": "21:00",
-          "timeText": "19:30–21:00",
-          "zone": "スペイン時間",
-          "title": "Sant Esteveのカネロネス",
+          "title": "Can Culleretesでカネロネス",
           "kind": "meal",
           "confidence": "needs_information",
-          "status": "当日調整",
-          "note": "12/26はCatalunyaの家庭がカネロネスを食べる日。家族客で埋まるか休業する日でもあるため、当日探さず12/1までに予約する。"
+          "status": "予定時刻",
+          "note": "1786年創業・Barcelona最古。Sant Esteveの祝日営業を12/1までに確認して3名予約。休みなら同じ街区でカネロネスを出す営業店へ替え、持帰りは最後の手段。"
         }
       ]
     },
@@ -304,11 +268,11 @@ window.UXFinalPlan = {
           "end": "17:00",
           "timeText": "14:30–17:00",
           "zone": "スペイン時間",
-          "title": "選択A：Montserrat景観／選択B：カサ・ミラとカサ・バトリョ（外観のみ）",
+          "title": "選択A：Sant Joan funicularで展望台／選択B：カサ・ミラとカサ・バトリョ（内部）",
           "kind": "attraction",
           "confidence": "needs_information",
-          "status": "当日調整",
-          "note": "選択Aは風と帰路を見ながら歩ける範囲だけ楽しむ。選択BはPasseig de Gràciaで両建築の外観を見る。"
+          "status": "予定時刻",
+          "note": "選択Aは10:00〜・12〜15分間隔・冬季は17:00前後まで。下山のAeri／Cremalleraの最終に間に合うよう15:30までに山頂を出る。選択Bは両建築の内部を見る。"
         },
         {
           "id": "final-d1227-06",
@@ -328,11 +292,11 @@ window.UXFinalPlan = {
           "end": "21:30",
           "timeText": "20:00–21:30",
           "zone": "スペイン時間",
-          "title": "フィデウアまたは魚介の米料理（Barceloneta方面）",
+          "title": "7 Portesでパエリア",
           "kind": "meal",
           "confidence": "needs_information",
-          "status": "当日調整",
-          "note": "Can Soléを第一候補とする。日曜夜の営業は未確認。満席・休業ならBarceloneta周辺で魚介の米料理を出す営業店へ切り替える。"
+          "status": "予定時刻",
+          "note": "年中無休・要予約。12/1までに3名予約。Can Soléは日曜夜の営業確認時だけ代替にする。"
         }
       ]
     },
@@ -383,11 +347,11 @@ window.UXFinalPlan = {
           "end": "13:00",
           "timeText": "11:15–13:00",
           "zone": "スペイン時間",
-          "title": "選択A：Montserrat美術館／選択B：グエル公園",
+          "title": "選択A：Montserrat美術館とSant Joan funicular／選択B：グエル公園",
           "kind": "attraction",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "グエル公園は冬季9:30〜17:30。運行表示と予約時刻を確認して向かう。"
+          "note": "選択Aは10:00〜・12〜15分間隔・冬季は17:00前後まで。下山のAeri／Cremalleraの最終に間に合うよう15:30までに山頂を出る。選択Bのグエル公園は予約時刻を確認して向かう。"
         },
         {
           "id": "final-d1228-05",
@@ -410,44 +374,44 @@ window.UXFinalPlan = {
           "title": "選択A：Montserrat景観／選択B：カサ・ミラ（屋上と屋根裏）",
           "kind": "attraction",
           "confidence": "needs_information",
-          "status": "当日調整",
-          "note": "疲労時の削減順はカサ・ミラ、次にグエル公園。屋上の煙突群と屋根裏のカテナリー・アーチは代替不能で、サグラダとグエル公園の理解に直結する。片方だけ入るならカサ・ミラ。"
+          "status": "予定時刻",
+          "note": "屋上の煙突群と屋根裏のカテナリー・アーチを見る。"
         },
         {
           "id": "final-d1228-07",
-          "time": "16:15",
-          "end": "16:35",
-          "timeText": "16:15–16:35",
+          "time": "16:30",
+          "end": "17:45",
+          "timeText": "16:30–17:45",
           "zone": "スペイン時間",
-          "title": "選択B：カサ・バトリョ（向かいから外観のみ）",
+          "title": "選択B：カサ・バトリョ（内部）",
           "kind": "attraction",
           "confidence": "needs_information",
-          "status": "予定時刻",
-          "note": "内部には入らない。ファサード・バルコニー・屋根は通りから無料で見え、内部は近年の没入型演出の比重が高い。"
+          "status": "発売・予約後に確定",
+          "note": "毎日9:00–20:00・最終入場19:15。16:30の枠を発売後に確保。"
         },
         {
           "id": "final-d1228-08",
-          "time": "17:00",
-          "end": "19:00",
-          "timeText": "17:00–19:00",
+          "time": "18:00",
+          "end": "19:30",
+          "timeText": "18:00–19:30",
           "zone": "スペイン時間",
           "title": "ホテル休憩",
           "kind": "rest",
           "confidence": "needs_information",
-          "status": "当日調整",
-          "note": "翌朝08:15発のTarragonaに備えるため、疲労時もこの休憩は最後まで守る。"
+          "status": "予定時刻",
+          "note": "夕食前に休む。"
         },
         {
           "id": "final-d1228-09",
-          "time": "19:30",
-          "end": "21:00",
-          "timeText": "19:30–21:00",
+          "time": "20:00",
+          "end": "21:30",
+          "timeText": "20:00–21:30",
           "zone": "スペイン時間",
-          "title": "Barcelona市内で夕食",
+          "title": "Cerveseria Catalanaでタパス",
           "kind": "meal",
           "confidence": "needs_information",
-          "status": "当日調整",
-          "note": "ホテル徒歩圏で当日営業を確認し、3人分の注文と代替候補を決める。"
+          "status": "予定時刻",
+          "note": "予約不可・カサ・ミラから徒歩5分。待ち10〜45分を見込む。"
         }
       ]
     },
@@ -622,53 +586,101 @@ window.UXFinalPlan = {
         {
           "id": "final-d1230-02",
           "time": "08:30",
+          "end": "09:00",
+          "timeText": "08:30–09:00",
+          "zone": "スペイン時間",
+          "title": "チェックアウト・荷物をフロントに預ける",
+          "kind": "hotel",
+          "confidence": "confirmed",
+          "status": "確認済み",
+          "note": "12:50に回収する。"
+        },
+        {
+          "id": "final-d1230-03",
+          "time": "09:05",
           "end": "09:40",
-          "timeText": "08:30–09:40",
+          "timeText": "09:05–09:40",
           "zone": "スペイン時間",
           "title": "ブケリア市場",
           "kind": "attraction",
           "confidence": "confirmed",
           "status": "確認済み",
-          "note": "水曜8:00–20:30。日曜休なのでこの日しかない。ターロンを買う。遅れたら切り上げて先へ進む。"
+          "note": "ターロンを買う。"
         },
         {
-          "id": "final-d1230-03",
-          "time": "09:50",
-          "end": "11:10",
-          "timeText": "09:50–11:10",
+          "id": "final-d1230-04",
+          "time": "09:45",
+          "end": "10:00",
+          "timeText": "09:45–10:00",
+          "zone": "スペイン時間",
+          "title": "徒歩でカタルーニャ音楽堂へ",
+          "kind": "transfer",
+          "confidence": "confirmed",
+          "status": "確認済み",
+          "note": "約12分。"
+        },
+        {
+          "id": "final-d1230-05",
+          "time": "10:00",
+          "end": "10:55",
+          "timeText": "10:00–10:55",
+          "zone": "スペイン時間",
+          "title": "カタルーニャ音楽堂 ガイドツアー",
+          "kind": "attraction",
+          "confidence": "needs_information",
+          "status": "発売・予約後に確定",
+          "note": "発売後すぐ10:00の回を3名予約する。"
+        },
+        {
+          "id": "final-d1230-06",
+          "time": "11:00",
+          "end": "11:15",
+          "timeText": "11:00–11:15",
+          "zone": "スペイン時間",
+          "title": "徒歩でグエル邸へ",
+          "kind": "transfer",
+          "confidence": "confirmed",
+          "status": "確認済み",
+          "note": ""
+        },
+        {
+          "id": "final-d1230-07",
+          "time": "11:15",
+          "end": "12:10",
+          "timeText": "11:15–12:10",
           "zone": "スペイン時間",
           "title": "グエル邸",
           "kind": "attraction",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "水曜10:00開館、ホテルから徒歩2分、€12、券売16:30まで。この日の削り代はグエル邸。"
+          "note": "遅れたらグエル邸を落とす。音楽堂は落とさない。"
         },
         {
-          "id": "final-d1230-04",
-          "time": "11:20",
-          "end": "11:40",
-          "timeText": "11:20–11:40",
-          "zone": "スペイン時間",
-          "title": "ホテルへ戻る・チェックアウト",
-          "kind": "hotel",
-          "confidence": "needs_information",
-          "status": "予定時刻",
-          "note": "期限12:00。"
-        },
-        {
-          "id": "final-d1230-05",
-          "time": "12:00",
+          "id": "final-d1230-08",
+          "time": "12:15",
           "end": "12:50",
-          "timeText": "12:00–12:50",
+          "timeText": "12:15–12:50",
           "zone": "スペイン時間",
-          "title": "ホテル周辺で軽い昼食",
+          "title": "El Quim de la Boqueriaで昼食",
           "kind": "meal",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "列車の余裕を優先する。"
+          "note": "徒歩2分・予約不可。"
         },
         {
-          "id": "final-d1230-06",
+          "id": "final-d1230-09",
+          "time": "12:50",
+          "end": "13:00",
+          "timeText": "12:50–13:00",
+          "zone": "スペイン時間",
+          "title": "ホテルで荷物回収",
+          "kind": "hotel",
+          "confidence": "confirmed",
+          "status": "確認済み",
+          "note": ""
+        },
+        {
+          "id": "final-d1230-10",
           "time": "13:00",
           "end": "13:15",
           "timeText": "13:00–13:15",
@@ -680,7 +692,7 @@ window.UXFinalPlan = {
           "note": "約3.5km。"
         },
         {
-          "id": "final-d1230-07",
+          "id": "final-d1230-11",
           "time": "13:15",
           "end": "14:30",
           "timeText": "13:15–14:30",
@@ -692,7 +704,7 @@ window.UXFinalPlan = {
           "note": "発売後に実便へ合わせる。"
         },
         {
-          "id": "final-d1230-08",
+          "id": "final-d1230-12",
           "time": "14:30",
           "end": "17:30",
           "timeText": "14:30–17:30",
@@ -704,7 +716,7 @@ window.UXFinalPlan = {
           "note": "14:30〜15:30発から所要約3時間以内の便を選ぶ。発売後に実在便と座席へ置き換える。"
         },
         {
-          "id": "final-d1230-09",
+          "id": "final-d1230-13",
           "time": "17:45",
           "end": "18:15",
           "timeText": "17:45–18:15",
@@ -716,7 +728,7 @@ window.UXFinalPlan = {
           "note": "Atocha公式タクシー乗り場から約10–15分。18:30の美術館入場を守れる便だけ採用する。"
         },
         {
-          "id": "final-d1230-10",
+          "id": "final-d1230-14",
           "time": "18:30",
           "end": "20:30",
           "timeText": "18:30–20:30",
@@ -728,7 +740,7 @@ window.UXFinalPlan = {
           "note": "水曜は21:00まで。ゲルニカが主役。1/3は14:30閉館、12/31と1/1は休館、火曜も休館のため、12/30夜が唯一ゆとりのある枠。"
         },
         {
-          "id": "final-d1230-11",
+          "id": "final-d1230-15",
           "time": "21:00",
           "end": "22:15",
           "timeText": "21:00–22:15",
@@ -800,11 +812,11 @@ window.UXFinalPlan = {
           "end": "15:30",
           "timeText": "14:15–15:30",
           "zone": "スペイン時間",
-          "title": "Bodega de los Secretosで昼食",
+          "title": "Botínで子豚の丸焼き",
           "kind": "meal",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "王宮（Calle de Bailén）から徒歩約20分、またはタクシー。年末営業を12/1までに確認する。"
+          "note": "王宮から徒歩8分。12/1までに3名予約し、12/31営業を確認。Bodega de los Secretosは代替。"
         },
         {
           "id": "final-d1231-06",
@@ -812,17 +824,17 @@ window.UXFinalPlan = {
           "end": "16:00",
           "timeText": "15:30–16:00",
           "zone": "スペイン時間",
-          "title": "夕食・水・年越し用ぶどう12粒を買う",
+          "title": "年越し用のぶどう12粒と水を買う",
           "kind": "shopping",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "夕方はSan Silvestre Vallecana（10kmロードレース）による通行規制に注意。"
+          "note": "夕方はSan Silvestre Vallecanaによる通行規制に注意。"
         },
         {
           "id": "final-d1231-07",
           "time": "16:00",
-          "end": "18:00",
-          "timeText": "16:00–18:00",
+          "end": "19:15",
+          "timeText": "16:00–19:15",
           "zone": "スペイン時間",
           "title": "ホテル休憩・防寒準備",
           "kind": "rest",
@@ -832,27 +844,51 @@ window.UXFinalPlan = {
         },
         {
           "id": "final-d1231-08",
-          "time": "18:15",
-          "end": "19:15",
-          "timeText": "18:15–19:15",
+          "time": "19:30",
+          "end": "19:45",
+          "timeText": "19:30–19:45",
           "zone": "スペイン時間",
-          "title": "昼のうちに確保した持帰り夕食をRoom Mate Mario客室で食べる",
-          "kind": "meal",
-          "confidence": "needs_information",
-          "status": "予定時刻",
-          "note": "12/31昼食後から16:00までに3人分の夕食、水、年越し用のぶどうを購入する。館内dinerの大晦日・元日の運用は未確認のため、夜の店舗営業には依存しない。"
+          "title": "Lhardyへ徒歩",
+          "kind": "transfer",
+          "confidence": "confirmed",
+          "status": "確認済み",
+          "note": "Campomanes 4 → Carrera de San Jerónimo 8・約12分。"
         },
         {
           "id": "final-d1231-09",
           "time": "20:00",
+          "end": "21:45",
+          "timeText": "20:00–21:45",
+          "zone": "スペイン時間",
+          "title": "Lhardyで年越しディナー",
+          "kind": "meal",
+          "confidence": "needs_information",
+          "status": "予定時刻",
+          "note": "ディナーの開始時刻はLhardyの年越し営業に合わせて予約時に確定する。11月の受付開始と同時に3名で予約（期限11/15）。"
+        },
+        {
+          "id": "final-d1231-10",
+          "time": "21:45",
+          "end": "22:00",
+          "timeText": "21:45–22:00",
+          "zone": "スペイン時間",
+          "title": "徒歩でPuerta del Solへ",
+          "kind": "transfer",
+          "confidence": "confirmed",
+          "status": "確認済み",
+          "note": "Lhardyから徒歩2分。入場規制で定員到達後は入れないため22:00までに入る。"
+        },
+        {
+          "id": "final-d1231-11",
+          "time": "22:00",
           "end": "00:00",
-          "timeText": "20:00–00:00",
+          "timeText": "22:00–00:00",
           "zone": "スペイン時間",
           "title": "Puerta del Sol カウントダウン（12粒のブドウ）",
           "kind": "event",
           "confidence": "needs_information",
           "status": "当日調整",
-          "note": "Campomanes 4からCalle Arenal経由で徒歩約7–8分。ただし12/31夜は警備規制で通行ルートが変わるため当日の公式案内を優先する。強雨・体調不良時はホテル年越しへ。"
+          "note": "入場規制で定員到達後は入れないため22:00までに入る。当日の警備規制を確認し、公式案内を優先する。強雨・体調不良時はホテル年越しへ切り替える。"
         }
       ]
     },
@@ -915,71 +951,95 @@ window.UXFinalPlan = {
           "end": "14:00",
           "timeText": "13:00–14:00",
           "zone": "スペイン時間",
-          "title": "元日の昼食",
+          "title": "La Campanaでボカディージョ・デ・カラマレス",
           "kind": "meal",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": ""
+          "note": "1/1営業を12/1までに確認。休業ならマヨール広場周辺の営業店へ。"
         },
         {
           "id": "final-d0101-06",
-          "time": "17:00",
-          "end": "17:30",
-          "timeText": "17:00–17:30",
+          "time": "14:15",
+          "end": "14:30",
+          "timeText": "14:15–14:30",
           "zone": "スペイン時間",
-          "title": "サン・イシドロ教会",
-          "kind": "attraction",
-          "confidence": "needs_information",
-          "status": "原本確認後に確定",
-          "note": "通常の午後再開後に見学。元日の特別運用は12/31に公式・現地で再確認する。"
+          "title": "Metro L2 Sol → Retiro",
+          "kind": "transfer",
+          "confidence": "confirmed",
+          "status": "確認済み",
+          "note": "3駅。"
         },
         {
           "id": "final-d0101-07",
-          "time": "15:00",
+          "time": "14:30",
           "end": "15:45",
-          "timeText": "15:00–15:45",
+          "timeText": "14:30–15:45",
           "zone": "スペイン時間",
-          "title": "マドリード王宮（外観）",
+          "title": "エル・レティーロ公園（Palacio de Cristal・池）",
           "kind": "attraction",
-          "confidence": "needs_information",
-          "status": "予定時刻",
-          "note": "Room Mate Marioから徒歩約5分。"
+          "confidence": "confirmed",
+          "status": "確認済み",
+          "note": "冬季は22:00閉門。"
         },
         {
           "id": "final-d0101-08",
-          "time": "16:00",
-          "end": "16:30",
-          "timeText": "16:00–16:30",
+          "time": "15:50",
+          "end": "16:10",
+          "timeText": "15:50–16:10",
           "zone": "スペイン時間",
-          "title": "サン・フランシスコ・エル・グランデ（外観）",
-          "kind": "attraction",
-          "confidence": "needs_information",
-          "status": "予定時刻",
-          "note": ""
+          "title": "Metro L2 Retiro → Banco de España",
+          "kind": "transfer",
+          "confidence": "confirmed",
+          "status": "確認済み",
+          "note": "2駅。"
         },
         {
           "id": "final-d0101-09",
-          "time": "17:45",
-          "end": "19:00",
-          "timeText": "17:45–19:00",
+          "time": "16:15",
+          "end": "17:00",
+          "timeText": "16:15–17:00",
+          "zone": "スペイン時間",
+          "title": "グラン・ビアを歩く",
+          "kind": "attraction",
+          "confidence": "confirmed",
+          "status": "確認済み",
+          "note": "Banco de España → Plaza de España・約1.3km。"
+        },
+        {
+          "id": "final-d0101-10",
+          "time": "17:05",
+          "end": "18:00",
+          "timeText": "17:05–18:00",
+          "zone": "スペイン時間",
+          "title": "デボド神殿で夕景",
+          "kind": "attraction",
+          "confidence": "needs_information",
+          "status": "予定時刻",
+          "note": "Plaza de Españaから徒歩5分。冬の日没は約18:00。"
+        },
+        {
+          "id": "final-d0101-11",
+          "time": "18:00",
+          "end": "19:45",
+          "timeText": "18:00–19:45",
           "zone": "スペイン時間",
           "title": "ホテル休憩",
           "kind": "rest",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "翌日のCordobaに備え、外出を増やさない。"
+          "note": "Debodからホテルへ徒歩15分で戻り、20:00のSan Miguel市場に備える。"
         },
         {
-          "id": "final-d0101-10",
-          "time": "19:00",
-          "end": "20:00",
-          "timeText": "19:00–20:00",
+          "id": "final-d0101-12",
+          "time": "20:00",
+          "end": "21:00",
+          "timeText": "20:00–21:00",
           "zone": "スペイン時間",
-          "title": "12/31に確保した保存食をRoom Mate Mario客室で食べる",
+          "title": "Mercado de San Miguelでタパス",
           "kind": "meal",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "元日の営業店に依存しない。Room Mate Marioの朝食会場dinerは元日の夕食提供が未確認のため、温かい料理を推測で当てにしない。"
+          "note": "徒歩5分。1/1営業を12/1までに確認し、休業なら持帰りへ。"
         }
       ]
     },
@@ -1119,6 +1179,18 @@ window.UXFinalPlan = {
           "confidence": "needs_information",
           "status": "予定時刻",
           "note": "Atochaからタクシー。"
+        },
+        {
+          "id": "final-d0102-12",
+          "time": "20:30",
+          "end": "22:00",
+          "timeText": "20:30–22:00",
+          "zone": "スペイン時間",
+          "title": "Casa Lucioでウエボス・ロトス",
+          "kind": "meal",
+          "confidence": "needs_information",
+          "status": "予定時刻",
+          "note": "Cava Baja 35。ホテルで着替えて徒歩15分。12/1までに3名予約。"
         }
       ]
     },
@@ -1133,74 +1205,98 @@ window.UXFinalPlan = {
           "end": "09:00",
           "timeText": "08:30–09:00",
           "zone": "スペイン時間",
+          "title": "ホテルのビュッフェ朝食",
+          "kind": "meal",
+          "confidence": "confirmed",
+          "status": "確認済み",
+          "note": ""
+        },
+        {
+          "id": "final-d0103-02",
+          "time": "09:00",
+          "end": "09:30",
+          "timeText": "09:00–09:30",
+          "zone": "スペイン時間",
           "title": "Room Mate Marioをチェックアウト・荷物預け",
           "kind": "hotel",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "12:00までにチェックアウト。24時間フロントの荷物預かりを利用する。"
-        },
-        {
-          "id": "final-d0103-02",
-          "time": "10:00",
-          "end": "11:30",
-          "timeText": "10:00–11:30",
-          "zone": "スペイン時間",
-          "title": "San Miguel市場・Cava de San Miguel通り",
-          "kind": "attraction",
-          "confidence": "needs_information",
-          "status": "予定時刻",
-          "note": "年始に店頭へ並ぶロスコン・デ・レジェスも買い物候補にする。"
+          "note": "フロントの荷物預かりを利用する。"
         },
         {
           "id": "final-d0103-03",
-          "time": "12:15",
-          "end": "13:15",
-          "timeText": "12:15–13:15",
+          "time": "10:00",
+          "end": "12:30",
+          "timeText": "10:00–12:30",
           "zone": "スペイン時間",
-          "title": "Atocha周辺で昼食",
-          "kind": "meal",
-          "confidence": "needs_information",
-          "status": "予定時刻",
-          "note": ""
+          "title": "El Rastro（日曜の蚤の市）",
+          "kind": "attraction",
+          "confidence": "confirmed",
+          "status": "確認済み",
+          "note": "La Latina・Ribera de Curtidores。"
         },
         {
           "id": "final-d0103-04",
-          "time": "13:30",
-          "end": "15:00",
-          "timeText": "13:30–15:00",
+          "time": "12:30",
+          "end": "13:15",
+          "timeText": "12:30–13:15",
           "zone": "スペイン時間",
-          "title": "休憩・荷物回収",
-          "kind": "rest",
-          "confidence": "needs_information",
-          "status": "予定時刻",
-          "note": ""
+          "title": "徒歩でLa Bolaへ",
+          "kind": "transfer",
+          "confidence": "confirmed",
+          "status": "確認済み",
+          "note": "約15分。"
         },
         {
           "id": "final-d0103-05",
-          "time": "15:00",
-          "end": "15:30",
-          "timeText": "15:00–15:30",
+          "time": "13:30",
+          "end": "15:15",
+          "timeText": "13:30–15:15",
           "zone": "スペイン時間",
-          "title": "Madrid Atochaへ移動",
-          "kind": "transfer",
+          "title": "La Bolaでコシード・マドリレーニョ",
+          "kind": "meal",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "Room Mate Marioからタクシーで約10–15分。"
+          "note": "日曜は昼のみ。12/1までに3名予約。"
         },
         {
           "id": "final-d0103-06",
+          "time": "15:15",
+          "end": "15:30",
+          "timeText": "15:15–15:30",
+          "zone": "スペイン時間",
+          "title": "ホテルで荷物回収",
+          "kind": "hotel",
+          "confidence": "confirmed",
+          "status": "確認済み",
+          "note": ""
+        },
+        {
+          "id": "final-d0103-07",
           "time": "15:30",
           "end": "15:50",
           "timeText": "15:30–15:50",
           "zone": "スペイン時間",
-          "title": "Atochaで持帰り夕食を購入",
+          "title": "タクシーでMadrid Atochaへ",
+          "kind": "transfer",
+          "confidence": "needs_information",
+          "status": "予定時刻",
+          "note": ""
+        },
+        {
+          "id": "final-d0103-08",
+          "time": "15:50",
+          "end": "16:10",
+          "timeText": "15:50–16:10",
+          "zone": "スペイン時間",
+          "title": "Atochaで軽食を購入",
           "kind": "meal",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "Enrique TomásまたはRodillaで3人分と飲料を購入。郊外泊のため必ずここで確保し、Barcelona到着後の店舗営業に依存しない。"
+          "note": "コシードの後なので軽くてよい。Viladecansで食べる。"
         },
         {
-          "id": "final-d0103-07",
+          "id": "final-d0103-09",
           "time": "15:50",
           "end": "17:00",
           "timeText": "15:50–17:00",
@@ -1212,7 +1308,7 @@ window.UXFinalPlan = {
           "note": "発売後に実便の発車90分前へ調整する。"
         },
         {
-          "id": "final-d0103-08",
+          "id": "final-d0103-10",
           "time": "17:00",
           "end": "20:30",
           "timeText": "17:00–20:30",
@@ -1224,7 +1320,7 @@ window.UXFinalPlan = {
           "note": "17:00前後発・20:30前後着の目標窓。年末年始ダイヤ発売後に実在便と座席へ置き換える。"
         },
         {
-          "id": "final-d0103-09",
+          "id": "final-d0103-11",
           "time": "20:30",
           "end": "21:30",
           "timeText": "20:30–21:30",
