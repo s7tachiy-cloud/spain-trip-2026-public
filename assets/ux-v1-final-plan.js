@@ -117,11 +117,11 @@ window.UXFinalPlan = {
           "end": "11:15",
           "timeText": "10:15–11:15",
           "zone": "スペイン時間",
-          "title": "Bar Pinotxoで朝昼食",
+          "title": "Cafè de l'Òperaで朝食（エスモルザール）",
           "kind": "meal",
-          "confidence": "confirmed",
-          "status": "確認済み",
-          "note": "ブケリア市場・ホテルから徒歩2分・予約不可。"
+          "confidence": "needs_information",
+          "status": "予定時刻",
+          "note": "La Rambla 74・1929年からのカフェ（前身は1831年のチョコレート店）・ホテルから徒歩3分・毎日08:30–02:30。12/26はブケリア市場が休場のためBar Pinotxoは使えない。祝日営業を12/1までに確認し、休みなら同じ街区で営業中のカフェへ。Bar Pinotxo／El Quimは12/30朝のブケリア訪問で回収する。"
         },
         {
           "id": "final-d1226-05",
@@ -224,7 +224,7 @@ window.UXFinalPlan = {
           "kind": "rest",
           "confidence": "needs_information",
           "status": "当日調整",
-          "note": "前夜に選んだシナリオを、視界・風・鉄道／山上交通の運行で最終判断。悪条件ならBarcelona市内案へ。"
+          "note": "前夜の案を視界・風・鉄道の運行で最終判断。悪条件ならBarcelona市内案へ。前夜と当日朝に2026/27クリスマス時刻表とfunicular運行を確認する。Santa Covaは計画に含めない（FGCの運休告知あり）。"
         },
         {
           "id": "final-d1227-02",
@@ -244,11 +244,11 @@ window.UXFinalPlan = {
           "end": "12:30",
           "timeText": "09:30–12:30",
           "zone": "スペイン時間",
-          "title": "選択A：Montserrat主要部／選択B：サグラダ・ファミリア（日曜10:30–12:30）とグエル公園",
+          "title": "選択A：MontserratのBasilica → 黒い聖母 → 景観／選択B：サグラダ・ファミリア（日曜10:30–12:30）",
           "kind": "attraction",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "選択AではEscolania（少年聖歌隊）が日祝の12:00と18:45に歌う。日曜12:00は日帰りで聞ける唯一の機会だが、年末年始に休みへ入る可能性があるため旅行前に公式で確認する。選択Bのサグラダは11から2月の日曜は10:30開館で、10:00には入れない。"
+          "note": "黒い聖母（Throne of Our Lady：拝観08:00–10:30／12:00–18:25、10:30–12:00は中断）。間に合わなければ12:00再開後に拝観。Escolaniaの日祝12:00の歌唱は年末休止の可能性があるため公式で確認。選択Bは日曜10:30開館に合わせる。"
         },
         {
           "id": "final-d1227-04",
@@ -260,7 +260,7 @@ window.UXFinalPlan = {
           "kind": "meal",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "選択Aは山上の営業状況を確認し、混雑時は持参食へ切り替える。選択BはLa Pubillaの日曜営業と空席を事前確認する。"
+          "note": "選択Aは山上の営業状況を確認し、混雑時は持参食へ切り替える。mató amb mel（フレッシュチーズと蜂蜜）があれば注文する。選択BはLa Pubillaの日曜営業と空席を事前確認する。"
         },
         {
           "id": "final-d1227-05",
@@ -268,11 +268,11 @@ window.UXFinalPlan = {
           "end": "17:00",
           "timeText": "14:30–17:00",
           "zone": "スペイン時間",
-          "title": "選択A：Sant Joan funicularで展望台／選択B：カサ・ミラとカサ・バトリョ（内部）",
+          "title": "選択A：Museum of Montserratと短い散策／選択B：グエル公園14:30頃 → カサ・ミラ／カサ・バトリョの内部どちらか一つ",
           "kind": "attraction",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "選択Aは10:00〜・12〜15分間隔・冬季は17:00前後まで。下山のAeri／Cremalleraの最終に間に合うよう15:30までに山頂を出る。選択Bは両建築の内部を見る。"
+          "note": "Sant Joan funicularは運行していれば乗る（ボーナス）。運休なら美術館・短い散策・展望地点へ替え、15:30までに山頂を出る。 選択Bは公園の後、内部見学は一つだけ。もう一方は外観または追加のBarcelona日へ回す。"
         },
         {
           "id": "final-d1227-06",
@@ -314,8 +314,8 @@ window.UXFinalPlan = {
           "title": "Montserrat当日go/no-go",
           "kind": "rest",
           "confidence": "needs_information",
-          "status": "予定時刻",
-          "note": "月曜が最も明瞭なシナリオだけMontserratへ。Tarragonaは祝日を除く月曜にMHT全館休館のため置かない（Tarragona市公式：https://www.tarragona.cat/patrimoni/museu-historia/visites/horaris）。"
+          "status": "当日調整",
+          "note": "月曜が最も明瞭な場合だけMontserratへ。Tarragonaは祝日を除く月曜にMHT全館休館のため置かない。前夜と当日朝に2026/27クリスマス時刻表とfunicular運行を確認する。Santa Covaは計画に含めない（FGCの運休告知あり）。"
         },
         {
           "id": "final-d1228-02",
@@ -335,11 +335,11 @@ window.UXFinalPlan = {
           "end": "11:00",
           "timeText": "09:00–11:00",
           "zone": "スペイン時間",
-          "title": "選択A：Montserrat主要部／選択B：サグラダ・ファミリア",
+          "title": "選択A：MontserratのBasilica → 黒い聖母／選択B：サグラダ・ファミリア",
           "kind": "attraction",
           "confidence": "needs_information",
           "status": "発売・予約後に確定",
-          "note": "サグラダは11から2月の平日は9:00開館。発売後に入場枠を確保する。"
+          "note": "黒い聖母（Throne of Our Lady：拝観08:00–10:30／12:00–18:25、10:30–12:00は中断）。山上到着が10:30以降なら12:00再開後の拝観に合わせる。選択Bは平日09:00開館。発売後に入場枠を確保する。"
         },
         {
           "id": "final-d1228-04",
@@ -347,11 +347,11 @@ window.UXFinalPlan = {
           "end": "13:00",
           "timeText": "11:15–13:00",
           "zone": "スペイン時間",
-          "title": "選択A：Montserrat美術館とSant Joan funicular／選択B：グエル公園",
+          "title": "選択A：黒い聖母の拝観再開 → 景観 → Museum of Montserrat／選択B：グエル公園",
           "kind": "attraction",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "選択Aは10:00〜・12〜15分間隔・冬季は17:00前後まで。下山のAeri／Cremalleraの最終に間に合うよう15:30までに山頂を出る。選択Bのグエル公園は予約時刻を確認して向かう。"
+          "note": "黒い聖母が未拝観なら12:00再開を待って先に拝観し、景観・美術館へ。美術館の残りは午後へ回せる。選択Bは公園の予約時刻を確認して向かう。"
         },
         {
           "id": "final-d1228-05",
@@ -363,7 +363,7 @@ window.UXFinalPlan = {
           "kind": "meal",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "選択Aは山上の営業状況を確認し、混雑時は持参食へ切り替える。選択Bは13:15の3名席を予約する。"
+          "note": "選択Aは山上の営業状況を確認し、混雑時は持参食へ切り替える。mató amb mel（フレッシュチーズと蜂蜜）があれば注文する。選択Bは13:15の3名席を予約する。"
         },
         {
           "id": "final-d1228-06",
@@ -371,11 +371,11 @@ window.UXFinalPlan = {
           "end": "16:00",
           "timeText": "15:00–16:00",
           "zone": "スペイン時間",
-          "title": "選択A：Montserrat景観／選択B：カサ・ミラ（屋上と屋根裏）",
+          "title": "選択A：美術館の続き・短い散策／選択B：カサ・ミラ（屋上と屋根裏）",
           "kind": "attraction",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "屋上の煙突群と屋根裏のカテナリー・アーチを見る。"
+          "note": "Sant Joan funicularは運行していれば乗る（ボーナス）。運休なら美術館・短い散策・展望地点へ替え、15:30までに山頂を出る。 選択Bは屋上の煙突群と屋根裏のカテナリー・アーチを見る。"
         },
         {
           "id": "final-d1228-07",
@@ -429,8 +429,8 @@ window.UXFinalPlan = {
           "title": "Montserrat当日go/no-go",
           "kind": "rest",
           "confidence": "needs_information",
-          "status": "予定時刻",
-          "note": "火曜が明らかに最良と決めた場合だけMontserratへ。それ以外は質の高いTarragona一日案。"
+          "status": "当日調整",
+          "note": "火曜が明らかに最良の場合だけ選択AのMontserratへ。それ以外はTarragona。前夜と当日朝に2026/27クリスマス時刻表とfunicular運行を確認する。Santa Covaは計画に含めない（FGCの運休告知あり）。"
         },
         {
           "id": "final-d1229-02",
@@ -462,11 +462,11 @@ window.UXFinalPlan = {
           "end": "12:30",
           "timeText": "10:00–12:30",
           "zone": "スペイン時間",
-          "title": "Tarragona Roman city core",
+          "title": "円形闘技場（Amfiteatre）→ Balcó del Mediterrani → Circ／Pretori",
           "kind": "attraction",
           "confidence": "needs_information",
-          "status": "予定時刻",
-          "note": "火曜は円形闘技場、Circ、城壁など中央部を徒歩でつなぐ。Pont del DiableやBUSPLANAは使わない。Montserrat選択時は修道院主要部へ。"
+          "status": "当日調整",
+          "note": "10:00に円形闘技場から始め、地中海の眺望を経て競技場と塔へ。MHT公式の当日開館を確認。Tarracoのローマ遺跡群はUNESCO世界遺産。選択A：MontserratのBasilica → 黒い聖母（Throne of Our Lady：拝観08:00–10:30／12:00–18:25、10:30–12:00は中断） → 景観。10:30に間に合わなければ12:00再開後に拝観。"
         },
         {
           "id": "final-d1229-05",
@@ -474,11 +474,11 @@ window.UXFinalPlan = {
           "end": "13:00",
           "timeText": "12:30–13:00",
           "zone": "スペイン時間",
-          "title": "Balcó del Mediterrani",
+          "title": "Tarragona大聖堂とPart Alta",
           "kind": "attraction",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "地中海の眺望とRambla Novaを楽しむ。"
+          "note": "20–30分。内部時間が合わなければ外観とPla de la Seu。選択A：Museum of Montserrat（続きは午後へ）。"
         },
         {
           "id": "final-d1229-06",
@@ -490,7 +490,7 @@ window.UXFinalPlan = {
           "kind": "meal",
           "confidence": "needs_information",
           "status": "当日調整",
-          "note": "カルソッツのシーズンは11月から4月で、本場のVallsはタラゴナ県。冬のこの時期にタラゴナで食べる意味がある。焼いた青ネギをロメスコソースで食べる。扱う店は季節営業のため、旅行前に営業を確認する。満席・休業ならPart AltaのEl Llagut（romescoと魚介）へ切り替える。"
+          "note": "冬の本場Tarragona県で焼いた青ネギをロメスコソースと味わう。12/29の提供を事前確認し、カルソッツがなければ第一代替はEl Llagutなどの魚介のromesco（cassola de romesco）。満席・休業ならPart Altaの営業店へ。選択Aは山上のLa Cafeteriaまたは持参食。mató amb melがあれば注文する。"
         },
         {
           "id": "final-d1229-07",
@@ -498,11 +498,11 @@ window.UXFinalPlan = {
           "end": "17:00",
           "timeText": "15:00–17:00",
           "zone": "スペイン時間",
-          "title": "Roman core後半と旧市街散策",
+          "title": "城壁のPasseig Arqueològic → 余ればForum → 駅",
           "kind": "attraction",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "帰路に余裕を残して中央部だけを巡る。Montserrat選択時は景観を見て早めに下山。"
+          "note": "中央部だけを巡り、17:00の帰路を守る。Pont del Diableへは広げない。選択A：Museum of Montserratの続き。Sant Joan funicularは運行していれば乗る（ボーナス）。運休なら美術館・短い散策・展望地点へ替え、15:30までに山頂を出る。"
         },
         {
           "id": "final-d1229-08",
@@ -780,31 +780,31 @@ window.UXFinalPlan = {
           "kind": "attraction",
           "confidence": "confirmed",
           "status": "確認済み",
-          "note": "12/31は10:00–14:00の短縮。"
+          "note": "12/31は10:00–14:00。代表作に絞る・11:40退出厳守。"
         },
         {
           "id": "final-d1231-03",
-          "time": "11:50",
+          "time": "11:40",
           "end": "12:10",
-          "timeText": "11:50–12:10",
+          "timeText": "11:40–12:10",
           "zone": "スペイン時間",
           "title": "プラドから王宮へ移動",
           "kind": "transfer",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "徒歩25分、またはBanco de España L2→Óperaで約15分。"
+          "note": "タクシーで王宮へ。12:15入場のため、11:40にPradoを出て乗車・入場待ちの余裕を取る。"
         },
         {
           "id": "final-d1231-04",
           "time": "12:15",
-          "end": "14:00",
-          "timeText": "12:15–14:00",
+          "end": "13:45",
+          "timeText": "12:15–13:45",
           "zone": "スペイン時間",
           "title": "マドリード王宮（内部）",
           "kind": "attraction",
           "confidence": "needs_information",
           "status": "予定時刻",
-          "note": "12/31は10:00–15:00、最終入場は閉館1時間前。1/1は休館。内部に入れるのはこの日だけ。"
+          "note": "12:15入場・14:00までに退出。Botínへ14:15に着くため13:45退出を目標にする。12/31は15:00閉館、最終入場14:00。退出後にAlmudena大聖堂を外観中心で15–20分（13:45–14:00目安）、徒歩でBotínへ。遅れたら外観を短縮し昼食を優先。"
         },
         {
           "id": "final-d1231-05",
@@ -975,29 +975,29 @@ window.UXFinalPlan = {
           "end": "15:45",
           "timeText": "14:30–15:45",
           "zone": "スペイン時間",
-          "title": "エル・レティーロ公園（Palacio de Cristal・池）",
+          "title": "エル・レティーロ公園（池・Palacio de Cristalは外観のみ／2027年6月まで修復工事）",
           "kind": "attraction",
           "confidence": "confirmed",
           "status": "確認済み",
-          "note": "冬季は22:00閉門。"
+          "note": "冬季は22:00閉門。Palacio de Cristalには入らず、工事区画の外から見られる範囲に留める。"
         },
         {
           "id": "final-d0101-08",
           "time": "15:50",
-          "end": "16:10",
-          "timeText": "15:50–16:10",
+          "end": "16:30",
+          "timeText": "15:50–16:30",
           "zone": "スペイン時間",
-          "title": "Metro L2 Retiro → Banco de España",
+          "title": "Puerta de Alcalá → Plaza de Cibeles → Gran Vía（地上を歩いて写真立寄り・約1.5km）",
           "kind": "transfer",
           "confidence": "confirmed",
           "status": "確認済み",
-          "note": "2駅。"
+          "note": "門と噴水を地上で見ながら歩く。写真立寄り込み約40分。"
         },
         {
           "id": "final-d0101-09",
-          "time": "16:15",
+          "time": "16:30",
           "end": "17:00",
-          "timeText": "16:15–17:00",
+          "timeText": "16:30–17:00",
           "zone": "スペイン時間",
           "title": "グラン・ビアを歩く",
           "kind": "attraction",
@@ -1111,17 +1111,29 @@ window.UXFinalPlan = {
         {
           "id": "final-d0102-06",
           "time": "11:45",
-          "end": "12:45",
-          "timeText": "11:45–12:45",
+          "end": "12:05",
+          "timeText": "11:45–12:05",
           "zone": "スペイン時間",
-          "title": "JuderíaとRoman Bridge",
+          "title": "シナゴーグ",
           "kind": "attraction",
           "confidence": "needs_information",
-          "status": "予定時刻",
-          "note": "Mezquita周辺の白い路地から橋まで徒歩でつなぐ。"
+          "status": "原本確認後に確定",
+          "note": "Judería内・火〜日09:00–15:00・土曜の1/2は通常運用なら入れる。2026年の周辺整備工事を直前に再確認。橋より先に訪問する。"
         },
         {
           "id": "final-d0102-07",
+          "time": "12:05",
+          "end": "12:45",
+          "timeText": "12:05–12:45",
+          "zone": "スペイン時間",
+          "title": "Juderíaの路地 → Roman Bridge／Puerta del Puente",
+          "kind": "attraction",
+          "confidence": "needs_information",
+          "status": "予定時刻",
+          "note": "シナゴーグの後に橋へ歩く。Medina Azaharaは移動と見学時間を確保できないため意図的に含めない。"
+        },
+        {
+          "id": "final-d0102-08",
           "time": "13:00",
           "end": "14:30",
           "timeText": "13:00–14:30",
@@ -1133,7 +1145,7 @@ window.UXFinalPlan = {
           "note": "第一候補。salmorejo、flamenquín、rabo de toro、berenjenas con mielを3人で共有。満席・休業なら徒歩15分以内で4品中3品以上があるtabernaを選び、なければCasa Pepe de la Judería。"
         },
         {
-          "id": "final-d0102-08",
+          "id": "final-d0102-09",
           "time": "14:45",
           "end": "16:15",
           "timeText": "14:45–16:15",
@@ -1145,7 +1157,7 @@ window.UXFinalPlan = {
           "note": "午後の主役は一施設だけ。旅行日の開館が確認できなければ旧市街散策へ替える。"
         },
         {
-          "id": "final-d0102-09",
+          "id": "final-d0102-10",
           "time": "16:15",
           "end": "17:15",
           "timeText": "16:15–17:15",
@@ -1157,7 +1169,7 @@ window.UXFinalPlan = {
           "note": "カフェ休憩を含め、帰路の発車45分前までに駅へ。"
         },
         {
-          "id": "final-d0102-10",
+          "id": "final-d0102-11",
           "time": "17:15",
           "end": "19:15",
           "timeText": "17:15–19:15",
@@ -1169,7 +1181,7 @@ window.UXFinalPlan = {
           "note": "17:15前後発・19:15前後着を目標。最終便は選ばず、発売後に往復を確定する。"
         },
         {
-          "id": "final-d0102-11",
+          "id": "final-d0102-12",
           "time": "19:15",
           "end": "20:00",
           "timeText": "19:15–20:00",
@@ -1181,7 +1193,7 @@ window.UXFinalPlan = {
           "note": "Atochaからタクシー。"
         },
         {
-          "id": "final-d0102-12",
+          "id": "final-d0102-13",
           "time": "20:30",
           "end": "22:00",
           "timeText": "20:30–22:00",
@@ -1226,14 +1238,14 @@ window.UXFinalPlan = {
         {
           "id": "final-d0103-03",
           "time": "10:00",
-          "end": "12:30",
-          "timeText": "10:00–12:30",
+          "end": "12:00",
+          "timeText": "10:00–12:00",
           "zone": "スペイン時間",
           "title": "El Rastro（日曜の蚤の市）",
           "kind": "attraction",
           "confidence": "confirmed",
           "status": "確認済み",
-          "note": "La Latina・Ribera de Curtidores。"
+          "note": "La Latina・Ribera de Curtidores。12:00頃に切り上げ、La Bolaのコシードと列車を優先する。"
         },
         {
           "id": "final-d0103-04",

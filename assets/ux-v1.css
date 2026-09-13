@@ -690,3 +690,45 @@ p { margin-bottom: 12px; }
   .home-task-card > .button { grid-column: 2; justify-self: start; }
   .city-section-note { align-items: flex-start; flex-direction: column; }
 }
+
+/* Curated itinerary highlights */
+.must-go-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.must-go-card { min-width: 0; overflow-wrap: anywhere; scroll-margin-top: 100px; }
+.must-go-card .status-row { flex-wrap: wrap; }
+.must-go-card h3 { margin: 12px 0; }
+.must-go-line { border-top: 1px solid var(--line, #ded8ce); padding-top: 12px; font-size: .85rem; }
+.must-go-home { margin-bottom: 24px; }
+.must-go-home li { margin-bottom: 8px; }
+.must-go-home .button, .must-go-card .button { min-height: 44px; white-space: normal; }
+@media (max-width: 480px) { .must-go-grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* Keep traveler text within grid tracks, including long place names. */
+#screen .timeline, #screen .timeline > *, #screen .timeline-item,
+#screen .timeline-card, #screen .timeline-card *,
+#screen .itinerary-day-header, #screen .itinerary-day-header *,
+#screen .scenario-option, #screen .scenario-option *, #screen .decision-point > * {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+#screen .task-card time, #screen .budget-line .button, #screen .fx-rate-form .button,
+#screen .itinerary-today, #screen .itinerary-jumpdates small, #screen .prototype-note strong {
+  white-space: normal;
+}
+.timeline-item, .decision-point { scroll-margin-top: 180px; }
+.trip-time-badge { display: inline-block; padding: 3px 8px; margin-bottom: 6px; border-radius: 8px; background: var(--green); color: white; font-weight: 800; }
+.trip-time-badge.is-next { background: var(--mint-2); color: var(--ink); }
+
+/* Reserve replaced-element geometry before image decoding. Size containment
+   keeps intrinsic image dimensions out of text-sized grid rows. */
+.ranked-card-image { aspect-ratio: 7 / 5; }
+.guide-detail-image img { display: block; height: auto; }
+.must-eat-card > img { aspect-ratio: 150 / 174; contain: size; }
+.learning-spotlight-card > img { contain: size; }
+.memory-card img { contain: size; }
+.itinerary-jumpbar { top: var(--itinerary-header-height, 70px); }
+.itinerary-day, .timeline-item, .decision-point { scroll-margin-top: var(--itinerary-scroll-margin, 160px); }
+@media (max-width: 767px) {
+  .ranked-card-image { aspect-ratio: 2 / 1; }
+  .itinerary-jumpbar { top: var(--itinerary-header-height, 60px); }
+  .itinerary-day, .timeline-item, .decision-point { scroll-margin-top: var(--itinerary-scroll-margin, 142px); }
+}

@@ -24828,7 +24828,7 @@ window.TRIP = {
     {
       "id": "sant-joan-funicular",
       "category": "交通",
-      "title": "Sant Joan funicular",
+      "title": "Sant Joan funicular（運行していれば乗るボーナス）",
       "status": "needs_information",
       "currency": "EUR",
       "amount": 18,
@@ -25618,7 +25618,7 @@ window.TRIP = {
           "古代の構造が現代の建物や街路の下へ残り、町そのものが遺跡になっている。",
           "romescoは冷たいソースだけでなく、魚を煮る温かい郷土料理が出発点。"
         ],
-        whyItMatters: "一日で遺跡を数えるのではなく、海からPart Altaへ上がりながら都市の断面を読むためです。円形闘技場、Circ、城壁、昼食を一本の物語として記憶できます。",
+        whyItMatters: "一日で遺跡を数えるのではなく、海からPart Altaへ上がりながら都市の断面を読むためです。円形闘技場 → Balcó del Mediterrani → Circ／Pretori → Tarragona大聖堂とPart Alta → 昼食 → 城壁を一本の物語として記憶できます。大聖堂は20–30分、内部時間が合わなければ外観とPla de la Seuへ。",
         sourceIds: ["source-tarraco-unesco", "source-tarragona-romesco-2026"]
       },
       terms: [
@@ -25700,7 +25700,7 @@ window.TRIP = {
             { title: "大聖堂身廊", text: "高さ、採光、choirが中心をつくり、空間を別の秩序へ変える。" }
           ], sourceIds: ["source-cordoba-mezquita-history"] }
         ] },
-        { id: "city-walk", title: "3. JuderíaとRoman Bridgeへ続ける", blocks: [
+        { id: "city-walk", title: "3. シナゴーグ → Judería → Roman Bridgeへ続ける", blocks: [
           { type: "paragraph", text: "Mezquita-Catedralの外へ出ると、細い街路のJuderíaとGuadalquivir川を渡るRoman Bridgeが近い。建物の内部だけで歴史を完結させず、水、橋、城壁、街路が人と物の移動を支えたことまでつなげる。", sourceIds: ["source-cordoba-mezquita-history"] },
           { type: "key-points", items: ["Patio de los Naranjosで礼拝前の中庭機能を想像する", "Juderíaでは細い街路の日陰と住居の距離を見る", "Roman Bridgeから旧市街と川の位置関係を振り返る"], sourceIds: ["source-cordoba-mezquita-history"] }
         ] },
@@ -25710,7 +25710,7 @@ window.TRIP = {
         ] }
       ],
       onsiteSections: [{ title: "建物の中から町と食へつなぐ", blocks: [
-        { type: "onsite-checklist", items: ["柱列の反復を見てから、増築部の変化を探す", "mihrabとmaqsuraで光・装飾・方向を見る", "大聖堂身廊へ移り、天井高と音の変化を感じる", "JuderíaからRoman Bridgeへ歩き、川と旧市街の位置を確認する", "昼食は4品を一皿ずつ共有し、最初から頼み過ぎない"], sourceIds: ["source-cordoba-mezquita-history", "source-cordoba-gastronomy"] }
+        { type: "onsite-checklist", items: ["柱列の反復を見てから、増築部の変化を探す", "mihrabとmaqsuraで光・装飾・方向を見る", "大聖堂身廊へ移り、天井高と音の変化を感じる", "11:45–12:05にシナゴーグ（火〜日09:00–15:00）を先に見て、JuderíaからRoman Bridge／Puerta del Puenteへ。周辺整備工事を直前に再確認。Medina Azaharaは含めない", "昼食は4品を一皿ずつ共有し、最初から頼み過ぎない"], sourceIds: ["source-cordoba-mezquita-history", "source-cordoba-gastronomy"] }
       ] }],
       sourceIds: ["source-cordoba-mezquita-history", "source-cordoba-gastronomy"]
     }

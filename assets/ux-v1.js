@@ -133,6 +133,46 @@ const representativeDays = {
   }
 };
 
+// Pure helpers accept an injected instant so trip boundaries are testable.
+// Historical name: the trip clock follows the same active timezone as the header.
+function madridNow(date = new Date()) {
+  try {
+    if (!(date instanceof Date) || !Number.isFinite(date.getTime())) return null;
+    const parts = Object.fromEntries(new Intl.DateTimeFormat("en-CA", {
+      timeZone: activeClockZone(date).timeZone, year: "numeric", month: "2-digit", day: "2-digit",
+      hour: "2-digit", minute: "2-digit", hourCycle: "h23"
+    }).formatToParts(date).map(({ type, value }) => [type, value]));
+    const iso = `${parts.year}-${parts.month}-${parts.day}`;
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(iso)) return null;
+    const minutes = Number(parts.hour) * 60 + Number(parts.minute);
+    if (!Number.isFinite(minutes)) return null;
+    return { iso, day: `d${parts.month}${parts.day}`, minutes,
+      inTrip: iso >= "2026-12-25" && iso <= "2027-01-05" };
+  } catch (_) { return null; } // Invalid dates or unavailable timezone support use pre-trip behavior.
+}
+
+function tripDefaults(params, date = new Date()) {
+  const now = madridNow(date);
+  return !params.has("day") && now?.inTrip
+    ? { tab: "schedule", day: now.day } : { tab: "home", day: "d1227" };
+}
+
+function itineraryPosition(day, date = new Date()) {
+  const now = madridNow(date);
+  const empty = { current: -1, next: -1 };
+  if (!now?.inTrip || now.day !== day?.id || !Array.isArray(day.timeline)) return empty;
+  const minute = (text) => typeof text === "string" && /^(?:[01]\d|2[0-3]):[0-5]\d$/.test(text)
+    ? Number(text.slice(0, 2)) * 60 + Number(text.slice(3)) : NaN;
+  const rows = day.timeline.map((row) => {
+    const start = minute(row.time);
+    const end = row.end === "" ? start + 30 : minute(row.end);
+    return { start, end: end < start ? end + 1440 : end };
+  });
+  const current = rows.findIndex(({ start, end }) => start <= now.minutes && now.minutes < end);
+  const next = rows.findIndex(({ start }, index) => index > current && start > now.minutes);
+  return { current, next };
+}
+
 const scenarioStorageKey = "spain-trip-ux-v1-flex-scenario";
 function loadScenario() {
   try {
@@ -227,13 +267,15 @@ let lastFocus = null;
 let itineraryObserver = null;
 let itineraryScrollLock = false;
 let itineraryScrollTimer = null;
+let cancelItineraryLanding = () => {};
 
 const esc = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
 const mapsUrl = (query) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(String(query || ""))}`;
 const toneClass = (tone) => tone === "warn" ? "warn" : tone === "wait" ? "wait" : tone === "info" ? "info" : "";
 const toneForStatus = (status) => /矛盾|不足|必要|未確認|要修正/.test(status || "") ? "warn" : /待ち|仮|未公表/.test(status || "") ? "wait" : "info";
-const spainStayStart = Date.parse("2026-12-26T06:25:00Z");
-const spainStayEnd = Date.parse("2027-01-04T09:40:00Z");
+// Use Japan through departure day and again from midnight on arrival day.
+const spainStayStart = Date.parse("2026-12-26T00:00:00+09:00");
+const spainStayEnd = Date.parse("2027-01-05T00:00:00+09:00");
 function activeClockZone(now = new Date()) {
   const millis = now.getTime();
   return millis >= spainStayStart && millis < spainStayEnd ? { label: "スペイン", timeZone: "Europe/Madrid" } : { label: "日本", timeZone: "Asia/Tokyo" };
@@ -288,30 +330,30 @@ function tripCountdown(now = new Date()) {
 }
 
 function renderHome() {
-  const pendingBookings = allTripBookings().filter((booking) => bookingStatusLabel(booking) !== "予約済み");
+  const pendingBookings = allTripBookings().filter((booking) => bookingStatusLabel(booking) !== "予約済み" && booking.purchaseMode !== "same_day");
   const waitingOfficial = pendingBookings.filter((booking) => bookingStatusLabel(booking) === "公式発表待ち");
-  const transportOrRelease = (booking) => bookingStatusLabel(booking) === "発売待ち" || /列車|鉄道|Barcelona.*Madrid|Madrid.*Barcelona|Córdoba.*往復|Cordoba.*往復/.test(booking.title);
-  const waitingRelease = pendingBookings.filter((booking) => !waitingOfficial.includes(booking) && transportOrRelease(booking));
+  const waitingRelease = pendingBookings.filter((booking) => bookingStatusLabel(booking) === "発売待ち");
   const readyToArrange = pendingBookings.filter((booking) => !waitingOfficial.includes(booking) && !waitingRelease.includes(booking) && bookingStatusLabel(booking) === "これから手配");
   const taskGroups = [
     ["今決める", [
-      ["1", "列車4区間の発売を待って購入する", "発売待ち", "12/29 Barcelona⇄Tarragona、12/30 Barcelona→Madrid、1/2 Madrid⇄Córdoba、1/3 Madrid→Barcelona。発売中はベッド構成をホテルへ確認します。", "準備の「予約」で確認", "bookings"],
+      ["1", "列車3区間を iryo で買う（12/30・1/2往復・1/3）", "手配可能", "父がiryo公式で3名分を購入し、9/17に進捗確認。12/29 Tarragona往復は当日駅で購入", "準備の「予約」で確認", "bookings"],
       ["2", "優先施設の入場・食事予約を進める", "手配可能", "サグラダ・ファミリア／グエル公園／カサ・ミラ／カサ・バトリョ／カタルーニャ音楽堂／グエル邸／プラド美術館／王宮", "準備の「予約」で確認", "bookings"]
     ]],
     ["発売・公式発表を待つ", [
       ["3", `${waitingRelease.length}件の列車・入場枠`, "発売待ち", waitingRelease.slice(0, 4).map((booking) => booking.title).join("／") || "発売開始後に、採用日程の列車と入場枠を選びます。", "発売後に時刻と料金を確定", "bookings"],
-      ["4", "年末年始情報", "公式発表待ち", "Montserrat往復交通／Botín／La Bola／年越しディナー／Mezquita-Catedral／Tablao Cordobés（12/29）／Casa Ciriaco（12/30）／Sant Esteveのカネロネス（12/26）", "12月に公式情報を再確認", "bookings"]
+      ["4", "年末年始情報", "公式発表待ち", "Montserrat往復交通／Botín／La Bola／年越しディナー／Mezquita-Catedral／Tablao Cordobés（12/29）／Casa Ciriaco（12/30）／Sant EsteveのカネロネスとCafè de l'Òperaの祝日朝食営業（12/26）", "12月に公式情報を再確認", "bookings"]
     ]],
     ["出発直前に確認", [
-      ["5", "TarragonaとMontserratの日を選ぶ", "12/26夜", "12/27–29の天気と交通を比較します。晴天と体力がそろえばMontserrat、条件が悪ければBarcelona市内です。", "旅程の3日間シナリオで切替", "schedule"],
+      ["5", "TarragonaとMontserratの日を選ぶ", "12/26夜", "12/27–29の天気と交通を比較。MontserratはBasilica・黒い聖母・景観・美術館が中心で、Sant Joanは運行時のボーナス。市内2日目はSant PauとCasa Vicensなどへ替えます。", "旅程の3日間シナリオで切替", "schedule"],
       ["6", "予約PDF・保険・通信をオフライン保存", "出発前", "航空券、ホテル、列車、入場券、保険、緊急連絡先を3人が通信なしでも見られる状態にします。", "準備の「書類・連絡」で確認", "documents"]
     ]]
   ];
   screen.innerHTML = `<header class="screen-header home-task-header"><div><span class="eyebrow">次にやること</span><h1>出発までの残タスク</h1><p>今やること、発売を待つこと、出発直前に確認することだけを優先順で表示します。</p></div><div class="context-meta">${esc(tripCountdown())}<small>12/25–1/5 · 3人</small></div></header>
+    ${renderMustGoHome()}
     <section class="home-task-summary" aria-label="残タスクの概要"><article><span>予約済み</span><strong>ホテル3滞在</strong><small>支払・取消期限を確認</small></article><article><span>手配・発売待ち</span><strong>${pendingBookings.length}件</strong><small>準備タブに詳細</small></article><article><span>旅程の条件分岐</span><strong>1件</strong><small>Montserratは天候次第</small></article></section>
-    <article class="card home-next-action"><div><span class="eyebrow">次に進めること</span><h2>列車4区間の発売を待って買う</h2><p>12/29・12/30・1/2・1/3の列車は発売後に購入します。待っている間に、MadridとViladecansのベッド構成をホテルへ確認できます。</p></div><div class="action-row"><button class="button primary" type="button" data-home-plan-section="bookings" data-home-target="plan">列車の準備を見る</button>${action("宿泊予約を見る", { tab: "plan", primary: false })}</div></article>
+    <article class="card home-next-action"><div><span class="eyebrow">次に進めること</span><h2>列車は iryo で発売中・Ouigo は 9/16 から</h2><p>12/30・1/2往復・1/3 は iryo 公式で今すぐ買える。Ouigo は 9/16 に 12/13〜翌8/1 分を発売（アプリは 9/15 先行）。Renfe は 12/13 までしか出ておらず週1で確認。12/29 の Tarragona 往復は当日駅で買う Regional。</p></div><div class="action-row"><button class="button primary" type="button" data-home-plan-section="bookings" data-home-target="plan">列車の準備を見る</button>${action("宿泊予約を見る", { tab: "plan", primary: false })}</div></article>
     <div class="home-task-groups">${taskGroups.map(([phase, tasks]) => `<section class="home-task-phase"><div class="section-head compact-head"><div><span class="eyebrow">準備の段階</span><h2>${esc(phase)}</h2></div><span>${tasks.length}件</span></div><div class="home-task-list">${tasks.map(([number, title, status, note, next, section]) => `<article class="card home-task-card"><span class="task-index">${number}</span><div><div class="status-row">${pill(status, /最優先|12\/26/.test(status) ? "wait" : "info")}</div><h3>${esc(title)}</h3><p>${esc(note)}</p><small>${esc(next)}</small></div><button class="button" type="button" data-home-plan-section="${esc(section)}" data-home-target="${section === "schedule" ? "schedule" : "plan"}">内容を確認する</button></article>`).join("")}</div></section>`).join("")}</div>
-    <section class="home-quick-links"><div><span class="eyebrow">すでに決まっていること</span><h2>決まっている旅の骨格</h2><p>BarcelonaとMadridに宿泊し、TarragonaとCórdobaへ日帰り。Montserratは天候と体力で追加します。</p></div><div class="action-row">${action("12日間の旅程", { tab: "schedule", contextDay: state.day, primary: true })}${action("町と食のガイド", { tab: "guide" })}</div></section>`;
+    <section class="home-quick-links"><div><span class="eyebrow">すでに決まっていること</span><h2>決まっている旅の骨格</h2><p>BarcelonaとMadridに宿泊し、Tarragonaのローマ遺跡と大聖堂、CórdobaのMezquitaとシナゴーグへ日帰り。Montserratは天候と体力で追加します。</p></div><div class="action-row">${action("12日間の旅程", { tab: "schedule", contextDay: state.day, primary: true })}${action("町と食のガイド", { tab: "guide" })}</div></section>`;
 }
 
 function mealBudgetRange(meal) {
@@ -336,16 +378,16 @@ function timelineDetail(item) {
     <div class="action-row">${map}${action("関連ガイド", { tab: "guide" })}</div>`;
 }
 
-function renderTimeline(day) {
+function renderTimeline(day, date = new Date()) {
+  const position = itineraryPosition(day, date);
   return day.timeline.map((item, index) => {
-    if (item.decision) return `<article class="decision-point"><time>${esc(item.time)}</time><div><span class="eyebrow">ここで判断</span><h3>${esc(item.title)}</h3><p>${esc(item.note)}</p></div></article>`;
-    const next = day.timeline[index + 1];
-    const connectorText = item.routeAfter || (next && !next.decision ? `次は ${next.time}「${next.title}」` : "");
-    const connector = connectorText ? `<div class="connector"><div class="connector-line"></div><div class="connector-content">${esc(connectorText)}</div></div>` : "";
+    const badge = index === position.current ? '<span class="trip-time-badge">いま</span>' : index === position.next ? '<span class="trip-time-badge is-next">つぎ</span>' : "";
+    const rowId = `itinerary-row-${day.id}-${index}`;
+    if (item.decision) return `<article class="decision-point" id="${rowId}"><time>${badge}${esc(item.time)}</time><div><span class="eyebrow">ここで判断</span><h3>${esc(item.title)}</h3><p>${esc(item.note)}</p></div></article>`;
     const mealFacts = item.meal ? `<dl class="timeline-facts"><div><dt>食べるもの</dt><dd>${esc((item.meal.dishes || []).join("・"))}</dd></div><div><dt>3人分</dt><dd>${mealBudgetRange(item.meal)}</dd></div><div><dt>満席時</dt><dd>${esc((item.meal.alternatives || []).join("／"))}</dd></div></dl>` : "";
     const mapHelps = !/乗継|保安検査|搭乗口/.test(item.title);
     const routeLink = mapHelps && (item.kind === "移動" || item.kind === "鉄道" || item.kind === "航空" || item.kind === "空港") ? `<a class="button" href="${esc(mapsUrl(`${item.title} ${day.city}`))}" target="_blank" rel="noreferrer">地図を開く</a>` : "";
-    return `<div><article class="timeline-item"><div class="timeline-time">${esc(item.time)}${item.end ? `<small>〜${esc(item.end)}</small>` : ""}${item.zone ? `<small class="timeline-zone">${esc(item.zone)}</small>` : ""}</div><div class="card timeline-card"><div class="status-row">${pill(item.kind)}${pill(item.status, item.tone)}</div><h3>${esc(item.title)}</h3>${item.note ? `<p class="muted">${esc(item.note)}</p>` : ""}${mealFacts}<div class="action-row">${action("詳しく見る", { open: item.detail, detailDay: day.id, primary: true })}${routeLink}</div></div></article>${connector}</div>`;
+    return `<div><article class="timeline-item" id="${rowId}"><div class="timeline-time">${badge}${esc(item.time)}${item.end ? `<small>〜${esc(item.end)}</small>` : ""}${item.zone ? `<small class="timeline-zone">${esc(item.zone)}</small>` : ""}</div><div class="card timeline-card"><div class="status-row">${pill(item.kind)}${pill(item.status, item.tone)}</div><h3>${esc(item.title)}</h3>${item.note ? `<p class="muted">${esc(item.note)}</p>` : ""}${mealFacts}<div class="action-row">${action("詳しく見る", { open: item.detail, detailDay: day.id, primary: true })}${routeLink}</div></div></article></div>`;
   }).join("");
 }
 
@@ -355,16 +397,9 @@ function renderBarcelonaFlexDecision(day) {
   return `<section class="flex-decision" aria-labelledby="flex-decision-title"><div class="flex-decision-head"><span class="eyebrow">12/27–29の選択</span><h2 id="flex-decision-title">3日間のシナリオ</h2><p>12/26夜に天気と交通を比べて選びます。選ぶと3日分の旅程がすぐ入れ替わります。Montserratの日は当日朝にも判断し、条件が悪ければ予約不要のBarcelona市内案にします。</p></div><div class="scenario-selector" role="radiogroup" aria-label="3日間のシナリオ">${scenarios.map((scenario) => `<button class="scenario-option" type="button" role="radio" aria-checked="${state.scenario === scenario.id}" data-scenario="${esc(scenario.id)}"><strong>${esc(scenario.name)}</strong><span>${esc(scenario.summary)}</span>${state.scenario === scenario.id ? `<small>選択中</small>` : ""}</button>`).join("")}</div><p class="flex-note"><strong>選択中：</strong>${esc(window.UXFullData.flexScenarios[state.scenario].name)}。Tarragonaは火曜の一日案が基本で、シナリオ3だけ日曜14:30閉館に合わせた短縮案です。月曜には置きません。</p></section>`;
 }
 
-function itineraryDateId(day) {
-  const digits = day.id.slice(1);
-  return `${digits.startsWith("12") ? "2026" : "2027"}-${digits.slice(0, 2)}-${digits.slice(2, 4)}`;
-}
-
-function currentTripDayId(now = new Date()) {
-  const parts = new Intl.DateTimeFormat("en-CA", { timeZone: activeClockZone(now).timeZone, year: "numeric", month: "2-digit", day: "2-digit" }).formatToParts(now);
-  const value = Object.fromEntries(parts.map((part) => [part.type, part.value]));
-  const today = `${value.year}-${value.month}-${value.day}`;
-  return Object.values(days).find((day) => itineraryDateId(day) === today)?.id || null;
+function currentTripDayId(date = new Date()) {
+  const now = madridNow(date);
+  return now?.inTrip && days[now.day] ? now.day : null;
 }
 
 function renderItineraryJumpbar() {
@@ -392,6 +427,7 @@ const planSections = [
 function bookingStatusLabel(booking) {
   const value = booking.status || booking.lifecycle || "";
   if (/確定|confirmed/.test(value)) return "予約済み";
+  if (booking.purchaseMode === "same_day") return "当日購入";
   if (/waiting_release/.test(booking.lifecycle || "")) return "発売待ち";
   if (/waiting_official|researching/.test(value) || /waiting_official/.test(booking.lifecycle || "")) return "公式発表待ち";
   return "これから手配";
@@ -413,7 +449,7 @@ function allTripBookings() {
     .filter((booking) => activeIds.has(booking.id))
     .map((booking) => ({ ...booking, relatedDayIds: dayOverrides[booking.id] || booking.relatedDayIds }));
   const currentAdditions = [
-    { id: "cordoba-rail", title: "Madrid–Córdoba往復列車", status: "waiting_release", lifecycle: "waiting_release", relatedDayIds: ["d0102"], deadline: "発売後", publicNote: "07:30前後の往路と17:15前後の帰路を比較し、最終便を避けて3名分を購入します。", actionUrl: "https://www.renfe.com/es/en" },
+    { id: "cordoba-rail", title: "Madrid–Córdoba往復列車", status: "on_sale", lifecycle: "bookable", purchaseMode: "advance", relatedDayIds: ["d0102"], deadline: "早いほど安い・9/17に進捗確認", publicNote: "2026-09-13確認：iryoで発売中。父が07:30前後の往路と17:15前後の帰路を公式で比較し、最終便を避けて3名分を購入します。Renfeは発売状況不明のため週1で確認します。", actionUrl: "https://iryo.eu/en" },
     { id: "cordoba-mezquita", title: "Mezquita-Catedral", status: "waiting_release", lifecycle: "waiting_official", relatedDayIds: ["d0102"], deadline: "旅行7日前", publicNote: "1/2の入場時間と礼拝による変更を確認し、利用できる公式枠を3名分手配します。", actionUrl: "https://mezquita-catedraldecordoba.es/en/" },
     { id: "casa-ciriaco", title: "Casa Ciriaco", status: "waiting_official", lifecycle: "waiting_official", relatedDayIds: ["d1230"], deadline: "2026/12/01", publicNote: "12/30 21:00、3名で予約し、年末営業を直接確認します。", actionUrl: "" },
     { id: "botin", title: "Botín", status: "waiting_official", lifecycle: "waiting_official", relatedDayIds: ["d1231"], deadline: "2026/12/01", publicNote: "12/31 14:15、3名で予約し、12/31営業を確認します。", actionUrl: "" },
@@ -435,9 +471,9 @@ function renderPlanBody(day) {
     const railBookings = window.UXFullData?.railBookings || [];
     const closureFacts = window.UXFullData?.closureFacts || [];
     const cards = bookings.map((booking) => { const label = bookingStatusLabel(booking); return `<article class="card card-body booking-card"><div class="status-row">${pill(label, label === "予約済み" ? "info" : "wait")}${pill(bookingVisitLabel(booking), "info")}</div><h3>${esc(booking.title)}</h3>${bookingPublicNote(booking) ? `<p class="muted">${esc(bookingPublicNote(booking))}</p>` : ""}${booking.deadline ? `<p class="booking-deadline"><span>確認目安</span><strong>${esc(booking.deadline)}</strong></p>` : ""}${booking.actionUrl ? `<a class="button primary" href="${esc(booking.actionUrl)}" target="_blank" rel="noreferrer">公式サイト</a>` : ""}</article>`; }).join("");
-    const railCards = railBookings.map((rail) => `<article class="card card-body booking-card"><div class="status-row">${pill(rail.status, "wait")}${pill(rail.passengers, "info")}</div><h3>${esc(rail.route)}</h3><dl class="fact-list"><div><dt>希望時刻窓</dt><dd>${esc(rail.timeWindow)}</dd></div><div><dt>所要目安</dt><dd>${esc(rail.duration)}</dd></div><div><dt>発着駅</dt><dd>${esc(rail.stations)}</dd></div><div><dt>運行会社候補</dt><dd>${esc(rail.operators)}</dd></div><div><dt>荷物規定</dt><dd>${esc(rail.luggage)}</dd></div><div><dt>購入条件</dt><dd>${esc(rail.constraint)}</dd></div></dl><p class="muted">${esc(rail.releaseNote)}</p><div class="action-row">${rail.purchaseSites.map((site) => `<a class="button" href="${esc(site.href)}" target="_blank" rel="noreferrer">${esc(site.label)}</a>`).join("")}</div></article>`).join("");
+    const railCards = railBookings.map((rail) => `<article class="card card-body booking-card"><div class="status-row">${pill(rail.status, "wait")}${pill(rail.passengers, "info")}</div><h3>${esc(rail.route)}</h3><dl class="fact-list"><div><dt>希望時刻窓</dt><dd>${esc(rail.timeWindow)}</dd></div><div><dt>所要目安</dt><dd>${esc(rail.duration)}</dd></div><div><dt>発着駅</dt><dd>${esc(rail.stations)}</dd></div><div><dt>運行会社候補</dt><dd>${esc(rail.operators)}</dd></div><div><dt>荷物規定</dt><dd>${esc(rail.luggage)}</dd></div><div><dt>購入条件</dt><dd>${esc(rail.constraint)}</dd></div></dl><p class="muted">発売状況：${esc(rail.releaseNote)}</p><p class="muted">${esc(rail.publicNote)}</p><p class="booking-deadline"><span>確認目安</span><strong>${esc(rail.deadline)}</strong></p><div class="action-row">${rail.purchaseSites.map((site) => `<a class="button" href="${esc(site.href)}" target="_blank" rel="noreferrer">${esc(site.label)}</a>`).join("")}</div></article>`).join("");
     const closureCards = closureFacts.map((fact) => `<article class="card card-body"><div class="status-row">${pill("公式情報で確定", "info")}</div><h3>${esc(fact.place)}</h3><p>${esc(fact.fact)}</p><a class="button" href="${esc(fact.sourceUrl)}" target="_blank" rel="noreferrer">${esc(fact.sourceLabel)}</a></article>`).join("");
-    return `<article class="card card-body booking-ledger-intro"><span class="eyebrow">旅行全体の手配</span><h2>旅行全体の予約・発売待ち</h2><p>日付を切り替えなくても、航空券・列車・入場券・年末の食事をまとめて確認できます。</p><div class="status-row">${pill(`予約対象 ${bookings.length}件`, "info")}${pill("個人情報は表示しない", "info")}</div></article><div class="grid two booking-ledger">${cards || `<article class="card card-body"><h3>予約対象を読み込めませんでした</h3><p class="muted">「次にやる」で発売待ちの項目を確認してください。</p></article>`}</div><article class="card card-body booking-ledger-intro"><span class="eyebrow">家族が購入する列車</span><h2>列車予約カード</h2><p>確定していない列車番号は使わず、発売後に時刻・荷物条件・取消条件を比較して購入します。</p></article><div class="grid two booking-ledger">${railCards}</div><article class="card card-body booking-ledger-intro"><span class="eyebrow">休館・開館の確定情報</span><h2>旅程判断に使う公式営業時間</h2></article><div class="grid two booking-ledger">${closureCards}</div><article class="card card-body info-card booking-privacy"><h3>予約番号・QRは公開サイトに載せません</h3><p>予約後は家族だけが見られる保存先と端末のオフラインPDFへ保管します。この画面には、日付・予約状態・公式サイトだけを表示します。</p></article>`;
+    return `<article class="card card-body booking-ledger-intro"><span class="eyebrow">旅行全体の手配</span><h2>旅行全体の予約・発売待ち</h2><p>日付を切り替えなくても、航空券・列車・入場券・年末の食事をまとめて確認できます。</p><div class="status-row">${pill(`予約対象 ${bookings.length}件`, "info")}${pill("個人情報は表示しない", "info")}</div></article><div class="grid two booking-ledger">${cards || `<article class="card card-body"><h3>予約対象を読み込めませんでした</h3><p class="muted">「次にやる」で発売待ちの項目を確認してください。</p></article>`}</div><article class="card card-body booking-ledger-intro"><span class="eyebrow">家族が購入する列車</span><h2>列車予約カード</h2><p>父が時刻・荷物条件・取消条件を比較して購入します。希望時刻窓は計画の目安で、購入報告後に実際の列車へ合わせます。</p></article><div class="grid two booking-ledger">${railCards}</div><article class="card card-body booking-ledger-intro"><span class="eyebrow">休館・開館の確定情報</span><h2>旅程判断に使う公式営業時間</h2></article><div class="grid two booking-ledger">${closureCards}</div><article class="card card-body info-card booking-privacy"><h3>予約番号・QRは公開サイトに載せません</h3><p>予約後は家族だけが見られる保存先と端末のオフラインPDFへ保管します。この画面には、日付・予約状態・公式サイトだけを表示します。</p></article>`;
   }
   if (state.planSection === "hotels") {
     const stays = window.UXFullData?.hotelStays || [];
@@ -482,54 +518,54 @@ const representativeGuideCities = [
 ];
 
 const representativeGuideAreas = [
-  { id: "eixample", city: "Barcelona", name: "Eixample・Sagrada周辺", priority: 1, intro: "モデルニスモ建築を目的に歩く町。大通り沿いに店が多く、観光の前後で食事を組みやすい。", foodIntro: "Barcelonaの定番料理を、SagradaやPasseig de Gràciaの前後で狙いやすいエリア。", visit: ["12/26 午後", "12/30 午前"], foods: [
-    { name: "Pa amb tomàquet", priority: 1, kind: "Barcelona定番", note: "パンにトマト、オリーブ油、塩。最初の一皿にしやすい。", when: "Barcelona滞在中の食事候補", shops: ["Can Culleretes（12/27市内案のみ）", "周辺のCatalunya料理店"] },
-    { name: "Escalivada", priority: 2, kind: "Catalunya料理", note: "焼いた野菜をオリーブ油で食べる軽めの一皿。", when: "Barcelona滞在中の食事候補", shops: ["EixampleのCatalunya料理店", "宿泊先近くの代替店"] },
-    { name: "Crema catalana", priority: 3, kind: "デザート", note: "食後に試したいCatalunyaの代表的なデザート。", when: "Barcelona滞在中の食事候補", shops: ["Can Culleretes（12/27市内案のみ）", "Granja M. Viader（別エリア候補）"] }
+  { id: "eixample", city: "Barcelona", name: "Eixample・Sagrada周辺", priority: 1, intro: "モデルニスモ建築を目的に歩く町。大通り沿いに店が多く、観光の前後で食事を組みやすい。", foodIntro: "Barcelonaの定番料理を、SagradaやPasseig de Gràciaの前後で狙いやすいエリア。", visit: ["12/28 朝〜午後"], foods: [
+    { name: "Pa amb tomàquet", priority: 1, kind: "Barcelona定番", note: "パンにトマト、オリーブ油、塩。タパスと一緒に必ず1回明示注文する。", when: "12/28 夜 Cerveseria Catalana", shops: ["Cerveseria Catalana"] },
+    { name: "Escalivada", priority: 2, kind: "Catalunya料理", note: "焼き野菜の一皿。基本旅程の注文には固定せず、当日のメニューから選ぶ。", when: "時間があれば・追加注文", shops: ["EixampleのCatalunya料理店", "宿泊先近くの代替店"] },
+    { name: "Crema catalana", priority: 3, kind: "デザート", note: "17:00開店に合わせてクレマ・カタラナとチョコラーテで休憩。", when: "12/26 17:00 Granja Viader", shops: ["Granja Viader"] }
   ], sights: [
-    { name: "Sagrada Família", priority: 1, kind: "建築", note: "このエリアで最優先。外観・内部・光の入り方を順に見る。", when: "12/30 09:00予定", nearby: "Pa amb tomàquet" },
-    { name: "Hospital de Sant Pau", priority: 2, kind: "建築", note: "Sagradaから歩いてつなげやすいモデルニスモ建築。", when: "追加候補・未採用", nearby: "Escalivada" },
-    { name: "Passeig de Gràcia", priority: 3, kind: "街歩き", note: "建築と買い物をまとめて見られる大通り。", when: "Barcelona滞在中の候補", nearby: "Crema catalana" }
+    { name: "Sagrada Família", priority: 1, kind: "建築", note: "このエリアで最優先。外観・内部・光の入り方を順に見る。", when: "12/28 09:00予定", nearby: "Pa amb tomàquet" },
+    { name: "Hospital de Sant Pau", priority: 2, kind: "建築", note: "UNESCOのモデルニスモ建築。市内追加日はガウディの日を繰り返さずここを軸にする。", when: "Montserrat中止時の市内追加日", nearby: "Escalivada" },
+    { name: "Passeig de Gràcia", priority: 3, kind: "街歩き", note: "カサ・ミラ15:00、カサ・バトリョ16:30の内部見学をつなぐ。", when: "12/28 午後", nearby: "Crema catalana" }
   ]},
-  { id: "ciutat-vella", city: "Barcelona", name: "Ciutat Vella・旧市街", priority: 2, intro: "市場、路地、旧市街の建築が密集するBarcelonaの中心部。短い時間でも食と街歩きを組み合わせやすい。", foodIntro: "市場料理、魚介、軽いタパスを朝から試しやすいエリア。", visit: ["12/27または12/28・選択シナリオによる"], foods: [
-    { name: "Mercatのカウンター料理", priority: 1, kind: "市場料理", note: "卵料理や魚介を、その日の入荷を見ながら選ぶ。", when: "Barcelona市内案の昼食候補", shops: ["Cuines Santa Caterina", "市場内の営業中カウンター"] },
-    { name: "Fideuà", priority: 2, kind: "魚介料理", note: "米ではなく短い麺で作る魚介料理。複数人で分けやすい。", when: "Barcelona滞在中の追加候補・未採用", shops: ["Can Solé（候補）", "7 Portes（代替候補）"] },
-    { name: "Bombas", priority: 3, kind: "軽食", note: "じゃがいもを使ったBarcelonaの軽食。街歩きの途中向き。", when: "旧市街散策時", shops: ["La Cova Fumada（候補）", "旧市街のタパス店"] }
+  { id: "ciutat-vella", city: "Barcelona", name: "Ciutat Vella・旧市街", priority: 2, intro: "市場、路地、旧市街の建築が密集するBarcelonaの中心部。短い時間でも食と街歩きを組み合わせやすい。", foodIntro: "市場料理、魚介、軽いタパスを朝から試しやすいエリア。", visit: ["12/26 午後・夜", "12/30 午前", "12/30 昼"], foods: [
+    { name: "Mercatのカウンター料理", priority: 1, kind: "市場料理", note: "市場は9:05–9:40。Bar Pinotxoは朝の候補、El Quimは12:15。混雑時は列車を優先する。", when: "12/30 朝に市場・12:15 El Quimで昼食", shops: ["El Quim de la Boqueria", "Bar Pinotxo（朝の候補）"] },
+    { name: "Fideuà", priority: 2, kind: "魚介料理", note: "主役は7 Portesのパエリア。麺料理は当日のメニューと食欲で選ぶ。", when: "12/27 夜の魚介料理の選択肢", shops: ["7 Portes", "Can Solé（日曜夜の営業確認時のみ）"] },
+    { name: "Bombas", priority: 3, kind: "軽食", note: "旧市街の軽食だが、今回は旅程の食事と休憩を優先。", when: "今回は見送り", shops: ["旧市街のタパス店（今回は見送り）"] }
   ], sights: [
-    { name: "La Boqueria", priority: 1, kind: "市場", note: "買い物だけでなく朝食の場所としても使える。混雑時の撤退条件も持つ。", when: "追加候補・未採用", nearby: "Mercatのカウンター料理" },
-    { name: "Barri Gòtic", priority: 2, kind: "街歩き", note: "細い路地と広場を短いルートで歩く。", when: "Barcelona滞在中の候補", nearby: "Bombas" },
-    { name: "Barcelona Cathedral", priority: 3, kind: "宗教建築", note: "移動日に無理に入れず、旧市街滞在時の候補にする。", when: "追加候補・未採用", nearby: "Fideuà" }
+    { name: "La Boqueria", priority: 1, kind: "市場", note: "ターロンを買い、市場を散策。12/26は休場。", when: "12/30 朝 09:05–09:40", nearby: "Mercatのカウンター料理" },
+    { name: "Barri Gòtic", priority: 2, kind: "街歩き", note: "大聖堂から王の広場、サン・ジャウマ広場へ歩く。", when: "12/26 午後", nearby: "Bombas" },
+    { name: "Barcelona Cathedral", priority: 3, kind: "宗教建築", note: "内部を見学。土曜9:30–17:15・最終入場16:30、予約不要。", when: "12/26 午後 14:30", nearby: "Fideuà" }
   ]},
-  { id: "montjuic", city: "Barcelona", name: "Montjuïc", priority: 3, intro: "丘の上に美術館、眺望、庭園が広がるエリア。移動距離と風、終了時刻を見ながら範囲を決める。", foodIntro: "観光施設内か麓で食べるかを先に決め、帰着を遅らせないことが重要。", visit: ["追加候補・未採用"], foods: [
-    { name: "Catalunyaの炭火料理", priority: 1, kind: "主菜", note: "肉や野菜の炭火料理。午後の観光後なら量を調整する。", when: "追加訪問する場合の候補", shops: ["Poble Espanyol周辺店", "ホテル周辺の代替店"] },
-    { name: "Tapas盛り合わせ", priority: 2, kind: "シェア", note: "3人で量を調整しやすく、疲れていても選びやすい。", when: "追加訪問する場合の候補", shops: ["Plaça d'Espanya周辺", "宿泊先周辺"] }
+  { id: "montjuic", city: "Barcelona", name: "Montjuïc", priority: 3, intro: "丘の上に美術館、眺望、庭園が広がるエリア。移動距離と風、終了時刻を見ながら範囲を決める。", foodIntro: "観光施設内か麓で食べるかを先に決め、帰着を遅らせないことが重要。", visit: ["今回は見送り（優先度B）"], foods: [
+    { name: "Catalunyaの炭火料理", priority: 1, kind: "主菜", note: "肉や野菜の炭火料理。午後の観光後なら量を調整する。", when: "今回は見送り（優先度B）", shops: ["Poble Espanyol周辺店", "ホテル周辺の代替店"] },
+    { name: "Tapas盛り合わせ", priority: 2, kind: "シェア", note: "3人で量を調整しやすく、疲れていても選びやすい。", when: "今回は見送り（優先度B）", shops: ["Plaça d'Espanya周辺", "宿泊先周辺"] }
   ], sights: [
-    { name: "Montjuïcの眺望", priority: 1, kind: "景観", note: "天候と風が良い時に優先。行く条件を明示する。", when: "追加候補・未採用", nearby: "Tapas盛り合わせ" },
-    { name: "MNAC周辺", priority: 2, kind: "美術・建築", note: "時間が限られる場合は外観と眺望に絞る。", when: "追加候補・未採用", nearby: "Catalunyaの炭火料理" }
+    { name: "Montjuïcの眺望", priority: 1, kind: "景観", note: "今回は移動の少ないゴシック地区を優先し、丘への移動はしない。", when: "今回は見送り（優先度B）", nearby: "Tapas盛り合わせ" },
+    { name: "MNAC周辺", priority: 2, kind: "美術・建築", note: "時間が限られる場合は外観と眺望に絞る。", when: "今回は見送り（優先度B）", nearby: "Catalunyaの炭火料理" }
   ]},
-  { id: "paseo-arte", city: "Madrid", name: "Paseo del Arte・Retiro", priority: 1, intro: "主要美術館とRetiro公園が集まるMadridの文化エリア。閉館時刻を軸に徒歩でつなげる。", foodIntro: "美術館の前後に、Madridの煮込みや軽い昼食を組み込む。", visit: ["12/31 午前・午後"], foods: [
-    { name: "Cocido madrileño", priority: 1, kind: "Madrid名物", note: "ひよこ豆、肉、野菜の煮込み。時間と量に余裕がある昼向き。", when: "12/31 昼候補", shops: ["La Daniela（候補）", "Paseo del Arte周辺の伝統料理店"] },
-    { name: "Tortilla española", priority: 2, kind: "定番", note: "移動を崩しにくい軽食。店ごとの焼き加減も楽しめる。", when: "12/31 昼の代替", shops: ["Retiro周辺のバル", "Atocha周辺の代替店"] }
+  { id: "paseo-arte", city: "Madrid", name: "Paseo del Arte・Retiro", priority: 1, intro: "主要美術館とRetiro公園が集まるMadridの文化エリア。閉館時刻を軸に徒歩でつなげる。", foodIntro: "美術館の前後に、Madridの煮込みや軽い昼食を組み込む。", visit: ["12/31 午前", "1/1 午後"], foods: [
+    { name: "Cocido madrileño", priority: 1, kind: "Madrid名物", note: "日曜は昼のみ。蚤の市を切り上げて向かい、15:15までに食事を終える。", when: "1/3 昼 13:30 La Bola", shops: ["La Bola"] },
+    { name: "Tortilla española", priority: 2, kind: "定番", note: "基本の昼食は12/31 Botín、1/1 La Campana。追加の軽食は当日の食欲で選ぶ。", when: "時間があれば・追加注文", shops: ["Retiro周辺のバル", "Atocha周辺の代替店"] }
   ], sights: [
-    { name: "Museo del Prado", priority: 1, kind: "美術館", note: "見る作品を絞り、12/31の短縮営業に合わせる。", when: "12/31 10:00–14:00予定", nearby: "Cocido madrileño" },
-    { name: "Retiro公園", priority: 2, kind: "公園", note: "Prado後の疲労と天候を見て歩く範囲を決める。", when: "12/31 午後候補", nearby: "Tortilla española" },
-    { name: "Cibeles・Alcalá", priority: 3, kind: "街歩き", note: "年末の交通規制を確認しながらCentro方面へつなぐ。", when: "12/31 午後候補", nearby: "Tortilla española" }
+    { name: "Museo del Prado", priority: 1, kind: "美術館", note: "12/31は14:00閉館。王宮12:15入場を守るため11:40退出。", when: "12/31 10:00–11:40予定", nearby: "Cocido madrileño" },
+    { name: "Retiro公園", priority: 2, kind: "公園", note: "池とPalacio de Cristalの外観へ。水晶宮は2027年6月まで修復工事。", when: "1/1 14:30–15:45", nearby: "Tortilla española" },
+    { name: "Cibeles・Alcalá", priority: 3, kind: "街歩き", note: "地上の写真立寄りを含め約1.5km。Gran Víaへ歩く。", when: "1/1 15:50–16:30", nearby: "Tortilla española" }
   ]},
-  { id: "centro-sol", city: "Madrid", name: "Centro・Sol・La Latina", priority: 2, intro: "広場、老舗、バルが集まりMadridらしい街歩きと食をまとめやすい中心部。大晦日は規制と混雑が優先条件。", foodIntro: "Madridの代表的な軽食、甘味、タパスを歩きながら選べる。", visit: ["12/31 夕方・夜"], foods: [
-    { name: "Bocadillo de calamares", priority: 1, kind: "Madrid名物", note: "イカフライを挟んだ軽食。Plaza Mayor周辺で試しやすい。", when: "12/31 早めの夕食候補", shops: ["La Campana（候補）", "Bar Postas（候補）"] },
-    { name: "Chocolate con churros", priority: 2, kind: "甘味", note: "温かいチョコレートとチュロス。朝食や休憩向き。", when: "Madrid滞在中", shops: ["Chocolatería San Ginés（候補）", "Centroのchurrería"] },
-    { name: "Callos a la madrileña", priority: 3, kind: "煮込み", note: "Madridの濃い味の煮込み。少量から試す。", when: "Madrid滞在中", shops: ["La Tasquita de Enfrente（候補）", "La Latinaの伝統料理店"] }
+  { id: "centro-sol", city: "Madrid", name: "Centro・Sol・La Latina", priority: 2, intro: "広場、老舗、バルが集まりMadridらしい街歩きと食をまとめやすい中心部。大晦日は規制と混雑が優先条件。", foodIntro: "Madridの代表的な軽食、甘味、タパスを歩きながら選べる。", visit: ["12/30 夜", "12/31 昼・夜", "1/1", "1/2 夜", "1/3 昼"], foods: [
+    { name: "Bocadillo de calamares", priority: 1, kind: "Madrid名物", note: "元日営業を12/1までに確認。休業ならマヨール広場周辺の営業店へ。", when: "1/1 13:00 La Campana", shops: ["La Campana", "マヨール広場周辺の営業店"] },
+    { name: "Chocolate con churros", priority: 2, kind: "甘味", note: "元日営業と行列を直前確認。満席ならPlaza Mayor周辺で代替。", when: "1/1 11:30–12:15 San Ginés", shops: ["Chocolatería San Ginés", "Plaza Mayor周辺の営業店"] },
+    { name: "Callos a la madrileña", priority: 3, kind: "煮込み", note: "ゲルニカ見学後に老舗のモツ煮と鶏のペピトリアを味わう。", when: "12/30 夜 21:00 Casa Ciriaco", shops: ["Casa Ciriaco", "Ópera Victoria（満席時の夕食代替）"] }
   ], sights: [
-    { name: "Puerta del Sol", priority: 1, kind: "広場", note: "大晦日は通常観光ではなく、入口・規制・撤退条件まで確認する。", when: "12/31 夜・条件付き", nearby: "Bocadillo de calamares" },
-    { name: "Plaza Mayor", priority: 2, kind: "広場", note: "Solと短い徒歩でつなげ、周辺の名物軽食も見る。", when: "Madrid滞在中", nearby: "Bocadillo de calamares" },
-    { name: "La Latina", priority: 3, kind: "街歩き", note: "バル巡りをするなら時間帯と混雑を見て選ぶ。", when: "Madrid滞在中の候補", nearby: "Callos a la madrileña" }
+    { name: "Puerta del Sol", priority: 1, kind: "広場", note: "大晦日は通常観光ではなく、入口・規制・撤退条件まで確認する。", when: "12/31 夕方・夜の準備後、22:00入場目標・条件付き", nearby: "Bocadillo de calamares" },
+    { name: "Plaza Mayor", priority: 2, kind: "広場", note: "Solと短い徒歩でつなげ、周辺の名物軽食も見る。", when: "1/1 12:20–13:00", nearby: "Bocadillo de calamares" },
+    { name: "La Latina", priority: 3, kind: "街歩き", note: "1/2はCasa Lucio、1/3はEl Rastro。帰りの列車とLa Bolaの昼食を守る。", when: "1/2 夜・1/3 朝", nearby: "Callos a la madrileña" }
   ]},
   { id: "atocha", city: "Madrid", name: "Atocha駅周辺", priority: 3, intro: "長距離列車の到着・出発拠点。観光を増やすより、荷物とホテル動線を守りながら使う町。", foodIntro: "到着直後や乗車前に、短時間・荷物ありでも利用できる食事を選ぶ。", visit: ["12/30 夕方到着"], foods: [
-    { name: "Tortillaの軽食", priority: 1, kind: "短時間", note: "列車前後でも時間を読みやすい。持帰り可を優先。", when: "12/30 到着後候補", shops: ["Atocha駅構内候補", "ホテル動線上のバル"] },
+    { name: "Tortillaの軽食", priority: 1, kind: "短時間", note: "La Bolaの後なので軽く。Viladecansで食べる持帰りを駅で買う。", when: "1/3 15:50–16:10 軽食購入", shops: ["Atocha駅構内の持帰り店"] },
     { name: "Jamónのbocadillo", priority: 2, kind: "持帰り", note: "荷物がある移動日にも食べやすい。", when: "12/30 遅延時代替", shops: ["駅構内の持帰り店", "ホテル近くの代替店"] }
   ], sights: [
     { name: "Atocha駅旧駅舎", priority: 1, kind: "駅", note: "観光目的で寄り道せず、乗換と出口確認の中で見る。", when: "12/30 到着予定", nearby: "Tortillaの軽食" },
-    { name: "Real Jardín Botánico", priority: 2, kind: "庭園", note: "Paseo del Arte滞在時に余裕があれば候補。", when: "追加候補・未採用", nearby: "Jamónのbocadillo" }
+    { name: "Real Jardín Botánico", priority: 2, kind: "庭園", note: "Prado、王宮と旅程の食事を優先し、庭園の追加訪問はしない。", when: "今回は見送り", nearby: "Jamónのbocadillo" }
   ]}
 ];
 
@@ -576,11 +612,11 @@ const operationalGuide = {
   },
   "山の地質・Sant Joan展望": {
     image: "assets/montserrat-hero-v2.png", imageAlt: "Montserratの鋸歯状の山と修道院を描いたイメージ", imageKind: "AI生成イメージ",
-    learn: ["Montserratの名前どおり、風化した岩が鋸歯状に連なる地形が修道院を包む。", "Sant Joan funicularは約7分で高所へ上がるが、眺望は天候と運行が揃う時だけ価値がある。"], onsite: ["山頂側の雲量と風を到着時に確認", "当日運行を確認してから券を買う", "帰路便を先に決め、散策を延ばし過ぎない"], facts: [["Sant Joan", "乗車約7分・当日運行時のみ"], ["Santa Cova", "現在は運休中。計画に使わない"]], operationStatus: "晴天・弱風・当日運行が揃う場合のみ", checkedAt: "2026-08-14", sourceUrl: "https://www.montserratvisita.com/en/nature/funiculars", sourceLabel: "Montserrat公式"
+    learn: ["Montserratの名前どおり、風化した岩が鋸歯状に連なる地形が修道院を包む。", "Basilica → 黒い聖母 → 景観 → Museum of Montserratが中心。Sant Joan funicularは運行していれば乗るボーナスで、運休なら美術館・短い散策・展望地点へ。"], onsite: ["山頂側の雲量と風を到着時に確認", "当日運行を確認してから券を買う", "帰路便を先に決め、散策を延ばし過ぎない"], facts: [["Sant Joan", "乗車約7分・当日運行時のみ"], ["Santa Cova", "現在は運休中。計画に使わない"]], operationStatus: "晴天・弱風・当日運行が揃う場合のみ", checkedAt: "2026-08-14", sourceUrl: "https://www.montserratvisita.com/en/nature/funiculars", sourceLabel: "Montserrat公式"
   },
   "Montserrat Museum": {
     image: "assets/montserrat-hero-v2.png", imageAlt: "Montserratの修道院と山を描いたイメージ", imageKind: "AI生成イメージ",
-    learn: ["山の信仰空間に集められた美術を、都市の美術館とは違う文脈で見る屋内候補。", "展望が悪い時や時間が余った時だけ加え、basilicaと帰路を優先する。"], onsite: ["当日の展示と閉館を入口で確認", "一点だけ選んで山の場所性との違いを見る", "帰路を遅らせるなら入らない"], facts: [["Museum", "通常10:00–18:45"]], operationStatus: "低優先・時間に余裕がある場合のみ", checkedAt: "2026-08-14", sourceUrl: "https://www.montserratvisita.com/en/practical-information/opening-hours", sourceLabel: "Montserrat公式"
+    learn: ["山の信仰空間に集められた美術を、都市の美術館とは違う文脈で見る屋内候補。", "Basilica・黒い聖母・景観に続く主役として見学し、帰路の余裕を守る。"], onsite: ["当日の展示と閉館を入口で確認", "一点だけ選んで山の場所性との違いを見る", "帰路を遅らせるなら入らない"], facts: [["Museum", "通常10:00–18:45"]], operationStatus: "山上の主役・前夜と当日朝にクリスマス時間を確認", checkedAt: "2026-08-14", sourceUrl: "https://www.montserratvisita.com/en/practical-information/opening-hours", sourceLabel: "Montserrat公式"
   },
   "Mató amb mel": {
     image: "assets/montserrat-hero-v2.png", imageAlt: "Montserratの山と修道院を描いたイメージ", imageKind: "AI生成イメージ",
@@ -637,14 +673,14 @@ const operationalGuide = {
     articleId: "sagrada",
     learn: ["Gaudíは聖堂全体を自然の秩序として構成し、柱を枝分かれする樹木のように設計した。", "生誕のファサードと受難のファサードは、彫刻の密度も感情も対照的。入る前に両方を見る。", "内部では構造だけでなく、東西のステンドグラスから入る光の色の違いを見る。"],
     onsite: ["Carrer de la Marina側の一般入口を先に確認", "内部中央で柱が枝分かれする位置を見上げる", "退出前に反対側の光まで見て、塔の集合時刻を守る"],
-    facts: [["冬季の月–土", "通常09:00–18:00"], ["予定", "12/30 09:00・オンライン日時指定券"], ["変更", "購入条件に制約あり。購入前に確認"]],
-    operationStatus: "2026/12/30 09:00の入場枠は発売後に確定", checkedAt: "2026-08-14", sourceUrl: "https://sagradafamilia.org/en/schedules-how-to-get", sourceLabel: "Sagrada Família公式"
+    facts: [["冬季の月–土", "通常09:00–18:00"], ["予定", "12/28 09:00・オンライン日時指定券"], ["変更", "購入条件に制約あり。購入前に確認"]],
+    operationStatus: "2026/12/28 09:00の入場枠は発売後に確定", checkedAt: "2026-08-14", sourceUrl: "https://sagradafamilia.org/en/schedules-how-to-get", sourceLabel: "Sagrada Família公式"
   },
   "カサ・ミラ（ラ・ペドレラ）": {
     articleId: "mila",
     learn: ["波打つ石の外壁は装飾ではなく、自由な平面と自然を思わせる構成の入口。", "屋上では煙突・換気塔・階段室を彫刻として見せるGaudíの考えを見る。"],
     onsite: ["中庭で光と換気の通り方を確認", "屋根裏の連続アーチから屋上へ進み、街の基準線と曲面を比べる", "次のCasa Batllóを残すため16:00を退出上限にする"],
-    facts: [["12/26特別時間", "9:00–20:30（一般案内。予約画面で枠を再確認）"], ["所要時間", "公式目安1–1.5時間"], ["一般料金", "Essentialは€29から"]],
+    facts: [["12/28の訪問予定", "15:00–16:00（予約画面で枠を確認）"], ["所要時間", "公式目安1–1.5時間"], ["一般料金", "Essentialは€29から"]],
     operationStatus: "2026年クリスマス特別時間を確認済み・入場枠は未購入", checkedAt: "2026-08-14", sourceUrl: "https://www.lapedrera.com/en/practical-information/", sourceLabel: "La Pedrera公式"
   },
   "カサ・バトリョ": {
@@ -652,7 +688,7 @@ const operationalGuide = {
     learn: ["外観は骨・仮面・竜など複数の読みが重なる。正解探しより素材と曲線の連続を見る。", "吹抜けの青いタイルは上ほど濃く、採光を均す工夫になっている。"],
     onsite: ["外観で屋根・バルコニー・柱を一度に見ず、下から順に観察", "中央吹抜けで色の濃淡と窓の大きさを確認", "疲労や前施設の遅れがあれば、この入場を削る判断を優先"],
     facts: [["通常営業", "毎日営業。一般見学は9:00開始"], ["一般見学", "約1時間15分"], ["料金", "オンラインは€29から。旅行日の枠で確定"]],
-    operationStatus: "通常情報を確認済み・12/26の枠は未購入", checkedAt: "2026-08-14", sourceUrl: "https://www.casabatllo.es/en/online-tickets/", sourceLabel: "Casa Batlló公式"
+    operationStatus: "通常情報を確認済み・12/28 16:30の枠は未購入", checkedAt: "2026-08-14", sourceUrl: "https://www.casabatllo.es/en/online-tickets/", sourceLabel: "Casa Batlló公式"
   },
   "グエル公園": {
     learn: ["住宅地計画として始まり、建築と斜面・排水・植生を一体にした場所。", "有名なトカゲだけでなく、列柱・高架路・市場空間が地形をどう受け止めるかを見る。"],
@@ -665,13 +701,13 @@ const operationalGuide = {
     learn: ["Domènech i MontanerによるModernisme建築で、Gaudí以外の『総合芸術』を比較できる。", "ステンドグラスの天窓、柱、彫刻、音楽ホールが一つの物語として構成される。"],
     onsite: ["自由見学の最終帯と当日の公演準備による制限を入口で確認", "天井の逆さのドームと舞台背面を同じ位置から比較", "公園が悪天候なら、ここをその日の主役へ切り替える"],
     facts: [["自由見学", "9:00–15:30"], ["所要時間", "約50分"], ["一般料金", "オンライン€20、窓口は+€2"]],
-    operationStatus: "通常見学情報を確認済み・12/28の枠は未購入", checkedAt: "2026-08-14", sourceUrl: "https://www.palaumusica.cat/en/visites/self-guided-tour_1174326", sourceLabel: "Palau de la Música公式"
+    operationStatus: "12/30 10:00のガイドツアーを発売後すぐ予約", checkedAt: "2026-08-14", sourceUrl: "https://www.palaumusica.cat/en/visites/self-guided-tour_1174326", sourceLabel: "Palau de la Música公式"
   },
   "モンセラート": {
     articleId: "montserrat",
     learn: ["山の地形、ベネディクト会修道院、Catalunyaの信仰と文化が重なる日帰り先。", "黒い聖母、礼拝、少年聖歌隊は観光展示ではなく現在も続く宗教実践の一部。"],
     onsite: ["Espanya駅でR5の行先とAeri接続を再確認", "到着後は天候と下山便を先に見てから山上の順番を決める", "聖歌隊は休暇・遠征があるため当日の出演を前提にしない"],
-    facts: [["Tot/Trans券", "特定利用日の指定がないopen ticket"], ["購入", "オンライン、Plaça Espanya、FGC券売機"], ["追加", "Morenetaやfunicularは当日利用可能な場合のみ"]],
+    facts: [["Tot/Trans券", "特定利用日の指定がないopen ticket"], ["購入", "オンライン、Plaça Espanya、FGC券売機"], ["黒い聖母", "08:00–10:30／12:00–18:25。必要な入場券を確認"], ["Sant Joan", "運行していれば乗るボーナス"]],
     operationStatus: "open ticket条件を確認済み・2026年末の交通運行待ち", checkedAt: "2026-08-14", sourceUrl: "https://turistren.cat/en/trains/montserrat-rack-railway-and-funiculars/faqs/", sourceLabel: "Turistren / FGC公式FAQ"
   },
   "Tarragona円形闘技場": {
@@ -735,6 +771,10 @@ const operationalGuide = {
 };
 
 const guideVisuals = {
+  "Tarragona大聖堂": { image: "assets/tarragona-hero-v2.png", imageAlt: "大聖堂のあるTarragonaの街を描いたイメージ", imageKind: "都市イメージ・AI生成" },
+  "カルソッツとロメスコ": { image: "assets/tarragona-food-v2.png", imageAlt: "Tarragonaの魚介と郷土料理を描いたイメージ（カルソッツそのものの写真ではありません）", imageKind: "料理イメージ・AI生成" },
+  "山上の昼食": { image: "assets/sight-montserrat.jpg", imageAlt: "昼食の休憩をとるMontserrat山上の修道院周辺", imageKind: "現地写真" },
+  "シナゴーグ": { image: "assets/cordoba-hero-v2.png", imageAlt: "シナゴーグのあるCordobaの街を描いたイメージ", imageKind: "都市イメージ・AI生成" },
   "Romescoと魚介": { image: "assets/food-romesco-cassola-ai.webp", imageAlt: "魚介を温かいromescoで煮たcassolaの料理イメージ", imageKind: "料理イメージ・AI生成" },
   "Romesco／cassola": { image: "assets/food-romesco-cassola-ai.webp", imageAlt: "魚介を温かいromescoで煮たcassolaの料理イメージ", imageKind: "料理イメージ・AI生成" },
   "魚介の米料理・fideus": { image: "assets/tarragona-food-v2.png", imageAlt: "Tarragonaの魚介料理と米料理を描いたイメージ", imageKind: "AI生成イメージ" },
@@ -783,7 +823,7 @@ function shopTeaser(shop, item, index) {
 }
 const guideShopFallbacks = {
   "Escalivada": ["Can Culleretes", "La Pubilla"], "Catalunyaの炭火料理": ["Terraza Martínez", "Can Culleretes"],
-  "Tapas盛り合わせ": ["El Xampanyet", "Quimet & Quimet"], "Cocido madrileño": ["Malacatín", "La Daniela Medinaceli"],
+  "Tapas盛り合わせ": ["El Xampanyet", "Quimet & Quimet"], "Cocido madrileño": ["La Bola"],
   "Tortilla española": ["Casa Dani", "Juana La Loca"], "Callos a la madrileña": ["Casa Ciriaco", "Lhardy"],
   "Tortillaの軽食": ["Enrique Tomás Estación Atocha", "Rodilla Atocha"], "Jamónのbocadillo": ["Enrique Tomás Estación Atocha", "Enrique Tomás Kiosko Sants"]
 };
@@ -794,16 +834,31 @@ function recommendedShops(item) {
 }
 
 function mustEatItems() {
-  const cityOrder = ["Barcelona", "Tarragona", "Montserrat", "Madrid", "Cordoba"];
-  return cityOrder.flatMap((cityName) => {
-    const candidates = guideAreas.filter((area) => area.city === cityName && !(area.visit || []).every((visit) => /追加候補|未採用|代替/.test(visit))).flatMap((area) => area.foods.map((item) => ({ area, item }))).filter(({ item }) => !/追加候補|未採用|代替時のみ/.test(item.when || ""));
-    return candidates.sort((a, b) => a.item.priority - b.item.priority).slice(0, 2);
-  });
+  return window.UXMustGo?.food || [];
+}
+
+function mustGoDayTag(item) {
+  return action(item.dayLabel, { tab: "schedule", contextDay: item.dayId });
+}
+
+function renderMustGoCards(items, kind) {
+  return `<div class="must-go-grid">${items.map((item) => `<article class="card must-go-card" id="must-go-${kind}-${item.rank}"><div class="status-row"><span class="eyebrow">${item.rank}</span>${mustGoDayTag(item)}${pill(item.status, item.status === "旅程IN" ? "info" : "wait")}</div><h3>${esc(item.name)}</h3><p>${esc(item.hook)}</p><p class="must-go-line">${esc(item.line)}</p></article>`).join("")}</div>`;
 }
 
 function renderMustEatOverview() {
-  const items = mustEatItems();
-  return `<section class="section must-eat-section"><div class="section-head"><div><span class="eyebrow">旅行全体の食</span><h2>この旅行で食べたいもの</h2><p>いつ食べるか、どの町か、店の第一候補まで一度に確認できます。</p></div><button class="button" type="button" data-guide-section="eat">町ごとの食を見る</button></div><div class="must-eat-grid">${items.map(({ area, item }, index) => { const visual = guideVisuals[item.name] || {}; const city = guideCities.find((entry) => entry.id === area.city); const image = visual.image || `${city?.hero?.startsWith("assets/") ? "" : "assets/"}${city?.hero || "barcelona-hero-v1.png"}`; const imageAlt = visual.imageAlt || `${area.city}の食文化を表す都市イメージ`; const imageKind = visual.imageKind || "都市イメージ・AI生成"; const shop = recommendedShops(item)[0] || "店は日程と営業を見て選ぶ"; return `<article class="card must-eat-card"><img src="${esc(image)}" alt="${esc(imageAlt)}"><div><span class="eyebrow">${index + 1} · ${esc(area.city)} · ${esc(area.name)}</span><h3>${esc(item.name)}</h3><dl><div><dt>予定</dt><dd>${esc(item.when)}</dd></div><div><dt>店候補</dt><dd>${esc(shop)}</dd></div></dl><small class="image-disclosure">画像: ${esc(imageKind)}</small><button class="button primary" type="button" data-open-detail="guide-eat-${area.id}-${item.priority}">料理と店を詳しく見る</button></div></article>`; }).join("")}</div></section>`;
+  return `<section class="section must-eat-section"><div class="section-head"><div><span class="eyebrow">旅行全体の食</span><h2>🏆 絶対に食べるべき10店</h2><p>10件とも旅程に入っています。Tarragonaはカルソッツ提供店を事前に選びます。</p></div></div>${renderMustGoCards(mustEatItems(), "food")}<p>ブケリアは12/30朝に散策。Bar Pinotxoは朝の回収候補、El Quimは12:15の昼食です。混雑時は散策だけにして列車を優先します。</p><h3>次に楽しみたい4つ</h3><ul>${(window.UXMustGo?.extras || []).map((item) => `<li>${esc(item.name)} — ${esc(item.hook)} ${mustGoDayTag(item)}</li>`).join("")}</ul></section>`;
+}
+
+function renderMustGoOverview() {
+  const data = window.UXMustGo;
+  if (!data) return "";
+  return `<section class="section must-go-section"><div class="section-head"><div><span class="eyebrow">旅の主役</span><h2>🏆 絶対に行くべき</h2><p>10か所すべて旅程に入っています</p><p>◎＝行く場所 ／ ○＝時間があれば。12/27–29は天候で入れ替わる。「旅程IN」は予約済みの意味ではない。</p></div></div>${renderMustGoCards(data.sights, "sight")}<h3>次点／今回は見送り</h3><ul>${data.deferred.map((item) => `<li>○ ${esc(item.name)} — ${esc(item.reason)}</li>`).join("")}</ul></section>${renderMustEatOverview()}<section class="section"><div class="section-head"><h2>名物から選ぶ</h2></div><div class="must-go-grid">${data.dishes.map((dish) => `<article class="card must-go-card"><h3>${esc(dish.name)}</h3><p>${esc(dish.hook)}</p>${dish.shops.map((shop) => { const food = data.food.find((item) => item.name === shop.name); return `<p>◎ ${food ? `<a href="#must-go-food-${food.rank}">${esc(shop.name)}</a>` : `<a href="${esc(mapsUrl(shop.name))}" target="_blank" rel="noopener noreferrer">${esc(shop.name)}</a>`} ${mustGoDayTag(shop)}</p>`; }).join("")}${dish.alternative ? `<p>○ <a href="${esc(mapsUrl(dish.alternative))}" target="_blank" rel="noopener noreferrer">${esc(dish.alternative)}</a></p>` : ""}</article>`).join("")}</div></section>`;
+}
+
+function renderMustGoHome() {
+  const data = window.UXMustGo;
+  if (!data) return "";
+  return `<article class="card must-go-home"><h2>🏆 絶対に行くべき</h2><div class="must-go-grid">${[["観光トップ5", data.sights], ["食トップ5", data.food]].map(([label, items]) => `<div><h3>${label}</h3><ol>${items.slice(0, 5).map((item) => `<li>${esc(item.name)} ${mustGoDayTag(item)}</li>`).join("")}</ol></div>`).join("")}</div><button class="button primary" type="button" data-guide-jump="start">必訪・必食のガイドを見る →</button></article>`;
 }
 
 function guideControls() {
@@ -852,7 +907,7 @@ function renderLearningSpotlights() {
 }
 
 function renderGuideLanding() {
-  return `<section class="guide-entrances" aria-label="ガイドの入口"><button class="guide-entry guide-entry-see" type="button" data-guide-section="see"><span class="entry-icon" aria-hidden="true">◇</span><span class="eyebrow">町・エリアから探す</span><strong>観光する</strong><span>都市を知り、町・エリアごとの観光地を優先順で見る。</span><span class="entry-cta">観光地を探す →</span></button><button class="guide-entry guide-entry-eat" type="button" data-guide-section="eat"><span class="entry-icon" aria-hidden="true">○</span><span class="eyebrow">町・エリアから探す</span><strong>食べる</strong><span>都市の食文化を知り、町・エリアごとの名物と店を探す。</span><span class="entry-cta">食べ物を探す →</span></button></section>${renderLearningSpotlights()}${renderMustEatOverview()}<section class="section"><div class="section-head"><div><span class="eyebrow">都市・町から見る</span><h2>まず訪れる都市・町を知る</h2></div><p>都市 → 町・エリア → 個別情報</p></div><div class="city-hub-grid">${guideCities.map((city) => `<article class="city-overview city-${city.tone}" style="--city-photo:url('${city.hero}')"><span class="eyebrow">${esc(city.label)}</span><h2>${esc(city.id)}</h2><p>${esc(city.intro)}</p><div class="city-overview-fact"><span>食</span><strong>${esc(city.food)}</strong></div><div class="city-overview-meta"><span>訪問予定 ${esc(city.visit)}</span><span>${guideAreas.filter((area) => area.city === city.id).length}エリア</span></div><small class="image-disclosure">都市イメージ・AI生成</small><div class="action-row"><button class="button primary" type="button" data-guide-city-entry="${city.id}" data-guide-mode="see">${esc(city.id)}の観光</button><button class="button" type="button" data-guide-city-entry="${city.id}" data-guide-mode="eat">${esc(city.id)}の食</button>${city.articleId ? `<a class="button" href="ux-v1-learn.html?id=${encodeURIComponent(city.articleId)}">詳しく学ぶ</a>` : ""}</div></article>`).join("")}</div></section>`;
+  return `${renderMustGoOverview()}<section class="guide-entrances" aria-label="ガイドの入口"><button class="guide-entry guide-entry-see" type="button" data-guide-section="see"><span class="entry-icon" aria-hidden="true">◇</span><span class="eyebrow">町・エリアから探す</span><strong>観光する</strong><span>都市を知り、町・エリアごとの観光地を優先順で見る。</span><span class="entry-cta">観光地を探す →</span></button><button class="guide-entry guide-entry-eat" type="button" data-guide-section="eat"><span class="entry-icon" aria-hidden="true">○</span><span class="eyebrow">町・エリアから探す</span><strong>食べる</strong><span>都市の食文化を知り、町・エリアごとの名物と店を探す。</span><span class="entry-cta">食べ物を探す →</span></button></section>${renderLearningSpotlights()}<section class="section"><div class="section-head"><div><span class="eyebrow">都市・町から見る</span><h2>まず訪れる都市・町を知る</h2></div><p>都市 → 町・エリア → 個別情報</p></div><div class="city-hub-grid">${guideCities.map((city) => `<article class="city-overview city-${city.tone}" style="--city-photo:url('${city.hero}')"><span class="eyebrow">${esc(city.label)}</span><h2>${esc(city.id)}</h2><p>${esc(city.intro)}</p><div class="city-overview-fact"><span>食</span><strong>${esc(city.food)}</strong></div><div class="city-overview-meta"><span>訪問予定 ${esc(city.visit)}</span><span>${guideAreas.filter((area) => area.city === city.id).length}エリア</span></div><small class="image-disclosure">都市イメージ・AI生成</small><div class="action-row"><button class="button primary" type="button" data-guide-city-entry="${city.id}" data-guide-mode="see">${esc(city.id)}の観光</button><button class="button" type="button" data-guide-city-entry="${city.id}" data-guide-mode="eat">${esc(city.id)}の食</button>${city.articleId ? `<a class="button" href="ux-v1-learn.html?id=${encodeURIComponent(city.articleId)}">詳しく学ぶ</a>` : ""}</div></article>`).join("")}</div></section>`;
 }
 
 function renderGuideBody() {
@@ -921,6 +976,7 @@ function renderRecords() {
 const renderers = { home: renderHome, schedule: renderSchedule, plan: renderPlan, guide: renderGuide, records: renderRecords };
 
 function render() {
+  cancelItineraryLanding();
   renderNav();
   renderDaySwitcher();
   renderers[state.tab]();
@@ -983,8 +1039,8 @@ function detailContent(key, context = {}) {
   if (key === "sos") {
     const stays = window.UXFullData?.hotelStays || [];
     const stay = ["d1226","d1227","d1228","d1229"].includes(state.day) ? stays[0] : ["d1230","d1231","d0101","d0102"].includes(state.day) ? stays[1] : ["d0103","d0104"].includes(state.day) ? stays[2] : null;
-    const hotel = stay ? `<article class="card card-body"><h3>今夜の宿泊先（予約済み）</h3><strong>${esc(stay.recommendation)}</strong><p>${esc(stay.address)}</p>${stay.phone ? `<p><a href="tel:${esc(stay.phone.replace(/\s/g, ""))}">${esc(stay.phone)}</a></p>` : ""}<div class="action-row"><a class="button" href="${esc(stay.mapUrl)}" target="_blank" rel="noreferrer">地図</a>${action("宿泊の詳細", { tab: "plan" })}</div></article>` : `<article class="card card-body"><h3>今日は機内・移動中</h3><p>航空会社の予約内容にある便名、ターミナル、搭乗口を確認します。</p></article>`;
-    return { eyebrow: "EMERGENCY", title: "緊急時に使う", body: `<div class="stack"><article class="card card-body warning-card"><h3>警察・救急・消防</h3><span class="big-number">112</span><a class="button primary" href="tel:112">112へ電話</a><p class="muted">EU域内で固定電話・携帯電話から無料で利用できる共通緊急番号です。</p></article>${hotel}<article class="card card-body"><h3>日本の在外公館</h3><p>Madrid：在スペイン日本国大使館<br><a href="tel:+34915907600"><strong>+34 91 590 7600</strong></a></p><p>Barcelona：在バルセロナ日本国総領事館<br><a href="tel:+34932803433"><strong>+34 93 280 3433</strong></a></p><div class="action-row"><a class="button" href="https://www.es.emb-japan.go.jp/japones/consular/consular_nenkinhoka.html" target="_blank" rel="noreferrer">大使館公式</a><a class="button" href="https://www.barcelona.es.emb-japan.go.jp/itpr_ja/11_000001_00196.html" target="_blank" rel="noreferrer">総領事館公式</a></div><small>連絡先確認：2026-08-14</small></article></div>` };
+    const hotel = stay ? `<article class="card card-body"><h3>今夜の宿泊先（予約済み）</h3><strong>${esc(stay.recommendation)}</strong><p>${esc(stay.address)}</p>${stay.phone ? `<p><a href="tel:${esc(stay.phone.replace(/\s/g, ""))}">${esc(stay.phone)}</a></p>` : `<p class="muted">電話番号は予約確認書に記載</p>`}<div class="action-row"><a class="button" href="${esc(stay.mapUrl)}" target="_blank" rel="noreferrer">地図</a>${action("宿泊の詳細", { tab: "plan" })}</div></article>` : `<article class="card card-body"><h3>今日は機内・移動中</h3><p>航空会社の予約内容にある便名、ターミナル、搭乗口を確認します。</p></article>`;
+    return { eyebrow: "EMERGENCY", title: "緊急時に使う", body: `<div class="stack"><article class="card card-body warning-card"><h3>警察・救急・消防</h3><span class="big-number">112</span><a class="button primary" href="tel:112">112へ電話</a><p class="muted">EU域内で固定電話・携帯電話から無料で利用できる共通緊急番号です。</p></article>${hotel}<article class="card card-body"><h3>日本の在外公館</h3><p>Madrid：在スペイン日本国大使館<br><a href="tel:+34915907600"><strong>+34 91 590 7600</strong></a></p><p>Barcelona：在バルセロナ日本国総領事館<br><a href="tel:+34932803433"><strong>+34 93 280 3433</strong></a></p><div class="action-row"><a class="button" href="https://www.es.emb-japan.go.jp/japones/consular/consular_nenkinhoka.html" target="_blank" rel="noreferrer">大使館公式</a><a class="button" href="https://www.barcelona.es.emb-japan.go.jp/itpr_ja/11_000001_00196.html" target="_blank" rel="noreferrer">総領事館公式</a></div></article></div>` };
   }
   if (key === "budget" || key === "misc-budget") { const misc = key === "misc-budget"; return { eyebrow: "TRIP BUDGET", title: misc ? "雑費・予算を追加" : "予算を追加", body: `<form data-budget-form><label class="field"><span>旅行全体／日付</span><select name="dayId">${recordDayOptions("trip", true)}</select></label><label class="field"><span>項目</span><input name="title" required value="${misc ? "雑費・予備費" : ""}" placeholder="お土産、洗濯、追加交通"></label><div class="form-grid"><label class="field"><span>カテゴリ</span><select name="category">${["食事","交通","観光","宿泊","雑費","その他"].map((category) => `<option${misc && category === "雑費" ? " selected" : ""}>${category}</option>`).join("")}</select></label><label class="field"><span>状態</span><select name="status"><option value="estimate">概算</option><option value="confirmed">確定額</option></select></label></div><div class="form-grid"><label class="field"><span>3人分の金額</span><input name="amount" type="number" min="0" step="0.01" required></label><label class="field"><span>通貨</span><select name="currency"><option>EUR</option><option>JPY</option></select></label></div><p class="muted">全体予算へ加算し、特定日を選んだ場合はその日の内訳にも表示します。</p><button class="button primary" type="submit">予算へ追加</button></form>` }; }
   if (key === "expense") { const selectedDay = context.dayId && context.dayId !== "trip" ? context.dayId : state.day; const linkedNote = context.budgetLineId ? `<p class="info-note">「${esc(context.title)}」の予算枠へ実績を追加します。</p>` : ""; return { eyebrow: "支出の入力", title: context.budgetLineId ? `${context.title}の実績` : "支出を記録", body: `${linkedNote}<form data-expense-form><input type="hidden" name="budgetLineId" value="${esc(context.budgetLineId || "")}"><label class="field"><span>旅行日</span><select name="dayId">${recordDayOptions(selectedDay)}</select></label><div class="form-grid"><label class="field"><span>金額</span><input name="amount" type="number" min="0.01" step="0.01" required placeholder="90"></label><label class="field"><span>通貨</span><select name="currency"><option>EUR</option><option>JPY</option></select></label></div><label class="field"><span>項目</span><input name="title" required value="${esc(context.title || "")}" placeholder="夕食、地下鉄、チケット"></label><div class="form-grid"><label class="field"><span>カテゴリ</span><select name="category">${recordCategoryOptions(context.category || "食事")}</select></label><label class="field"><span>支払者</span><select name="payer"><option>A</option><option>B</option><option>C</option></select></label></div><fieldset class="participant-field"><legend>参加者</legend>${["A", "B", "C"].map((person) => `<label><input type="checkbox" name="participant" value="${person}" checked> ${person}</label>`).join("")}</fieldset><label class="field"><span>分け方</span><select name="splitMode" data-split-mode><option value="equal">均等割</option><option value="custom">個別金額</option></select></label><div class="custom-shares" data-custom-shares hidden>${["A", "B", "C"].map((person) => `<label class="field"><span>${person}の負担額</span><input name="share${person}" type="number" min="0" step="0.01" placeholder="0"></label>`).join("")}</div><p class="muted">換算レート €1=¥${esc(recordsState.fx.EURJPY)} と確認日を、その支出を記録した時点の値として保存します。</p><button class="button primary" type="submit">実績を保存</button></form>` }; }
@@ -1059,7 +1115,7 @@ function switchTab(tab) {
   state.tab = tab;
   window.scrollTo({ top: 0 });
   render();
-  if (tab === "schedule") requestAnimationFrame(() => scrollToItineraryDay(state.day, false));
+  if (tab === "schedule") scrollToItineraryDay(state.day, false);
 }
 
 function bindCommon(root = document) {
@@ -1076,17 +1132,77 @@ function markItineraryDay(dayId) {
   history.replaceState(null, "", `?day=${state.day}&tab=${state.tab}`);
 }
 
-function scrollToItineraryDay(dayId, smooth = false) {
-  const target = document.querySelector(`#itinerary-day-${dayId}`);
+function itineraryTargetMoved(previousTop, nextTop, previousMargin, nextMargin) {
+  return Math.abs(nextTop - previousTop) > 4 || Math.abs(nextMargin - previousMargin) > 4;
+}
+
+function syncItineraryScrollMargin() {
+  const header = document.querySelector(".site-header");
+  const bar = document.querySelector(".itinerary-jumpbar");
+  const headerHeight = header?.getBoundingClientRect().height || 0;
+  const margin = Math.ceil(headerHeight + (bar?.getBoundingClientRect().height || 0) + 12);
+  document.documentElement.style.setProperty("--itinerary-header-height", `${headerHeight}px`);
+  document.documentElement.style.setProperty("--itinerary-scroll-margin", `${margin}px`);
+  return margin;
+}
+
+function scrollToItineraryDay(dayId, smooth = false, date = new Date()) {
+  const dayTarget = document.querySelector(`#itinerary-day-${dayId}`);
+  const position = itineraryPosition(days[dayId], date);
+  const body = document.querySelector(`#itinerary-body-${dayId}`);
+  const target = position.current >= 0 && body && !body.hidden
+    ? document.querySelector(`#itinerary-row-${dayId}-${position.current}`) || dayTarget : dayTarget;
   if (!target) return;
+  cancelItineraryLanding();
+  syncItineraryScrollMargin();
   itineraryScrollLock = true;
   clearTimeout(itineraryScrollTimer);
   markItineraryDay(dayId);
-  const previousScrollBehavior = document.documentElement.style.scrollBehavior;
-  if (!smooth) document.documentElement.style.scrollBehavior = "auto";
-  target.scrollIntoView({ behavior: smooth ? "smooth" : "auto", block: "start" });
-  if (!smooth) requestAnimationFrame(() => { document.documentElement.style.scrollBehavior = previousScrollBehavior; });
-  itineraryScrollTimer = setTimeout(() => { itineraryScrollLock = false; markItineraryDay(dayId); }, smooth ? 850 : 0);
+  const scroll = (animated = false) => {
+    const root = document.documentElement;
+    const previous = root.style.scrollBehavior;
+    root.style.scrollBehavior = "auto";
+    target.scrollIntoView({ behavior: animated ? "smooth" : "auto", block: "start" });
+    root.style.scrollBehavior = previous;
+  };
+  scroll(smooth);
+  let targetTop = target.getBoundingClientRect().top + window.scrollY;
+  let margin = syncItineraryScrollMargin();
+  let cancelled = false;
+  const correct = () => {
+    if (cancelled || !target.isConnected || state.tab !== "schedule") return;
+    const nextMargin = syncItineraryScrollMargin();
+    const nextTop = target.getBoundingClientRect().top + window.scrollY;
+    if (itineraryTargetMoved(targetTop, nextTop, margin, nextMargin)) scroll();
+    targetTop = nextTop;
+    margin = nextMargin;
+  };
+  // A bounded correction after render and after pending images settle. User
+  // navigation cancels it, so a late image never pulls the reader back.
+  requestAnimationFrame(correct);
+  const delayed = setTimeout(correct, smooth ? 900 : 350);
+  const pending = [...document.images].filter((img) => !img.complete);
+  const settled = () => {
+    if (pending.every((img) => img.complete)) {
+      correct();
+      pending.forEach((img) => { img.removeEventListener("load", settled); img.removeEventListener("error", settled); });
+    }
+  };
+  pending.forEach((img) => { img.addEventListener("load", settled); img.addEventListener("error", settled); });
+  window.addEventListener("load", correct, { once: true });
+  const stop = () => cancelItineraryLanding();
+  const inputs = ["wheel", "touchstart", "pointerdown", "keydown"];
+  inputs.forEach((type) => window.addEventListener(type, stop, { passive: true }));
+  cancelItineraryLanding = () => {
+    cancelled = true;
+    clearTimeout(delayed);
+    clearTimeout(itineraryScrollTimer);
+    itineraryScrollLock = false;
+    window.removeEventListener("load", correct);
+    pending.forEach((img) => { img.removeEventListener("load", settled); img.removeEventListener("error", settled); });
+    inputs.forEach((type) => window.removeEventListener(type, stop));
+  };
+  itineraryScrollTimer = setTimeout(() => { itineraryScrollLock = false; }, smooth ? 850 : 350);
 }
 
 function observeItineraryDays() {
@@ -1107,7 +1223,7 @@ function bindScreen() {
     if (state.tab === "plan" && button.dataset.homePlanSection) state.planSection = button.dataset.homePlanSection;
     render();
   }));
-  screen.querySelectorAll("[data-jump-day]").forEach((button) => button.addEventListener("click", () => scrollToItineraryDay(button.dataset.jumpDay)));
+  screen.querySelectorAll("[data-jump-day]").forEach((button) => button.addEventListener("click", () => scrollToItineraryDay(button.dataset.jumpDay, false)));
   screen.querySelectorAll("[data-toggle-itinerary-day]").forEach((button) => button.addEventListener("click", () => {
     const dayId = button.dataset.toggleItineraryDay;
     const body = screen.querySelector(`#itinerary-body-${dayId}`);
@@ -1128,7 +1244,7 @@ function bindScreen() {
     refreshScenarioGuide();
     render();
   }));
-  document.querySelectorAll("[data-day]").forEach((button) => button.addEventListener("click", () => { state.day = button.dataset.day; render(); }));
+  document.querySelectorAll("[data-day]").forEach((button) => button.addEventListener("click", () => { state.day = button.dataset.day; render(); if (state.tab === "schedule") scrollToItineraryDay(state.day, false); }));
   screen.querySelectorAll("[data-plan-section]").forEach((button) => button.addEventListener("click", () => { state.planSection = button.dataset.planSection; renderPlan(); bindScreen(); }));
   screen.querySelectorAll("[data-guide-section]").forEach((button) => button.addEventListener("click", () => { state.guideSection = button.dataset.guideSection; if (state.guideSection === "start") state.guideArea = "all"; render(); }));
   screen.querySelectorAll("[data-guide-open-area]").forEach((button) => button.addEventListener("click", () => { state.guideArea = button.dataset.guideOpenArea; if (state.guideArea !== "all") state.guideCity = guideAreas.find((area) => area.id === state.guideArea)?.city || "all"; render(); }));
@@ -1256,9 +1372,11 @@ document.addEventListener("keydown", (event) => { if (event.key === "Escape" && 
 document.querySelector(".brand").addEventListener("click", () => switchTab("home"));
 
 const params = new URLSearchParams(location.search);
+Object.assign(state, tripDefaults(params));
 if (days[params.get("day")]) state.day = params.get("day");
 if (renderers[params.get("tab")]) state.tab = params.get("tab");
 render();
-if (state.tab === "schedule") requestAnimationFrame(() => scrollToItineraryDay(state.day, false));
+if (state.tab === "schedule") scrollToItineraryDay(state.day, false);
+window.addEventListener("resize", () => { if (state.tab === "schedule") syncItineraryScrollMargin(); });
 updateLocalClock();
 setInterval(updateLocalClock, 30_000);
