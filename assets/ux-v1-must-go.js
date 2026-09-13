@@ -1,14 +1,15 @@
-/* Curated against docs/phase-3-1-best-itinerary.md; planNames preserve canonical spellings. */
+/* Curated against docs/phase-3-1-best-itinerary.md. */
 window.UXMustGo = {
   "sights": [
     {
       "rank": 1,
       "name": "Sagrada Família 内部",
+      "bookingId": "sagrada",
       "dayId": "d1228",
       "dayLabel": "12/28 09:00",
       "hook": "柱が森のように枝分かれし、ステンドグラスの光が空間を染める。外観だけでは味わえない内部を朝の主役に。",
-      "line": "Sagrada周辺｜冬季9:00–18:00（日曜10:30〜）｜特別営業を直前確認｜時間指定券は発売後すぐ",
-      "status": "発売後に確保",
+      "line": "聖堂内部の柱と光を楽しむ",
+      "status": "旅程IN",
       "planNames": [
         "サグラダ・ファミリア"
       ]
@@ -16,26 +17,25 @@ window.UXMustGo = {
     {
       "rank": 2,
       "name": "Park Güell",
-      "dayId": "d1228",
-      "dayLabel": "12/28 11:15",
+      "dayId": "",
+      "dayLabel": "日付未定・追加候補",
       "hook": "曲線のベンチと街を見渡す景観を楽しむ、ガウディの屋外空間。屋内建築とは違う地形との関係を見る。",
-      "line": "Gràcia北側｜冬季9:30–17:30｜荒天時は見送り｜時間指定券",
-      "status": "発売後に確保",
+      "line": "休憩を守り、希望と体力がある場合だけ追加を検討。日付・入場枠は未定。採用予算には含めない",
+      "status": "追加候補",
       "planNames": [
         "グエル公園"
       ]
     },
     {
       "rank": 3,
-      "name": "Casa Batlló 内部＋Casa Milà 屋上",
+      "name": "Hospital de Sant Pau",
       "dayId": "d1228",
-      "dayLabel": "12/28 午後",
-      "hook": "ミラの煙突群と屋根裏のアーチ、バトリョの内部を見比べる。異なる住まいの造形を一日で体感できる。",
-      "line": "Passeig de Gràcia｜ミラ15:00・バトリョ16:30の予定｜当日営業を確認｜各館の時間指定券",
+      "dayLabel": "12/28 11:30",
+      "hook": "色彩豊かな病棟と庭を巡り、サグラダとは異なるモデルニスモ建築を楽しむ。",
+      "line": "サグラダから徒歩移動｜11:30–12:45の計画｜冬季通常9:30–17:00｜対象日の入場枠を確認",
       "status": "発売後に確保",
       "planNames": [
-        "カサ・バトリョ",
-        "カサ・ミラ"
+        "サン・パウ病院"
       ]
     },
     {
@@ -43,11 +43,11 @@ window.UXMustGo = {
       "name": "Montserrat 修道院と黒い聖母",
       "dayId": "d1227",
       "dayLabel": "12/27 朝〜午後",
-      "hook": "奇岩の山に抱かれた修道院で黒い聖母を拝観し、美術館へ。Sant Joanは運行時だけのお楽しみ。",
-      "line": "山上｜黒い聖母8:00–10:30／12:00–18:25｜年末運行を前夜・朝に確認｜拝観枠を確認",
+      "hook": "午前に美術館と景観を楽しみ、日曜12:15から黒い聖母へ。疲れたら休憩を優先する。",
+      "line": "山上｜黒い聖母は日曜12:15再開、45〜60分の計画｜年末運行を前夜・朝に確認｜拝観枠を確認",
       "status": "天候次第",
       "planNames": [
-        "MontserratのBasilica",
+        "Montserrat大聖堂",
         "黒い聖母"
       ]
     },
@@ -67,11 +67,11 @@ window.UXMustGo = {
     {
       "rank": 6,
       "name": "カタルーニャ音楽堂 ガイドツアー",
-      "dayId": "d1230",
-      "dayLabel": "12/30 10:00",
-      "hook": "UNESCOの音楽堂で装飾と光に包まれる。移動日の朝はこのツアーを守り、遅れたら後のグエル邸を短縮する。",
-      "line": "旧市街｜10:00–10:55の予定｜当日ツアー開催を確認｜発売後すぐ3名予約",
-      "status": "発売後に確保",
+      "dayId": "",
+      "dayLabel": "追加候補",
+      "hook": "UNESCOの音楽堂で装飾と光を楽しむ追加候補。希望する場合は、食事と休憩を残してほかの観光と入れ替える。",
+      "line": "他の観光・休憩と入れ替える場合だけ日付を決める。未予約。",
+      "status": "入替候補",
       "planNames": [
         "カタルーニャ音楽堂 ガイドツアー"
       ]
@@ -92,9 +92,9 @@ window.UXMustGo = {
       "rank": 8,
       "name": "マドリード王宮",
       "dayId": "d1231",
-      "dayLabel": "12/31 12:15",
+      "dayLabel": "12/31 12:30",
       "hook": "王室の重厚な内部空間を訪ねる。13:45退出を目標に、アルムデナ外観とBotínの昼食へつなぐ。",
-      "line": "Austrias｜12/31は15:00閉館・最終入場14:00｜1/1休館｜12:15枠を確保",
+      "line": "Austrias｜12/31は15:00閉館・最終入場14:00｜1/1休館｜12:30の目安を確認",
       "status": "発売後に確保",
       "planNames": [
         "マドリード王宮"
@@ -106,17 +106,17 @@ window.UXMustGo = {
       "dayId": "d1231",
       "dayLabel": "12/31 夜",
       "hook": "鐘に合わせて12粒のぶどうを食べる年越し。定員到達・強雨・体調不良ならホテルへ切り替える。",
-      "line": "Sol｜22:00までの入場を目標｜警備規制を12/30に確認｜入場は当日の公式案内優先",
+      "line": "Sol｜夕食優先・ホテルで年越しが基本｜警備規制を12/30に確認｜入場は当日の公式案内優先",
       "status": "旅程IN",
       "planNames": [
-        "Puerta del Sol カウントダウン"
+        "ホテルで年越し"
       ]
     },
     {
       "rank": 10,
       "name": "Mezquita-Catedral de Córdoba",
       "dayId": "d0102",
-      "dayLabel": "1/2 10:00",
+      "dayLabel": "1/2 10:30",
       "hook": "赤白の柱列、ミフラーブ、中央の大聖堂を見比べる。UNESCOの歴史地区で異なる時代の信仰が重なる空間へ。",
       "line": "Córdoba旧市街｜冬季月〜土10:00–18:00｜礼拝による変更を確認｜公式券を用意",
       "status": "発売後に確保",
@@ -144,7 +144,7 @@ window.UXMustGo = {
       "dayId": "d1229",
       "dayLabel": "12/29 昼",
       "hook": "概ね11〜4月の季節料理を、本場VallsのあるTarragona県で。焼いた青ネギをロメスコにつけて味わう。",
-      "line": "Part Alta｜13:15–14:45の予定｜12/29提供店を事前確認｜提供と3名席を確認",
+      "line": "Part Alta｜13:00–14:15の予定｜12/29提供店を事前確認｜提供と3名席を確認",
       "status": "旅程IN",
       "planNames": [
         "カルソッツとロメスコ"
@@ -180,7 +180,7 @@ window.UXMustGo = {
       "dayId": "d1228",
       "dayLabel": "12/28 夜",
       "hook": "ガウディ建築を歩いた夜は小皿を3人で分ける。pa amb tomàquetを必ず1回明示注文し、パンもCatalunyaの味で。",
-      "line": "Eixample｜20:00–21:30の予定｜当日営業を確認｜予約不可・待ち10〜45分",
+      "line": "Eixample｜20:00–21:30の予定｜当日営業を確認｜予約不可・待ち15分を超えたら近隣へ変更",
       "status": "旅程IN",
       "planNames": [
         "Cerveseria Catalana"
@@ -203,8 +203,8 @@ window.UXMustGo = {
       "name": "Lhardy",
       "dayId": "d1231",
       "dayLabel": "12/31 夜",
-      "hook": "1839年創業の老舗で年越しディナー。食後は徒歩2分のSolへ向かい、街の年越しにつなぐ。",
-      "line": "Sol周辺｜20:00予定・開始は予約時確定｜年越し営業を確認｜受付開始時に3名予約・期限11/15",
+      "hook": "1839年創業の老舗で年越しディナーを楽しむ。基本はホテルで年越し。Solは2026年の食事・入場時刻と体力が合う場合だけ。",
+      "line": "Sol周辺｜20:00〜23:00は仮の食事枠｜2026年営業・開始終了・早退可否を確認｜11月を目安に3名席を問い合わせ",
       "status": "旅程IN",
       "planNames": [
         "Lhardy"
@@ -216,7 +216,7 @@ window.UXMustGo = {
       "dayId": "d0103",
       "dayLabel": "1/3 昼",
       "hook": "1870年創業。コシード・マドリレーニョを旅の最後のMadridランチに。日曜の蚤の市を切り上げ、煮込みをゆっくり味わう。",
-      "line": "Ópera周辺｜13:30–15:15の予定｜日曜は昼のみ｜12/1までに3名予約",
+      "line": "Ópera周辺｜13:30–15:00の予定｜日曜は昼のみ｜12/1までに3名予約",
       "status": "旅程IN",
       "planNames": [
         "La Bola"
@@ -240,7 +240,7 @@ window.UXMustGo = {
       "dayId": "d1230",
       "dayLabel": "12/30 夜",
       "hook": "1917年創業の老舗でカジョスと鶏のペピトリア。ゲルニカを見た後、Madridらしい煮込みで温まる。",
-      "line": "Calle Mayor 84｜21:00–22:15の予定｜当日営業を確認｜12/1までに3名予約",
+      "line": "Calle Mayor 84｜20:30–22:00の予定｜当日営業を確認｜12/1までに3名予約",
       "status": "旅程IN",
       "planNames": [
         "Casa Ciriaco"
@@ -266,7 +266,8 @@ window.UXMustGo = {
           ]
         }
       ],
-      "alternative": "Can Solé（日曜夜の営業確認時のみ）"
+      "alternative": "Can Solé（日曜夜の営業確認時のみ）",
+      "planNames": []
     },
     {
       "rank": 2,
@@ -274,7 +275,7 @@ window.UXMustGo = {
       "dayId": "d1229",
       "dayLabel": "12/29 昼",
       "hook": "冬の青ネギを焼き、ナッツと野菜のソースにつける季節の楽しみ。",
-      "line": "Part Alta｜13:15–14:45の予定｜12/29提供店を事前確認｜提供と3名席を確認",
+      "line": "Part Alta｜13:00–14:15の予定｜12/29提供店を事前確認｜提供と3名席を確認",
       "status": "旅程IN",
       "shops": [
         {
@@ -286,7 +287,8 @@ window.UXMustGo = {
           ]
         }
       ],
-      "alternative": "El Llagut（カルソッツがなければ魚介のromesco）"
+      "alternative": "El Llagut（カルソッツがなければ魚介のromesco）",
+      "planNames": []
     },
     {
       "rank": 3,
@@ -306,7 +308,8 @@ window.UXMustGo = {
           ]
         }
       ],
-      "alternative": "同じ街区でカネロネスを出す営業店"
+      "alternative": "同じ街区でカネロネスを出す営業店",
+      "planNames": []
     },
     {
       "rank": 4,
@@ -326,7 +329,8 @@ window.UXMustGo = {
           ]
         }
       ],
-      "alternative": ""
+      "alternative": "",
+      "planNames": []
     },
     {
       "rank": 5,
@@ -334,7 +338,7 @@ window.UXMustGo = {
       "dayId": "d1228",
       "dayLabel": "12/28 夜",
       "hook": "小皿を分け、pa amb tomàquetを必ず1回明示注文する。",
-      "line": "Eixample｜20:00–21:30の予定｜当日営業を確認｜予約不可・待ち10〜45分",
+      "line": "Eixample｜20:00–21:30の予定｜当日営業を確認｜予約不可・待ち15分を超えたら近隣へ変更",
       "status": "旅程IN",
       "shops": [
         {
@@ -347,14 +351,16 @@ window.UXMustGo = {
         },
         {
           "name": "El Quim de la Boqueria",
-          "dayId": "d1230",
-          "dayLabel": "12/30 昼 12:15",
+          "dayId": "",
+          "dayLabel": "追加候補",
           "planNames": [
             "El Quim de la Boqueria"
-          ]
+          ],
+          "status": "入替候補"
         }
       ],
-      "alternative": ""
+      "alternative": "",
+      "planNames": []
     },
     {
       "rank": 6,
@@ -362,7 +368,7 @@ window.UXMustGo = {
       "dayId": "d0103",
       "dayLabel": "1/3 昼",
       "hook": "ひよこ豆、肉、野菜の煮込みを時間のある昼に。",
-      "line": "Ópera周辺｜13:30–15:15の予定｜日曜は昼のみ｜12/1までに3名予約",
+      "line": "Ópera周辺｜13:00–14:30の予定｜日曜は昼のみ｜12/1までに3名予約",
       "status": "旅程IN",
       "shops": [
         {
@@ -374,7 +380,8 @@ window.UXMustGo = {
           ]
         }
       ],
-      "alternative": ""
+      "alternative": "",
+      "planNames": []
     },
     {
       "rank": 7,
@@ -394,7 +401,8 @@ window.UXMustGo = {
           ]
         }
       ],
-      "alternative": "Bodega de los Secretos（満席時の食事代替）"
+      "alternative": "Bodega de los Secretos（満席時の食事代替）",
+      "planNames": []
     },
     {
       "rank": 8,
@@ -422,11 +430,12 @@ window.UXMustGo = {
           "line": "旅行日の営業・予約は旅程で確認",
           "status": "旅程IN",
           "planNames": [
-            "チョコラテリア・サン・ヒネス"
+            "San Ginés"
           ]
         }
       ],
-      "alternative": "Plaza Mayor周辺の営業店"
+      "alternative": "Plaza Mayor周辺の営業店",
+      "planNames": []
     },
     {
       "rank": 9,
@@ -446,7 +455,8 @@ window.UXMustGo = {
           ]
         }
       ],
-      "alternative": "Casa Pepe de la Judería（近隣で4品中3品以上の店がなければ）"
+      "alternative": "Casa Pepe de la Judería（近隣で4品中3品以上の店がなければ）",
+      "planNames": []
     },
     {
       "rank": 10,
@@ -454,7 +464,7 @@ window.UXMustGo = {
       "dayId": "d1230",
       "dayLabel": "12/30 夜",
       "hook": "濃厚なモツ煮と卵を崩して食べる一皿を、別々の夜に。",
-      "line": "Calle Mayor 84｜21:00–22:15の予定｜当日営業を確認｜12/1までに3名予約",
+      "line": "Calle Mayor 84｜20:30–22:00の予定｜当日営業を確認｜12/1までに3名予約",
       "status": "旅程IN",
       "shops": [
         {
@@ -478,7 +488,8 @@ window.UXMustGo = {
           ]
         }
       ],
-      "alternative": "Ópera Victoria（Casa Ciriaco満席時の夕食代替）"
+      "alternative": "Ópera Victoria（Casa Ciriaco満席時の夕食代替）",
+      "planNames": []
     }
   ],
   "extras": [
@@ -503,7 +514,7 @@ window.UXMustGo = {
       "line": "旅行日の営業・予約は旅程で確認",
       "status": "旅程IN",
       "planNames": [
-        "チョコラテリア・サン・ヒネス"
+        "San Ginés"
       ]
     },
     {
@@ -521,11 +532,11 @@ window.UXMustGo = {
     {
       "rank": 4,
       "name": "Tablao Cordobés",
-      "dayId": "d1229",
-      "dayLabel": "12/29 夜",
+      "dayId": "",
+      "dayLabel": "追加候補",
       "hook": "ディナーとフラメンコ",
-      "line": "旅行日の営業・予約は旅程で確認",
-      "status": "旅程IN",
+      "line": "他の観光・休憩と入れ替える場合だけ日付を決める。未予約。",
+      "status": "入替候補",
       "planNames": [
         "Tablao Cordobés"
       ]
@@ -533,24 +544,29 @@ window.UXMustGo = {
   ],
   "deferred": [
     {
-      "name": "Hospital de Sant Pau",
-      "reason": "Montserrat中止時の市内追加日の主役。"
-    },
-    {
       "name": "Casa Vicens",
-      "reason": "Montserrat中止時の市内追加日に。基本日程は他のガウディ建築を優先。"
+      "reason": "Montserrat中止時の市内追加日に。基本日程は他のガウディ建築を優先。",
+      "planNames": []
     },
     {
       "name": "Thyssen",
-      "reason": "Pradoとゲルニカを優先し、美術館を詰め込みすぎない。"
+      "reason": "Pradoとゲルニカを優先し、美術館を詰め込みすぎない。",
+      "planNames": []
     },
     {
       "name": "Medina Azahara",
-      "reason": "Córdoba日帰りでは移動と見学時間を確保できない。"
+      "reason": "Córdoba日帰りでは移動と見学時間を確保できない。",
+      "planNames": []
     },
     {
       "name": "Granada",
-      "reason": "今回はCórdoba日帰りを主役にし、都市間移動を増やさない。"
+      "reason": "今回はCórdoba日帰りを主役にし、都市間移動を増やさない。",
+      "planNames": []
+    },
+    {
+      "name": "Casa Batlló 内部＋Casa Milà 屋上",
+      "reason": "12/28はサン・パウ病院へ入れ替え。悪天候の12/27にCasa BatllóかCasa Vicensを1件選ぶ候補。",
+      "planNames": []
     }
   ]
 };

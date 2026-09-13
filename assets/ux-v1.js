@@ -168,20 +168,15 @@ function itineraryPosition(day, date = new Date()) {
     const end = row.end === "" ? start + 30 : minute(row.end);
     return { start, end: end < start ? end + 1440 : end };
   });
-  const current = rows.findIndex(({ start, end }) => start <= now.minutes && now.minutes < end);
+  const current = rows.reduce((selected, { start, end }, index) => start <= now.minutes && now.minutes < end && (selected < 0 || start >= rows[selected].start) ? index : selected, -1);
   const next = rows.findIndex(({ start }, index) => index > current && start > now.minutes);
   return { current, next };
 }
 
 const scenarioStorageKey = "spain-trip-ux-v1-flex-scenario";
 function loadScenario() {
-  try {
-    const value = localStorage.getItem(scenarioStorageKey);
-    return window.UXFullData?.flexScenarios?.[value] ? value : "scenario1";
-  } catch (_) { return "scenario1"; }
-}
-function saveScenario(value) {
-  try { localStorage.setItem(scenarioStorageKey, value); } catch (_) { /* This visit still uses the selected scenario. */ }
+  try { localStorage.removeItem(scenarioStorageKey); } catch (_) { /* Storage may be unavailable; preview still resets. */ }
+  return "scenario1";
 }
 const state = { tab: "home", day: "d1227", scenario: loadScenario(), guideSection: "start", guideCity: "all", guideArea: "all", guideSort: "priority", guideLocationNote: "位置情報は未使用", planSection: "next", recordsSection: "money", collapsedDays: new Set() };
 let days = window.UXFullData?.buildDays(representativeDays, state.scenario) || representativeDays;
@@ -264,6 +259,7 @@ const screen = document.querySelector("#screen");
 const sheet = document.querySelector("[data-sheet]");
 const scrim = document.querySelector("[data-scrim]");
 let lastFocus = null;
+let sheetContext = null;
 let itineraryObserver = null;
 let itineraryScrollLock = false;
 let itineraryScrollTimer = null;
@@ -329,34 +325,32 @@ function tripCountdown(now = new Date()) {
   return "旅の写真と思い出を振り返る";
 }
 
+function preparationActions() {
+  return allTripBookings().filter((booking) => !booking.optional && !["予約済み", "取消済み"].includes(bookingStatusLabel(booking)) && booking.purchaseMode !== "same_day")
+    .map((booking) => ({ id: booking.id, title: booking.title, status: bookingStatusLabel(booking), note: bookingPublicNote(booking), timing: booking.confirmationDate || booking.deadline || "日程確認後", booking }))
+    .sort((a, b) => {
+      const readiness = (task) => task.status === "これから手配" ? 0 : task.status === "確認が必要" ? 1 : 2;
+      return readiness(a) - readiness(b) || (a.booking.confirmationDate || a.booking.deadline || "9999").localeCompare(b.booking.confirmationDate || b.booking.deadline || "9999");
+    });
+}
+function bookingCard(booking) {
+  const label = bookingStatusLabel(booking);
+  return `<article class="card card-body booking-card" data-booking-id="${esc(booking.id)}"><p class="eyebrow">${esc(booking.optional ? bookingVisitLabel(booking) : (booking.visitDate || bookingVisitLabel(booking)))}</p><h3>${esc(booking.title)}</h3>${pill(label, label === "予約済み" ? "info" : "wait")}${booking.checkpoints ? `<p class="booking-checkpoints">${esc(window.UXFullData.bookingSummary(booking))}</p>` : `<p>${esc(bookingPublicNote(booking))}</p>`}${booking.deadline && !booking.optional && label !== "予約済み" ? `<p>確認目安：${esc(booking.confirmationDate || "")} ${esc(booking.deadline)}</p>` : ""}${booking.checkpoints ? action("入場情報", { open: `booking-${booking.id}`, primary: true }) : booking.actionUrl ? `<a class="button" href="${esc(booking.actionUrl)}" target="_blank" rel="noreferrer">公式情報を確認</a>` : ""}</article>`;
+}
 function renderHome() {
-  const pendingBookings = allTripBookings().filter((booking) => bookingStatusLabel(booking) !== "予約済み" && booking.purchaseMode !== "same_day");
-  const waitingOfficial = pendingBookings.filter((booking) => bookingStatusLabel(booking) === "公式発表待ち");
-  const waitingRelease = pendingBookings.filter((booking) => bookingStatusLabel(booking) === "発売待ち");
-  const readyToArrange = pendingBookings.filter((booking) => !waitingOfficial.includes(booking) && !waitingRelease.includes(booking) && bookingStatusLabel(booking) === "これから手配");
-  const taskGroups = [
-    ["今決める", [
-      ["1", "列車3区間を iryo で買う（12/30・1/2往復・1/3）", "手配可能", "父がiryo公式で3名分を購入し、9/17に進捗確認。12/29 Tarragona往復は当日駅で購入", "準備の「予約」で確認", "bookings"],
-      ["2", "優先施設の入場・食事予約を進める", "手配可能", "サグラダ・ファミリア／グエル公園／カサ・ミラ／カサ・バトリョ／カタルーニャ音楽堂／グエル邸／プラド美術館／王宮", "準備の「予約」で確認", "bookings"]
-    ]],
-    ["発売・公式発表を待つ", [
-      ["3", `${waitingRelease.length}件の列車・入場枠`, "発売待ち", waitingRelease.slice(0, 4).map((booking) => booking.title).join("／") || "発売開始後に、採用日程の列車と入場枠を選びます。", "発売後に時刻と料金を確定", "bookings"],
-      ["4", "年末年始情報", "公式発表待ち", "Montserrat往復交通／Botín／La Bola／年越しディナー／Mezquita-Catedral／Tablao Cordobés（12/29）／Casa Ciriaco（12/30）／Sant EsteveのカネロネスとCafè de l'Òperaの祝日朝食営業（12/26）", "12月に公式情報を再確認", "bookings"]
-    ]],
-    ["出発直前に確認", [
-      ["5", "TarragonaとMontserratの日を選ぶ", "12/26夜", "12/27–29の天気と交通を比較。MontserratはBasilica・黒い聖母・景観・美術館が中心で、Sant Joanは運行時のボーナス。市内2日目はSant PauとCasa Vicensなどへ替えます。", "旅程の3日間シナリオで切替", "schedule"],
-      ["6", "予約PDF・保険・通信をオフライン保存", "出発前", "航空券、ホテル、列車、入場券、保険、緊急連絡先を3人が通信なしでも見られる状態にします。", "準備の「書類・連絡」で確認", "documents"]
-    ]]
-  ];
-  screen.innerHTML = `<header class="screen-header home-task-header"><div><span class="eyebrow">次にやること</span><h1>出発までの残タスク</h1><p>今やること、発売を待つこと、出発直前に確認することだけを優先順で表示します。</p></div><div class="context-meta">${esc(tripCountdown())}<small>12/25–1/5 · 3人</small></div></header>
-    ${renderMustGoHome()}
-    <section class="home-task-summary" aria-label="残タスクの概要"><article><span>予約済み</span><strong>ホテル3滞在</strong><small>支払・取消期限を確認</small></article><article><span>手配・発売待ち</span><strong>${pendingBookings.length}件</strong><small>準備タブに詳細</small></article><article><span>旅程の条件分岐</span><strong>1件</strong><small>Montserratは天候次第</small></article></section>
-    <article class="card home-next-action"><div><span class="eyebrow">次に進めること</span><h2>列車は iryo で発売中・Ouigo は 9/16 から</h2><p>12/30・1/2往復・1/3 は iryo 公式で今すぐ買える。Ouigo は 9/16 に 12/13〜翌8/1 分を発売（アプリは 9/15 先行）。Renfe は 12/13 までしか出ておらず週1で確認。12/29 の Tarragona 往復は当日駅で買う Regional。</p></div><div class="action-row"><button class="button primary" type="button" data-home-plan-section="bookings" data-home-target="plan">列車の準備を見る</button>${action("宿泊予約を見る", { tab: "plan", primary: false })}</div></article>
-    <div class="home-task-groups">${taskGroups.map(([phase, tasks]) => `<section class="home-task-phase"><div class="section-head compact-head"><div><span class="eyebrow">準備の段階</span><h2>${esc(phase)}</h2></div><span>${tasks.length}件</span></div><div class="home-task-list">${tasks.map(([number, title, status, note, next, section]) => `<article class="card home-task-card"><span class="task-index">${number}</span><div><div class="status-row">${pill(status, /最優先|12\/26/.test(status) ? "wait" : "info")}</div><h3>${esc(title)}</h3><p>${esc(note)}</p><small>${esc(next)}</small></div><button class="button" type="button" data-home-plan-section="${esc(section)}" data-home-target="${section === "schedule" ? "schedule" : "plan"}">内容を確認する</button></article>`).join("")}</div></section>`).join("")}</div>
-    <section class="home-quick-links"><div><span class="eyebrow">すでに決まっていること</span><h2>決まっている旅の骨格</h2><p>BarcelonaとMadridに宿泊し、Tarragonaのローマ遺跡と大聖堂、CórdobaのMezquitaとシナゴーグへ日帰り。Montserratは天候と体力で追加します。</p></div><div class="action-row">${action("12日間の旅程", { tab: "schedule", contextDay: state.day, primary: true })}${action("町と食のガイド", { tab: "guide" })}</div></section>`;
+  const next = preparationActions();
+  const booked = allTripBookings().filter((booking) => bookingStatusLabel(booking) === "予約済み").sort((a, b) => (a.visitDate || "").localeCompare(b.visitDate || ""));
+  const today = currentTripDayId();
+  screen.innerHTML = `${today ? `<div class="home-today">${action("今日の旅程へ", { tab: "schedule", contextDay: today, primary: true })}</div>` : ""}
+    <header class="screen-header"><div><span class="eyebrow">2026/12/25–2027/1/5 · 3人</span><h1>スペイン、建築と食を楽しむ12日間</h1><p>BarcelonaとMadridを拠点に、山の修道院とTarragona・Córdobaへ。</p></div><div class="context-meta">${esc(tripCountdown())}</div></header>
+    <section class="card trip-overview"><img src="assets/sagrada-interior.jpg" width="960" height="540" alt="サグラダ・ファミリア内部の柱と光"><div class="card-body"><h2>旅の見取り図</h2><p>聖堂の光、街の広場、土地の料理をゆっくり味わう旅。</p>${action(`12日間の旅程を見る（${days[state.day].date}から）`, { tab: "schedule", contextDay: state.day, primary: true })}</div></section>
+    <section class="home-next-actions"><h2>次に必要な手配</h2><p>手配・確認が必要な予定 ${next.length}件</p><div class="grid two">${next.slice(0, 3).map((task) => `<article class="card card-body" data-next-action="${esc(task.id)}">${pill(task.status, "wait")}<h3>${esc(task.title)}</h3><p>確認時期：${esc(task.timing)}</p><button type="button" class="button" data-home-target="plan" data-home-plan-section="bookings">準備で内容を見る</button></article>`).join("")}</div></section>
+    <section class="home-confirmed"><h2>予約済みの予定（${booked.length + (window.UXFullData?.hotelStays || []).length}件）</h2><div class="grid two">${booked.map(bookingCard).join("")}${(window.UXFullData?.hotelStays || []).map((stay) => `<article class="card card-body"><span class="eyebrow">${esc(stay.dates)}</span><h3>${esc(stay.recommendation)}</h3>${pill(stay.status, "info")}<p>${esc(stay.nights)}泊・3名 · ${esc(stay.breakfast)}</p>${action("宿泊情報", { open: `hotel-candidate-${stay.id}` })}</article>`).join("")}</div></section>
+    ${renderMustGoHome()}`;
 }
 
 function mealBudgetRange(meal) {
+  if (meal.includedInAccommodation) return "3名分・宿泊料金に含まれます";
   const min = Number(meal?.budgetMinEur ?? meal?.budgetEur ?? 0);
   const max = Number(meal?.budgetMaxEur ?? meal?.budgetEur ?? 0);
   if (min === max) return dualMoney(max);
@@ -378,18 +372,19 @@ function timelineDetail(item) {
     <div class="action-row">${map}${action("関連ガイド", { tab: "guide" })}</div>`;
 }
 
-function hotelPhone(stay) {
+function hotelPhone(stay, source = false) {
   if (!stay?.phone) return "";
-  return `<a href="tel:${esc(stay.phone.replace(/\s/g, ""))}">${esc(stay.phone)}</a> <small class="muted">公開フロント電話・${esc(stay.phoneSource || "")}</small>`;
+  return `<a href="tel:${esc(stay.phone.replace(/\s/g, ""))}">${esc(stay.phone)}</a>${source ? ` <small class="muted">公開フロント電話・${esc(stay.phoneSource || "")}</small>` : ""}`;
 }
 
 function timelineStatusLabel(item) {
   const bookings = allTripBookings().filter((booking) => (item.bookingIds || []).includes(booking.id));
+  if (item.bookingIds?.length && (bookings.length !== item.bookingIds.length || bookings.some((booking) => bookingStatusLabel(booking) === "確認が必要"))) return "確認が必要";
   const note = item.sourceNote ?? item.note ?? "";
   const booked = (booking) => /^(confirmed|purchased|確定済み|予約済み)$/.test(booking.lifecycle || "") || /^(confirmed|purchased|確定済み|予約済み)$/.test(booking.status || "");
   if ((item.kind === "航空" && allTripBookings().some((booking) => booking.id === "flight" && booked(booking))) ||
       (item.hotelId && window.UXFullData.hotelStays.some((stay) => stay.id === item.hotelId && stay.status === "予約済み")) ||
-      bookings.some(booked) || /予約済み|purchased/i.test(note)) return "予約済み";
+      bookings.some(booked)) return "予約済み";
   const deadline = note.match(/(\d{1,2}\/\d{1,2})までに[^。]*予約/) || note.match(/期限[：: ]?(\d{1,2}\/\d{1,2})/);
   if (deadline) return `要予約 ${deadline[1]}`;
   if (/要予約/.test(note)) return "要予約";
@@ -406,17 +401,23 @@ function renderTimeline(day, date = new Date()) {
     if (item.decision) return `<article class="decision-point" id="${rowId}"><time>${badge}${esc(item.time)}</time><div><span class="eyebrow">ここで判断</span><h3>${esc(item.title)}</h3><p>${esc(item.note)}</p></div></article>`;
     const statusLabel = timelineStatusLabel(item);
     const stay = (window.UXFullData?.hotelStays || []).find((stay) => stay.id === item.hotelId);
-    const mealFacts = item.meal ? `<dl class="timeline-facts"><div><dt>食べるもの</dt><dd>${esc((item.meal.dishes || []).join("・"))}</dd></div><div><dt>3人分</dt><dd>${mealBudgetRange(item.meal)}</dd></div><div><dt>満席時</dt><dd>${esc((item.meal.alternatives || []).join("／"))}</dd></div></dl>` : "";
+    const transit = ["移動", "鉄道", "航空", "空港"].includes(item.kind);
+    const booking = (item.bookingIds || []).map((id) => window.UXFullData?.bookingById(id)).find((booking) => booking?.checkpoints);
+    const destination = booking ? `${booking.entrance} Sagrada Família` : item.meal ? `${item.meal.primary} ${item.meal.area}` : `${item.title} ${day.city}`;
     const mapHelps = !/乗継|保安検査|搭乗口/.test(item.title);
-    const routeLink = mapHelps && (item.kind === "移動" || item.kind === "鉄道" || item.kind === "航空" || item.kind === "空港") ? `<a class="button" href="${esc(mapsUrl(`${item.title} ${day.city}`))}" target="_blank" rel="noreferrer">地図を開く</a>` : "";
-    return `<div><article class="timeline-item" id="${rowId}"><div class="timeline-time">${badge}${esc(item.time)}${item.end ? `<small>〜${esc(item.end)}</small>` : ""}${item.zone ? `<small class="timeline-zone">${esc(item.zone)}</small>` : ""}</div><div class="card timeline-card"><div class="status-row">${pill(item.kind)}${statusLabel ? pill(statusLabel, statusLabel === "予約済み" ? "info" : "wait") : ""}</div><h3>${esc(item.title)}</h3>${item.note ? `<p class="muted">${esc(item.note)}</p>` : ""}${stay ? `<p>${hotelPhone(stay)}</p>` : ""}${mealFacts}<div class="action-row">${action("詳しく見る", { open: item.detail, detailDay: day.id, primary: true })}${routeLink}</div></div></article></div>`;
+    const map = mapHelps ? `<a class="button" href="${esc(item.origin && item.destination ? `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(item.origin)}&destination=${encodeURIComponent(item.destination)}` : mapsUrl(destination))}" target="_blank" rel="noreferrer">${item.origin && item.destination ? "経路" : transit ? "移動先の地図" : "地図"}</a>` : "";
+    const label = booking ? "入場情報" : item.meal ? "店を見る" : transit ? "乗車情報" : item.bookingIds?.length ? "予約を確認" : "詳しく見る";
+    const brief = booking ? window.UXFullData.bookingSummary(booking) : item.meal ? `${item.meal.area} · ${item.meal.booking}` : (item.note || "").split("。")[0];
+    return `<div><article class="timeline-item" id="${rowId}" tabindex="-1" data-schedule-id="${esc(item.id || `${day.id}-${index}`)}"><div class="timeline-time">${badge}${esc(item.time)}${item.end ? `<small>〜${esc(item.end)}${item.timeBasis === "booking" || statusLabel !== "予約済み" ? "（目安）" : ""}</small>` : ""}${item.zone ? `<small class="timeline-zone">${esc(item.zone)}</small>` : ""}</div><div class="card timeline-card"><div class="status-row">${pill(item.kind)}${statusLabel ? pill(statusLabel, statusLabel === "予約済み" ? "info" : "wait") : ""}</div><h3>${esc(item.title)}</h3>${brief ? `<p>${esc(brief)}</p>` : ""}${stay ? `<p>${hotelPhone(stay)}</p>` : ""}<div class="action-row">${map}${item.detail ? action(label, { open: item.detail, detailDay: day.id, primary: true }) : ""}</div></div></article></div>`;
   }).join("");
 }
 
 function renderBarcelonaFlexDecision(day) {
-  if (!["d1227", "d1228", "d1229"].includes(day.id)) return "";
   const scenarios = Object.values(window.UXFullData?.flexScenarios || {});
-  return `<section class="flex-decision" aria-labelledby="flex-decision-title"><div class="flex-decision-head"><span class="eyebrow">12/27–29の選択</span><h2 id="flex-decision-title">3日間のシナリオ</h2><p>12/26夜に天気と交通を比べて選びます。選ぶと3日分の旅程がすぐ入れ替わります。Montserratの日は当日朝にも判断し、条件が悪ければ予約不要のBarcelona市内案にします。</p></div><div class="scenario-selector" role="radiogroup" aria-label="3日間のシナリオ">${scenarios.map((scenario) => `<button class="scenario-option" type="button" role="radio" aria-checked="${state.scenario === scenario.id}" data-scenario="${esc(scenario.id)}"><strong>${esc(scenario.name)}</strong><span>${esc(scenario.summary)}</span>${state.scenario === scenario.id ? `<small>選択中</small>` : ""}</button>`).join("")}</div><p class="flex-note"><strong>選択中：</strong>${esc(window.UXFullData.flexScenarios[state.scenario].name)}。Tarragonaは火曜の一日案が基本で、シナリオ3だけ日曜14:30閉館に合わせた短縮案です。月曜には置きません。</p></section>`;
+  return `<details class="flex-decision"><summary>雨・遅れの別案を見る</summary><p>比較用です。採用旅程は変更されません。再読み込みで採用旅程へ戻ります。</p><p>${esc(window.UXFullData.bookingSummary(window.UXFullData.bookingById("sagrada")))}</p><div class="scenario-selector">${scenarios.map((scenario) => { const constraint = window.UXFullData.scenarioConstraint(scenario.id); return `<article class="scenario-option"><h3>${esc(scenario.name)}</h3><p>${esc(scenario.summary)}</p><p>${esc(constraint.reason)}</p><button class="button" type="button" data-scenario="${esc(scenario.id)}" ${constraint.allowed ? "" : "disabled"} aria-pressed="${state.scenario === scenario.id}">${scenario.id === "scenario1" ? "採用旅程へ戻る" : "この案をプレビュー"}</button></article>`; }).join("")}</div></details>`;
+}
+function previewBanner() {
+  return state.scenario === "scenario1" ? "" : `<aside class="preview-banner" role="status"><strong>別案を表示中 · 交通確認前</strong><button class="button" type="button" data-scenario="scenario1">採用旅程へ戻る</button></aside>`;
 }
 
 function currentTripDayId(date = new Date()) {
@@ -427,21 +428,31 @@ function currentTripDayId(date = new Date()) {
 function renderItineraryJumpbar() {
   const current = currentTripDayId();
   const target = current || state.day;
-  return `<nav class="itinerary-jumpbar" aria-label="旅程の日付"><button class="itinerary-today" type="button" data-jump-day="${esc(target)}">${current ? "今日へ" : "選択日へ"}</button><div class="itinerary-jumpdates">${Object.values(days).map((day) => `<button type="button" data-jump-day="${day.id}" aria-selected="${state.day === day.id}"><strong>${esc(day.date.slice(0, 5))}</strong><small>${esc(day.city.replace("Barcelona", "BCN").replace("Madrid", "MAD"))}</small></button>`).join("")}</div></nav>`;
+  const ids = Object.keys(days), index = ids.indexOf(state.day);
+  return `<nav class="itinerary-jumpbar" aria-label="旅程の日付"><button class="itinerary-today" type="button" data-jump-day="${esc(target)}">${current ? "今日へ" : "選択日へ"}</button><div class="itinerary-jumpdates">${Object.values(days).map((day) => `<button type="button" data-jump-day="${day.id}" aria-pressed="${state.day === day.id}"><strong>${esc(day.date.split("（")[0])}</strong><small>${esc(day.city)}</small></button>`).join("")}</div>${previewBanner()}<div class="day-picker"><button class="button" type="button" data-prev-day data-jump-day="${ids[index-1] || ids[0]}" ${index === 0 ? "disabled" : ""}>前日</button><label>全日程<select data-day-select>${Object.values(days).map((day) => `<option value="${day.id}" ${day.id === state.day ? "selected" : ""}>${esc(day.date)}／${esc(day.city)}${window.UXFullData.bookingsForDay(day.id).some((booking) => bookingStatusLabel(booking) === "予約済み") ? "／予約あり" : ""}</option>`).join("")}</select></label><button class="button" type="button" data-next-day data-jump-day="${ids[index+1] || ids.at(-1)}" ${index === ids.length-1 ? "disabled" : ""}>翌日</button></div></nav>`;
+}
+function dayOverview(day) {
+  const booking = window.UXFullData.bookingsForDay(day.id).find((booking) => booking.checkpoints);
+  const cityPhoto = day.cityIds?.includes("montserrat") ? ["assets/sight-montserrat.jpg", "Montserrat修道院", "現地写真"] : day.cityIds?.includes("tarragona") ? ["assets/tarragona-hero-v2.png", "Tarragonaの街", "街のイメージ・AI生成"] : /Córdoba|Cordoba/.test(day.city) ? ["assets/cordoba-hero-v2.png", "Córdoba", "街のイメージ・AI生成"] : /Madrid/.test(day.city) ? ["assets/madrid-hero-v1.png", "Madrid", "街のイメージ・AI生成"] : ["assets/barcelona-hero-v1.png", "Barcelona", "街のイメージ・AI生成"];
+  const main = booking ? ["assets/sagrada-interior.jpg", "サグラダ・ファミリアの柱と光", "現地写真"] : cityPhoto;
+  const extras = day.meals.filter((meal) => meal.image).slice(0,2).map((meal) => [meal.image, meal.primary, meal.imageKind]);
+  const photo = ([src, title, kind]) => `<figure><img src="${esc(src)}" width="960" height="540" loading="lazy" alt="${esc(title)}"><figcaption>${esc(title)} · ${esc(kind)}</figcaption></figure>`;
+  return `<details class="day-overview"><summary>この日の写真を見る</summary><div class="day-photos">${photo(main)}${extras.map(photo).join("")}</div></details>`;
 }
 
 function renderItineraryDay(day) {
   const collapsed = state.collapsedDays.has(day.id);
   const stay = (window.UXFullData?.hotelStays || []).find((stay) => stay.id === (["d0103", "d0104"].includes(day.id) ? "barcelona-final" : ["d1230", "d1231", "d0101", "d0102"].includes(day.id) ? "madrid" : "barcelona-front"));
   const hotelRow = !["d1225", "d0105"].includes(day.id) && stay ? `<p class="muted">宿泊：${esc(stay.recommendation)} · ${hotelPhone(stay)}</p>` : "";
-  return `<article class="itinerary-day${state.day === day.id ? " is-active" : ""}" id="itinerary-day-${day.id}" data-itinerary-day-card="${day.id}"><header class="itinerary-day-header"><div><span class="eyebrow">${esc(day.date)} · ${esc(day.city)} · ${esc(day.type)}</span><h2>${esc(day.title)}</h2><p>${esc(day.summary || day.primary?.lead || "")}</p>${hotelRow}</div><div class="itinerary-day-actions">${action("遅れ・雨・満席時", { open: "change", detailDay: day.id })}<button class="button ghost" type="button" data-toggle-itinerary-day="${day.id}" aria-expanded="${!collapsed}" aria-controls="itinerary-body-${day.id}">${collapsed ? "この日を開く" : "この日をたたむ"}</button></div></header><div id="itinerary-body-${day.id}"${collapsed ? " hidden" : ""}><div class="timeline itinerary-day-timeline">${renderTimeline(day)}</div></div></article>`;
+  return `<article class="itinerary-day${state.day === day.id ? " is-active" : ""}" id="itinerary-day-${day.id}" data-itinerary-day-card="${day.id}"><header class="itinerary-day-header"><div><span class="eyebrow">${esc(day.date)} · ${esc(day.city)} · ${esc(day.type)}</span><h2>${esc(day.title)}</h2>${collapsed ? "" : hotelRow}</div><div class="itinerary-day-actions">${action("遅れ・雨・満席時", { open: "change", detailDay: day.id })}<button class="button ghost" type="button" data-toggle-itinerary-day="${day.id}" aria-expanded="${!collapsed}" aria-controls="itinerary-body-${day.id}">${collapsed ? "この日を開く" : "この日をたたむ"}</button></div></header><div id="itinerary-body-${day.id}"${collapsed ? " hidden" : ""}>${dayOverview(day)}<div class="timeline itinerary-day-timeline">${renderTimeline(day)}</div></div></article>`;
 }
 
 function renderSchedule() {
-  screen.innerHTML = `<header class="screen-header itinerary-screen-header"><div><span class="eyebrow">12日間の予定</span><h1>旅程</h1><p>12日分を上から続けて読めます。日付バーはスクロール中も残り、いつでも別の日へ移動できます。</p></div><div class="context-meta">12/25–1/5<small>日本・上海・スペインの各現地時間</small></div></header>
+  screen.innerHTML = `<header class="screen-header itinerary-screen-header"><div><span class="eyebrow">12日間の予定</span><h1>旅程</h1><p>選んだ日の予定を中心に確認できます。全日程一覧から、ほかの日もすぐ開けます。</p></div><div class="context-meta">12/25–1/5<small>日本・上海・スペインの各現地時間</small></div></header>
     ${renderItineraryJumpbar()}
-    ${renderBarcelonaFlexDecision(days.d1227)}
-    <div class="itinerary-days">${Object.values(days).map(renderItineraryDay).join("")}</div>`;
+    <div class="itinerary-days">${Object.values(days).map(renderItineraryDay).join("")}</div>
+    <div class="action-row"><button class="button" type="button" data-expand-days>全日を開く</button><button class="button" type="button" data-collapse-days>全日を閉じる</button></div>
+    ${renderBarcelonaFlexDecision(days.d1227)}`;
 }
 
 const planSections = [
@@ -449,11 +460,15 @@ const planSections = [
 ];
 
 function bookingStatusLabel(booking) {
-  const value = booking.status || booking.lifecycle || "";
-  if (/確定|confirmed/.test(value)) return "予約済み";
+  if (booking?.optional) return "追加候補";
+  const value = booking?.lifecycle || booking?.status || "unknown";
+  if (/^(confirmed|purchased|確定済み|予約済み)$/.test(value)) return "予約済み";
+  if (/^(cancelled|canceled)$/.test(value)) return "取消済み";
+  if (/^(pending|requested|in_progress)$/.test(value)) return "申込中";
+  if (value === "unknown" || !/^(waiting_release|waiting_official|researching|not_started|on_sale|bookable|unbooked|same_day)$/.test(value)) return "確認が必要";
   if (booking.purchaseMode === "same_day") return "当日購入";
-  if (/waiting_release/.test(booking.lifecycle || "")) return "発売待ち";
-  if (/waiting_official|researching/.test(value) || /waiting_official/.test(booking.lifecycle || "")) return "公式発表待ち";
+  if (value === "waiting_release") return "発売待ち";
+  if (/waiting_official|researching/.test(value)) return "公式発表待ち";
   return "これから手配";
 }
 
@@ -471,17 +486,18 @@ function allTripBookings() {
 }
 
 function bookingVisitLabel(booking) {
+  if (booking.optional) return "日付未定・入替候補";
   if (/tarragona|montserrat/.test(booking.id)) return "12/27–29の選択日";
   return (booking.relatedDayIds || []).map((id) => days[id]?.date?.split("（")[0]).filter(Boolean).join("・") || "旅行全体";
 }
 
 function renderPlanBody(day) {
-  if (state.planSection === "next") return `<div class="stack">${day.plan.map(([n, title, status, note, owner, timing, sources = []]) => `<article class="card task-card"><span class="task-index">${n}</span><div><div class="status-row">${pill(status, /調査|依存/.test(status) ? "warn" : /待ち/.test(status) ? "wait" : "info")}</div><h3>${esc(title)}</h3><p class="muted">${esc(note)}</p><small>担当: ${esc(owner)}</small>${sources.length ? `<div class="action-row">${sources.map((source) => `<a class="button" href="${esc(source.href)}" target="_blank" rel="noreferrer">${esc(source.label)}</a>`).join("")}</div><small>公式情報の確認日: ${esc(sources.map((source) => source.checkedAt).filter(Boolean).join("・"))}</small>` : ""}</div><time>確認時期: ${esc(timing)}</time></article>`).join("")}</div>`;
+  if (state.planSection === "next") return `<section><h2>旅行全体の手配・確認 ${preparationActions().length}件</h2><div class="grid two">${preparationActions().map((task) => bookingCard(task.booking)).join("")}</div></section><h2>${esc(day.date)}の準備</h2><div class="stack">${day.plan.map(([n, title, status, note, owner, timing, sources = []]) => `<article class="card task-card"><span class="task-index">${n}</span><div><div class="status-row">${pill(status, /調査|依存/.test(status) ? "warn" : /待ち/.test(status) ? "wait" : "info")}</div><h3>${esc(title)}</h3><p class="muted">${esc(note)}</p>${owner ? `<small>担当: ${esc(owner)}</small>` : ""}${sources.length ? `<div class="action-row">${sources.map((source) => `<a class="button" href="${esc(source.href)}" target="_blank" rel="noreferrer">${esc(source.label)}</a>`).join("")}</div><small>公式情報の確認日: ${esc(sources.map((source) => source.checkedAt).filter(Boolean).join("・"))}</small>` : ""}</div>${timing ? `<time>確認時期: ${esc(timing)}</time>` : ""}</article>`).join("")}</div>`;
   if (state.planSection === "bookings") {
     const bookings = allTripBookings();
     const railBookings = window.UXFullData?.railBookings || [];
     const closureFacts = window.UXFullData?.closureFacts || [];
-    const cards = bookings.map((booking) => { const label = bookingStatusLabel(booking); return `<article class="card card-body booking-card"><div class="status-row">${pill(label, label === "予約済み" ? "info" : "wait")}${pill(bookingVisitLabel(booking), "info")}</div><h3>${esc(booking.title)}</h3>${booking.towerSlotTarget ? `<p>入場 ${esc(booking.visitTime)}・塔の希望枠 ${esc(booking.towerSlotTarget)}・担当: ${esc(booking.ownerId)}</p>` : ""}${bookingPublicNote(booking) ? `<p class="muted">${esc(bookingPublicNote(booking))}</p>` : ""}${booking.deadline ? `<p class="booking-deadline"><span>確認目安</span><strong>${booking.confirmationDate ? `${esc(booking.confirmationDate)}・` : ""}${esc(booking.deadline)}</strong></p>` : ""}${booking.actionUrl ? `<a class="button primary" href="${esc(booking.actionUrl)}" target="_blank" rel="noreferrer">公式サイト</a>` : ""}</article>`; }).join("");
+    const cards = bookings.map(bookingCard).join("");
     const railCards = railBookings.map((rail) => `<article class="card card-body booking-card"><h3>${esc(rail.route)}</h3><dl class="fact-list"><div><dt>日付</dt><dd>${esc(rail.route.split(" ")[0])}</dd></div><div><dt>区間</dt><dd>${esc(rail.stations)}</dd></div><div><dt>希望時間帯</dt><dd>${esc(rail.timeWindow)}</dd></div><div><dt>人数</dt><dd>${esc(rail.passengers)}</dd></div>${rail.id !== "tarragona-return" ? `<div><dt>おすすめ運賃</dt><dd>${esc(rail.recommendedFare)}</dd></div>` : ""}</dl><div class="action-row">${rail.purchaseSites.map((site) => `<a class="button${site.label === "iryo公式で買う" ? " primary" : ""}" href="${esc(site.href)}" target="_blank" rel="noreferrer">${esc(site.label)}</a>`).join("")}</div>${rail.id !== "tarragona-return" ? `<p>${esc(rail.afterPurchase)}</p>` : ""}<p>${esc(rail.publicNote)}</p><dl class="fact-list"><div><dt>所要目安</dt><dd>${esc(rail.duration)}</dd></div><div><dt>荷物規定</dt><dd>${esc(rail.luggage)}</dd></div><div><dt>購入条件</dt><dd>${esc(rail.constraint)}</dd></div></dl><p class="muted">発売状況：${esc(rail.releaseNote)}</p><p class="booking-deadline"><span>確認目安</span><strong>${esc(rail.deadline)}</strong></p></article>`).join("");
     const closureCards = closureFacts.map((fact) => `<article class="card card-body"><div class="status-row">${pill("公式情報で確定", "info")}</div><h3>${esc(fact.place)}</h3><p>${esc(fact.fact)}</p><a class="button" href="${esc(fact.sourceUrl)}" target="_blank" rel="noreferrer">${esc(fact.sourceLabel)}</a></article>`).join("");
     return `<article class="card card-body booking-ledger-intro"><span class="eyebrow">旅行全体の手配</span><h2>旅行全体の予約・発売待ち</h2><p>日付を切り替えなくても、航空券・列車・入場券・年末の食事をまとめて確認できます。</p><div class="status-row">${pill(`予約対象 ${bookings.length}件`, "info")}${pill("個人情報は表示しない", "info")}</div></article><div class="grid two booking-ledger">${cards || `<article class="card card-body"><h3>予約対象を読み込めませんでした</h3><p class="muted">「次にやる」で発売待ちの項目を確認してください。</p></article>`}</div><article class="card card-body booking-ledger-intro"><span class="eyebrow">家族が購入する列車</span><h2>列車予約カード</h2><p>父が時刻・荷物条件・取消条件を比較して購入します。希望時刻窓は計画の目安で、購入報告後に実際の列車へ合わせます。</p></article><div class="grid two booking-ledger">${railCards}</div><article class="card card-body booking-ledger-intro"><span class="eyebrow">休館・開館の確定情報</span><h2>旅程判断に使う公式営業時間</h2></article><div class="grid two booking-ledger">${closureCards}</div><article class="card card-body info-card booking-privacy"><h3>予約番号・QRは公開サイトに載せません</h3><p>予約後は家族だけが見られる保存先と端末のオフラインPDFへ保管します。この画面には、日付・予約状態・公式サイトだけを表示します。</p></article>`;
@@ -490,7 +506,12 @@ function renderPlanBody(day) {
     const stays = window.UXFullData?.hotelStays || [];
     return `<div class="stack"><article class="card card-body info-card"><span class="eyebrow">予約済みの宿泊</span><h3>3件とも予約済みです</h3><p>Barcelona前半とViladecansは一部支払済みで施設払い分があり、Madridは支払済みです。各予約には無料キャンセル期限があります。</p></article>${stays.map((stay, i) => `<article class="card card-body"><span class="eyebrow">滞在${i + 1} · ${esc(stay.dates)}</span><h3>${esc(stay.stay)}｜${esc(stay.recommendation)}</h3><div class="status-row">${pill(stay.status, "info")}${pill(`${stay.nights}泊・3名`, "info")}</div><p>${esc(stay.locationNote)}</p><dl class="fact-list"><div><dt>公開フロント電話</dt><dd>${hotelPhone(stay)}</dd></div><div><dt>Hotels.com旅程番号</dt><dd>${esc(stay.bookingRef)}</dd></div><div><dt>チェックイン受付</dt><dd>${esc(stay.checkIn)}–${esc(stay.checkInDeadline)}</dd></div><div><dt>無料キャンセル</dt><dd>${esc(stay.freeCancelUntil)}</dd></div><div><dt>予約総額</dt><dd>${nativeDualMoney(stay.amount.total, stay.amount.currency)}（1人 ${nativeDualMoney(stay.amount.total / 3, stay.amount.currency)}）</dd></div><div><dt>部屋</dt><dd>${esc(stay.room)}</dd></div><div><dt>支払</dt><dd>${esc(paymentText(stay.payment))}</dd></div><div><dt>注意</dt><dd>${esc(stay.caution)}</dd></div></dl>${action("予約の詳細を見る", { open: `hotel-candidate-${stay.id}`, primary: true })}</article>`).join("")}</div>`;
   }
-  if (state.planSection === "documents") return `<div class="grid two">${["パスポート・入国", "航空券・予約内容", "保険・緊急連絡", "通信・支払手段"].map((x, i) => `<article class="card card-body"><h3>${x}</h3><div class="status-row">${pill(i < 2 ? "入力待ち" : "旅行前に再確認", i < 2 ? "warn" : "wait")}</div><p class="muted">3人分の準備状況、保存場所、通信なしで見られるか、確認期限を表示します。</p></article>`).join("")}</div>`;
+  if (state.planSection === "documents") return `<div class="grid two">${[
+    ["パスポート・入国", "出発1か月前に3人それぞれのパスポートと必要な渡航手続を確認。原本は携行し、写しは家族だけの保存先へ。"],
+    ["航空券・予約内容", "予約後に航空券・ホテル・入場券のPDFを端末へ保存。出発前日に通信を切って開けるか確認する。予約番号とQRは公開サイトに載せない。"],
+    ["保険・緊急連絡", "出発1週間前に保険の補償・海外連絡先を確認し、保険証券と連絡先をオフライン保存。緊急時は画面のSOSから電話する。"],
+    ["通信・支払手段", "出発1週間前にローミングまたはeSIMの開始手順とカードの海外利用設定を確認。通信が使えない場合に備え、ホテル地図と連絡先を保存する。"]
+  ].map(([title, task]) => `<article class="card card-body"><h3>${title}</h3><p>${task}</p></article>`).join("")}</div>`;
   if (state.planSection === "packing") {
     const phases = [["normal", "今から準備"], ["7d", "1週間前"], ["24h", "24時間前"], ["home", "自宅を出る前"]];
     const packing = window.UXFullData?.packingItems || [];
@@ -534,9 +555,9 @@ const representativeGuideAreas = [
     { name: "Escalivada", priority: 2, kind: "Catalunya料理", note: "焼き野菜の一皿。基本旅程の注文には固定せず、当日のメニューから選ぶ。", when: "時間があれば・追加注文", shops: ["EixampleのCatalunya料理店", "宿泊先近くの代替店"] },
     { name: "Crema catalana", priority: 3, kind: "デザート", note: "17:00開店に合わせてクレマ・カタラナとチョコラーテで休憩。", when: "12/26 17:00 Granja Viader", shops: ["Granja Viader"] }
   ], sights: [
-    { name: "Sagrada Família", priority: 1, kind: "建築", note: "このエリアで最優先。外観・内部・光の入り方を順に見る。", when: "12/28 09:00予定", nearby: "Pa amb tomàquet" },
-    { name: "Hospital de Sant Pau", priority: 2, kind: "建築", note: "UNESCOのモデルニスモ建築。市内追加日はガウディの日を繰り返さずここを軸にする。", when: "Montserrat中止時の市内追加日", nearby: "Escalivada" },
-    { name: "Passeig de Gràcia", priority: 3, kind: "街歩き", note: "カサ・ミラ15:00、カサ・バトリョ16:30の内部見学をつなぐ。", when: "12/28 午後", nearby: "Crema catalana" }
+    { name: "Sagrada Família", priority: 1, kind: "建築", note: "このエリアで最優先。外観・内部・光の入り方を順に見る。", bookingId: "sagrada", placeId: "sagrada", when: "入場情報を確認", nearby: "Pa amb tomàquet" },
+    { name: "Hospital de Sant Pau", priority: 2, kind: "建築", note: "UNESCOのモデルニスモ建築。サグラダから近いモデルニスモ建築を楽しむ。", when: "12/28 11:30", nearby: "Escalivada" },
+    { name: "Passeig de Gràcia", priority: 3, kind: "街歩き", note: "建築の外観を楽しむ短い散歩。内部見学は希望する場合だけ日付を決める。", when: "12/28 午後", nearby: "Crema catalana" }
   ]},
   { id: "ciutat-vella", city: "Barcelona", name: "Ciutat Vella・旧市街", priority: 2, intro: "市場、路地、旧市街の建築が密集するBarcelonaの中心部。短い時間でも食と街歩きを組み合わせやすい。", foodIntro: "市場料理、魚介、軽いタパスを朝から試しやすいエリア。", visit: ["12/26 午後・夜", "12/30 午前", "12/30 昼"], foods: [
     { name: "Mercatのカウンター料理", priority: 1, kind: "市場料理", note: "市場は9:05–9:40。Bar Pinotxoは朝の候補、El Quimは12:15。混雑時は列車を優先する。", when: "12/30 朝に市場・12:15 El Quimで昼食", shops: ["El Quim de la Boqueria", "Bar Pinotxo（朝の候補）"] },
@@ -567,7 +588,7 @@ const representativeGuideAreas = [
     { name: "Chocolate con churros", priority: 2, kind: "甘味", note: "元日営業と行列を直前確認。満席ならPlaza Mayor周辺で代替。", when: "1/1 11:30–12:15 San Ginés", shops: ["Chocolatería San Ginés", "Plaza Mayor周辺の営業店"] },
     { name: "Callos a la madrileña", priority: 3, kind: "煮込み", note: "ゲルニカ見学後に老舗のモツ煮と鶏のペピトリアを味わう。", when: "12/30 夜 21:00 Casa Ciriaco", shops: ["Casa Ciriaco", "Ópera Victoria（満席時の夕食代替）"] }
   ], sights: [
-    { name: "Puerta del Sol", priority: 1, kind: "広場", note: "大晦日は通常観光ではなく、入口・規制・撤退条件まで確認する。", when: "12/31 夕方・夜の準備後、22:00入場目標・条件付き", nearby: "Bocadillo de calamares" },
+    { name: "Puerta del Sol", priority: 1, kind: "広場", note: "大晦日は通常観光ではなく、入口・規制・撤退条件まで確認する。", when: "12/31 夕方・夜の準備後、夕食後・2026年の入場条件確認後", nearby: "Bocadillo de calamares" },
     { name: "Plaza Mayor", priority: 2, kind: "広場", note: "Solと短い徒歩でつなげ、周辺の名物軽食も見る。", when: "1/1 12:20–13:00", nearby: "Bocadillo de calamares" },
     { name: "La Latina", priority: 3, kind: "街歩き", note: "1/2はCasa Lucio、1/3はEl Rastro。帰りの列車とLa Bolaの昼食を守る。", when: "1/2 夜・1/3 朝", nearby: "Callos a la madrileña" }
   ]},
@@ -619,15 +640,15 @@ const operationalGuide = {
   },
   "Montserrat大聖堂": {
     image: "assets/montserrat-hero-v2.png", imageAlt: "Montserratの奇岩と修道院を描いたイメージ", imageKind: "AI生成イメージ",
-    learn: ["山の巡礼地の中心がbasilicaと黒い聖母La Moreneta。", "信仰の場として静けさを守り、像の拝観時間と礼拝を優先する。"], onsite: ["basilicaの空間と山の地形の関係を見る", "Morenetaは公式時間と列を確認", "視界・風・交通・体調の一つでも悪ければBarcelonaへ切替"], facts: [["Basilica", "07:00–20:00"], ["Moreneta", "08:00–10:30／12:00–18:25"]], operationStatus: "天候と交通が良い日にだけ実行", checkedAt: "2026-08-14", sourceUrl: "https://www.montserratvisita.com/en/practical-information/opening-hours", sourceLabel: "Montserrat公式"
+    learn: ["山の巡礼地の中心がbasilicaと黒い聖母La Moreneta。", "信仰の場として静けさを守り、像の拝観時間と礼拝を優先する。"], onsite: ["basilicaの空間と山の地形の関係を見る", "Morenetaは公式時間と列を確認", "視界・風・交通・体調の一つでも悪ければBarcelonaへ切替"], facts: [["Basilica", "07:00–20:00"], ["Moreneta", "08:00–10:30／12:00–18:25（日曜・祝日は12:15再開）"]], operationStatus: "天候と交通が良い日にだけ実行", checkedAt: "2026-08-14", sourceUrl: "https://abadiamontserrat.cat/es/seccio/santuari/horaris", sourceLabel: "Abbey公式（通常時間・2026-09-14確認）"
   },
   "山の地質・Sant Joan展望": {
     image: "assets/montserrat-hero-v2.png", imageAlt: "Montserratの鋸歯状の山と修道院を描いたイメージ", imageKind: "AI生成イメージ",
-    learn: ["Montserratの名前どおり、風化した岩が鋸歯状に連なる地形が修道院を包む。", "Basilica → 黒い聖母 → 景観 → Museum of Montserratが中心。Sant Joan funicularは運行していれば乗るボーナスで、運休なら美術館・短い散策・展望地点へ。"], onsite: ["山頂側の雲量と風を到着時に確認", "当日運行を確認してから券を買う", "帰路便を先に決め、散策を延ばし過ぎない"], facts: [["Sant Joan", "乗車約7分・当日運行時のみ"], ["Santa Cova", "現在は運休中。計画に使わない"]], operationStatus: "晴天・弱風・当日運行が揃う場合のみ", checkedAt: "2026-08-14", sourceUrl: "https://www.montserratvisita.com/en/nature/funiculars", sourceLabel: "Montserrat公式"
+    learn: ["Montserratの名前どおり、風化した岩が鋸歯状に連なる地形が修道院を包む。", "日曜は美術館と景観を先に見て、黒い聖母は12:15再開後に45〜60分。Sant Joan funicularは運行していれば乗るボーナスで、運休なら美術館・短い散策・展望地点へ。"], onsite: ["山頂側の雲量と風を到着時に確認", "当日運行を確認してから券を買う", "帰路便を先に決め、散策を延ばし過ぎない"], facts: [["Sant Joan", "乗車約7分・当日運行時のみ"], ["Santa Cova", "現在は運休中。計画に使わない"]], operationStatus: "晴天・弱風・当日運行が揃う場合のみ", checkedAt: "2026-08-14", sourceUrl: "https://www.montserratvisita.com/en/nature/funiculars", sourceLabel: "Montserrat公式"
   },
   "Montserrat Museum": {
     image: "assets/montserrat-hero-v2.png", imageAlt: "Montserratの修道院と山を描いたイメージ", imageKind: "AI生成イメージ",
-    learn: ["山の信仰空間に集められた美術を、都市の美術館とは違う文脈で見る屋内候補。", "Basilica・黒い聖母・景観に続く主役として見学し、帰路の余裕を守る。"], onsite: ["当日の展示と閉館を入口で確認", "一点だけ選んで山の場所性との違いを見る", "帰路を遅らせるなら入らない"], facts: [["Museum", "通常10:00–18:45"]], operationStatus: "山上の主役・前夜と当日朝にクリスマス時間を確認", checkedAt: "2026-08-14", sourceUrl: "https://www.montserratvisita.com/en/practical-information/opening-hours", sourceLabel: "Montserrat公式"
+    learn: ["山の信仰空間に集められた美術を、都市の美術館とは違う文脈で見る屋内候補。", "午前の主役として見学し、帰路の余裕を守る。"], onsite: ["当日の展示と閉館を入口で確認", "一点だけ選んで山の場所性との違いを見る", "帰路を遅らせるなら入らない"], facts: [["Museum", "通常10:00–17:45"]], operationStatus: "山上の主役・前夜と当日朝にクリスマス時間を確認", checkedAt: "2026-09-14", sourceUrl: "https://www.museudemontserrat.com/es/visita/horariosytarifas/3", sourceLabel: "Montserrat公式"
   },
   "Mató amb mel": {
     image: "assets/montserrat-hero-v2.png", imageAlt: "Montserratの山と修道院を描いたイメージ", imageKind: "AI生成イメージ",
@@ -683,9 +704,9 @@ const operationalGuide = {
     image: "assets/sagrada-interior.jpg", imageAlt: "サグラダ・ファミリア内部の柱と光", imageKind: "現地写真",
     articleId: "sagrada",
     learn: ["Gaudíは聖堂全体を自然の秩序として構成し、柱を枝分かれする樹木のように設計した。", "生誕のファサードと受難のファサードは、彫刻の密度も感情も対照的。入る前に両方を見る。", "内部では構造だけでなく、東西のステンドグラスから入る光の色の違いを見る。"],
-    onsite: ["Carrer de la Marina側の一般入口を先に確認", "内部中央で柱が枝分かれする位置を見上げる", "退出前に反対側の光まで見て、塔の集合時刻を守る"],
-    facts: [["冬季の月–土", "通常09:00–18:00"], ["予定", "12/28 09:00入場・塔の希望枠09:30–10:00"], ["購入する券", "公式 Sagrada Família + Tower・€36×大人3名＝€108（日本語音声ガイド付き）"], ["登れる塔", "生誕か受難の1本。上りエレベーター・下り階段。6歳未満不可・荷物はロッカー"], ["中央のイエスの塔", "未公開。マリアの塔・4本の福音史家の塔も一般見学不可（2026-09-13確認）"], ["変更・取消", "返金不可・変更は48時間前まで。強風で塔が閉鎖した場合は塔部分のみ返金"]],
-    operationStatus: "10月末ごろ発売見込み。父の購入済み券を確認してから、公式の入場＋塔券を購入", checkedAt: "2026-09-13", sourceUrl: "https://sagradafamilia.org/en/schedules-how-to-get", sourceLabel: "Sagrada Família公式"
+    onsite: ["Carrer de la Marina側の一般入口を先に確認", "内部中央で柱が枝分かれする位置を見上げる", "塔の集合時刻を守り、その後に反対側の光も見る"],
+    bookingId: "sagrada",
+    operationStatus: "入場情報と手元のチケットを確認", checkedAt: window.UXFullData?.bookingById("sagrada")?.checkedAt, sourceUrl: "https://sagradafamilia.org/en/schedules-how-to-get", sourceLabel: "Sagrada Família公式"
   },
   "カサ・ミラ（ラ・ペドレラ）": {
     articleId: "mila",
@@ -704,7 +725,7 @@ const operationalGuide = {
   "グエル公園": {
     learn: ["住宅地計画として始まり、建築と斜面・排水・植生を一体にした場所。", "有名なトカゲだけでなく、列柱・高架路・市場空間が地形をどう受け止めるかを見る。"],
     onsite: ["チケット記載時刻から30分以内に入場", "雨・強風なら無理に公園を主役にせず音楽堂へ切替", "退場後は再入場できないため見落としを出口前に確認"],
-    facts: [["12/28の有料入場帯", "9:30–17:30が2026年末の販売対象帯"], ["入場猶予", "券面時刻から30分"], ["再入場", "不可"]],
+    facts: [["入場枠", "日付を決めてから公式の販売画面で確認"], ["入場猶予", "券面時刻から30分"], ["再入場", "不可"]],
     operationStatus: "2026年の有料入場帯を確認済み・枠は未購入", checkedAt: "2026-08-14", sourceUrl: "https://parkguell.barcelona/en/planning-your-visit/prices-and-times", sourceLabel: "Park Güell公式"
   },
   "カタルーニャ音楽堂": {
@@ -712,13 +733,13 @@ const operationalGuide = {
     learn: ["Domènech i MontanerによるModernisme建築で、Gaudí以外の『総合芸術』を比較できる。", "ステンドグラスの天窓、柱、彫刻、音楽ホールが一つの物語として構成される。"],
     onsite: ["自由見学の最終帯と当日の公演準備による制限を入口で確認", "天井の逆さのドームと舞台背面を同じ位置から比較", "公園が悪天候なら、ここをその日の主役へ切り替える"],
     facts: [["自由見学", "9:00–15:30"], ["所要時間", "約50分"], ["一般料金", "オンライン€20、窓口は+€2"]],
-    operationStatus: "12/30 10:00のガイドツアーを発売後すぐ予約", checkedAt: "2026-08-14", sourceUrl: "https://www.palaumusica.cat/en/visites/self-guided-tour_1174326", sourceLabel: "Palau de la Música公式"
+    operationStatus: "追加を希望する場合に日付と入場条件を確認", checkedAt: "2026-08-14", sourceUrl: "https://www.palaumusica.cat/en/visites/self-guided-tour_1174326", sourceLabel: "Palau de la Música公式"
   },
   "モンセラート": {
     articleId: "montserrat",
     learn: ["山の地形、ベネディクト会修道院、Catalunyaの信仰と文化が重なる日帰り先。", "黒い聖母、礼拝、少年聖歌隊は観光展示ではなく現在も続く宗教実践の一部。"],
     onsite: ["Espanya駅でR5の行先とAeri接続を再確認", "到着後は天候と下山便を先に見てから山上の順番を決める", "聖歌隊は休暇・遠征があるため当日の出演を前提にしない"],
-    facts: [["Tot/Trans券", "特定利用日の指定がないopen ticket"], ["購入", "オンライン、Plaça Espanya、FGC券売機"], ["黒い聖母", "08:00–10:30／12:00–18:25。必要な入場券を確認"], ["Sant Joan", "運行していれば乗るボーナス"]],
+    facts: [["Tot/Trans券", "特定利用日の指定がないopen ticket"], ["購入", "オンライン、Plaça Espanya、FGC券売機"], ["黒い聖母", "08:00–10:30／12:00–18:25（日曜・祝日は12:15再開）。必要な入場券を確認"], ["Sant Joan", "運行していれば乗るボーナス"]],
     operationStatus: "open ticket条件を確認済み・2026年末の交通運行待ち", checkedAt: "2026-08-14", sourceUrl: "https://turistren.cat/en/trains/montserrat-rack-railway-and-funiculars/faqs/", sourceLabel: "Turistren / FGC公式FAQ"
   },
   "Tarragona円形闘技場": {
@@ -729,7 +750,7 @@ const operationalGuide = {
   "Mezquita-Catedral": {
     image: "assets/cordoba-hero-v2.png", imageAlt: "Cordobaの赤白の柱列と中庭を描いたイメージ", imageKind: "AI生成イメージ",
     learn: ["イスラム期の柱列と後世の大聖堂空間が重なる歴史を見てから、Juderíaへ歩く。"], onsite: ["公式券の入場時刻を守る", "礼拝による動線変更を入口で確認", "柱列とmihrabを優先する"],
-    facts: [["予定", "1/2 10:00"], ["券", "公式サイトで旅行日の入場条件を確認"], ["不成立時", "Mezquita核心または鉄道が使えない場合だけToledoへ"]], operationStatus: "2027/1/2の時間・宗教行事・券は旅行前に確認", checkedAt: "2026-08-14", sourceUrl: "https://mezquita-catedraldecordoba.es/organiza-la-visita/entradas-y-horarios/", sourceLabel: "Mezquita-Catedral公式"
+    facts: [["予定", "1/2 10:30"], ["券", "公式サイトで旅行日の入場条件を確認"], ["不成立時", "Mezquita核心または鉄道が使えない場合だけToledoへ"]], operationStatus: "2027/1/2の時間・宗教行事・券は旅行前に確認", checkedAt: "2026-08-14", sourceUrl: "https://mezquita-catedraldecordoba.es/organiza-la-visita/entradas-y-horarios/", sourceLabel: "Mezquita-Catedral公式"
   },
   "Museo del Prado": {
     image: "assets/madrid-hero-v1.png", imageAlt: "Madridの冬の街並みを表現したイメージ", imageKind: "AI生成イメージ",
@@ -755,8 +776,8 @@ const operationalGuide = {
   "ソフィア王妃芸術センター": {
     learn: ["Guernicaを戦争の一場面ではなく、断片化した身体・光・視線の構成として見る。", "PradoのGoyaから20世紀のPicassoへ、暴力をどう描くかをつなげる。"],
     onsite: ["Nouvel Building側の入口は比較的混雑を避けやすい", "Guernicaの展示状況を入館後の公式mapで確認", "日曜は14:30閉館なので12:00までの退出を守る"],
-    facts: [["1/3日曜", "10:00–14:30"], ["最終入場", "閉館30分前"], ["休館", "火曜、1/1・1/6・12/31ほか"]],
-    operationStatus: "日曜時間と休館日を確認済み・入場枠は未購入", checkedAt: "2026-08-14", sourceUrl: "https://www.museoreinasofia.es/en/visit/main-site/", sourceLabel: "Museo Reina Sofía公式"
+    facts: [["通常営業", "月・水〜土10:00–21:00、日曜10:00–14:30"], ["最終入場", "閉館30分前"], ["休館", "火曜、1/1・1/6・12/24・12/25・12/31ほか"]],
+    operationStatus: "通常営業・休館日を確認。旅行日の入場条件は直前に再確認", checkedAt: "2026-09-14", sourceUrl: "https://www.museoreinasofia.es/en/visit/main-site/", sourceLabel: "Museo Reina Sofía公式"
   },
   "Puerta del Sol": {
     image: "assets/madrid-hero-v1.png", imageAlt: "Madridの冬の夜景を表現したイメージ", imageKind: "AI生成イメージ",
@@ -848,28 +869,36 @@ function mustEatItems() {
   return window.UXMustGo?.food || [];
 }
 
+function currentMustGo(item) {
+  if (!(window.UXMustGo?.sights || []).includes(item)) return item;
+  const visit = window.UXFullData.selectedVisits(item.planNames?.length ? item.planNames : item.name, state.scenario)[0];
+  return { ...item, dayId: visit?.dayId || "", dayLabel: visit?.label || "日付未定・追加候補", status: visit?.statusLabel || "追加候補", line: visit?.note || "追加を希望する場合だけ、休憩を守って日付と入場条件を確認します。" };
+}
 function mustGoDayTag(item) {
-  return action(item.dayLabel, { tab: "schedule", contextDay: item.dayId });
+  item = currentMustGo(item);
+  if (!item.dayId && !item.bookingId) return `<span class="muted">${esc(item.dayLabel || "追加候補")}</span>`;
+  const booking = item.bookingId ? window.UXFullData?.bookingById(item.bookingId) : null;
+  return action(booking ? `${booking.visitDate.slice(5).replace("-", "/")} ${booking.visitTime}` : item.dayLabel, { tab: "schedule", contextDay: booking?.relatedDayIds[0] || item.dayId });
 }
 
 function renderMustGoCards(items, kind) {
-  return `<div class="must-go-grid">${items.map((item) => `<article class="card must-go-card" id="must-go-${kind}-${item.rank}"><div class="status-row"><span class="eyebrow">${item.rank}</span>${mustGoDayTag(item)}${pill(item.status, item.status === "旅程IN" ? "info" : "wait")}</div><h3>${esc(item.name)}</h3><p>${esc(item.hook)}</p><p class="must-go-line">${esc(item.line)}</p></article>`).join("")}</div>`;
+  return `<div class="must-go-grid">${items.map(currentMustGo).map((item) => `<article class="card must-go-card" id="must-go-${kind}-${item.rank}"><div class="status-row"><span class="eyebrow">${item.rank}</span>${mustGoDayTag(item)}${pill(item.bookingId ? bookingStatusLabel(window.UXFullData.bookingById(item.bookingId)) : item.status, "info")}</div><h3>${esc(item.name)}</h3><p>${esc(item.hook)}</p><p class="must-go-line">${esc(item.bookingId ? window.UXFullData.bookingSummary(window.UXFullData.bookingById(item.bookingId)) : item.line)}</p></article>`).join("")}</div>`;
 }
 
 function renderMustEatOverview() {
-  return `<section class="section must-eat-section"><div class="section-head"><div><span class="eyebrow">旅行全体の食</span><h2>🏆 絶対に食べるべき10店</h2><p>10件とも旅程に入っています。Tarragonaはカルソッツ提供店を事前に選びます。</p></div></div>${renderMustGoCards(mustEatItems(), "food")}<p>ブケリアは12/30朝に散策。Bar Pinotxoは朝の回収候補、El Quimは12:15の昼食です。混雑時は散策だけにして列車を優先します。</p><h3>次に楽しみたい4つ</h3><ul>${(window.UXMustGo?.extras || []).map((item) => `<li>${esc(item.name)} — ${esc(item.hook)} ${mustGoDayTag(item)}</li>`).join("")}</ul></section>`;
+  return `<section class="section must-eat-section"><div class="section-head"><div><span class="eyebrow">旅行全体の食</span><h2>🏆 絶対に食べるべき10店</h2><p>10件とも旅程に入っています。Tarragonaはカルソッツ提供店を事前に選びます。</p></div></div>${renderMustGoCards(mustEatItems(), "food")}<p>ブケリアは12/30朝に散策。軽食は営業と混雑次第。昼食を乗車前に買い、列車内で食べます。</p><h3>次に楽しみたい4つ</h3><ul>${(window.UXMustGo?.extras || []).map((item) => `<li>${esc(item.name)} — ${esc(item.hook)} ${mustGoDayTag(item)}</li>`).join("")}</ul></section>`;
 }
 
 function renderMustGoOverview() {
   const data = window.UXMustGo;
   if (!data) return "";
-  return `<section class="section must-go-section"><div class="section-head"><div><span class="eyebrow">旅の主役</span><h2>🏆 絶対に行くべき</h2><p>10か所すべて旅程に入っています</p><p>◎＝行く場所 ／ ○＝時間があれば。12/27–29は天候で入れ替わる。「旅程IN」は予約済みの意味ではない。</p></div></div>${renderMustGoCards(data.sights, "sight")}<h3>次点／今回は見送り</h3><ul>${data.deferred.map((item) => `<li>○ ${esc(item.name)} — ${esc(item.reason)}</li>`).join("")}</ul></section>${renderMustEatOverview()}<section class="section"><div class="section-head"><h2>名物から選ぶ</h2></div><div class="must-go-grid">${data.dishes.map((dish) => `<article class="card must-go-card"><h3>${esc(dish.name)}</h3><p>${esc(dish.hook)}</p>${dish.shops.map((shop) => { const food = data.food.find((item) => item.name === shop.name); return `<p>◎ ${food ? `<a href="#must-go-food-${food.rank}">${esc(shop.name)}</a>` : `<a href="${esc(mapsUrl(shop.name))}" target="_blank" rel="noopener noreferrer">${esc(shop.name)}</a>`} ${mustGoDayTag(shop)}</p>`; }).join("")}${dish.alternative ? `<p>○ <a href="${esc(mapsUrl(dish.alternative))}" target="_blank" rel="noopener noreferrer">${esc(dish.alternative)}</a></p>` : ""}</article>`).join("")}</div></section>`;
+  return `<section class="section must-go-section"><div class="section-head"><div><span class="eyebrow">旅の主役</span><h2>🏆 今回の観光と追加候補</h2><p>旅程に組んだ場所と、入れ替える場合の候補です</p><p>12/28のサグラダ予約は固定。Montserratは天候・体調次第。追加候補はほかの観光と入れ替えます。</p></div></div>${renderMustGoCards(data.sights, "sight")}<h3>次点／今回は見送り</h3><ul>${data.deferred.map((item) => `<li>○ ${esc(item.name)} — ${esc(item.reason)}</li>`).join("")}</ul></section>${renderMustEatOverview()}<section class="section"><div class="section-head"><h2>名物から選ぶ</h2></div><div class="must-go-grid">${data.dishes.map((dish) => `<article class="card must-go-card"><h3>${esc(dish.name)}</h3><p>${esc(dish.hook)}</p>${dish.shops.map((shop) => { const food = data.food.find((item) => item.name === shop.name); return `<p>◎ ${food ? `<a href="#must-go-food-${food.rank}">${esc(shop.name)}</a>` : `<a href="${esc(mapsUrl(shop.name))}" target="_blank" rel="noopener noreferrer">${esc(shop.name)}</a>`} ${mustGoDayTag(shop)}</p>`; }).join("")}${dish.alternative ? `<p>○ <a href="${esc(mapsUrl(dish.alternative))}" target="_blank" rel="noopener noreferrer">${esc(dish.alternative)}</a></p>` : ""}</article>`).join("")}</div></section>`;
 }
 
 function renderMustGoHome() {
   const data = window.UXMustGo;
   if (!data) return "";
-  return `<article class="card must-go-home"><h2>🏆 絶対に行くべき</h2><div class="must-go-grid">${[["観光トップ5", data.sights], ["食トップ5", data.food]].map(([label, items]) => `<div><h3>${label}</h3><ol>${items.slice(0, 5).map((item) => `<li>${esc(item.name)} ${mustGoDayTag(item)}</li>`).join("")}</ol></div>`).join("")}</div><button class="button primary" type="button" data-guide-jump="start">必訪・必食のガイドを見る →</button></article>`;
+  return `<article class="card must-go-home"><h2>🏆 今回の観光と追加候補</h2><div class="must-go-grid">${[["観光トップ5", data.sights], ["食トップ5", data.food]].map(([label, items]) => `<div><h3>${label}</h3><ol>${items.slice(0, 5).map((item) => `<li>${esc(item.name)} ${mustGoDayTag(item)}</li>`).join("")}</ol></div>`).join("")}</div><button class="button primary" type="button" data-guide-jump="start">必訪・必食のガイドを見る →</button></article>`;
 }
 
 function guideControls() {
@@ -903,7 +932,7 @@ function renderAreaDetail(area, mode) {
   const city = guideCities.find((item) => item.id === area.city);
   const switchLabel = mode === "eat" ? "この町の観光を見る" : "この町の食事を見る";
   const switchMode = mode === "eat" ? "see" : "eat";
-  return `<button class="back-link" type="button" data-guide-open-area="all">← ${esc(area.city)}の町・エリア一覧へ</button><article class="area-hero city-${city?.tone || "barcelona"}"><span class="city-parent">都市　<strong>${esc(area.city)}</strong></span><span class="eyebrow">${esc(area.city)} · ${mode === "eat" ? "食ガイド" : "観光ガイド"}</span><h2>${esc(area.name)}</h2><p>${esc(mode === "eat" ? area.foodIntro : area.intro)}</p><div class="status-row">${area.visit.map((visit) => pill(`訪問予定 ${visit}`, "info")).join("")}</div></article><div class="section-head compact-head guide-area-heading"><div><span class="eyebrow">おすすめ順</span><h2>${mode === "eat" ? "この町で食べたいもの" : "この町で見たい場所"}</h2><p>優先度の高い順に並べています</p></div><button class="button guide-mode-switch" type="button" data-guide-jump="${switchMode}">${switchLabel}</button></div><div class="ranked-list">${items.map((item, index) => { const visual = guideVisuals[item.name] || operationalGuide[item.name] || {}; const shops = recommendedShops(item); return `<article class="card ranked-card">${visual.image ? `<img class="ranked-card-image" src="${esc(visual.image)}" alt="${esc(visual.imageAlt || item.name)}">` : ""}<div class="rank-number"><small>優先度</small><strong>${index + 1}</strong></div><div class="ranked-copy"><div class="status-row">${pill(item.kind)}${pill(item.when, "info")}</div><h3>${esc(item.name)}</h3><p class="muted">${esc(item.note)}</p>${mode === "eat" && shops.length ? `<p class="linked-info"><span>店候補</span>${esc(shops.slice(0,2).join("／"))}</p>` : mode !== "eat" ? `<p class="linked-info"><span>近くで食べたいもの</span>${esc(item.nearby)}</p>` : ""}<div class="action-row"><button class="button primary" type="button" data-open-detail="guide-${mode}-${area.id}-${item.priority}">${mode === "eat" ? "料理と店を詳しく見る" : "見どころを詳しく見る"}</button></div></div></article>`; }).join("")}</div>`;
+  return `<button class="back-link" type="button" data-guide-open-area="all">← ${esc(area.city)}の町・エリア一覧へ</button><article class="area-hero city-${city?.tone || "barcelona"}"><span class="city-parent">都市　<strong>${esc(area.city)}</strong></span><span class="eyebrow">${esc(area.city)} · ${mode === "eat" ? "食ガイド" : "観光ガイド"}</span><h2>${esc(area.name)}</h2><p>${esc(mode === "eat" ? area.foodIntro : area.intro)}</p><div class="status-row">${area.visit.map((visit) => pill(`訪問予定 ${visit}`, "info")).join("")}</div></article><div class="section-head compact-head guide-area-heading"><div><span class="eyebrow">おすすめ順</span><h2>${mode === "eat" ? "この町で食べたいもの" : "この町で見たい場所"}</h2></div><button class="button guide-mode-switch" type="button" data-guide-jump="${switchMode}">${switchLabel}</button></div><div class="ranked-list">${items.map((item, index) => { const visual = guideVisuals[item.name] || operationalGuide[item.name] || {}; const shops = recommendedShops(item); return `<article class="card ranked-card">${visual.image ? `<img class="ranked-card-image" src="${esc(visual.image)}" alt="${esc(visual.imageAlt || item.name)}">` : ""}<div class="rank-number"><small>優先度</small><strong>${index + 1}</strong></div><div class="ranked-copy"><div class="status-row">${pill(item.kind)}${pill(item.when, "info")}</div><h3>${esc(item.name)}</h3><p class="muted">${esc(item.note)}</p>${mode === "eat" && shops.length ? `<p class="linked-info"><span>店候補</span>${esc(shops.slice(0,2).join("／"))}</p>` : mode !== "eat" && item.nearby ? `<p class="linked-info"><span>近くで食べたいもの</span>${esc(item.nearby)}</p>` : ""}<div class="action-row"><button class="button primary" type="button" data-open-detail="guide-${mode}-${area.id}-${item.priority}">${mode === "eat" ? "料理と店を詳しく見る" : "見どころを詳しく見る"}</button></div></div></article>`; }).join("")}</div>`;
 }
 
 const learningSpotlights = [
@@ -929,7 +958,8 @@ function renderGuideBody() {
 }
 
 function renderGuide() {
-  screen.innerHTML = `<header class="screen-header"><div><span class="eyebrow">旅を深く楽しむ</span><h1>ガイド</h1><p>町から観光と食を探し、歴史・建築・現在の暮らしまで学べます。</p></div><div class="context-meta">${guideCities.length}都市・町／${guideAreas.length}エリア</div></header><nav class="subtabs" aria-label="ガイドの分類">${guideSections.map(([id,label]) => `<button class="subtab" type="button" data-guide-section="${id}" aria-selected="${state.guideSection === id}">${label}</button>`).join("")}</nav>${renderGuideBody()}`;
+  const context = state.guideContext;
+  screen.innerHTML = `${context ? `<aside class="guide-context"><p>${esc(days[context.dayId].date)} · ${esc(context.area)}${context.cleared ? "（全体を表示）" : state.guideArea === "all" ? "（町内の候補）" : "周辺の候補"}</p><button type="button" class="button" data-guide-return>元の予定へ戻る</button><button type="button" class="button" data-guide-clear>条件を解除</button></aside>` : ""}<header class="screen-header"><div><span class="eyebrow">旅を深く楽しむ</span><h1>ガイド</h1></div><div class="context-meta">${guideCities.length}都市・町／${guideAreas.length}エリア</div></header><nav class="subtabs" aria-label="ガイドの分類">${guideSections.map(([id,label]) => `<button class="subtab" type="button" data-guide-section="${id}" aria-selected="${state.guideSection === id}">${label}</button>`).join("")}</nav>${renderGuideBody()}`;
 }
 
 function actualEurForBudgetLine(lineId) {
@@ -990,11 +1020,16 @@ function render() {
   cancelItineraryLanding();
   renderNav();
   renderDaySwitcher();
+  if (!window.UXFullData) {
+    screen.innerHTML = '<section class="card card-body" role="alert"><h1>予約状況を確認できません</h1><p>旅程データを読み込めませんでした。通信を確認して再読み込みし、予約は手元の原本で確認してください。端末の記録はそのまま残っています。</p></section>';
+    return;
+  }
   renderers[state.tab]();
+  if (state.tab !== "schedule") screen.insertAdjacentHTML("afterbegin", previewBanner());
   bindCommon(document.querySelector("[data-primary-nav]"));
   bindCommon(document.querySelector("[data-mobile-nav]"));
   bindScreen();
-  history.replaceState(null, "", `?day=${state.day}&tab=${state.tab}`);
+  history.replaceState(navigationSnapshot(), "", `?day=${state.day}&tab=${state.tab}`);
 }
 
 function recordDayOptions(selected = state.day, includeTrip = false) {
@@ -1019,14 +1054,19 @@ function searchResultCards(entries) {
 }
 
 function detailContent(key, context = {}) {
-  const day = days[state.day];
+  const day = days[context.dayId || state.day];
+  if (key.startsWith("booking-")) {
+    const booking = window.UXFullData?.bookingById(key.slice(8).replace(/-(entry|tower)$/, ""));
+    return { eyebrow: "入場情報", title: booking?.title || "予約状況を確認できません", body: booking ? `${bookingCard(booking).replace(action("入場情報", { open: `booking-${booking.id}`, primary: true }), "")}<dl class="fact-list"><div><dt>料金</dt><dd>€${booking.unitPriceEur} × ${booking.passengers}名 = €${booking.totalPriceEur}</dd></div><div><dt>時刻の基準</dt><dd>${esc(booking.timeZone)}・入場と塔は予約確定。退出は計画上の目安です。</dd></div><div><dt>原本確認日</dt><dd>${esc(booking.checkedAt)}</dd></div></dl><p>${esc(booking.publicNote)}</p><a class="button" href="${esc(mapsUrl(booking.entrance + " Sagrada Família"))}" target="_blank" rel="noreferrer">入口の地図</a><details><summary>見どころを読む</summary><p>柱の枝分かれとステンドグラスの光を見上げ、生誕のファサードの彫刻を楽しみます。</p><a class="button" href="ux-v1-learn.html?id=sagrada">詳しく学ぶ</a></details>` : "<p>手元の予約原本をご確認ください。</p>" };
+  }
   if (key.startsWith("meal-")) {
     const meal = day.meals[Number(key.split("-")[1])] || day.meals[0];
+    if (meal.includedInAccommodation) return { eyebrow: "朝食", title: `${meal.period} · ${meal.primary}`, body: `<div class="meal-practical"><p>${esc(day.date)} · ${esc(meal.window)} · ${esc(meal.area)}</p><p>3名分は宿泊料金に含まれます（追加の食費なし）。</p></div><dl class="fact-list"><div><dt>利用時間・条件</dt><dd>${esc(meal.operation)}</dd></div><div><dt>出発に間に合わない場合</dt><dd>${esc(meal.alternatives.join("、"))}。別途購入する食事は追加費用がかかります。</dd></div></dl>` };
     const visual = meal.image ? `<figure class="guide-detail-image meal-detail-image"><img src="${esc(meal.image)}" alt="${esc(meal.imageAlt || meal.primary)}"><figcaption>${esc(meal.imageKind || "料理・街のイメージ")}</figcaption></figure>` : "";
     const mapLink = `<a class="button" href="${esc(mapsUrl(`${meal.primary} ${meal.area}`))}" target="_blank" rel="noreferrer">地図で確認</a>`;
     return {
       eyebrow: "食事の詳細", title: `${meal.period} · ${meal.primary}`,
-      body: `${visual}<div class="status-row">${pill(meal.area, "info")}${pill(meal.booking, /予約推奨|予約|確認/.test(meal.booking) ? "wait" : "info")}</div><p class="guide-detail-lead">${esc(meal.experience)}</p><article class="card card-body info-card"><h3>この食事の役割</h3><p>${esc(meal.purpose)}</p></article><section class="meal-order-card"><span class="eyebrow">3人分の注文</span><h3>3人で頼むなら</h3><p>${esc(meal.orderForThree)}</p></section><dl class="fact-list"><div><dt>時間</dt><dd>${esc(meal.window)}</dd></div><div><dt>場所</dt><dd>${esc(meal.area)}</dd></div><div><dt>おすすめ料理</dt><dd>${esc(meal.dishes.join("、"))}</dd></div><div><dt>3人分の予算</dt><dd>${mealBudgetRange(meal)}</dd></div><div><dt>1人分の目安</dt><dd>${mealBudgetRange({ budgetMinEur: meal.budgetMinEur / 3, budgetMaxEur: meal.budgetMaxEur / 3 })}</dd></div><div><dt>予算の根拠</dt><dd>${esc(meal.budgetBasis || "店とmenuを決めた後に更新します。")}</dd></div><div><dt>予約</dt><dd>${esc(meal.booking)}</dd></div><div><dt>営業時間・利用条件</dt><dd>${esc(meal.operation)}</dd></div><div><dt>満席・休業時</dt><dd>${esc(meal.alternatives.join("、"))}</dd></div></dl>${meal.sourceUrl ? `<section class="operational-facts"><h3>menu・予算の根拠</h3><p><a class="source-link" href="${esc(meal.sourceUrl)}" target="_blank" rel="noreferrer">${esc(meal.sourceLabel || "公式情報")}</a><small>${esc(meal.sourceScope || "価格・料理構成を確認")} · 確認 ${esc(meal.checkedAt || "2026-08-16")}</small></p></section>` : `<article class="card card-body warning-card"><h3>店またはmenuは未確定</h3><p>${esc(meal.sourceScope || "店が決まった後、実際のmenu価格で予算を更新します。")}</p></article>`}<div class="action-row">${mapLink}<button class="button primary" type="button" data-tab-target="guide">町の食ガイドを見る</button></div>`
+      body: `<div class="meal-practical"><p>${esc(day.date)} · ${esc(meal.window)} · ${esc(meal.area)}</p><p>3人分の予算：${mealBudgetRange(meal)}</p>${mapLink}</div><div class="status-row">${pill(meal.area, "info")}${pill(meal.booking, /予約推奨|予約|確認/.test(meal.booking) ? "wait" : "info")}</div>${visual}<p class="guide-detail-lead">${esc(meal.experience)}</p><article class="card card-body info-card"><h3>この食事の役割</h3><p>${esc(meal.purpose)}</p></article><section class="meal-order-card"><span class="eyebrow">3人分の注文</span><h3>3人で頼むなら</h3><p>${esc(meal.orderForThree)}</p></section><dl class="fact-list"><div><dt>時間</dt><dd>${esc(meal.window)}</dd></div><div><dt>場所</dt><dd>${esc(meal.area)}</dd></div><div><dt>おすすめ料理</dt><dd>${esc(meal.dishes.join("、"))}</dd></div><div><dt>3人分の予算</dt><dd>${mealBudgetRange(meal)}</dd></div><div><dt>1人分の目安</dt><dd>${mealBudgetRange({ budgetMinEur: meal.budgetMinEur / 3, budgetMaxEur: meal.budgetMaxEur / 3 })}</dd></div><div><dt>予算の根拠</dt><dd>${esc(meal.budgetBasis || "店とmenuを決めた後に更新します。")}</dd></div><div><dt>予約</dt><dd>${esc(meal.booking)}</dd></div><div><dt>営業時間・利用条件</dt><dd>${esc(meal.operation)}</dd></div><div><dt>満席・休業時</dt><dd>${esc(meal.alternatives.join("、"))}</dd></div></dl>${meal.sourceUrl ? `<section class="operational-facts"><h3>menu・予算の根拠</h3><p><a class="source-link" href="${esc(meal.sourceUrl)}" target="_blank" rel="noreferrer">${esc(meal.sourceLabel || "公式情報")}</a><small>${esc(meal.sourceScope || "価格・料理構成を確認")} · 確認 ${esc(meal.checkedAt || "2026-08-16")}</small></p></section>` : `<article class="card card-body warning-card"><h3>店またはmenuは未確定</h3><p>${esc(meal.sourceScope || "店が決まった後、実際のmenu価格で予算を更新します。")}</p></article>`}<div class="action-row">${mapLink}<button class="button primary" type="button" data-food-context="${esc(key)}">この日の周辺で食べる</button></div>`
     };
   }
   const scheduledItem = day.timeline.find((item) => item.detail === key);
@@ -1042,7 +1082,7 @@ function detailContent(key, context = {}) {
   if (scheduledItem) return { eyebrow: scheduledItem.kind, title: scheduledItem.title, body: timelineDetail(scheduledItem) };
   if (key === "change") {
     const scenarios = [["30分遅れ", "次の予定の開始時刻を確認し、休憩または街歩きを短縮します。予約時刻は動かしません。"], ["1時間遅れ", "優先度の低い観光を1件外し、食事と予約済み予定、帰着時刻を守ります。"], ["雨", "屋外の滞在を短縮し、予約済み屋内施設と近い食事を優先します。"], ["疲れた", "移動回数を減らし、ホテル休憩または最寄りの食事へ切り替えます。"], ["早く終わった", "次の予定を前倒しせず、近いカフェや短い街歩きで時間を調整します。"], ["店が満席・休業", "食事詳細の代替店へ移り、20分以上待たない方針を優先します。"]];
-    const keep = state.day === "d1230" || state.day === "d0103" ? "長距離列車と発車90分前の駅到着" : state.day === "d1231" ? "18:00の公式確認、20:30の撤退判断、安全な帰路" : "時間指定の予約と、その日のホテルへ戻る時間";
+    const keep = state.day === "d1230" || state.day === "d0103" ? "長距離列車と発車90分前の駅到着" : state.day === "d1231" ? "2026年の夕食・入場条件の確認と、安全なホテルへの帰路" : "時間指定の予約と、その日のホテルへ戻る時間";
     return { eyebrow: "予定を変える時", title: "遅れ・雨・疲労・満席への対応", body: `<div class="grid two">${scenarios.map(([title, note]) => `<article class="card card-body"><h3>${title}</h3><p>${note}</p></article>`).join("")}</div><article class="card card-body info-card" style="margin-top:16px"><h3>この日に守ること</h3><p>${keep}</p></article>` };
   }
   if (key === "overview") return { eyebrow: "12 DAYS", title: "12日間の予定", body: `${Object.values(days).map((d) => `<article class="card card-body" style="margin-bottom:10px"><span class="eyebrow">${d.date} · ${d.city}</span><h3>${d.title}</h3><p class="muted">${esc(d.type)}</p></article>`).join("")}` };
@@ -1068,6 +1108,16 @@ function detailContent(key, context = {}) {
       const item = area?.[mode === "eat" ? "foods" : "sights"].find((entry) => entry.priority === Number(priority));
       if (area && item) {
         const detail = { ...(operationalGuide[item.name] || {}), ...(guideVisuals[item.name] || {}) };
+        if (mode === "see") {
+          detail.operationStatus = item.kind;
+          detail.facts = [["訪問予定", item.when], ...(detail.facts || []).filter(([label]) => !/予約|訪問予定|購入|入場目標|^予定$/.test(label))];
+          detail.onsite = item.visits?.length ? item.visits.map(visit => visit.note) : ["追加したい場合だけ、食事と休憩を守って日付を決め、旅行日の営業・入場条件を確認します。"];
+        }
+        if (detail.bookingId) {
+          const booking = window.UXFullData.bookingById(detail.bookingId);
+          detail.facts = [["予約", window.UXFullData.bookingSummary(booking)]];
+          detail.operationStatus = bookingStatusLabel(booking); detail.checkedAt = booking?.checkedAt;
+        }
         const visual = detail.image ? `<figure class="guide-detail-image"><img src="${detail.image}" alt="${esc(detail.imageAlt)}"><figcaption>${esc(detail.imageKind)}</figcaption></figure>` : "";
         const learn = (detail.learn || [item.note]).map((point) => `<li>${esc(point)}</li>`).join("");
         const onsiteFallback = mode === "eat" ? ["3人で分けられる量から注文し、足りなければ追加する", "第一候補に入れなければ、同じ料理を食べられる代替店へ切り替える"] : ["入口と退出時刻を先に確認する", "見たい場所を優先し、次の予定へ出る時刻を守る"];
@@ -1075,10 +1125,10 @@ function detailContent(key, context = {}) {
         const facts = (detail.facts || []).map(([label, value]) => `<div><dt>${esc(label)}</dt><dd>${esc(value)}</dd></div>`).join("");
         const source = detail.sourceUrl ? `<a class="source-link" href="${detail.sourceUrl}" target="_blank" rel="noreferrer">${esc(detail.sourceLabel)}を開く</a>` : "";
         const operationalFacts = facts || source ? `<section class="operational-facts">${detail.operationStatus ? `<div class="status-row">${pill(detail.operationStatus, detail.checkedAt === "未確認" ? "wait" : "info")}</div>` : ""}${facts ? `<dl class="fact-list">${facts}</dl>` : ""}${source ? `<p class="caption">${detail.checkedAt ? `確認日: ${esc(detail.checkedAt)} · ` : ""}${source}</p>` : ""}</section>` : "";
-        if (mode === "eat") { const shops = recommendedShops(item); return { eyebrow: `${area.city} · ${area.name}`, title: item.name, body: `${visual}<div class="status-row">${pill(item.kind)}${pill(item.when, "info")}</div><p class="guide-detail-lead">${esc(item.note)}</p><section class="detail-layer"><span class="eyebrow">食べる前に学ぶ</span><h3>食べる前に知る</h3><ul class="detail-list">${learn}</ul></section><section class="detail-layer"><span class="eyebrow">現地で使う</span><h3>現地での選び方</h3><ol class="detail-list">${onsite}</ol></section>${shops.length ? `<h3>おすすめの店</h3><div class="stack">${shops.map((shop, index) => `<article class="card card-body"><span class="eyebrow">${index === 0 ? "第一候補" : "代替候補"}</span><h3>${esc(shop)}</h3><p class="muted">${esc(shopTeaser(shop, item, index))}</p><a class="button" href="${esc(mapsUrl(`${shop} ${area.city}`))}" target="_blank" rel="noreferrer">地図を開く</a></article>`).join("")}</div>` : ""}${operationalFacts}<div class="action-row"><a class="button primary" href="${esc(mapsUrl(`${item.name} ${area.name} ${area.city}`))}" target="_blank" rel="noreferrer">この近くで探す</a></div>` }; }
+        if (mode === "eat") { const shops = recommendedShops(item); return { eyebrow: `${area.city} · ${area.name}`, title: item.name, body: `${operationalFacts}<div class="status-row">${pill(item.kind)}${pill(item.when, "info")}</div><p class="guide-detail-lead">${esc(item.note)}</p>${visual}<details class="detail-layer"><summary>食べる前に知る</summary><span class="eyebrow">食べる前に学ぶ</span><h3>食べる前に知る</h3><ul class="detail-list">${learn}</ul></details><section class="detail-layer"><span class="eyebrow">現地で使う</span><h3>現地での選び方</h3><ol class="detail-list">${onsite}</ol></section>${shops.length ? `<h3>おすすめの店</h3><div class="stack">${shops.map((shop, index) => `<article class="card card-body"><span class="eyebrow">${index === 0 ? "第一候補" : "代替候補"}</span><h3>${esc(shop)}</h3><p class="muted">${esc(shopTeaser(shop, item, index))}</p><a class="button" href="${esc(mapsUrl(`${shop} ${area.city}`))}" target="_blank" rel="noreferrer">地図を開く</a></article>`).join("")}</div>` : ""}<div class="action-row"><a class="button primary" href="${esc(mapsUrl(`${item.name} ${area.name} ${area.city}`))}" target="_blank" rel="noreferrer">この近くで探す</a></div>` }; }
         const learningArticleId = detail.articleId || item.articleId;
         const deepLearn = learningArticleId ? `<div class="deep-learn-prompt"><p>歴史・構造・背景まで知ると、現地で見るポイントが分かります。</p><a class="button primary deep-learn-link" href="ux-v1-learn.html?id=${encodeURIComponent(learningArticleId)}">詳しく学ぶ</a></div>` : "";
-        return { eyebrow: `${area.city} · ${area.name}`, title: item.name, body: `${visual}<div class="status-row">${pill(item.kind)}${pill(item.when, "info")}</div><p class="guide-detail-lead">${esc(item.note)}</p><section class="detail-layer"><span class="eyebrow">行く前に学ぶ</span><h3>知ってから見る</h3>${deepLearn}<ul class="detail-list">${learn}</ul></section><section class="detail-layer"><span class="eyebrow">現地で使う</span><h3>現地での確認ポイント</h3><ol class="detail-list">${onsite}</ol></section>${operationalFacts}<article class="card card-body info-card"><h3>近くで食べたいもの</h3><p>${esc(item.nearby)}</p></article>` };
+        return { eyebrow: `${area.city} · ${area.name}`, title: item.name, body: `${operationalFacts}<div class="status-row">${pill(item.kind)}${pill(item.when, "info")}</div><p class="guide-detail-lead">${esc(item.note)}</p>${visual}<details class="detail-layer"><summary>見どころ・由来を読む</summary><span class="eyebrow">行く前に学ぶ</span><h3>知ってから見る</h3>${deepLearn}<ul class="detail-list">${learn}</ul></details><section class="detail-layer"><span class="eyebrow">現地で使う</span><h3>現地での確認ポイント</h3><ol class="detail-list">${onsite}</ol></section>${item.nearby ? `<article class="card card-body info-card"><h3>近くで食べたいもの</h3><p>${esc(item.nearby)}</p></article>` : ""}` };
       }
     }
   }
@@ -1087,29 +1137,97 @@ function detailContent(key, context = {}) {
     const stayId = key === "hotel-candidate" ? stays[0]?.id : key.slice("hotel-candidate-".length);
     const stay = stays.find((item) => item.id === stayId) || stays[0];
     if (!stay) return { eyebrow: "HOTEL BOOKING", title: "宿泊予約", body: `<p>宿泊予約データを読み込めませんでした。</p>` };
-    return { eyebrow: `${stay.stay}の予約`, title: stay.recommendation, body: `<div class="status-row">${pill(stay.status, "info")}${pill(`${stay.nights}泊・大人3名`, "info")}</div><p class="guide-detail-lead">${esc(stay.locationNote)}</p><dl class="fact-list"><div><dt>日程</dt><dd>${esc(stay.checkIn)} → ${esc(stay.checkOut)}</dd></div><div><dt>受付終了</dt><dd>${esc(stay.checkInDeadline || "24時間フロント（締切時刻の記載なし）")}</dd></div><div><dt>住所</dt><dd>${esc(stay.address)}</dd></div>${stay.phone ? `<div><dt>電話</dt><dd>${hotelPhone(stay)}</dd></div>` : ""}<div><dt>部屋</dt><dd>${esc(stay.room)}</dd></div><div><dt>ベッド</dt><dd>${esc(stay.layout)}</dd></div><div><dt>朝食</dt><dd>${esc(stay.breakfast)}</dd></div><div><dt>フロント</dt><dd>${esc(stay.reception)}</dd></div><div><dt>予約総額</dt><dd>${nativeDualMoney(stay.amount.total, stay.amount.currency)}／3名（1人 ${nativeDualMoney(stay.amount.total / 3, stay.amount.currency)}）</dd></div><div><dt>支払</dt><dd>${esc(paymentText(stay.payment))}</dd></div><div><dt>無料キャンセル</dt><dd>${esc(stay.freeCancelUntil)}</dd></div><div><dt>期限後</dt><dd>${esc(stay.cancelPenalty)}</dd></div><div><dt>Hotels.com旅程番号</dt><dd>${esc(stay.bookingRef)}</dd></div></dl><article class="card card-body warning-card"><h3>旅行前・現地で確認すること</h3><p>${esc(stay.caution)}</p></article><div class="action-row"><a class="button primary" href="${esc(stay.officialUrl)}" target="_blank" rel="noreferrer">公式サイト</a><a class="button" href="${esc(stay.mapUrl)}" target="_blank" rel="noreferrer">地図</a></div><section class="operational-facts"><h3>確認日</h3><p>予約日: ${esc(stay.bookedAt)} · 施設情報の確認日: ${esc(stay.factsCheckedAt)}</p></section>` };
+    return { eyebrow: `${stay.stay}の予約`, title: stay.recommendation, body: `<div class="status-row">${pill(stay.status, "info")}${pill(`${stay.nights}泊・大人3名`, "info")}</div><p class="guide-detail-lead">${esc(stay.locationNote)}</p><dl class="fact-list"><div><dt>日程</dt><dd>${esc(stay.checkIn)} → ${esc(stay.checkOut)}</dd></div><div><dt>受付終了</dt><dd>${esc(stay.checkInDeadline || "24時間フロント（締切時刻の記載なし）")}</dd></div><div><dt>住所</dt><dd>${esc(stay.address)}</dd></div>${stay.phone ? `<div><dt>電話</dt><dd>${hotelPhone(stay, true)}</dd></div>` : ""}<div><dt>部屋</dt><dd>${esc(stay.room)}</dd></div><div><dt>ベッド</dt><dd>${esc(stay.layout)}</dd></div><div><dt>朝食</dt><dd>${esc(stay.breakfast)}</dd></div><div><dt>フロント</dt><dd>${esc(stay.reception)}</dd></div><div><dt>予約総額</dt><dd>${nativeDualMoney(stay.amount.total, stay.amount.currency)}／3名（1人 ${nativeDualMoney(stay.amount.total / 3, stay.amount.currency)}）</dd></div><div><dt>支払</dt><dd>${esc(paymentText(stay.payment))}</dd></div><div><dt>無料キャンセル</dt><dd>${esc(stay.freeCancelUntil)}</dd></div><div><dt>期限後</dt><dd>${esc(stay.cancelPenalty)}</dd></div><div><dt>Hotels.com旅程番号</dt><dd>${esc(stay.bookingRef)}</dd></div></dl><article class="card card-body warning-card"><h3>旅行前・現地で確認すること</h3><p>${esc(stay.caution)}</p></article><div class="action-row"><a class="button primary" href="${esc(stay.officialUrl)}" target="_blank" rel="noreferrer">公式サイト</a><a class="button" href="${esc(stay.mapUrl)}" target="_blank" rel="noreferrer">地図</a></div><section class="operational-facts"><h3>確認日</h3><p>予約日: ${esc(stay.bookedAt)} · 施設情報の確認日: ${esc(stay.factsCheckedAt)}</p></section>` };
   }
   return { eyebrow: "予定の詳細", title: "追加情報はありません", body: `<p>この項目は旅程カードに必要な情報をまとめています。シートを閉じて前後の予定を確認してください。</p>` };
 }
 
+function navigationSnapshot() {
+  return { tab: state.tab, day: state.day, scenario: state.scenario, guideSection: state.guideSection, guideCity: state.guideCity, guideArea: state.guideArea, guideContext: state.guideContext || null };
+}
+function activateScenario(scenario) {
+  if (!window.UXFullData?.scenarioConstraint(scenario).allowed) return false;
+  if (state.scenario !== scenario) {
+    state.scenario = scenario;
+    days = window.UXFullData.buildDays(representativeDays, scenario);
+    refreshScenarioGuide();
+  }
+  return true;
+}
+function switchGuideMode(mode) {
+  if (!["start", "see", "eat", "practical"].includes(mode)) return;
+  if (state.tab !== "guide") switchTab("guide");
+  else closeSheet(false);
+  state.guideSection = mode;
+  render();
+}
+function selectDay(dayId) {
+  if (!days[dayId]) return;
+  state.day = dayId;
+  state.collapsedDays = new Set(Object.keys(days).filter((id) => id !== dayId));
+  render(); scrollToItineraryDay(dayId, false);
+}
+function openFoodGuide(key) {
+  const origin = sheetContext;
+  if (!origin || !days[origin.dayId]) return;
+  const meal = days[origin.dayId].meals[Number(key.split("-")[1])];
+  if (!meal) return;
+  closeSheet(false);
+  state.day = origin.dayId;
+  history.replaceState(navigationSnapshot(), "");
+  state.guideContext = { dayId: origin.dayId, rowId: origin.rowId, area: meal.area, originKey: origin.key, scenario: origin.scenario };
+  state.tab = "guide"; state.guideSection = "eat";
+  state.guideCity = guideCities.find((city) => city.id === days[origin.dayId].city)?.id || "all";
+  const area = guideAreas.find((area) => area.id === meal.guideAreaId) || guideAreas.find((area) => area.city === state.guideCity && (meal.area.includes(area.name) || area.name.includes(meal.area)));
+  state.guideArea = area?.id || "all";
+  history.pushState(navigationSnapshot(), ""); render(); window.scrollTo({ top: 0 });
+}
+function restoreRow(context) {
+  if (!context) return;
+  state.collapsedDays.delete(context.dayId);
+  scrollToItineraryDay(context.dayId, false, new Date(), context.rowId);
+  const row = document.getElementById(context.rowId);
+  (row?.querySelector(`[data-open-detail="${context.originKey}"]`) || row?.querySelector("button") || row)?.focus({ preventScroll: true });
+}
+function returnFromGuide() {
+  const context = state.guideContext;
+  if (context?.scenario) activateScenario(context.scenario);
+  state.tab = "schedule"; state.day = context?.dayId || state.day; state.guideContext = null;
+  history.replaceState(navigationSnapshot(), "");
+  render(); restoreRow(context);
+}
+function setSheetBackground(inert) {
+  document.querySelector("main").inert = inert;
+  document.querySelector(".site-header").inert = inert;
+  document.querySelector("[data-mobile-nav]").inert = inert;
+}
 function openSheet(key, context = {}) {
-  lastFocus = document.activeElement;
-  const data = detailContent(key, context);
+  if (sheet.hidden) {
+    lastFocus = document.activeElement;
+    const dayId = days[context.dayId] ? context.dayId : state.day;
+    state.day = dayId;
+    history.replaceState(navigationSnapshot(), "");
+    sheetContext = Object.freeze({ dayId, key, scenario: state.scenario, rowId: context.rowId || lastFocus?.closest(".timeline-item, [data-detail-origin]")?.id || `itinerary-day-${dayId}` });
+    history.pushState({ ...navigationSnapshot(), sheet: true }, "");
+  }
+  const data = !window.UXFullData && key !== "sos"
+    ? { eyebrow: "確認が必要", title: "予約状況を確認できません", body: "<p>通信を確認して再読み込みし、予約は手元の原本をご確認ください。</p>" }
+    : detailContent(key, { ...context, dayId: sheetContext.dayId });
   document.querySelector("[data-sheet-eyebrow]").textContent = data.eyebrow;
   document.querySelector("[data-sheet-title]").textContent = data.title;
   document.querySelector("[data-sheet-body]").innerHTML = data.body;
-  sheet.hidden = false;
-  scrim.hidden = false;
-  document.body.style.overflow = "hidden";
+  sheet.hidden = false; scrim.hidden = false;
+  document.body.style.overflow = "hidden"; setSheetBackground(true);
   document.querySelector("[data-close-sheet]").focus();
   bindSheet();
 }
-
-function closeSheet() {
-  sheet.hidden = true;
-  scrim.hidden = true;
-  document.body.style.overflow = "";
-  lastFocus?.focus();
+function closeSheet(navigateHistory = true, preserveHistory = false) {
+  const wasOpen = !sheet.hidden;
+  sheet.hidden = true; scrim.hidden = true;
+  document.body.style.overflow = ""; setSheetBackground(false);
+  if (wasOpen) lastFocus?.focus({ preventScroll: true });
+  if (wasOpen && navigateHistory !== false && history.state?.sheet) history.back();
+  else if (wasOpen && !preserveHistory) history.replaceState(navigationSnapshot(), "");
 }
 
 function toast(message) {
@@ -1122,8 +1240,11 @@ function toast(message) {
 
 function switchTab(tab) {
   if (!renderers[tab]) return;
-  closeSheet();
+  closeSheet(false);
+  history.replaceState(navigationSnapshot(), "");
   state.tab = tab;
+  if (tab === "guide") { state.guideContext = null; state.guideCity = "all"; state.guideArea = "all"; state.guideSection = "start"; }
+  history.pushState(navigationSnapshot(), "");
   window.scrollTo({ top: 0 });
   render();
   if (tab === "schedule") scrollToItineraryDay(state.day, false);
@@ -1131,16 +1252,27 @@ function switchTab(tab) {
 
 function bindCommon(root = document) {
   root.querySelectorAll("[data-tab-target]").forEach((button) => button.addEventListener("click", () => { if (days[button.dataset.contextDay]) state.day = button.dataset.contextDay; switchTab(button.dataset.tabTarget); }));
-  root.querySelectorAll("[data-open-detail]").forEach((button) => button.addEventListener("click", () => { if (days[button.dataset.detailDay]) state.day = button.dataset.detailDay; openSheet(button.dataset.openDetail); }));
-  root.querySelectorAll("[data-guide-jump]").forEach((button) => button.addEventListener("click", () => { closeSheet(); state.tab = "guide"; state.guideSection = button.dataset.guideJump; render(); }));
+  root.querySelectorAll("[data-open-detail]").forEach((button) => button.addEventListener("click", () => { const dayId = button.dataset.detailDay || state.day; openSheet(button.dataset.openDetail, { dayId, rowId: button.closest(".timeline-item")?.id }); }));
+  root.querySelectorAll("[data-guide-jump]").forEach((button) => button.addEventListener("click", () => switchGuideMode(button.dataset.guideJump)));
 }
 
 function markItineraryDay(dayId) {
-  if (!days[dayId]) return;
+  if (!days[dayId] || !sheet.hidden) return;
   state.day = dayId;
+  const select = screen.querySelector("[data-day-select]"); if (select) select.value = dayId;
+  const ids = Object.keys(days), index = ids.indexOf(dayId);
+  const previous = screen.querySelector("[data-prev-day]"), next = screen.querySelector("[data-next-day]");
+  if (previous) { previous.dataset.jumpDay = ids[index-1] || ids[0]; previous.disabled = index === 0; }
+  if (next) { next.dataset.jumpDay = ids[index+1] || ids.at(-1); next.disabled = index === ids.length-1; }
   screen.querySelectorAll("[data-itinerary-day-card]").forEach((card) => card.classList.toggle("is-active", card.dataset.itineraryDayCard === dayId));
-  screen.querySelectorAll("[data-jump-day]").forEach((button) => button.setAttribute("aria-selected", String(button.dataset.jumpDay === dayId)));
-  history.replaceState(null, "", `?day=${state.day}&tab=${state.tab}`);
+  screen.querySelectorAll("[data-jump-day]").forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.jumpDay === dayId)));
+  const strip = screen.querySelector(".itinerary-jumpdates");
+  const selected = strip?.querySelector(`[data-jump-day="${dayId}"]`);
+  if (strip && selected) {
+    const frame = strip.getBoundingClientRect(), button = selected.getBoundingClientRect();
+    if (Number.isFinite(frame.left) && (button.left < frame.left || button.right > frame.right)) strip.scrollLeft += button.left - frame.left - (frame.width - button.width) / 2;
+  }
+  history.replaceState(navigationSnapshot(), "", `?day=${state.day}&tab=${state.tab}`);
 }
 
 function itineraryTargetMoved(previousTop, nextTop, previousMargin, nextMargin) {
@@ -1157,12 +1289,21 @@ function syncItineraryScrollMargin() {
   return margin;
 }
 
-function scrollToItineraryDay(dayId, smooth = false, date = new Date()) {
+function scrollToItineraryDay(dayId, smooth = false, date = new Date(), rowId = null) {
+  if (!days[dayId]) return;
+  state.collapsedDays.delete(dayId);
+  const selectedBody = document.querySelector(`#itinerary-body-${dayId}`);
+  if (selectedBody) selectedBody.hidden = false;
+  const toggle = document.querySelector(`[data-toggle-itinerary-day="${dayId}"]`);
+  if (toggle) { toggle.setAttribute("aria-expanded", "true"); toggle.textContent = "この日をたたむ"; }
+  const select = document.querySelector("[data-day-select]");
+  if (select) select.value = dayId;
+
   const dayTarget = document.querySelector(`#itinerary-day-${dayId}`);
   const position = itineraryPosition(days[dayId], date);
   const body = document.querySelector(`#itinerary-body-${dayId}`);
-  const target = position.current >= 0 && body && !body.hidden
-    ? document.querySelector(`#itinerary-row-${dayId}-${position.current}`) || dayTarget : dayTarget;
+  const target = (rowId && document.getElementById(rowId)) || (position.current >= 0 && body && !body.hidden
+    ? document.querySelector(`#itinerary-row-${dayId}-${position.current}`) || dayTarget : dayTarget);
   if (!target) return;
   cancelItineraryLanding();
   syncItineraryScrollMargin();
@@ -1219,22 +1360,29 @@ function scrollToItineraryDay(dayId, smooth = false, date = new Date()) {
 function observeItineraryDays() {
   itineraryObserver?.disconnect();
   if (state.tab !== "schedule" || !("IntersectionObserver" in window)) return;
+  const top = syncItineraryScrollMargin();
+  const bottom = Math.max(0, window.innerHeight - top - 120);
   itineraryObserver = new IntersectionObserver((entries) => {
-    if (itineraryScrollLock) return;
-    const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+    if (itineraryScrollLock || !sheet.hidden || state.tab !== "schedule") return;
+    const visible = entries.filter((entry) => entry.isIntersecting && !state.collapsedDays.has(entry.target.dataset.itineraryDayCard)).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
     if (visible) markItineraryDay(visible.target.dataset.itineraryDayCard);
-  }, { rootMargin: "-170px 0px -62% 0px", threshold: 0 });
+  }, { rootMargin: `-${top}px 0px -${bottom}px 0px`, threshold: 0 });
   screen.querySelectorAll("[data-itinerary-day-card]").forEach((card) => itineraryObserver.observe(card));
 }
 
 function bindScreen() {
   bindCommon(screen);
+  screen.querySelector("[data-day-select]")?.addEventListener("change", (event) => selectDay(event.target.value));
+  screen.querySelector("[data-expand-days]")?.addEventListener("click", () => { state.collapsedDays.clear(); render(); });
+  screen.querySelector("[data-collapse-days]")?.addEventListener("click", () => { state.collapsedDays = new Set(Object.keys(days)); render(); });
+  screen.querySelector("[data-guide-return]")?.addEventListener("click", returnFromGuide);
+  screen.querySelector("[data-guide-clear]")?.addEventListener("click", () => { state.guideCity = "all"; state.guideArea = "all"; if (state.guideContext) state.guideContext = { ...state.guideContext, cleared: true }; render(); });
   screen.querySelectorAll("[data-home-target]").forEach((button) => button.addEventListener("click", () => {
     state.tab = button.dataset.homeTarget;
     if (state.tab === "plan" && button.dataset.homePlanSection) state.planSection = button.dataset.homePlanSection;
     render();
   }));
-  screen.querySelectorAll("[data-jump-day]").forEach((button) => button.addEventListener("click", () => scrollToItineraryDay(button.dataset.jumpDay, false)));
+  screen.querySelectorAll("[data-jump-day]").forEach((button) => button.addEventListener("click", () => selectDay(button.dataset.jumpDay)));
   screen.querySelectorAll("[data-toggle-itinerary-day]").forEach((button) => button.addEventListener("click", () => {
     const dayId = button.dataset.toggleItineraryDay;
     const body = screen.querySelector(`#itinerary-body-${dayId}`);
@@ -1248,12 +1396,10 @@ function bindScreen() {
   screen.querySelectorAll("[data-records-section]").forEach((button) => button.addEventListener("click", () => { state.recordsSection = button.dataset.recordsSection; render(); }));
   screen.querySelectorAll("[data-scenario]").forEach((button) => button.addEventListener("click", () => {
     const scenario = button.dataset.scenario;
-    if (!window.UXFullData?.flexScenarios?.[scenario]) return;
-    state.scenario = scenario;
-    saveScenario(scenario);
-    days = window.UXFullData.buildDays(representativeDays, scenario);
-    refreshScenarioGuide();
+    if (!activateScenario(scenario)) return;
+    state.collapsedDays = new Set(Object.keys(days).filter((id) => id !== state.day));
     render();
+    if (state.tab === "schedule") scrollToItineraryDay(state.day, false);
   }));
   document.querySelectorAll("[data-day]").forEach((button) => button.addEventListener("click", () => { state.day = button.dataset.day; render(); if (state.tab === "schedule") scrollToItineraryDay(state.day, false); }));
   screen.querySelectorAll("[data-plan-section]").forEach((button) => button.addEventListener("click", () => { state.planSection = button.dataset.planSection; renderPlan(); bindScreen(); }));
@@ -1320,6 +1466,7 @@ function bindScreen() {
 
 function bindSheet() {
   bindCommon(sheet);
+  sheet.querySelectorAll("[data-food-context]").forEach((button) => button.addEventListener("click", () => openFoodGuide(button.dataset.foodContext)));
   const searchInput = sheet.querySelector("[data-site-search]");
   const searchResults = sheet.querySelector("[data-search-results]");
   const searchIndex = searchInput ? buildSearchIndex() : [];
@@ -1331,7 +1478,7 @@ function bindSheet() {
       state.guideArea = button.dataset.searchArea;
       state.guideCity = guideAreas.find((area) => area.id === state.guideArea)?.city || "all";
     }
-    closeSheet(); render(); window.scrollTo({ top: 0 });
+    closeSheet(false); render(); window.scrollTo({ top: 0 });
   }));
   bindSearchResultButtons();
   searchInput?.addEventListener("input", () => {
@@ -1346,7 +1493,7 @@ function bindSheet() {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
     recordsState.budget.push({ id: `budget-${Date.now()}`, dayId: form.get("dayId"), title: form.get("title"), category: form.get("category"), amountOriginal: Number(form.get("amount")), currency: form.get("currency"), status: form.get("status") });
-    saveRecords(); closeSheet(); render(); toast("予算へ追加しました。");
+    saveRecords(); closeSheet(false); render(); toast("予算へ追加しました。");
   });
   sheet.querySelector("[data-expense-form]")?.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -1361,7 +1508,7 @@ function bindSheet() {
     const shareTotal = Object.values(shares).reduce((sum, value) => sum + value, 0);
     if (Math.abs(shareTotal - amountOriginal) > .01) return toast("個別負担額の合計を支払額と一致させてください。");
     recordsState.expenses.push({ id: `expense-${Date.now()}`, budgetLineId: form.get("budgetLineId") || "", dayId: selectedDayId, date: expenseDate, title: form.get("title"), category: form.get("category"), amountOriginal, currency: form.get("currency"), payer: form.get("payer"), participants, splitMode: splitModeValue, shares, fxSnapshot: clone(recordsState.fx) });
-    saveRecords(); closeSheet(); render(); toast("支出と換算レートを保存しました。");
+    saveRecords(); closeSheet(false); render(); toast("支出と換算レートを保存しました。");
   });
   sheet.querySelector("[data-experience-form]")?.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -1371,23 +1518,61 @@ function bindSheet() {
     let photoDataUrl = "";
     if (photo?.size) photoDataUrl = await new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = () => resolve(reader.result); reader.onerror = reject; reader.readAsDataURL(photo); });
     recordsState.memories.push({ id: `memory-${Date.now()}`, dayId: form.get("dayId"), place: form.get("place"), food: form.get("food"), note: form.get("note"), planChange: form.get("planChange") || "planned", changeNote: form.get("changeNote") || "", photoAlt: form.get("photoAlt"), photoDataUrl, best: form.get("best") === "on" });
-    saveRecords(); closeSheet(); render(); toast("写真と思い出をこの端末に保存しました。");
+    saveRecords(); closeSheet(false); render(); toast("写真と思い出をこの端末に保存しました。");
   });
 }
 
+document.addEventListener("error", (event) => {
+  const image = event.target;
+  if (image.tagName !== "IMG") return;
+  image.hidden = true;
+  const fallback = document.createElement("p");
+  fallback.className = "image-fallback"; fallback.textContent = image.alt || "写真を表示できません";
+  image.after(fallback);
+}, true);
 document.querySelector("[data-open='search']").addEventListener("click", () => openSheet("search"));
 document.querySelector("[data-open='sos']").addEventListener("click", () => openSheet("sos"));
-document.querySelector("[data-close-sheet]").addEventListener("click", closeSheet);
-scrim.addEventListener("click", closeSheet);
-document.addEventListener("keydown", (event) => { if (event.key === "Escape" && !sheet.hidden) closeSheet(); });
+document.querySelector("[data-close-sheet]").addEventListener("click", () => closeSheet());
+scrim.addEventListener("click", () => closeSheet());
+document.addEventListener("keydown", (event) => {
+  if (sheet.hidden) return;
+  if (event.key === "Escape") { event.preventDefault(); closeSheet(); }
+  if (event.key === "Tab") {
+    const focusable = [...sheet.querySelectorAll('button:not([disabled]), a[href], input, select, textarea, summary, [tabindex="0"]')].filter((element) => element.getClientRects().length);
+    const first = focusable[0], last = focusable.at(-1);
+    if (event.shiftKey && (document.activeElement === first || !sheet.contains(document.activeElement))) { event.preventDefault(); last?.focus(); }
+    else if (!event.shiftKey && (document.activeElement === last || !sheet.contains(document.activeElement))) { event.preventDefault(); first?.focus(); }
+  }
+});
+window.addEventListener("popstate", (event) => {
+  const previousContext = state.guideContext;
+  const previousNavigation = JSON.stringify(navigationSnapshot());
+  if (!sheet.hidden) closeSheet(false, true);
+  const target = event.state;
+  if (!target || !renderers[target.tab]) return;
+  const scenario = window.UXFullData?.scenarioConstraint(target.scenario).allowed ? target.scenario : "scenario1";
+  activateScenario(scenario);
+  Object.assign(state, target, { scenario });
+  delete state.sheet;
+  if (!days[state.day]) state.day = "d1227";
+  if (state.guideContext && (state.guideContext.scenario !== scenario || !days[state.guideContext.dayId])) {
+    state.guideContext = null; state.guideCity = "all"; state.guideArea = "all";
+  }
+  if (previousNavigation !== JSON.stringify(navigationSnapshot())) {
+    if (state.tab === "schedule") state.collapsedDays.delete(state.day);
+    render();
+    if (state.tab === "schedule") restoreRow(previousContext?.scenario === scenario ? previousContext : { dayId: state.day, rowId: `itinerary-day-${state.day}` });
+  }
+});
 document.querySelector(".brand").addEventListener("click", () => switchTab("home"));
 
 const params = new URLSearchParams(location.search);
 Object.assign(state, tripDefaults(params));
 if (days[params.get("day")]) state.day = params.get("day");
 if (renderers[params.get("tab")]) state.tab = params.get("tab");
+state.collapsedDays = new Set(Object.keys(days).filter((id) => id !== state.day));
 render();
 if (state.tab === "schedule") scrollToItineraryDay(state.day, false);
-window.addEventListener("resize", () => { if (state.tab === "schedule") syncItineraryScrollMargin(); });
+window.addEventListener("resize", () => { if (state.tab === "schedule") { syncItineraryScrollMargin(); observeItineraryDays(); } });
 updateLocalClock();
 setInterval(updateLocalClock, 30_000);

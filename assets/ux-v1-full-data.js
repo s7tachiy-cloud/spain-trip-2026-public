@@ -1,7 +1,7 @@
 "use strict";
 
 (function exposeFullTripAdapter(global) {
-  const trip = global.TRIP || {};
+  const trip = JSON.parse(JSON.stringify(global.TRIP || {}));
   const finalPlan = global.UXFinalPlan || { days: {} };
   const list = (value) => Array.isArray(value) ? value : [];
   const travelerText = (value) => String(value || "")
@@ -37,7 +37,6 @@
   const dayById = byId(trip.days);
   const placeById = byId(trip.places);
   const articleById = byId(trip.learningArticles);
-  const bookingById = byId(trip.bookings);
   const sourceById = byId(trip.sources);
   const dishById = byId(trip.dishes);
   const plannedDetailByKey = new Map();
@@ -116,13 +115,13 @@
   ];
   const railBookings = [
     {
-      id: "tarragona-return", route: "2026-12-29(火) Barcelona Sants ⇄ Tarragona", timeWindow: "往路08:15前後発／復路17:00前後発", duration: "片道 約1時間15分", stations: "Barcelona Sants ⇄ Tarragona市内駅（Camp de Tarragonaは使わない）", operators: "Renfe（Regional / Media Distancia）", passengers: "大人3名", luggage: "運行会社で異なる。購入会社決定後に確定（iryoは80×55×35cmの記載あり）", status: "当日購入", constraint: "Camp de Tarragonaは市街から離れ、バス連絡が必要なためTarragona市内駅を使う。"
+      id: "tarragona-return", route: "2026-12-29(火) Barcelona Sants ⇄ Tarragona", timeWindow: "往路08:30頃発／復路16:45頃発を目標・実便は確認", duration: "片道 約1時間15分", stations: "Barcelona Sants ⇄ Tarragona市内駅（Camp de Tarragonaは使わない）", operators: "Renfe（Regional / Media Distancia）", passengers: "大人3名", luggage: "運行会社で異なる。購入会社決定後に確定（iryoは80×55×35cmの記載あり）", status: "当日購入", constraint: "Camp de Tarragonaは市街から離れ、バス連絡が必要なためTarragona市内駅を使う。"
     },
     {
-      id: "barcelona-madrid", route: "2026-12-30(水) Barcelona Sants → Madrid Puerta de Atocha", timeWindow: "14:30〜15:30発", duration: "約2時間45分〜3時間", stations: "Barcelona Sants → Madrid Puerta de Atocha", operators: "Renfe AVE / iryo / Ouigo", passengers: "大人3名", luggage: "運行会社で異なる。購入会社決定後に確定（iryoは80×55×35cmの記載あり）", status: "iryoで発売中", constraint: "チェックアウト12:00。Sants到着は発車60分前を下回らない。"
+      id: "barcelona-madrid", route: "2026-12-30(水) Barcelona Sants → Madrid Puerta de Atocha", timeWindow: "12:00頃発・16:00前の到着を目標", duration: "約2時間45分〜3時間", stations: "Barcelona Sants → Madrid Puerta de Atocha", operators: "Renfe AVE / iryo / Ouigo", passengers: "大人3名", luggage: "運行会社で異なる。購入会社決定後に確定（iryoは80×55×35cmの記載あり）", status: "iryoで発売中", constraint: "チェックアウト12:00。Sants到着は発車60分前を下回らない。"
     },
     {
-      id: "madrid-day-trip", route: "2027-01-02(土) Madrid Puerta de Atocha ⇄ Córdoba（往復）", timeWindow: "往路07:30前後発／復路17:15前後発", duration: "片道 約1時間45分〜2時間", stations: "Madrid Puerta de Atocha ⇄ Córdoba", operators: "Renfe AVE / iryo", passengers: "大人3名", luggage: "運行会社で異なる。購入会社決定後に確定（iryoは80×55×35cmの記載あり）", status: "iryoで発売中", constraint: "Córdoba が休業・運休・満席で成立しない場合だけ Toledo（Avant・片道約33分）へ切り替える。Toledo は代替であり第一候補ではない。Granada は今回行かない。"
+      id: "madrid-day-trip", route: "2027-01-02(土) Madrid Puerta de Atocha ⇄ Córdoba（往復）", timeWindow: "往路08:00頃発・帰路17:00頃発を目標", duration: "片道 約1時間45分〜2時間", stations: "Madrid Puerta de Atocha ⇄ Córdoba", operators: "Renfe AVE / iryo", passengers: "大人3名", luggage: "運行会社で異なる。購入会社決定後に確定（iryoは80×55×35cmの記載あり）", status: "iryoで発売中", constraint: "Córdoba が休業・運休・満席で成立しない場合だけ Toledo（Avant・片道約33分）へ切り替える。Toledo は代替であり第一候補ではない。Granada は今回行かない。"
     },
     {
       id: "madrid-barcelona", route: "2027-01-03(日) Madrid Puerta de Atocha → Barcelona Sants", timeWindow: "17:00前後発・20:30前後着", duration: "約2時間45分〜3時間", stations: "Madrid Puerta de Atocha → Barcelona Sants", operators: "Renfe AVE / iryo / Ouigo", passengers: "大人3名", luggage: "運行会社で異なる。購入会社決定後に確定（iryoは80×55×35cmの記載あり）", status: "iryoで発売中", constraint: "到着後はB&B ViladecansまでRodalies R2 Sud約16分、またはタクシー約20〜25分。"
@@ -157,7 +156,7 @@
     });
   }
   const bookingRowRules = [
-    ["sagrada", /サグラダ|Sagrada/i], ["parkguell", /グエル公園|Park Güell/i],
+    ["sant-pau", /サン・パウ病院/], ["sagrada", /サグラダ|Sagrada/i], ["parkguell", /グエル公園|Park Güell/i],
     ["mila", /カサ・ミラ|Casa Milà/i], ["batllo", /カサ・バトリョ|Casa Batlló/i],
     ["palau-musica", /カタルーニャ音楽堂/], ["prado", /プラド美術館/],
     ["palace", /マドリード王宮/], ["reinasofia", /ソフィア王妃芸術センター/],
@@ -168,39 +167,35 @@
     ["casa-ciriaco", /Casa Ciriaco/], ["botin", /Botín/], ["la-bola", /La Bola/],
     ["san-miguel", /Mercado de San Miguel/]
   ];
-  const rowBookingIds = (item) => ["attraction", "meal", "event"].includes(item.kind)
-    ? bookingRowRules.filter(([, pattern]) => pattern.test(item.title)).map(([id]) => id) : [];
-  const timedTickets = new Set(["sagrada", "parkguell", "mila", "batllo", "palau-musica", "prado", "palace", "reinasofia", "cordoba-mezquita", "cordoba-alcazar"]);
+  const rowBookingIds = (item) => item.bookingIds || (["attraction", "meal", "event"].includes(item.kind)
+    ? bookingRowRules.filter(([, pattern]) => pattern.test(item.title)).map(([id]) => id) : []);
+  const timedTickets = new Set(["sant-pau", "sagrada", "parkguell", "mila", "batllo", "palau-musica", "prado", "palace", "reinasofia", "cordoba-mezquita", "cordoba-alcazar"]);
   const bookingRows = Object.entries(finalPlan.days || {}).flatMap(([dayId, day]) => day.items.map((item) => ({ ...item, dayId })));
   for (const [id] of bookingRowRules) {
+    if (id === "sagrada") continue;
     const rows = bookingRows.filter((item) => rowBookingIds(item).includes(id) && (!["sagrada", "parkguell", "mila", "batllo"].includes(id) || item.dayId === "d1228"));
     if (!rows.length) continue;
     const row = id === "flamenco" ? rows.find((item) => item.kind === "event") : rows[0];
     let booking = list(trip.bookings).find((item) => item.id === id);
     if (!booking) {
-      booking = { id, title: row.title.replace(/で.*$/, ""), status: "not_started", purchaseMode: "advance" };
+      booking = { id, title: row.title.replace(/で.*$/, ""), status: "unknown", purchaseMode: "advance" };
       trip.bookings.push(booking);
     }
     const place = list(trip.places).find((place) => bookingRowRules.find(([key]) => key === id)[1].test([place.name, place.title, place.nameJa, place.nameLocal].filter(Boolean).join(" ")));
     booking.actionUrl ||= place?.officialUrl || place?.website || "";
     booking.phone ||= place?.phone || null;
-    const existingSites = { "la-bola": "https://labola.es/", "cordoba-mezquita": "https://mezquita-catedraldecordoba.es/en/", "cordoba-alcazar": "https://www.turismodecordoba.org/alcazar-de-los-reyes-cristianos" };
+    const existingSites = { "sant-pau": "https://santpaubarcelona.org/en/visita/visita-lliure/", "la-bola": "https://labola.es/", "cordoba-mezquita": "https://mezquita-catedraldecordoba.es/en/", "cordoba-alcazar": "https://www.turismodecordoba.org/alcazar-de-los-reyes-cristianos" };
     booking.actionUrl ||= existingSites[id] || "";
+    if (/^(confirmed|purchased|予約済み|確定済み)$/.test(booking.lifecycle || booking.status || "")) continue;
     const selectedNote = ["sagrada", "parkguell", "mila", "batllo"].includes(id) ? (row.note.split(/選択B[は：]/).pop() || row.note) : row.note;
     const date = `${row.dayId.slice(1, 3) === "01" ? "2027" : "2026"}-${row.dayId.slice(1, 3)}-${row.dayId.slice(3)}`;
-    const flex = ["sagrada", "parkguell", "mila", "batllo", "seven-portes"].includes(id) ? " 12/27–29は天候と予約枠に合わせて日を動かす場合があります。変更時は予約日も揃えます。" : "";
+    const flex = ["sagrada", "parkguell", "mila", "batllo", "seven-portes"].includes(id) ? " 時刻は目安です。予約後に変更する場合は券の変更条件を確認します。" : "";
     Object.assign(booking, {
       relatedDayIds: [...new Set(rows.map((item) => item.dayId))], relatedScheduleItemIds: [],
       visitDate: date, visitTime: row.time, timedEntry: timedTickets.has(id),
-      lifecycle: /^(confirmed|purchased|予約済み|確定済み)$/.test(booking.lifecycle || booking.status || "") ? "confirmed" : timedTickets.has(id) ? "waiting_release" : "waiting_official",
+      lifecycle: /^(confirmed|purchased|予約済み|確定済み)$/.test(booking.lifecycle || booking.status || "") ? "confirmed" : /^(not_started|todo|unbooked|waiting_release|waiting_official|bookable|on_sale)$/.test(booking.lifecycle || booking.status || "") ? (timedTickets.has(id) ? "waiting_release" : "waiting_official") : "unknown",
       deadline: timedTickets.has(id) ? "発売後すぐ" : id === "nye-dinner" ? "2026/11/15" : "2026/12/01",
       publicNote: `${date} ${row.time}、大人3名。${selectedNote}${flex}`
-    });
-    if (id === "sagrada") Object.assign(booking, {
-      visitTime: "09:00", towerSlotTarget: "09:30–10:00", ownerId: "本人",
-      deadline: "発売開始（10月末ごろ）にすぐ購入", confirmationDate: "2026-10-28",
-      actionUrl: "https://sagradafamilia.org/en/sagrada-familia-and-tower",
-      publicNote: "公式「Sagrada Família + Tower」€36×3名。塔は生誕か受難の1本を選ぶ（上りエレベーター・下り階段・6歳未満不可・荷物はロッカー）。発売は訪問の約2か月前＝10月末。買う前に、父がすでに買っている券（3人分・12/27の可能性）が何かを確認し、重複購入しない。中央のイエスの塔は未公開。"
     });
     if (id === "nye-dinner") booking.title = "Lhardy 年越しディナー";
     if (id === "flamenco") booking.title = "Tablao Cordobés ディナー＋ショー";
@@ -220,11 +215,27 @@
     }
     if (booking.id === "montserrat-transport") {
       booking.relatedDayIds = ["d1227", "d1228", "d1229"]; booking.relatedScheduleItemIds = [];
-      booking.publicNote = "基本は12/27の往復。12/27–29の天候で訪問日を選び、前夜・当日朝に交通と施設の運行を確認します。";
+      booking.publicNote = "12/27に往復する計画。前夜・当日朝の天候と体調で判断し、悪条件ならBarcelona市内へ変更します。12/28の予約は動かしません。";
     }
     if (booking.id === "tarragona-train") booking.relatedDayIds = ["d1229"];
   }
   trip.bookings.push({ id: "cordoba-rail", title: "Madrid–Córdoba往復列車", status: "on_sale", lifecycle: "bookable", purchaseMode: "advance", relatedDayIds: ["d0102"], deadline: railBookings[2].deadline, publicNote: `1/2 ${railBookings[2].timeWindow}、大人3名。${railBookings[2].releaseNote} ${railBookings[2].publicNote}`, actionUrl: "https://iryo.eu/" });
+  // Public, source-verified facts. No passenger or ticket identifiers belong here.
+  const sagradaBooking = Object.freeze({
+    id: "sagrada", placeId: "sagrada", title: "サグラダ・ファミリア", status: "confirmed", lifecycle: "confirmed",
+    itineraryActive: true, inclusionStatus: "adopted", timeBasis: "booking", timedEntry: true,
+    visitDate: "2026-12-28", visitTime: "09:00", timeZone: "Europe/Madrid", passengers: 3,
+    entrance: "carrer de la Marina（マリーナ通り側）", unitPriceEur: 36, totalPriceEur: 108,
+    checkedAt: "2026-09-13", updatedAt: "2026-09-13",
+    relatedDayIds: Object.freeze(["d1228"]), relatedScheduleItemIds: Object.freeze(["sagrada-entry", "sagrada-tower"]),
+    checkpoints: Object.freeze([Object.freeze({ id: "sagrada-entry", time: "09:00", label: "入場" }), Object.freeze({ id: "sagrada-tower", time: "09:15", label: "生誕の塔" })]),
+    publicNote: "入場券は手元に保存した原本を提示します。塔の利用条件・当日の案内も原本で確認してください。",
+    actionUrl: "https://sagradafamilia.org/en/sagrada-familia-and-tower"
+  });
+  trip.bookings = list(trip.bookings).filter((booking) => booking.id !== sagradaBooking.id);
+  trip.bookings.push(sagradaBooking);
+  const bookingById = (id) => list(trip.bookings).find((booking) => booking.id === id);
+  const bookingSummary = (booking) => booking ? `${booking.visitDate} ${list(booking.checkpoints).map((point) => `${point.time} ${point.label}`).join(" → ")}・${booking.passengers}名。入口：${booking.entrance}` : "予約状況を確認できません";
   const closureFacts = [
     { place: "アルハンブラ宮殿（Granada）", fact: "年間の休館日は12/31と1/1の2日だけ。冬季（10/15〜3/31）は8:30〜18:00。", sourceLabel: "アルハンブラ宮殿公式｜営業時間・料金", sourceUrl: "https://www.alhambra-patronato.es/visitar/horarios-y-tarifas" },
     { place: "タラゴナ歴史博物館 MHT", fact: "祝日を除く月曜は全館休館。冬季（10/27〜3/31）は火〜金9:00〜20:00、土9:30〜20:00、日祝9:30〜14:30。1/1・12/24〜26・12/31は休館。12/28は月曜のためTarragonaを置かない。", sourceLabel: "Tarragona市公式｜MHT営業時間", sourceUrl: "https://www.tarragona.cat/patrimoni/museu-historia/visites/horaris" },
@@ -263,14 +274,14 @@
       { period: "夜", area: "La Rambla 35・Oriente Atiram Hotelから徒歩1〜2分", primary: "Tablao Cordobésのディナー付き21:00公演", dishes: ["ディナーメニュー3人分", "ビール・ワイン・サングリア・ソフトドリンク飲み放題", "ショー中のドリンク1杯"], booking: "2026/12/01までに3名で予約", operation: "ディナーは19:45開始を計画。開始時刻は公演の約1時間半前が目安で予約時に確定する。ビーガン・ベジタリアン・ハラル・グルテンフリーに対応", alternatives: ["Palau Dalmases（Born・12世紀の邸宅・€30〜）", "Los Tarantos（Plaça Reial・1963年創業・40分・€25〜）"], experience: "ホテルの隣でディナーと、2025年に世界最高のタブラオに選ばれた舞台を続けて楽しめます。", orderForThree: "ディナー付き21:00公演を3名分予約し、食事制限があれば予約時に伝えます。ディナー中の飲み放題とショー中のドリンク1杯が含まれます。" }
     ],
     d1230: [
-      { period: "朝", area: "Oriente Atiram Hotel館内", primary: "ホテルのビュッフェ朝食", dishes: ["ビュッフェの主食", "果物", "飲み物"], booking: "宿泊に含まれる", operation: "開始時刻は未確認。08:15出発に間に合わなければ早朝サービスと前夜の買い置きへ", alternatives: ["早朝のコーヒー・紅茶サービス", "前夜に用意した3人分の朝食"] },
+      { period: "朝", area: "Oriente Atiram Hotel館内", primary: "ホテルのビュッフェ朝食", dishes: ["ビュッフェの主食", "果物", "飲み物"], booking: "宿泊に含まれる", operation: "開始時刻は未確認。08:30のチェックアウトに間に合わなければ早朝サービスと前夜の買い置きへ", alternatives: ["早朝のコーヒー・紅茶サービス", "前夜に用意した3人分の朝食"] },
       { area: "ブケリア市場・ホテルから徒歩2分", primary: "El Quim de la Boqueria", dishes: ["市場の温かい料理", "魚介料理", "卵料理"], booking: "予約不可・並んで入る", operation: "12:15入店、12:50退店。休業・満席なら市場内の営業中カウンターで同じ時間内に食べる", alternatives: ["Bar Pinotxo", "ブケリア市場内の営業中カウンター"] },
       { period: "夜", area: "Calle Mayor 84・Ópera周辺", primary: "Casa Ciriacoで夕食", dishes: ["gallina en pepitoria（鶏のペピトリア）", "callos（モツ煮）", "パンと飲み物"], booking: "12/1までに21:00で3名を予約", operation: "1917年創業のMadridの老舗。Room Mate Mario（Campomanes 4）からCalle Mayorを西へ徒歩約10分。ソフィア王妃を20:30に出てからタクシーまたはMetro（Atocha→Ópera）で向かい、21:00着。", alternatives: ["Ópera Victoria（Plaza de Isabel II・ホテルから徒歩1分・地中海料理）", "Ópera周辺で当日営業の店"] }
     ],
     d1231: [
       { period: "朝", area: "Room Mate Mario館内", primary: "ホテルのビュッフェ朝食", dishes: ["ビュッフェの主食", "果物", "飲み物"], booking: "宿泊に含まれる", operation: "07:00–12:00。Pradoへ向かうため09:00までに終える", alternatives: ["前夜に用意した朝食", "Pradoへ向かう途中の営業中カフェ"] },
       { period: "昼", area: "Calle de Cuchilleros 17・王宮から徒歩8分", primary: "Botín（14:15昼食）", dishes: ["子豚の丸焼き", "前菜", "飲み物"], booking: "12/1までに14:15で3名予約・12/31営業確認", operation: "1725年創業。王宮から徒歩8分。15:30までに退店する", alternatives: ["Bodega de los Secretos", "王宮周辺の営業確認済み店"] },
-      { area: "Carrera de San Jerónimo 8・Solから徒歩2分", primary: "Lhardyで年越しディナー", dishes: ["年越しコース3人分", "温かい主菜", "飲み物"], booking: "11月の受付開始と同時に3名で予約（期限11/15）", operation: "1839年創業の老舗。ディナーの開始時刻はLhardyの年越し営業に合わせて予約時に確定し、21:45退店、22:00までにSolへ入る", alternatives: ["Sol徒歩10分圏で年越しメニューを出す店", "持帰り"] }
+      { area: "Carrera de San Jerónimo 8・Solから徒歩2分", primary: "Lhardyで年越しディナー", dishes: ["年越しコース3人分", "温かい主菜", "飲み物"], booking: "11月を目安に2026年営業と3名席を確認（未予約）", operation: "1839年創業の老舗。2026年の開始終了と早退条件を予約前に確認。夕食を優先し、基本はホテルで年越し。Solは条件と体力が揃う場合だけ", alternatives: ["Sol徒歩10分圏で年越しメニューを出す店", "持帰り"] }
     ],
     d0101: [
       { period: "朝", area: "Room Mate Mario館内", primary: "ホテルのビュッフェ朝食", dishes: ["ビュッフェの主食", "果物", "飲み物"], booking: "宿泊に含まれる", operation: "通常07:00–12:00だが元日の提供は未確認。チェックイン時に確認", alternatives: ["12/31に用意した3人分の朝食", "元日営業を確認できた近隣店"] },
@@ -279,14 +290,14 @@
       { area: "Plaza de San Miguel・ホテルから徒歩5分", primary: "Mercado de San Miguel", dishes: ["タパス3種", "魚介の小皿", "飲み物"], booking: "予約不要・1/1営業を12/1までに確認", operation: "20:00入店。通常10:00–24:00だが元日営業を事前確認する", alternatives: ["ホテル周辺の営業中タパス店", "持帰り"] }
     ],
     d0102: [
-      { period: "朝", area: "Madrid Atochaへの移動中または列車内", primary: "前夜に確保した持帰り朝食", dishes: ["主食3人分", "飲み物3本"], booking: "1/1のうちに購入", operation: "06:45出発でホテル朝食の07:00開始前。移動中または車内で食べる", alternatives: ["Atochaで営業中の持帰り店", "前夜に追加で確保した携帯食"] },
+      { period: "朝", area: "Madridのホテル", primary: "前夜に確保した持帰り朝食", dishes: ["主食3人分", "飲み物3本"], booking: "1/1のうちに購入", operation: "06:45〜07:15にホテルで食べ、07:15に出発する", alternatives: ["Atochaで営業中の持帰り店", "前夜に追加で確保した携帯食"] },
       { area: "Cordoba旧市街・Mezquitaから徒歩圏", primary: "Taberna Salinas", dishes: ["salmorejo", "flamenquín", "rabo de toro", "berenjenas con miel"], booking: "旅行前に電話で営業確認、12:45–13:00入店", operation: "土曜通常12:30–16:00。14:30退店を守り、2027/1/2の営業は旅行7日前に確認", alternatives: ["Taberna Casa Pepe Salinas（Puerta de Almodóvar 2）", "第一候補と代替店が休業なら、Mezquitaから駅方向で4品中3品以上を出す営業中のtaberna"] }
-      ,{ period: "夜", area: "Cava Baja 35・ホテルから徒歩15分", primary: "Casa Lucio", dishes: ["ウエボス・ロトス", "jamón", "飲み物"], booking: "12/1までに20:30で3名予約", operation: "Cordobaから19:15帰着後、ホテルで着替えて徒歩で向かう", alternatives: ["Cava Bajaの営業中店でウエボス・ロトス", "ホテル周辺の予約済み店"] }
+      ,{ period: "夜", area: "Cava Baja 35・ホテルから徒歩15分", primary: "Casa Lucio", dishes: ["ウエボス・ロトス", "jamón", "飲み物"], booking: "12/1までに20:30で3名予約", operation: "Córdobaから19:00前後帰着後、ホテルで着替えて徒歩で向かう", alternatives: ["Cava Bajaの営業中店でウエボス・ロトス", "ホテル周辺の予約済み店"] }
     ],
     d0103: [
       { period: "朝", area: "Room Mate Mario館内", primary: "ホテルのビュッフェ朝食", dishes: ["ビュッフェの主食", "果物", "飲み物"], booking: "宿泊に含まれる", operation: "08:30に食べ、09:30までにEl Rastroへ向かう", alternatives: ["ホテル近隣の営業中カフェ", "前夜に用意した朝食"] },
-      { period: "昼", area: "Calle de la Bola 5・ホテルから徒歩3分", primary: "La Bola", dishes: ["コシード・マドリレーニョ", "スープ", "肉と野菜"], booking: "12/1までに13:30で3名予約", operation: "日曜は昼のみ13:30–16:00。15:15退店後、15:30に荷物を回収する", alternatives: ["Centroでコシードを出す予約済み店", "ホテル周辺の営業中Madrid料理店"] },
-      { area: "Madrid Atochaで乗車前に購入し、Barcelona到着後に食べる", primary: "Enrique Tomás Estación Atochaで持帰り夕食を確保", dishes: ["jamónのbocadillo 3個", "飲料3本"], booking: "予約不要。列車乗車前に購入", operation: "Atocha店舗は公式に概ね21:30まで。Sants Kioskoの営業時間には依存しない", alternatives: ["AtochaのRodillaで3人分を購入", "Madrid市内で常温保存できる3人分を先に購入"] }
+      { period: "昼", area: "Calle de la Bola 5・ホテルから徒歩3分", primary: "La Bola", dishes: ["コシード・マドリレーニョ", "スープ", "肉と野菜"], booking: "12/1までに13:30で3名予約", operation: "日曜通常13:00–16:00（9/13公式確認）。15:00退店後、15:20までに荷物を回収する", alternatives: ["Centroでコシードを出す予約済み店", "ホテル周辺の営業中Madrid料理店"] },
+      { area: "Madrid Atochaで乗車前に購入し、列車内で食べる", primary: "Enrique Tomás Estación Atochaで持帰り夕食を確保", dishes: ["jamónのbocadillo 3個", "飲料3本"], booking: "予約不要。列車乗車前に購入", operation: "Atocha店舗は公式に概ね21:30まで。Sants Kioskoの営業時間には依存しない", alternatives: ["AtochaのRodillaで3人分を購入", "Madrid市内で常温保存できる3人分を先に購入"] }
     ],
     d0104: [
       { period: "朝", area: "B&B HOTEL Barcelona Viladecans館内", primary: "ホテルのコンチネンタルブレックファスト", dishes: ["パンなどの主食", "果物", "飲み物"], booking: "宿泊に含まれる", operation: "06:00–10:00。06:40までに終えて07:00頃のタクシーに乗る", alternatives: ["前夜に用意した朝食", "BCN T1保安検査後の営業中店舗"] },
@@ -306,11 +317,11 @@
   const flexMeals = {
     breakfast: { period: "朝", area: "Oriente Atiram Hotel館内", primary: "ホテルのビュッフェ朝食", dishes: ["ビュッフェの主食", "果物", "飲み物"], booking: "宿泊に含まれる", operation: "開始時刻は未確認。出発に間に合わなければ早朝サービスと前夜の買い置きへ", alternatives: ["早朝のコーヒー・紅茶サービス", "前夜に用意した3人分の朝食"] },
     montserrat: { period: "昼", area: "Montserrat山上", primary: "La Cafeteria", dishes: ["温かいCatalunya料理", "bocadillo", "matóと蜂蜜"], booking: "予約不要・当日の営業を確認", operation: "混雑時は持参した軽食を先に食べ、帰路を遅らせない", alternatives: ["Montserrat Buffet", "前夜に用意したbocadilloと水"] },
-    citySunday: { period: "昼", area: "Gràcia地区", primary: "La Pubillaを営業確認", dishes: ["季節のCatalunya料理", "野菜料理", "米料理"], booking: "日曜営業と空席を事前確認", operation: "13:00–14:00に昼食を取り、14:30頃のグエル公園へ向かう", alternatives: ["Gràciaで同じ注文ができる営業店", "Park Güell周辺の予約済み店"] },
-    cityWeekday: { period: "昼", area: "Gràcia地区", primary: "La Pubilla", dishes: ["季節のCatalunya料理", "野菜料理", "米料理"], booking: "13:15の3名席を予約", operation: "14:45までに退店し、カサ・ミラへ向かう", alternatives: ["Gràciaで同じ注文ができる営業店", "Park Güell周辺の予約済み店"] },
+    citySunday: { guideAreaId: "eixample", period: "昼", area: "Gràcia地区", primary: "La Pubillaを営業確認", dishes: ["季節のCatalunya料理", "野菜料理", "米料理"], booking: "日曜営業と空席を事前確認", operation: "13:00–14:00に昼食を取り、14:30頃のグエル公園へ向かう", alternatives: ["Gràciaで同じ注文ができる営業店", "Park Güell周辺の予約済み店"] },
+    cityWeekday: { guideAreaId: "eixample", period: "昼", area: "Gràcia地区", primary: "La Pubilla", dishes: ["季節のCatalunya料理", "野菜料理", "米料理"], booking: "13:15の3名席を予約", operation: "14:45までに退店し、カサ・ミラへ向かう", alternatives: ["Gràciaで同じ注文ができる営業店", "Park Güell周辺の予約済み店"] },
     tarragona: { period: "昼", area: "Tarragona Part Alta", primary: "カルソッツとロメスコを出す店", dishes: ["calçots", "romesco", "肉料理または魚介"], booking: "12/29昼の提供と3名席を事前確認", operation: "11月〜4月の季節料理を本場VallsのあるTarragona県で味わう。12/29にcalçotsがなければ第一代替は魚介のromesco（cassola de romesco）", alternatives: ["El Llagut（romescoと魚介）", "Part Altaでromescoを出す営業店"] },
     dinner: { period: "夜", area: "Passeig d'Isabel II 14", primary: "7 Portes", dishes: ["パエリア", "魚介料理", "Catalunya料理の前菜"], booking: "12/1までに20:00で3名予約", operation: "1836年創業・年中無休。Montserratから戻って休憩後に向かう", alternatives: ["Can Solé（日曜夜の営業確認時）", "Barcelonetaの営業確認済み店"] },
-    cityDinner: { period: "夜", area: "Carrer de Mallorca 236・カサ・ミラから徒歩5分", primary: "Cerveseria Catalana", dishes: ["タパス", "魚介の小皿", "肉料理の小皿"], booking: "予約不可・並んで入る", operation: "毎日営業。20:00入店を目標に待ち10〜45分を見込む", alternatives: ["同じ街区の営業中タパス店", "ホテル近くの営業中タパス店"] },
+    cityDinner: { guideAreaId: "eixample", period: "夜", area: "Carrer de Mallorca 236・カサ・ミラから徒歩5分", primary: "Cerveseria Catalana", dishes: ["タパス", "魚介の小皿", "肉料理の小皿"], booking: "予約不可・並んで入る", operation: "毎日営業。20:00入店を目標に待ち10〜45分を見込む", alternatives: ["同じ街区の営業中タパス店", "ホテル近くの営業中タパス店"] },
     tablaoDinner: { period: "夜", area: "La Rambla 35・Oriente Atiram Hotelから徒歩1〜2分", primary: "Tablao Cordobésのディナー付き21:00公演", dishes: ["ディナーメニュー3人分", "ビール・ワイン・サングリア・ソフトドリンク飲み放題", "ショー中のドリンク1杯"], booking: "2026/12/01までに3名で予約", operation: "ディナーは19:45開始を計画。開始時刻は公演の約1時間半前が目安で予約時に確定する。ビーガン・ベジタリアン・ハラル・グルテンフリーに対応", alternatives: ["Palau Dalmases（Born・12世紀の邸宅・€30〜）", "Los Tarantos（Plaça Reial・1963年創業・40分・€25〜）"], experience: "ホテルの隣でディナーと、2025年に世界最高のタブラオに選ばれた舞台を続けて楽しめます。", orderForThree: "ディナー付き21:00公演を3名分予約し、食事制限があれば予約時に伝えます。ディナー中の飲み放題とショー中のドリンク1杯が含まれます。" }
   };
   const montserratDay = (dayId) => ({
@@ -319,10 +330,11 @@
       flexItem("07:30", "08:00", "rest", "Montserratへ行くか最終判断", "前夜と当日朝に2026/27クリスマス時刻表とfunicular運行を確認。Santa Covaは計画に含めない（FGCの運休告知あり）。視界・風・FGCと山上交通の運行、3人の体調を確認する。条件が悪ければ、この日はBarcelona市内へ。市内2日目ならHospital de Sant Pau（UNESCO・サグラダ近く）を軸にCasa Vicensまたは営業中の屋内施設、買物・カフェへ替え、ガウディの日を繰り返さない。"),
       flexItem("07:45", "08:30", "meal", "ホテルのビュッフェ朝食", "08:30出発。開始時刻が間に合わなければ早朝サービスと前夜の買い置きへ切り替える。"),
       flexItem("08:30", "10:20", "transfer", "ホテル → Plaça Espanya → Montserrat", "徒歩とMetro L3でPlaça Espanyaへ行き、FGC R5とAeriまたはCremalleraの有効な乗車券を購入する。運行表示を確認して山上へ向かう。"),
-      flexItem("10:20", "12:45", "attraction", "Basilica → 黒い聖母 → 景観", "黒い聖母（Throne of Our Lady）は08:00–10:30／12:00–18:25、10:30–12:00は中断。到着後はBasilicaを見て、12:00再開後の拝観に合わせ、景観へ進む。必要な入場券を旅行前に確認する。"),
-      flexItem("12:45", "13:45", "meal", "La Cafeteriaで昼食", "山上の営業状況を確認し、混雑時は持参食へ切り替える。mató amb mel（フレッシュチーズと蜂蜜）があれば注文する。"),
-      flexItem("13:45", "14:45", "attraction", "Museum of Montserrat", "修道院・黒い聖母・景観に続く主役は美術館。Sant Joan funicularは運行していれば乗る（ボーナス）。運休なら美術館・短い散策・展望地点へ。15:30までに山頂を出る。"),
-      flexItem("14:45", "15:30", "attraction", "山上の短い散策・運行時だけSant Joan funicular", "美術館を優先し、funicularは時間が余り運行していれば乗る（ボーナス）。風と帰路を見ながら歩ける範囲だけ楽しむ。運行悪化の兆候があればすぐ下山する。"),
+      flexItem("10:20", "11:30", "attraction", "Museum of Montserrat", "通常10:00–17:45。特別営業を直前確認する。疲れたら屋内休憩へ。"),
+      flexItem("11:30", "12:15", "attraction", "修道院周辺の景観・休憩", "日曜11時のミサを妨げず、黒い聖母は日曜12:15再開後。強風なら屋内へ。"),
+      flexItem("12:15", "13:15", "attraction", "Montserrat大聖堂・黒い聖母", "日曜・祝日は12:15再開。45〜60分を見込む計画で券の枠は未確保。昼食と15:30の帰路を守る。"),
+      flexItem("13:15", "14:30", "meal", "La Cafeteriaで昼食", "営業と混雑を確認し、温かい料理とmatóを楽しむ。混雑・休業なら持参食へ。"),
+      flexItem("14:30", "15:30", "rest", "山上で休憩・下山準備", "追加の山歩きをせず帰路に備える。"),
       flexItem("15:30", "17:30", "transfer", "Montserrat → Plaça Espanya → ホテル", "AeriまたはCremalleraとFGC R5で戻る。有効な乗車券と発車表示を確認し、一本後にも対応できる余裕を残す。"),
       flexItem("17:30", "19:30", "hotel", "ホテルで休憩", "入浴と休憩を優先し、夕食へ出る体力がなければ持帰りにする。"),
       flexItem("20:00", "21:30", "meal", "7 Portesでパエリア", "年中無休。12/1までに3名で予約し、満席ならCan Soléを営業確認して代替する。")
@@ -331,8 +343,10 @@
   const cityDay = (dayId, sunday = false) => ({
     title: "ガウディの日", note: "Montserratを両日とも見送る場合、Barcelona市内2日目はHospital de Sant Pau（UNESCO・サグラダ近く）を軸にCasa Vicensまたは営業中の屋内施設、買物・カフェへ替え、ガウディの日を繰り返さない。", city: "Barcelona", cityIds: ["barcelona"],
     items: [
-      flexItem("07:45", "08:30", "meal", "ホテルのビュッフェ朝食", "開始時刻が間に合わなければ早朝サービスと前夜の買い置きへ切り替える。"),
-      flexItem(sunday ? "10:30" : "09:00", sunday ? "12:30" : "11:00", "attraction", "サグラダ・ファミリア", sunday ? "11〜2月の日曜は10:30開館。発売後に入場枠を確保する。" : "11〜2月の平日は9:00開館。発売後に入場枠を確保する。"),
+      flexItem("07:00", "07:45", "meal", "ホテルのビュッフェ朝食", "開始時刻が間に合わなければ早朝サービスと前夜の買い置きへ切り替える。"),
+      { ...flexItem("08:00", "08:40", "transfer", "ホテルからサグラダ・ファミリア入口へ移動", "タクシーを想定。出発・所要時間は目安です。入口で余裕を持って待ちます。"), id: "sagrada-transfer", origin: "Oriente Atiram Hotel Barcelona", destination: "Sagrada Família carrer de la Marina" },
+      { ...flexItem(sagradaBooking.checkpoints[0].time, "11:00", "attraction", "サグラダ・ファミリア", "見学終了は目安です。"), id: "sagrada-entry", placeId: "sagrada", bookingIds: ["sagrada"], checkpointId: "sagrada-entry" },
+      { ...flexItem(sagradaBooking.checkpoints[1].time, "", "attraction", "生誕の塔", "同じ入場券の塔見学です。"), id: "sagrada-tower", placeId: "sagrada", bookingIds: ["sagrada"], checkpointId: "sagrada-tower" },
       ...(sunday ? [
         flexItem("13:00", "14:00", "meal", "Gràcia地区で昼食", "La Pubillaの日曜営業と空席を確認。14:30頃の公園入場を守る。"),
         flexItem("14:00", "14:30", "transfer", "グエル公園へ移動", "当日の交通表示に従い、公園の予約時刻へ向かう。"),
@@ -379,10 +393,23 @@
     ], mealPlans: [flexMeals.breakfast, flexMeals.tarragona, flexMeals.dinner], dayId
   });
   const flexScenarios = {
-    scenario1: { id: "scenario1", name: "シナリオ1（推奨）", summary: "日 Montserrat／月 Barcelona市内／火 Tarragona一日", days: { d1227: montserratDay("d1227"), d1228: cityDay("d1228"), d1229: tarragonaFullDay("d1229") } },
+    scenario1: { id: "scenario1", name: "採用旅程", summary: "日 Montserrat／月 Barcelona市内／火 Tarragona一日", days: { d1227: montserratDay("d1227"), d1228: cityDay("d1228"), d1229: tarragonaFullDay("d1229") } },
     scenario2: { id: "scenario2", name: "シナリオ2", summary: "日 Barcelona市内／月 Montserrat／火 Tarragona一日", days: { d1227: cityDay("d1227", true), d1228: montserratDay("d1228"), d1229: tarragonaFullDay("d1229") } },
     scenario3: { id: "scenario3", name: "シナリオ3", summary: "日 Tarragona短縮／月 Barcelona市内／火 Montserrat", days: { d1227: tarragonaShortDay("d1227"), d1228: cityDay("d1228"), d1229: montserratDay("d1229") } }
   };
+  flexScenarios.scenario2.disabledReason = "12/28朝の予約時刻に間に合わないため選べません。Montserratと予約済みの入場が重なります。";
+  function scenarioConstraint(id) {
+    const candidate = flexScenarios[id];
+    if (!candidate) return { allowed: false, reason: "別案が見つかりません" };
+    if (candidate.disabledReason) return { allowed: false, reason: candidate.disabledReason };
+    const booking = bookingById("sagrada");
+    if (!booking) return { allowed: false, reason: "予約状況を確認できません" };
+    const dayId = `d${booking.visitDate.slice(5).replace("-", "")}`;
+    const checkpoints = candidate.days[dayId]?.items || [];
+    const matches = Object.entries(candidate.days).flatMap(([id, day]) => day.items.filter((row) => row.bookingIds?.includes(booking.id)).map((row) => ({ ...row, dayId: id })));
+    const valid = matches.length === booking.checkpoints.length && matches.every((row) => row.dayId === dayId) && booking.checkpoints.every((point) => checkpoints.some((row) => row.id === point.id && row.time === point.time && row.bookingIds?.includes(booking.id)));
+    return { allowed: valid, reason: valid ? "予約固定枠を維持。交通確認前・列車時刻は目安です。" : "予約の日時と一致しないため選べません" };
+  }
   Object.values(flexScenarios).forEach((scenario) => {
     const day = scenario.days.d1229;
     const rest = [...day.items].reverse().find((item) => ["hotel", "rest"].includes(item.kind));
@@ -396,6 +423,33 @@
     day.items.push(flexItem("21:00", "22:10", "event", "フラメンコ・ショー（Tablao Cordobés）", "1970年創業で2025年の「世界最高のタブラオ」。公演は60〜70分。21:00の回を取る。理由: 17:00にタラゴナを出て18:30に戻る行程に対し、19:15の回では余裕がなく、22:30の回では翌朝が遅れる。12/1までに予約する。年末は席が埋まりやすい。満席・休業ならPalau Dalmases（Born・12世紀の邸宅・€30〜）またはLos Tarantos（Plaça Reial・1963年創業・40分・€25〜）へ切り替える。"));
     day.items.push(flexItem("22:10", "22:20", "transfer", "徒歩でホテルへ戻る", "Tablao Cordobésから宿泊ホテルへ徒歩1〜2分で戻る。"));
   });
+
+
+  // The adopted itinerary is generated from the reviewed Markdown; comparison scenarios stay separate.
+  const relaxedOptionalIds = new Set(["parkguell", "park-guell", "mila", "batllo", "palau-musica", "sant-joan-funicular", "flamenco", "cordoba-alcazar"]);
+  for (const booking of list(trip.bookings)) if (relaxedOptionalIds.has(booking.id)) {
+    booking.optional = true; booking.status = "検討中"; booking.lifecycle = "optional";
+    booking.publicNote = booking.note = "追加候補。観光・食事・休憩のどれかと入れ替える場合だけ、日付と入場枠を決めて予約します。";
+  }
+  selectedMealPlans.d1226.splice(1, 0, {period:"昼",area:"Oriente Atiram Hotelから徒歩10分以内",primary:"ホテル徒歩圏の営業中カフェ",dishes:["温かいスープ", "サンドイッチ", "水"],booking:"3人が座れて待ち15分以内の店を選ぶ",operation:"13:00–14:00の軽い昼食。チェックインと午後の休息を優先",alternatives:["営業中の別のカフェ", "持帰りのサンドイッチと温かい飲み物"],experience:"到着日は近場で体を温め、午後に休める軽い昼食です。",orderForThree:"スープ3杯とサンドイッチを2〜3個、水3本。朝食後の空腹に合わせて調整します。"});
+  const relaxedDinner = { period: "夜", area: "Oriente Atiram Hotelから徒歩10分以内", primary: "ホテル徒歩圏のタパス店", dishes: ["魚介の小皿", "野菜料理", "肉料理またはパン"], booking: "3人で座れる営業店を選ぶ", operation: "20:00〜21:00。待ち15分を超える店は避ける", alternatives: ["徒歩圏の別の営業店", "ホテルで持帰り食"] };
+  for (const id of ["d1227", "d1228", "d1229"]) {
+    const source = finalPlan.days?.[id];
+    if (!source?.items?.length) continue;
+    const current = flexScenarios.scenario1.days[id];
+    current.title = source.title;
+    current.items = source.items.map(item => {
+      const pointId = item.title === "サグラダ・ファミリア" ? "sagrada-entry" : item.title === "生誕の塔" ? "sagrada-tower" : null;
+      return pointId ? { ...item, id: pointId, placeId: "sagrada", bookingIds: ["sagrada"], checkpointId: pointId } : { ...item };
+    });
+    if (id === "d1229") current.mealPlans = [flexMeals.breakfast, flexMeals.tarragona, relaxedDinner];
+  }
+  flexScenarios.scenario1.summary = "日 Montserratは天候次第／月 サグラダ・サン・パウ・午後休憩／火 Tarragonaと水道橋";
+  flexMeals.cityWeekday.operation = "13:15〜14:45の昼食後はホテル休憩または短い散歩へ";
+  flexMeals.cityDinner.operation = "20:00入店。待ち15分を超える場合はホテル徒歩圏の営業店へ替える";
+  selectedMealPlans.d1231.find(meal => /Lhardy/.test(meal.primary)).operation = "夕食優先。20:00〜23:00は仮の枠。2026年の開始終了・早退条件を予約前に確認し、Solは規制と体力も合う場合だけ。基本はホテルで年越し";
+  selectedMealPlans.d1230[1] = { period: "昼", area: "Barcelona Santsで購入し列車内で食べる", primary: "駅で購入する持帰りの昼食", dishes: ["bocadillo", "サラダ", "水"], booking: "予約不要", operation: "乗車前に購入、12:15〜13:00頃に列車内で食べる", alternatives: ["ホテル近くで事前購入", "乗車前に駅の営業店で軽食"] };
+  selectedMealPlans.d1230[2].operation = "20:30〜22:00。到着遅延時は予約店に連絡し、ホテル徒歩圏の夕食へ変更";
 
   const transportDetails = {
     d1225: {
@@ -596,6 +650,8 @@
     ["サン・フランシスコ・エル・グランデ（外観）", "サン・フランシスコ・エル・グランデの外観を見る"],
     ["ホテル休憩", "ホテルで休憩する"],
     ["Madrid Atocha到着・乗車準備", "Madrid Atochaに早めに着き、乗車準備をする"],
+    ["Madrid → Córdoba", "MadridからCórdobaへ高速鉄道で移動する"],
+    ["Córdoba → Madrid", "CórdobaからMadridへ高速鉄道で移動する"],
     ["Madrid → Cordoba（高速鉄道・計画窓）", "MadridからCórdobaへ高速鉄道で移動する"],
     ["Cordoba駅 → Mezquita-Catedral", "Córdoba駅からMezquita-Catedralへ移動する"],
     ["Mezquita-Catedral", "Mezquita-Catedralを見学する"],
@@ -626,6 +682,7 @@
     if (kind === "hotel") {
       const core = title;
       if (/ホテルで休憩/.test(core)) return "ホテルで休憩する";
+      if (/チェックアウト.*荷物預け/.test(core)) return `${core.replace(/をチェックアウト.*$/, "")}をチェックアウトして荷物を預ける`;
       if (/チェックアウト.*荷物回収/.test(core)) return `${core.replace(/をチェックアウト.*$/, "")}をチェックアウトして荷物を回収する`;
       if (/移動・チェックイン/.test(core)) return `${core.replace(/へ移動・チェックイン.*$/, "")}へ移動してチェックインする`;
       if (/^チェックイン・荷物整理$/.test(core)) return "ホテルにチェックインし、荷物を整理する";
@@ -648,6 +705,7 @@
     return title;
   }
   function mealActionTitle(meal) {
+    if (meal.primary === "駅で購入する持帰りの昼食") return "列車内で持帰りの昼食をとる";
     const original = travelerText(meal?.primary || "食事").trim();
     if (hasActionEnding(original) || /をとる$/.test(original)) return original;
     if (/ホテルの.*(?:朝食|ブレックファスト)/.test(original)) return /コンチネンタル/.test(original) ? "ホテルで朝食をとる" : "ホテルでビュッフェ朝食をとる";
@@ -655,7 +713,7 @@
     if (/選ぶ$/.test(original)) return `${original.replace(/選ぶ$/, "選んで")}昼食をとる`;
     if (/Enrique Tomás.*持帰り夕食/.test(original)) return "Enrique Tomás Estación Atochaで持ち帰りの夕食を買う";
     if (/Tablao Cordobés/.test(original)) return "Tablao Cordobésでショー前のディナーをとる";
-    if (/前夜に.*朝食/.test(original)) return "前夜に買った朝食を移動中または列車内でとる";
+    if (/前夜に.*朝食/.test(original)) return "前夜に買った朝食をホテルでとる";
     if (/カルソッツとロメスコ/.test(original)) return "カルソッツとロメスコの昼食";
     if (/で年越しディナー$/.test(original)) return original;
     const period = /朝/.test(meal?.period) ? "朝食" : /昼/.test(meal?.period) ? "昼食" : /夜/.test(meal?.period) ? "夕食" : /軽食/.test(meal?.period) ? "軽食" : "食事";
@@ -695,12 +753,7 @@
     if (!aDateTime && bDateTime) return 1;
     return (a.sequence ?? 999) - (b.sequence ?? 999);
   });
-  const sagradaTask = list(trip.preparationTasks).find((task) => task.id === "task-sagrada");
-  if (sagradaTask) Object.assign(sagradaTask, {
-    deadline: "2026-10-28", ownerId: "本人", relatedDayIds: ["d1228"],
-    actionUrl: "https://sagradafamilia.org/en/sagrada-familia-and-tower",
-    informationNeeded: ["父の購入済み券（3人分・12/27の可能性）を買う前に確認し、重複購入しない", "12/28 09:00入場・塔09:30–10:00の公式 Sagrada Família + Tower（€36×3名＝€108）を発売開始（10月末ごろ）にすぐ購入", "生誕か受難の塔1本を選び、変更・取消条件を確認"]
-  });
+  trip.preparationTasks = list(trip.preparationTasks).filter((task) => task.id !== "task-sagrada");
   const tasksForDay = (dayId) => list(trip.preparationTasks).filter((task) => list(task.relatedDayIds).includes(dayId));
   const bookingsForDay = (dayId) => list(trip.bookings).filter((booking) => list(booking.relatedDayIds).includes(dayId));
 
@@ -755,7 +808,7 @@
   }
 
   function buildDays(representativeDays, scenarioId = "scenario1") {
-    const selectedScenario = flexScenarios[scenarioId] || flexScenarios.scenario1;
+    const selectedScenario = scenarioConstraint(scenarioId).allowed ? flexScenarios[scenarioId] : flexScenarios.scenario1;
     const normalize = (value) => String(value || "").replace(/[（(].*?[）)]/g, "").replace(/[・／/\s]/g, "").toLowerCase();
     const findCanonical = (dayId, title) => {
       const needle = normalize(title);
@@ -769,7 +822,7 @@
       if (!selected?.items?.length) return base;
       let selectedMealIndex = 0;
       const timeline = selected.items.map((item, itemIndex) => {
-        const canonical = findCanonical(day.id, item.title);
+        const canonical = item.id?.startsWith("sagrada-") || item.bookingIds?.length ? null : findCanonical(day.id, item.title);
         const hotel = hotelForItem(day.id, item);
         let title = travelerText(item.title);
         let note = travelerText(item.note);
@@ -778,45 +831,51 @@
         let detailKey = `planned-${scenarioId}-${day.id}-${itemIndex}`;
         if (item.kind === "meal") detailKey = `meal-${selectedMealIndex++}`;
         if (hotel && item.kind === "hotel") {
-          if (/checkout|チェックアウト/i.test(item.title)) title = `${hotel.recommendation}をチェックアウト・荷物回収`;
+          if (/checkout|チェックアウト/i.test(item.title)) title = `${hotel.recommendation}をチェックアウト・${/荷物預け/.test(item.title) ? "荷物預け" : "荷物回収"}`;
           else if (/荷物回収/.test(item.title)) title = `${hotel.recommendation}で荷物回収`;
           else if (/最終泊|Viladecans/.test(item.title)) title = `${hotel.recommendation}へチェックイン`;
           else if (/Madridホテル|Room Mate Mario|check-in/i.test(item.title)) title = `${hotel.recommendation}へ移動・チェックイン`;
           else if (/荷物預け/.test(item.title)) title = `${hotel.recommendation}へ荷物預け`;
           status = "予約済み";
-          note = `${hotel.address}。チェックイン ${hotel.checkIn}、チェックアウト ${hotel.checkOut}${hotel.checkInDeadline ? `、受付終了 ${hotel.checkInDeadline}` : ""}。`;
+          note = `${note ? `${note} ` : ""}${hotel.address}。チェックイン ${hotel.checkIn}、チェックアウト ${hotel.checkOut}${hotel.checkInDeadline ? `、受付終了 ${hotel.checkInDeadline}` : ""}。`;
           detailKey = `hotel-${hotel.id}`;
         }
         if (hotel && day.id === "d0104" && item.kind === "transfer" && /BCN T1|タクシー/.test(item.title)) note = `${hotel.recommendation}を07:00前後に出発する。前夜にフロントで車を手配し、約10分で07:40までにBCN T1へ着く。`;
         const transportNote = transportDetails[day.id]?.[item.title];
-        if (transportNote) note = travelerText(transportNote);
+        if (transportNote && scenarioId !== "scenario1") note = travelerText(transportNote);
         if (day.id === "d1230" && /Barcelona Sants.*Madrid Atocha/.test(item.title)) {
           title = "Barcelona SantsからMadrid Atochaへ高速鉄道で移動する";
-          time = "14:30前後"; end = "18:00前後";
-          status = "発売・時刻表公表待ち";
-          note = "発売前の目標窓です。列車番号と分単位の時刻は未確定。発売後に実便へ置き換え、Sants到着90分前の余裕は残します。2026/10/01から毎月確認します。";
+          time = item.time; end = item.end;
+          status = "未予約・時刻確認待ち";
+          note = "未予約の目標時刻です。列車番号と分単位の時刻は未確定。発売後に実便へ置き換え、Santsには出発60分前までに着く余裕を残します。2026/10/01から毎月確認します。";
         }
         if (day.id === "d0103" && /Madrid Atocha.*Barcelona Sants/.test(item.title)) {
           title = "Madrid AtochaからBarcelona Santsへ高速鉄道で移動する";
           time = "17:00前後"; end = "20:30前後";
-          status = "発売・時刻表公表待ち";
-          note = "発売前の目標窓です。列車番号と分単位の時刻は未確定。発売後に実便へ置き換え、Atocha到着90分前の余裕は残します。2026/10/01から毎月確認します。";
+          status = "未予約・時刻確認待ち";
+          note = "未予約の目標時刻です。列車番号と分単位の時刻は未確定。発売後に実便へ置き換え、Atochaには出発60分前までに着く余裕を残します。2026/10/01から毎月確認します。";
         }
-        if (day.id === "d0102" && /Madrid.*Cordoba|Cordoba.*Madrid/.test(item.title)) {
-          status = "発売・時刻表公表待ち";
-          note = travelerText(transportDetails.d0102[item.title] || item.note);
-          if (/Madrid.*Cordoba/.test(item.title)) { time = "07:30前後"; end = "09:30前後"; }
-          else { time = "17:15前後"; end = "19:15前後"; }
+        if (day.id === "d0102" && /Madrid.*C[oó]rdoba|C[oó]rdoba.*Madrid/.test(item.title)) {
+          status = "未予約・時刻確認待ち";
+          note = travelerText(item.note);
+          if (/Madrid.*C[oó]rdoba/.test(item.title)) { time = item.time; end = item.end; }
+          else { time = item.time; end = item.end; }
         }
-        if (day.id === "d1230" && item.kind === "meal" && /Casa Ciriaco/.test(item.title)) { time = "21:00"; end = "22:15"; }
+        if (day.id === "d1230" && item.kind === "meal" && /Casa Ciriaco/.test(item.title)) { time = item.time; end = item.end; }
         if (day.id === "d0101" && /サン・イシドロ教会/.test(item.title)) { time = "17:00"; end = "17:30"; note = "通常の午後再開後に見学します。元日の特別運用は12/31に公式情報と現地表示で再確認し、開いていなければ外観だけにします。"; }
-        if (day.id === "d0101" && item.kind === "rest" && /ホテル休憩/.test(item.title)) { time = "17:45"; end = "19:00"; }
+        if (day.id === "d0101" && item.kind === "rest" && /ホテル休憩/.test(item.title)) { time = item.time; end = item.end; }
         if (day.id === "d0104" && /PVG T2 着/.test(item.title)) { title = "帰国便でPVG T2に到着する"; note = "Barcelonaから上海へ戻る帰国区間。翌日05:55到着後はInternational Transfer表示へ進みます。"; }
         if (day.id === "d0105" && /PVG T2 発/.test(item.title)) { title = "帰国便でPVG T2を出発し、NRT T1に到着する"; note = "上海から成田へ向かう帰国区間。Barcelona行きの往路情報ではありません。"; }
         if (day.id === "d0105" && /入国・荷物受取・帰宅移動/.test(item.title)) zone = "日本時間";
+        const fixedBooking = item.bookingIds?.map(bookingById).find((booking) => booking?.checkpoints);
+        if (fixedBooking) {
+          const point = fixedBooking.checkpoints.find((point) => point.id === item.checkpointId);
+          time = point.time; status = "予約済み"; note = bookingSummary(fixedBooking);
+          detailKey = `booking-${item.checkpointId}`;
+        }
         title = scheduleActionTitle(title, item.kind);
         if (!detailKey.startsWith("meal-") && !detailKey.startsWith("hotel-")) plannedDetailByKey.set(detailKey, { dayId: day.id, title, kind: item.kind, status, note, time, end, zone, canonical });
-        return { time, end, kind: kindText(item.kind), title, zone, status, bookingIds: rowBookingIds(item), sourceNote: item.note, hotelId: item.kind === "hotel" ? hotel?.id : null, tone: toneFor(status), note, detail: detailKey, routeAfter: travelerText(connectionPlans[day.id]?.[item.title] || "") };
+        return { id: item.id || `${day.id}-item-${itemIndex}`, origin: item.origin || null, destination: item.destination || null, placeId: item.placeId || canonical?.placeId || null, checkpointId: item.checkpointId || null, timeBasis: fixedBooking ? "booking" : "estimate", time, end, kind: kindText(item.kind), title, zone, status, bookingIds: rowBookingIds(item), sourceNote: item.note, hotelId: item.kind === "hotel" ? hotel?.id : null, tone: toneFor(status), note, detail: detailKey, routeAfter: scenarioId === "scenario1" ? "" : travelerText(connectionPlans[day.id]?.[item.title] || "") };
       });
       const mealItems = selected.items.filter((item) => item.kind === "meal");
       const meals = mealItems.map((item, index) => {
@@ -824,7 +883,7 @@
         const existing = list(base.meals).find((meal) => meal.period === period);
         const planned = list(selected.mealPlans)[index] || list(selectedMealPlans[day.id])[index] || {};
         return {
-          ...(existing || {}), period: planned.period || period, window: item.timeText,
+          ...(existing || {}), guideAreaId: planned.guideAreaId || existing?.guideAreaId || null, period: planned.period || period, window: item.timeText || `${item.time || "時刻確認後"}${item.end ? `–${item.end}` : ""}`,
           area: travelerText(planned.area || existing?.area || displayCity(day)), nearby: travelerText(item.title),
           purpose: travelerText(planned.purpose || item.note || existing?.purpose || "前後の予定を崩さず食事を確保する"),
           primary: travelerText(planned.primary || (existing?.primary && !/未調査|調査が必要/.test(existing.primary) ? existing.primary : item.title)),
@@ -847,7 +906,10 @@
       }
       const primaryItem = selected.items.find((item) => ["flight", "train", "attraction", "event"].includes(item.kind)) || selected.items[0];
       const selectedType = day.id === "d1228" ? "観光中心日" : base.type;
-      const plannedTasks = list(planTaskOverrides[day.id]);
+      const optionalPattern = /カサ・ミラ|カサ・バトリョ|Casa Batll|Casa Mil|音楽堂|グエル邸|Tablao|フラメンコ|Sant Joan|アルカサル|Alcázar/;
+      const plannedTasks = list(planTaskOverrides[day.id]).filter(task => scenarioId !== "scenario1" || (!optionalPattern.test(task.join(" ")) && task[2] !== "シナリオ3のみ"));
+      if (scenarioId === "scenario1" && day.id === "d1228") plannedTasks.push(["", "サン・パウ病院の入場枠", "未予約", "12/28 11:30を目標に冬季の入場枠を確認する。サグラダ09:00・塔09:15と昼食90分を守る"]);
+      if (scenarioId === "scenario1" && day.id === "d1229") plannedTasks.push(["", "水道橋への往復タクシー", "未手配", "往路14:15の配車と復路15:30の迎車を両方確認。3名で€60〜90の目安。片道でも確保できなければ市内で休憩"]);
       const plan = (plannedTasks.length ? plannedTasks : list(base.plan)).map((task, index) => [String(index + 1), ...task.slice(1)]);
       return {
         ...base, city: selected.city || finalDayMeta[day.id]?.city || base.city, cityIds: selected.cityIds || finalDayMeta[day.id]?.cityIds || [], type: selectedType, title: travelerText(selected.title),
@@ -896,12 +958,47 @@
     const haystack = `${place.id} ${place.area || ""} ${place.nameJa || ""}`;
     return rules.find(([, , regex]) => regex.test(haystack)) || rules[0];
   }
+  // Stable identities connect historic Japanese/English guide aliases to selected visits.
+  const sightAliases = [
+    ["sagrada", /sagrada|サグラダ/i], ["sant-pau", /sant.?pau|サン・?パウ/i],
+    ["park-guell", /park g[uü]ell|グエル公園/i], ["mila", /casa mil|カサ・ミラ/i],
+    ["batllo", /casa batll|カサ・バトリョ/i], ["vicens", /casa vicens|カサ・ビセンス/i],
+    ["palau-musica", /palau de la m|カタルーニャ音楽堂/i], ["palau-guell", /palau g|グエル邸/i],
+    ["montserrat-museum", /museum.*montserrat|montserrat museum|モンセラート美術館/i],
+    ["montserrat", /montserrat大聖堂|モンセラート|黒い聖母|montserrat修道院/i],
+    ["aqueduct", /水道橋|pont del diable/i], ["mezquita", /mezquita|メスキータ/i],
+    ["sol", /puerta del sol|ホテルで年越し/i], ["prado", /prado|プラド/i],
+    ["royal-palace", /マドリード王宮|palacio real/i],
+    ["tarragona-roman", /円形闘技場|roman interiors|tarragona amphitheatre/i],
+    ["tarragona-cathedral", /tarragona大聖堂/i],
+    ["barcelona-cathedral", /barcelona cathedral|バルセロナ大聖堂|大聖堂外観・ゴシック/i],
+    ["plaza-mayor", /plaza mayor|マヨール広場/i],
+    ["synagogue", /シナゴーグ|synagogue|sinagoga/i],
+    ["juderia-walk", /juder[ií]a.*roman bridge/i], ["juderia", /juder[ií]a/i], ["roman-bridge", /roman bridge|ローマ橋/i],
+    ["boqueria", /ブケリア|boqueria/i], ["reina-sofia", /ソフィア王妃|reina sof[ií]a/i],
+    ["retiro", /retiro|レティーロ/i], ["rastro", /rastro|ラストロ/i]
+  ];
+  function sightIdentity(name) {
+    return sightAliases.find(([, pattern]) => pattern.test(name || ""))?.[0] || String(name || "").normalize("NFD").replace(/[\u0300-\u036f・\s（）()]/g, "").toLowerCase();
+  }
+  function selectedVisits(name, scenarioId = "scenario1") {
+    const scenario = scenarioConstraint(scenarioId).allowed ? flexScenarios[scenarioId] : flexScenarios.scenario1;
+    if (Array.isArray(name)) {
+      const visits = name.flatMap(part => selectedVisits(part, scenarioId));
+      return [...new Map(visits.map(visit => [`${visit.dayId}:${visit.time}:${visit.title}`, visit])).values()]
+        .sort((a, b) => a.label.localeCompare(b.label, "ja", { numeric: true }));
+    }
+    if (sightIdentity(name) === "juderia-walk") return selectedVisits(["Judería", "Roman Bridge"], scenarioId);
+    const identity = sightIdentity(name);
+    return Object.entries(finalPlan.days || {}).flatMap(([dayId, base]) => list((scenario.days[dayId] || base).items)
+      .filter(item => ["attraction", "event"].includes(item.kind) && (sightIdentity(item.title) === identity || (identity === "synagogue" && /シナゴーグ/.test(item.note || "")) || (!sightAliases.some(([id]) => id === identity) && sightIdentity(item.title).includes(identity))))
+      .map(item => ({ ...item, dayId, label: `${jpDate(dayById.get(dayId)).replace(/（.*?）/, "")} ${item.time || ""}${identity === "synagogue" ? "（散策中・入場できる場合）" : ""}`, statusLabel: identity === "sagrada" ? "予約済み" : ["sol", "aqueduct", "montserrat", "montserrat-museum", "synagogue"].includes(identity) ? "条件付き" : "予定・未予約" })));
+  }
   function visitLabelsForPlace(placeId) {
     const place = placeById.get(placeId);
-    const normalize = (value) => String(value || "").replace(/[（(].*?[）)]/g, "").replace(/[・／/\s]/g, "").toLowerCase();
-    const names = [place?.nameJa, place?.nameLocal, placeId].map(normalize).filter((name) => name.length >= 3);
-    return Object.entries(finalPlan.days || {}).flatMap(([dayId, selected]) => list(selected.items).filter((item) => { const title = normalize(item.title); return names.some((name) => title.includes(name) || name.includes(title)); }).map((item) => { const day = dayById.get(dayId); return day ? `${jpDate(day).replace(/（.*?）/, "")} ${item.time}` : item.time; }));
+    return selectedVisits(place?.nameJa || placeId).map(visit => visit.label);
   }
+
   function sightFromPlace(place, priority) {
     const visits = visitLabelsForPlace(place.id);
     return { name: place.nameJa || place.id, priority, kind: kindText(place.kind === "attraction" ? "attraction" : place.kind), note: travelerText(place.summary || "見どころは関連する学習記事で確認します。"), when: visits[0] || "滞在中の候補", nearby: "近くの食事を確認", placeId: place.id, articleId: list(place.articleIds)[0] || null };
@@ -912,7 +1009,7 @@
   }
   function buildGuide(representativeCities, representativeAreas, scenarioId = "scenario1") {
     const cityIds = ["barcelona", "madrid", "tarragona", "montserrat", "cordoba", "toledo"];
-    const scenario = flexScenarios[scenarioId] || flexScenarios.scenario1;
+    const scenario = scenarioConstraint(scenarioId).allowed ? flexScenarios[scenarioId] : flexScenarios.scenario1;
     const scenarioVisit = (cityId) => Object.entries(scenario.days).filter(([, selected]) => list(selected.cityIds).includes(cityId)).map(([dayId]) => jpDate(dayById.get(dayId)));
     const visitsByCity = Object.fromEntries(cityIds.map((cityId) => [cityId, ["barcelona","tarragona","montserrat"].includes(cityId) ? scenarioVisit(cityId) : list(trip.days).filter((day) => list(finalDayMeta[day.id]?.cityIds || [day.cityId]).includes(cityId)).map(jpDate)]));
     const repsByName = new Map(list(representativeCities).map((city) => [city.id.toLowerCase(), city]));
@@ -920,13 +1017,16 @@
     const cities = cityIds.map((cityId) => ({ ...cityMeta[cityId], ...(repsByName.get(cityId) || {}), articleId: cityArticleIds[cityId], visit: (visitsByCity[cityId] || []).join("・") || "現在の旅程では訪問予定なし" }));
     const areas = list(representativeAreas).map((area) => ({ ...area, visit: list(area.visit), foods: list(area.foods).map((item) => ({ ...item })), sights: list(area.sights).map((item) => ({ ...item })) }));
     areas.push({ id: "tarragona-old", city: "Tarragona", name: "旧市街・古代Tarraco", priority: 1, intro: "海辺の円形闘技場からcircus、Part Alta、城壁へ。火曜は内部を一日でつなぎ、日曜は14:30までの短縮順にする。", foodIntro: "カルソッツとロメスコを第一に。提供がなければEl Llagutなどで魚介のromescoを味わう。", visit: visitsByCity.tarragona, foods: [{ name: "Romesco／cassola", priority: 1, kind: "最優先・土地の味", note: "カルソッツの提供がなければ、第一代替はEl Llagutなどの魚介のromesco。", when: `${visitsByCity.tarragona[0]} 昼・カルソッツがない場合の代替`, shops: ["El Llagut", "Part Altaでromesco／cassolaを掲示する営業店"] }, { name: "魚介の米料理・fideus", priority: 2, kind: "3人でシェア", note: "romescoの次に、魚介の旨味を吸った米料理または短い麺fideusを1皿。3人で分けて量を調整しやすい。", when: `${visitsByCity.tarragona[0]} 昼・カルソッツがない場合の代替`, shops: ["El Llagut", "Part Altaで米料理またはfideusを掲示する営業店"] }, { name: "魚介・tapas", priority: 3, kind: "軽めの代替", note: "日曜短縮や食欲が軽い時は、地元の魚介と小皿を少量ずつ。帰りの列車を遅らせない選択肢にする。", when: `${visitsByCity.tarragona[0]} 時間・食欲に合わせる`, shops: ["El Llagut", "Part Altaで当日営業する魚介・tapas店"] }], sights: [{ name: "Tarragona円形闘技場", priority: 1, kind: "ローマ遺跡", note: "地中海へ向いたarenaとBalco del Mediterraniを続けて見て、海港都市Tarracoの地形をつかむ。", when: visitsByCity.tarragona[0], nearby: "Romesco／cassola" }, { name: "Praetorium・Roman CircusとPart Alta", priority: 2, kind: "ローマ遺跡・旧市街", note: "circusの構造が現代の建物と街路に残る様子を、地下からPart Altaまでたどる。", when: visitsByCity.tarragona[0], nearby: "魚介の米料理・fideus" }, { name: "考古学の遊歩道・城壁", priority: 3, kind: "城壁", note: "Tarracoの輪郭と異なる時代の石積みを見る。日曜短縮では閉館前に入れる場合だけ。", when: visitsByCity.tarragona[0], nearby: "魚介・tapas" }] });
-    areas.push({ id: "montserrat-monastery", city: "Montserrat", name: "修道院・山上エリア", priority: 1, intro: "視界が良く、強風でなく、FGCと山上交通が運行し、3人に十分な体力がある場合だけ実行。どれか一つでも満たさなければBarcelona市内へ。", foodIntro: "La Cafeteriaを予約なしで使い、matóと蜂蜜があれば追加。出発前にbocadilloと水を3人分用意する。", visit: visitsByCity.montserrat, foods: [{ name: "Mató amb mel", priority: 1, kind: "山の甘味", note: "La Cafeteriaで提供があればmatóと蜂蜜を味わい、なければ温かい料理と携帯食で体力を守る。", when: `${visitsByCity.montserrat[0]} La Cafeteria`, shops: ["La Cafeteria"] }], sights: [{ name: "Montserrat大聖堂", priority: 1, kind: "修道院・最優先", note: "Basilica → 黒い聖母（08:00–10:30／12:00–18:25）→ 景観 → Museum of Montserratの順。10:30–12:00は拝観中断。", when: visitsByCity.montserrat[0], nearby: "Mató amb mel" }, { name: "山の地質・Sant Joan展望", priority: 2, kind: "天候・運行条件付き", note: "奇岩の地形と眺望を見る。Sant Joan funicularは同日運行と天候が良い場合だけ利用する。", when: visitsByCity.montserrat[0], nearby: "La Cafeteria" }, { name: "Montserrat Museum", priority: 1, kind: "山上の主役", note: "Basilica・黒い聖母・景観に続いて見学する。Sant Joanはボーナスで、運休なら美術館・短い散策・展望地点を楽しむ。", when: visitsByCity.montserrat[0], nearby: "携帯食" }] });
-    areas.push({ id: "cordoba-old-city", city: "Cordoba", name: "Mezquita・Judería周辺", priority: 1, intro: "Mezquita-Catedralを中心にJuderíaとRoman Bridgeを歩き、体力が残る場合だけAlcázarを加える。", foodIntro: "salmorejo、flamenquín、rabo de toro、berenjenas con mielを先に、pastel cordobésは余裕があれば味わう。", visit: ["1/2"], foods: [{ name: "Salmorejo", priority: 1, kind: "最優先・冷製スープ", note: "トマトとパン、オリーブ油を濃厚に合わせ、卵とjamónを添えるCordobaの入口。最初に3人で1皿を分ける。", when: "1/2 13:00–14:30", shops: ["Taberna Salinas", "Casa Pepe de la Judería（近隣で4品中3品以上の店がなければ）"] }, { name: "Flamenquín", priority: 2, kind: "名物・巻き揚げ", note: "豚肉でjamónを巻いて揚げた、切り分けやすい名物。煮込みと食感が重ならないよう1皿を共有する。", when: "1/2 13:00–14:30", shops: ["Taberna Salinas", "Casa Pepe de la Judería（近隣で4品中3品以上の店がなければ）"] }, { name: "Rabo de toro", priority: 3, kind: "名物・煮込み", note: "牛尾を時間をかけて煮込む濃厚な主菜。3人で1皿を分け、パンと一緒にソースまで味わう。", when: "1/2 13:00–14:30", shops: ["Taberna Salinas", "Casa Pepe de la Judería（近隣で4品中3品以上の店がなければ）"] }, { name: "Berenjenas con miel", priority: 4, kind: "野菜の小皿", note: "薄く揚げた茄子に黒蜜を合わせる甘塩っぱい小皿。重い肉料理の間に3人でつまむ。", when: "1/2 13:00–14:30", shops: ["Taberna Salinas", "Casa Pepe de la Judería（近隣で4品中3品以上の店がなければ）"] }, { name: "Pastel cordobés", priority: 5, kind: "余裕があれば甘味", note: "髪のように細いかぼちゃの砂糖煮を包む菓子。昼食後に見つかり、帰路に余裕がある場合だけ追加する。", when: "1/2 昼食後・余裕がある場合", shops: ["Juderíaで当日営業する菓子店"] }], sights: [{ name: "Mezquita-Catedral", priority: 1, kind: "宗教建築・最優先", note: "赤白の柱列、ミフラーブ、中央の大聖堂空間という異なる時代の層を見比べる、この日の外せない中心。", when: "1/2 10:00", nearby: "Salmorejo" }, { name: "JuderíaとRoman Bridge", priority: 2, kind: "街歩き", note: "白い路地からGuadalquivir川の橋へ歩き、宗教文化と都市地形の広がりを見る。", when: "1/2 12:05–12:45", nearby: "Salmorejo" }, { name: "Alcázar de los Reyes Cristianos", priority: 3, kind: "条件付き", note: "Mezquitaと昼食、帰路の余裕を守り、時間と体力が残る場合だけ庭園を訪れる。", when: "1/2 14:45–16:15・開館確認後", nearby: "Pastel cordobés" }] });
+    areas.push({ id: "montserrat-monastery", city: "Montserrat", name: "修道院・山上エリア", priority: 1, intro: "視界が良く、強風でなく、FGCと山上交通が運行し、3人に十分な体力がある場合だけ実行。どれか一つでも満たさなければBarcelona市内へ。", foodIntro: "La Cafeteriaを予約なしで使い、matóと蜂蜜があれば追加。出発前にbocadilloと水を3人分用意する。", visit: visitsByCity.montserrat, foods: [{ name: "Mató amb mel", priority: 1, kind: "山の甘味", note: "La Cafeteriaで提供があればmatóと蜂蜜を味わい、なければ温かい料理と携帯食で体力を守る。", when: `${visitsByCity.montserrat[0]} La Cafeteria`, shops: ["La Cafeteria"] }], sights: [{ name: "Montserrat大聖堂", priority: 1, kind: "修道院・最優先", note: "美術館と景観を先に楽しみ、日曜12:15再開後に黒い聖母を拝観。45〜60分を見込み、13:15頃に昼食。券の枠は未確保。", when: visitsByCity.montserrat[0], nearby: "Mató amb mel" }, { name: "山の地質・Sant Joan展望", priority: 2, kind: "天候・運行条件付き", note: "奇岩の地形と眺望を見る。Sant Joan funicularは同日運行と天候が良い場合だけ利用する。", when: visitsByCity.montserrat[0], nearby: "La Cafeteria" }, { name: "Montserrat Museum", priority: 1, kind: "山上の主役", note: "午前に見学する。通常10:00–17:45。Sant Joanはボーナスで、運休なら美術館・短い散策・展望地点を楽しむ。", when: visitsByCity.montserrat[0], nearby: "携帯食" }] });
+    areas.push({ id: "cordoba-old-city", city: "Cordoba", name: "Mezquita・Judería周辺", priority: 1, intro: "Mezquita-Catedralを中心にJuderíaとRoman Bridgeを歩き、体力が残る場合だけAlcázarを加える。", foodIntro: "salmorejo、flamenquín、rabo de toro、berenjenas con mielを先に、pastel cordobésは余裕があれば味わう。", visit: ["1/2"], foods: [{ name: "Salmorejo", priority: 1, kind: "最優先・冷製スープ", note: "トマトとパン、オリーブ油を濃厚に合わせ、卵とjamónを添えるCordobaの入口。最初に3人で1皿を分ける。", when: "1/2 13:00–14:30", shops: ["Taberna Salinas", "Casa Pepe de la Judería（近隣で4品中3品以上の店がなければ）"] }, { name: "Flamenquín", priority: 2, kind: "名物・巻き揚げ", note: "豚肉でjamónを巻いて揚げた、切り分けやすい名物。煮込みと食感が重ならないよう1皿を共有する。", when: "1/2 13:00–14:30", shops: ["Taberna Salinas", "Casa Pepe de la Judería（近隣で4品中3品以上の店がなければ）"] }, { name: "Rabo de toro", priority: 3, kind: "名物・煮込み", note: "牛尾を時間をかけて煮込む濃厚な主菜。3人で1皿を分け、パンと一緒にソースまで味わう。", when: "1/2 13:00–14:30", shops: ["Taberna Salinas", "Casa Pepe de la Judería（近隣で4品中3品以上の店がなければ）"] }, { name: "Berenjenas con miel", priority: 4, kind: "野菜の小皿", note: "薄く揚げた茄子に黒蜜を合わせる甘塩っぱい小皿。重い肉料理の間に3人でつまむ。", when: "1/2 13:00–14:30", shops: ["Taberna Salinas", "Casa Pepe de la Judería（近隣で4品中3品以上の店がなければ）"] }, { name: "Pastel cordobés", priority: 5, kind: "余裕があれば甘味", note: "髪のように細いかぼちゃの砂糖煮を包む菓子。昼食後に見つかり、帰路に余裕がある場合だけ追加する。", when: "1/2 昼食後・余裕がある場合", shops: ["Juderíaで当日営業する菓子店"] }], sights: [{ name: "Mezquita-Catedral", priority: 1, kind: "宗教建築・最優先", note: "赤白の柱列、ミフラーブ、中央の大聖堂空間という異なる時代の層を見比べる、この日の外せない中心。", when: "1/2 10:30", nearby: "Salmorejo" }, { name: "JuderíaとRoman Bridge", priority: 2, kind: "街歩き", note: "白い路地からGuadalquivir川の橋へ歩き、宗教文化と都市地形の広がりを見る。", when: "1/2 12:05–12:45", nearby: "Salmorejo" }, { name: "Alcázar de los Reyes Cristianos", priority: 3, kind: "条件付き", note: "Mezquitaと昼食、帰路の余裕を守り、時間と体力が残る場合だけ庭園を訪れる。", when: "1/2 14:45–16:15・開館確認後", nearby: "Pastel cordobés" }] });
     const tarragonaArea = areas.find((area) => area.id === "tarragona-old");
-    tarragonaArea.foods.unshift({ name: "カルソッツとロメスコ", priority: 0.5, kind: "冬の季節料理", note: "概ね11〜4月。本場Tarragona県で焼いた青ネギを味わう。旅行日の提供を事前確認する。", when: `${visitsByCity.tarragona[0]} 昼 13:15–14:45`, shops: ["Part Altaでカルソッツ提供を確認できた店", "El Llagut（提供がなければ魚介のromesco）"] });
+    const tarragonaLunch = Object.values(buildDays({}, scenarioId)).filter(day => /Tarragona/.test(day.city))
+      .flatMap(day => day.meals.filter(meal => meal.period === "昼").map(meal => `${jpDate(dayById.get(day.id))} 昼 ${meal.window}`)).join("・") || "日付未定・追加候補";
+    tarragonaArea.foods.forEach(food => { food.when = tarragonaLunch; });
+    tarragonaArea.foods.unshift({ name: "カルソッツとロメスコ", priority: 0.5, kind: "冬の季節料理", note: "概ね11〜4月。本場Tarragona県で焼いた青ネギを味わう。旅行日の提供を事前確認する。", when: tarragonaLunch, shops: ["Part Altaでカルソッツ提供を確認できた店", "El Llagut（提供がなければ魚介のromesco）"] });
     tarragonaArea.sights.push({ name: "Tarragona大聖堂", priority: 3, kind: "大聖堂・旧市街", note: "内部時間が合わなければ外観とPla de la Seuを20–30分。遺跡の営業時間とは別に確認。", when: `${visitsByCity.tarragona[0]} 12:30–13:00`, nearby: "カルソッツとロメスコ" });
     areas.find((area) => area.id === "montserrat-monastery").foods.push({ name: "山上の昼食", priority: 2, kind: "営業・混雑に合わせる", note: "La Cafeteriaの営業を確認し、混雑時は持参食。出発前に3人分の食事と水を用意する。", when: `${visitsByCity.montserrat[0]} 昼`, shops: ["La Cafeteria", "持参食"] });
-    areas.find((area) => area.id === "cordoba-old-city").sights.push({ name: "シナゴーグ", priority: 2, kind: "Juderíaの宗教建築", note: "火〜日09:00–15:00。周辺整備工事を直前に再確認し、橋より先に訪問する。", when: "1/2 11:45–12:05", nearby: "Salmorejo" });
+    areas.find((area) => area.id === "cordoba-old-city").sights.push({ name: "シナゴーグ", priority: 2, kind: "Juderíaの宗教建築", note: "Judería散策中、待たずに入れる場合だけ。営業時間と周辺整備工事を直前に再確認する。", when: "1/2 散策中・入場できる場合", nearby: "Salmorejo" });
     cityIds.forEach((cityId) => {
       const rules = areaRules[cityId] || [];
       rules.forEach(([id, name], index) => {
@@ -967,6 +1067,22 @@
         }
       });
     });
+    areas.find(area => area.city === "Tarragona")?.sights.push({ name: "ラス・ファレーラス水道橋（Pont del Diable）", note: "往路と復路のタクシーを両方確保できる場合のみ。雨天や配車未確保なら市内休憩。", priority: 99 });
+    const seen = new Set();
+    for (const area of areas) {
+      area.sights = area.sights.filter(sight => {
+        const id = sightIdentity(sight.name);
+        if (seen.has(id)) return false;
+        seen.add(id); return true;
+      }).map((sight, index) => {
+        const visits = selectedVisits(sight.name, scenarioId);
+        return { ...sight, identity: sightIdentity(sight.name), priority: index + 1, visits,
+          when: visits.length ? visits.map(visit => visit.label).join("・") : "日付未定・追加候補",
+          kind: visits[0]?.statusLabel || "追加候補", note: visits.length ? [...new Set([...(sightIdentity(sight.name) === "synagogue" ? [sight.note] : []), ...visits.map(visit => travelerText(visit.note))])].join(" ") : sight.note,
+          nearby: sight.nearby === "近くの食事を確認" ? "" : sight.nearby };
+      });
+      area.visit = [...new Set(area.sights.flatMap(sight => sight.visits.map(visit => visit.label.split(" ")[0])))];
+    }
     return { cities, areas };
   }
 
@@ -991,9 +1107,9 @@
     d1229: [{ id: "plan:d1229:flamenco", title: "Tablao Cordobésのディナー付き公演", amountEur: 177, category: "観光", basis: "Tablao Cordobésのディナー付き公演 €59×3名。夕食込みのため食費には別計上せず、予約後に実額へ更新" }],
     d1230: [{ id: "plan:d1230:palau-guell", title: "グエル邸", amountEur: 36, category: "観光", basis: "€12×3名" }],
     d0102: [
-      { id: "plan:d0102:cordoba-rail", title: "Madrid–Cordoba高速鉄道往復", amountEur: 240, category: "交通", basis: "3名分の計画枠・発売後に実額へ更新" },
+      { id: "plan:d0102:cordoba-rail", title: "Madrid–Cordoba高速鉄道往復", amountEur: 240, category: "交通", basis: "3名分の目安・発売後に実額へ更新" },
       { id: "plan:d0102:mezquita", title: "Mezquita-Catedral", amountEur: 45, category: "観光", basis: "2026/4/1以降の一般€15×3名・旅行前に公式枠を確認" },
-      { id: "plan:d0102:alcazar", title: "Alcázar de los Reyes Cristianos", amountEur: 18, category: "観光", basis: "3名分の計画枠・旅行日前に再確認" }
+      { id: "plan:d0102:alcazar", title: "Alcázar de los Reyes Cristianos", amountEur: 18, category: "観光", basis: "3名分の目安・旅行日前に再確認" }
     ]
   };
   const mealAllowances = {
@@ -1018,40 +1134,40 @@
       ]]
     ],
     d1227: [
-      ["1", "3日間の天候シナリオを決定", "12/26夜に判断", "12/27–29の視界・風・降水と交通運行を比べ、Montserratを日・月・火のどこに置くか決める。", "家族", "12/26 20:00"],
-      ["2", "Montserratの朝go/no-go", "当日判断", "視界・風・体力・FGC／山上交通を確認し、悪条件ならBarcelona市内のガウディの日へ切り替える。Aeriは毎年1月に年次整備で運休するため、2026年12月の運行を確認し、Cremallera（Monistrol de Montserrat発）を代替にする。", "家族", "対象日07:45"],
-      ["3", "Aeri運行とEscolania年末年始日程を確認", "12/1まで", "Aeriの2026年12月運行とEscolaniaの年末年始日程を確認する。通常は月〜木18:45、日祝12:00と18:45、土曜は歌わない。", "本人", "2026/12/01"],
+      ["1", "12/27の山行き可否を決定", "12/26夜に判断", "12/27–29の視界・風・降水と交通運行を比べ、12/27にMontserratへ行くか、市内の建築1件と休憩へ替えるか決める。12/28のサグラダ予約は動かさない。", "家族", "12/26 20:00"],
+      ["2", "Montserratの朝go/no-go", "当日判断", "視界・風・体力・FGC／山上交通を確認し、悪条件ならBarcelona市内のガウディの日へ切り替える。Aeriは毎年1月に年次整備で運休するため、2026年12月の運行を確認し、Cremallera（Monistrol de Montserrat発）を代替にする。", "家族", "12/27 07:15"],
+      ["3", "Aeri運行とEscolania年末年始日程を確認", "12/1まで", "Aeriの2026年12月運行とEscolaniaの年末年始日程を確認する。年末の出演は未確認のため、聖歌隊を前提に旅程を組まない。", "本人", "2026/12/01"],
       ["4", "Sant Joan funicularの冬季運行確認", "12/1まで", "展望台へ向かうケーブルカーの冬季運行時間と料金を確認する。", "本人", "2026/12/01"],
       ["5", "7 Portesを予約", "12/1まで", "12/27 20:00、3名で予約する。", "本人", "2026/12/01"]
     ],
     d1228: [
-      ["1", "ガウディの日の入場枠を確保", "発売後に予約", "サグラダ、グエル公園、カサ・ミラ、カサ・バトリョ12/28 16:30の対象日枠を確保する。日曜ならサグラダは10:30以降。", "本人", "発売開始後"],
+      ["1", "ガウディの日の入場枠を確保", "発売後に予約", "グエル公園、カサ・ミラ、カサ・バトリョ12/28 16:30の対象日枠を確保する。", "本人", "発売開始後"],
       ["2", "疲労時の削減順を共有", "旅行前に確認", "カサ・バトリョ、次にグエル公園の順に落とす。ただし両方を見る前提で組む。", "家族", "旅行7日前"]
     ],
     d1229: [
-      ["1", "Tarragonaの年末運行を確認", "公表後に確認", "MHTは祝日を除く月曜休館、冬季の火曜は9:00〜20:00と確定済み。12/29のRegional往復時刻と有効な乗車券を公式で確認する。", "本人", "2026年末情報の公表後"],
+      ["1", "Tarragonaの年末運行を確認", "公表後に確認", "施設別の冬季営業時間と年末の変更を確認する。12/29のRegional往復時刻と有効な乗車券を公式で確認する。", "本人", "2026年末情報の公表後"],
       ["2", "日曜短縮案の開館を確認", "シナリオ3のみ", "12/27はRoman interiorsを14:30までに終え、中央部だけに縮める。Tarragona市内駅から円形闘技場は海沿いに徒歩8分。Camp de Tarragonaは町から離れバス連絡が必要なので使わない。", "本人", "12/26夜"],
       ["3", "12/29のフラメンコを予約", "12/1まで", "第一候補のTablao Cordobés（La Rambla 35・ホテルから徒歩1〜2分）で、ディナー付き21:00公演を3名で予約する。満席ならPalau DalmasesかLos Tarantosへ切り替える。", "本人", "2026/12/01"]
     ],
     d1230: [
       ["1", "カタルーニャ音楽堂を予約", "発売後すぐ", "12/30 10:00のガイドツアーを3名で予約する。遅れたらグエル邸を落とし、音楽堂は落とさない。", "本人", "発売開始後"],
-      ["2", "BarcelonaからMadridの列車を確定", "手配可能", "14:30前後の便と取消条件を比較し、Santsへ発車90分前に着く予定を守る。", "父", "早いほど安い・9/17に進捗確認"],
-      ["3", "12/30 Casa Ciriacoの夕食を予約", "12/1まで", "21:00で3名を予約し、年末営業を確認する。", "本人", "2026/12/01"],
+      ["2", "BarcelonaからMadridの列車を確定", "手配可能", "12:00前後発・16:00前のMadrid着を目標に比較し、Santsには発車60分前までに着く。", "父", "早いほど安い・9/17に進捗確認"],
+      ["3", "12/30 Casa Ciriacoの夕食を予約", "12/1まで", "20:30で3名を予約し、年末営業を確認する。", "本人", "2026/12/01"],
       ["4", "マドリードのベッド構成を確認する", "今すぐ", "Room Mate Marioへ直接確認し、リクエスト扱いのThree single bedsが確保できるか、3名の寝方が確定したら終わり。", "本人", "今すぐ"],
       ["5", "無料キャンセル期限を把握しておく", "出発前に共有", "Barcelona 12/25 14:00、Madrid 12/29 12:00、Viladecans 1/2 18:00。Barcelonaは搭乗後になるため、実質の判断期限を12/25出発前として3人で共有したら終わり。", "家族", "12/25出発前"]
     ],
     d1231: [
       ["1", "Botínを予約・営業確認", "12/1まで", "12/31 14:15、3名で予約し、12/31営業を確認する。", "本人", "2026/12/01"],
-      ["2", "Lhardyの年越しディナーを3名で予約（受付開始は11月・期限11/15）", "11/15まで", "11月の受付開始と同時にCarrera de San Jerónimo 8のLhardyを3名で予約し、開始時刻を確定する。", "本人", "2026/11/15"],
-      ["3", "Solの当日規制を確認", "当日確認", "18:00に入口、駅閉鎖、天候を確認し、20:30に進むかホテルへ戻るか決める。", "本人", "12/31 18:00"]
+      ["2", "Lhardyの2026年年越し営業と3名席を確認", "11/15まで", "11月を確認目安に、特別メニュー・開始終了・早退可否と3名席を問い合わせる。2026年の受付時期は未確認。夕食を優先する。", "本人", "2026/11/15"],
+      ["3", "Solの当日規制を確認", "当日確認", "2026年の入場条件・駅閉鎖と夕食の終了時刻が両立し、3人に余力がある場合だけSolを検討。条件が不明ならホテルで年越し。", "本人", "12/31 18:00"]
     ],
     d0101: [
       ["1", "La CampanaとMercado de San Miguelの元日営業確認", "12/1まで", "両店の1/1営業を確認し、休業時の同街区の代替店を決める。", "本人", "2026/12/01"],
       ["2", "Room Mate Marioの元日朝食を確認する", "チェックイン時", "1/1も朝食を提供するか12/30のチェックイン時に確認し、提供なしの場合の3人分を確保したら終わり。", "本人", "12/30チェックイン時"],
-      ["3", "1/2 Cordoba日帰りの朝食を前夜に買っておく", "1/1夕方まで", "06:45出発で07:00のホテル朝食開始前になるため、1/2朝の主食と飲み物を3人分用意したら終わり。", "本人", "1/1夕方まで"]
+      ["3", "1/2 Cordoba日帰りの朝食を前夜に買っておく", "1/1夕方まで", "06:45朝食・07:15出発ではホテル朝食に余裕がないため、1/2朝の主食と飲み物を3人分用意したら終わり。", "本人", "1/1夕方まで"]
     ],
     d0102: [
-      ["1", "Cordoba往復列車を確定", "手配可能", "07:30前後発・17:15前後帰路の高速鉄道を比較し、最終便を避けて往復を購入する。", "父", "早いほど安い・9/17に進捗確認"],
+      ["1", "Cordoba往復列車を確定", "手配可能", "08:00前後発・17:00前後帰路の高速鉄道を比較し、最終便を避けて往復を購入する。", "父", "早いほど安い・9/17に進捗確認"],
       ["2", "Mezquita-Catedralを確認", "旅行前に確認", "1/2の入場時間、公式券、礼拝による変更を公式サイトで確認する。", "本人", "旅行7日前"],
       ["3", "Cordoba実行可否とToledo代替を決定", "旅行前に判断", "鉄道またはMezquita核心が利用できない場合だけToledoへ切り替える。", "家族", "旅行7日前"],
       ["4", "Casa Lucioを予約", "12/1まで", "1/2 20:30、3名で予約する。", "本人", "2026/12/01"],
@@ -1124,25 +1240,25 @@
   function firstRuleValue(rules, value) { return rules.find(([pattern]) => pattern.test(String(value || "")))?.[1] || ""; }
   const mealEvidenceRules = [
     [/El Llagut/, { min: 60, max: 85, basis: "公式現行menu：romesco系前菜€13＋米・fideus 2人前€34–52＋パン€3.60。水・飲み物と価格変動を加えた3人分。", sourceUrl: "https://www.elllagut.com/la-carta/", sourceLabel: "El Llagut公式menu", sourceScope: "料理名、税込価格、パン代、最低2人注文の条件" }],
-    [/Casa Ciriaco/, { min: 80, max: 105, basis: "callos 1皿＋gallina en pepitoria 2皿＋パンと飲み物の3人分計画枠。公式menuが未確認のため予約時に料理と価格を確認する。", sourceUrl: "", sourceLabel: "計画枠", sourceScope: "公式menu未確認。予約時に料理・価格・年末営業を確認" }],
+    [/Casa Ciriaco/, { min: 80, max: 105, basis: "callos 1皿＋gallina en pepitoria 2皿＋パンと飲み物の3人分目安。公式menuが未確認のため予約時に料理と価格を確認する。", sourceUrl: "", sourceLabel: "目安", sourceScope: "公式menu未確認。予約時に料理・価格・年末営業を確認" }],
     [/Bodega de los Secretos/, { min: 95, max: 130, basis: "公式現行menu：主菜3皿€66–99＋前菜€18–25＋パン3人€7.50。飲み物を含む3人分。", sourceUrl: "https://bodegadelossecretos.com/en/carta/", sourceLabel: "Bodega de los Secretos公式menu", sourceScope: "料理・パンの税込価格と12/31昼営業" }],
     [/Can Solé/, { min: 85, max: 125, basis: "公式menuの魚介前菜と米・fideuàを2人前頼む3人分の範囲。年末の料理と価格は予約時に再確認。", sourceUrl: "https://restaurantcansole.com/carta/", sourceLabel: "Can Solé公式menu", sourceScope: "魚介料理・米料理・fideuàの掲載価格" }],
     [/Can Culleretes/, { min: 45, max: 70, basis: "公式menu掲載のescudella・canelons・crema catalanaを基準に、店内価格差と飲み物を加えた3人分。", sourceUrl: "https://culleretes.com/carta-i-menus/", sourceLabel: "Can Culleretes公式menu", sourceScope: "Catalunya料理の提供内容。店内価格は利用前に再確認" }],
-    [/Taberna Salinas/, { min: 55, max: 80, basis: "公式menu掲載のsalmorejo・flamenquín・rabo de toro・berenjenasを各1皿共有する3人分。価格非掲載のため余裕を持つ計画枠。", sourceUrl: "https://www.tabernasalinas.com/la-carta/", sourceLabel: "Taberna Salinas公式menu", sourceScope: "4品の提供、通常営業時間、住所。価格は利用前に確認" }],
-    [/San Ginés/, { min: 18, max: 30, basis: "chocolate 3杯とchurros約6本を頼む3人分の計画枠。元日は行列と追加注文を見込む。", sourceUrl: "https://chocolateriasangines.com/", sourceLabel: "Chocolatería San Ginés公式", sourceScope: "本店の通年営業とChristmas期間の予約条件。価格は現地確認" }],
-    [/La Campana/, { min: 20, max: 35, basis: "bocadillo de calamares 2個＋tortilla 1皿＋飲み物を3人で分ける計画枠。", sourceUrl: "https://www.esmadrid.com/restaurantes/la-campana", sourceLabel: "Madrid公式観光案内", sourceScope: "店舗、名物、通常営業時間。元日営業と価格は直前確認" }],
-    [/La Cafeteria/, { min: 45, max: 70, basis: "山上で温かい料理またはbocadilloを3人分＋matóを共有する計画枠。混雑時は持参食へ切替。", sourceUrl: "https://www.montserratvisita.com/en/practical-information/opening-hours", sourceLabel: "Montserrat公式", sourceScope: "La Cafeteriaの通常営業時間。料理と価格は当日確認" }],
-    [/京成友膳/, { min: 40, max: 55, basis: "和定食2人前＋うどん1人前＋水を3人分。空港店の価格変動を含む計画枠。", sourceUrl: "https://www.narita-airport.jp/ja/shop/shop-search/t1cb04_t0009k/", sourceLabel: "成田空港公式店舗案内", sourceScope: "場所と通常営業時間。料理価格は入店時確認" }],
-    [/365 Obrador/, { min: 25, max: 38, basis: "bocadillo 2個＋croissant 1個＋coffee 3杯＋水の3人分計画枠。", sourceUrl: "https://365obrador.com/", sourceLabel: "365 Obrador公式", sourceScope: "店舗・商品構成。対象店の年末営業時間と価格は直前確認" }],
-    [/Cuines Santa Caterina/, { min: 65, max: 95, basis: "魚料理・季節野菜・パンを3人で共有する計画枠。menuは季節で変わるため、当日価格を見て選ぶ。", sourceUrl: "https://grupotragaluz.com/restaurantes/cuines-santa-caterina/", sourceLabel: "Cuines Santa Caterina公式", sourceScope: "店舗・料理構成・予約案内。価格は当日menuで確認" }],
-    [/El Xampanyet/, { min: 55, max: 80, basis: "anchoa 1皿＋conservas 2皿＋温菜1皿＋cava 3杯の3人分計画枠。", sourceUrl: "https://www.elxampanyet.es/", sourceLabel: "El Xampanyet公式", sourceScope: "店舗情報。年末営業時間と価格は直前確認" }],
-    [/Seventeen Restaurant/, { min: 70, max: 100, basis: "tortilla 1皿＋主菜2皿＋パンと飲み物を3人で共有する到着日用の計画枠。", sourceUrl: "https://www.oliviabalmeshotel.com/gastronomia/", sourceLabel: "Olivia Balmes公式｜Seventeen", sourceScope: "料理提供時間とrestaurant情報。年末時間と価格は利用前に再確認" }],
-    [/ホテル周辺で当日営業/, { min: 70, max: 105, basis: "軽い主菜2皿＋スープ1皿＋パンと飲み物、必要なら主菜1皿追加する3人分。", sourceUrl: "", sourceLabel: "当日選択の計画枠", sourceScope: "店・営業・価格を当日確認" }],
-    [/前夜に確保した持帰り朝食/, { min: 20, max: 35, basis: "持ち運べる主食3人分＋水＋果物または甘味の計画枠。", sourceUrl: "", sourceLabel: "計画枠", sourceScope: "1/1の購入時に商品・価格・保存条件を確認" }],
-    [/Enrique Tomás Estación Atochaで持帰り夕食を確保/, { min: 25, max: 45, basis: "jamónのbocadillo 3個＋飲料3本の3人分計画枠。", sourceUrl: "https://www.enriquetomas.com/", sourceLabel: "Enrique Tomás公式", sourceScope: "商品構成。Atocha店舗の営業時間と価格は直前確認" }],
-    [/Enrique Tomás/, { min: 25, max: 45, basis: "jamónのbocadillo 2個＋tortilla 1個＋水3本の3人分計画枠。", sourceUrl: "https://www.enriquetomas.com/", sourceLabel: "Enrique Tomás公式", sourceScope: "商品構成。駅店舗の営業時間と価格は直前確認" }],
-    [/Coffee & Fresh Food|FOODIES/, { min: 40, max: 60, basis: "sandwich 2個＋果物＋coffee 3杯＋水3本の空港内3人分計画枠。", sourceUrl: "https://www.aena.es/en/josep-tarradellas-barcelona-el-prat/airport-services/shops-and-restaurants.html", sourceLabel: "Aena公式店舗案内", sourceScope: "保安検査後の店舗・通常営業時間。搭乗口と価格は当日確認" }],
-    [/搭乗口に近い|制限区域内/, { min: 35, max: 60, basis: "PVG制限区域内で温かい食事3人分＋水を確保する計画枠。搭乗口確認後に店と実額を決める。", sourceUrl: "", sourceLabel: "当日選択の計画枠", sourceScope: "乗継導線により店が変わるためmenu根拠なし" }]
+    [/Taberna Salinas/, { min: 55, max: 80, basis: "公式menu掲載のsalmorejo・flamenquín・rabo de toro・berenjenasを各1皿共有する3人分。価格非掲載のため余裕を持つ目安。", sourceUrl: "https://www.tabernasalinas.com/la-carta/", sourceLabel: "Taberna Salinas公式menu", sourceScope: "4品の提供、通常営業時間、住所。価格は利用前に確認" }],
+    [/San Ginés/, { min: 18, max: 30, basis: "chocolate 3杯とchurros約6本を頼む3人分の目安。元日は行列と追加注文を見込む。", sourceUrl: "https://chocolateriasangines.com/", sourceLabel: "Chocolatería San Ginés公式", sourceScope: "本店の通年営業とChristmas期間の予約条件。価格は現地確認" }],
+    [/La Campana/, { min: 20, max: 35, basis: "bocadillo de calamares 2個＋tortilla 1皿＋飲み物を3人で分ける目安。", sourceUrl: "https://www.esmadrid.com/restaurantes/la-campana", sourceLabel: "Madrid公式観光案内", sourceScope: "店舗、名物、通常営業時間。元日営業と価格は直前確認" }],
+    [/La Cafeteria/, { min: 45, max: 70, basis: "山上で温かい料理またはbocadilloを3人分＋matóを共有する目安。混雑時は持参食へ切替。", sourceUrl: "https://www.montserratvisita.com/en/practical-information/opening-hours", sourceLabel: "Montserrat公式", sourceScope: "La Cafeteriaの通常営業時間。料理と価格は当日確認" }],
+    [/京成友膳/, { min: 40, max: 55, basis: "和定食2人前＋うどん1人前＋水を3人分。空港店の価格変動を含む目安。", sourceUrl: "https://www.narita-airport.jp/ja/shop/shop-search/t1cb04_t0009k/", sourceLabel: "成田空港公式店舗案内", sourceScope: "場所と通常営業時間。料理価格は入店時確認" }],
+    [/365 Obrador/, { min: 25, max: 38, basis: "bocadillo 2個＋croissant 1個＋coffee 3杯＋水の3人分目安。", sourceUrl: "https://365obrador.com/", sourceLabel: "365 Obrador公式", sourceScope: "店舗・商品構成。対象店の年末営業時間と価格は直前確認" }],
+    [/Cuines Santa Caterina/, { min: 65, max: 95, basis: "魚料理・季節野菜・パンを3人で共有する目安。menuは季節で変わるため、当日価格を見て選ぶ。", sourceUrl: "https://grupotragaluz.com/restaurantes/cuines-santa-caterina/", sourceLabel: "Cuines Santa Caterina公式", sourceScope: "店舗・料理構成・予約案内。価格は当日menuで確認" }],
+    [/El Xampanyet/, { min: 55, max: 80, basis: "anchoa 1皿＋conservas 2皿＋温菜1皿＋cava 3杯の3人分目安。", sourceUrl: "https://www.elxampanyet.es/", sourceLabel: "El Xampanyet公式", sourceScope: "店舗情報。年末営業時間と価格は直前確認" }],
+    [/Seventeen Restaurant/, { min: 70, max: 100, basis: "tortilla 1皿＋主菜2皿＋パンと飲み物を3人で共有する到着日用の目安。", sourceUrl: "https://www.oliviabalmeshotel.com/gastronomia/", sourceLabel: "Olivia Balmes公式｜Seventeen", sourceScope: "料理提供時間とrestaurant情報。年末時間と価格は利用前に再確認" }],
+    [/ホテル周辺で当日営業/, { min: 70, max: 105, basis: "軽い主菜2皿＋スープ1皿＋パンと飲み物、必要なら主菜1皿追加する3人分。", sourceUrl: "", sourceLabel: "当日選択の目安", sourceScope: "店・営業・価格を当日確認" }],
+    [/前夜に確保した持帰り朝食/, { min: 20, max: 35, basis: "持ち運べる主食3人分＋水＋果物または甘味の目安。", sourceUrl: "", sourceLabel: "目安", sourceScope: "1/1の購入時に商品・価格・保存条件を確認" }],
+    [/Enrique Tomás Estación Atochaで持帰り夕食を確保/, { min: 25, max: 45, basis: "jamónのbocadillo 3個＋飲料3本の3人分目安。", sourceUrl: "https://www.enriquetomas.com/", sourceLabel: "Enrique Tomás公式", sourceScope: "商品構成。Atocha店舗の営業時間と価格は直前確認" }],
+    [/Enrique Tomás/, { min: 25, max: 45, basis: "jamónのbocadillo 2個＋tortilla 1個＋水3本の3人分目安。", sourceUrl: "https://www.enriquetomas.com/", sourceLabel: "Enrique Tomás公式", sourceScope: "商品構成。駅店舗の営業時間と価格は直前確認" }],
+    [/Coffee & Fresh Food|FOODIES/, { min: 40, max: 60, basis: "sandwich 2個＋果物＋coffee 3杯＋水3本の空港内3人分目安。", sourceUrl: "https://www.aena.es/en/josep-tarradellas-barcelona-el-prat/airport-services/shops-and-restaurants.html", sourceLabel: "Aena公式店舗案内", sourceScope: "保安検査後の店舗・通常営業時間。搭乗口と価格は当日確認" }],
+    [/搭乗口に近い|制限区域内/, { min: 35, max: 60, basis: "PVG制限区域内で温かい食事3人分＋水を確保する目安。搭乗口確認後に店と実額を決める。", sourceUrl: "", sourceLabel: "当日選択の目安", sourceScope: "乗継導線により店が変わるためmenu根拠なし" }]
   ];
   function mealBudgetFor(dayId, period) {
     const amounts = mealAllowances[dayId] || [36, 75, 105];
@@ -1170,6 +1286,8 @@
     return `${dishes.slice(0, 3).join("、")}を1皿ずつ頼んで3人でシェアし、量を見て主菜を1皿追加します。`;
   }
   function decorateMeal(dayId, meal) {
+    const { price: _includedLegacyPrice, ...includedMeal } = meal;
+    if (/宿泊に含まれる/.test(meal.booking) || /ホテルのコンチネンタルブレックファスト/.test(meal.primary)) return { ...includedMeal, includedInAccommodation: true, budgetMinEur: 0, budgetMaxEur: 0, budgetEur: 0, budgetBasis: "3名分・宿泊料金に含まれます", image: "", experience: "", orderForThree: "", sourceScope: "" };
     const visual = mealVisual(meal);
     const evidence = mealEvidenceRules.find(([pattern]) => pattern.test(`${meal.primary} ${list(meal.dishes).join(" ")}`))?.[1];
     const fallbackBudget = mealBudgetFor(dayId, meal.period || "食事");
@@ -1179,10 +1297,10 @@
       budgetMinEur: evidence?.min ?? Math.max(0, Math.round(fallbackBudget * 0.8)),
       budgetMaxEur: evidence?.max ?? fallbackBudget,
       budgetEur: evidence?.max ?? fallbackBudget,
-      budgetBasis: evidence?.basis || "店が未確定のため、3人分を食事時間帯別に置いた計画枠。店とmenuが決まり次第、積み上げへ更新します。",
+      budgetBasis: evidence?.basis || "店が未確定のため、3人分を食事時間帯別に置いた目安。店とmenuが決まり次第、積み上げへ更新します。",
       sourceUrl: evidence?.sourceUrl || "",
-      sourceLabel: evidence?.sourceLabel || "計画枠",
-      sourceScope: evidence?.sourceScope || "menu根拠は未接続",
+      sourceLabel: evidence?.sourceLabel || "目安",
+      sourceScope: evidence?.sourceScope || "料理と価格は店を決めた後に確認します",
       checkedAt: "2026-08-17",
       experience: meal.experience || firstRuleValue(mealExperienceRules, meal.primary) || "その町の料理と雰囲気を、前後の予定に無理なくつなげて楽しむ食事です。",
       orderForThree: meal.orderForThree || firstRuleValue(mealOrderRules, meal.primary) || defaultOrderForThree(meal)
@@ -1190,7 +1308,7 @@
   }
   const localTransportAllowances = { d1225: 0, d1226: 18, d1227: 24, d1228: 18, d1229: 60, d1230: 24, d1231: 18, d0101: 18, d0102: 30, d0103: 24, d0104: 45, d0105: 0 };
   function buildBudgetPlan(budgetRows, fx, scenarioId = "scenario1") {
-    const scenario = flexScenarios[scenarioId] || flexScenarios.scenario1;
+    const scenario = scenarioConstraint(scenarioId).allowed ? flexScenarios[scenarioId] : flexScenarios.scenario1;
     const flexDayFor = (city) => Object.entries(scenario.days).find(([, selected]) => selected.city === city)?.[0];
     const montserratDayId = flexDayFor("Montserrat");
     const tarragonaDayId = flexDayFor("Tarragona");
@@ -1200,7 +1318,7 @@
     const missing = list(trip.budgetEstimates).filter((row) => row.id !== "hotels" && (row.amount === null || row.amount === "" || !Number.isFinite(Number(row.amount)))).map((row) => ({ id: row.id, title: row.title, note: row.note }));
     const missingIds = new Set(missing.map((row) => row.id));
     const canonicalBudgetIds = new Set(list(trip.budgetEstimates).map((row) => row.id));
-    const usableBudgetRows = list(budgetRows).filter((row) => !missingIds.has(row.id) && (!canonicalBudgetIds.has(row.id) || selectedCanonicalBudgetIds.has(row.id)));
+    const usableBudgetRows = list(budgetRows).filter((row) => !missingIds.has(row.id) && (scenarioId !== "scenario1" || !relaxedOptionalIds.has(row.id)) && (!canonicalBudgetIds.has(row.id) || selectedCanonicalBudgetIds.has(row.id)));
     const days = list(trip.days).map((day) => {
       const mealLines = list(plannedDays[day.id]?.meals).map((meal, index) => ({
         id: `plan:${day.id}:meal:${index}`,
@@ -1209,12 +1327,15 @@
         category: "食事",
         basis: `3人分 €${meal.budgetMinEur || 0}–€${meal.budgetMaxEur || meal.budgetEur || 0}｜${meal.budgetBasis}`,
         sourceUrl: meal.sourceUrl || "",
-        sourceLabel: meal.sourceLabel || "計画枠",
+        sourceLabel: meal.sourceLabel || "目安",
         checkedAt: meal.checkedAt || "2026-08-16"
       })).filter((line) => line.amountEur > 0 && !(/ホテルの(ビュッフェ朝食|コンチネンタルブレックファスト)/.test(line.title)) && !/予備朝食|Tablao Cordobésのディナー付き21:00公演/.test(line.title));
       const lines = [...mealLines];
-      if ((localTransportAllowances[day.id] || 0) > 0) lines.push({ id: `plan:${day.id}:local-transport`, title: "市内交通・短距離移動", amountEur: localTransportAllowances[day.id], category: "交通", basis: "3人分の計画枠・長距離鉄道は別行" });
-      list(planOnlyAdmissions[day.id]).forEach((row) => lines.push({ ...row }));
+      if ((localTransportAllowances[day.id] || 0) > 0) lines.push({ id: `plan:${day.id}:local-transport`, title: "市内交通・短距離移動", amountEur: localTransportAllowances[day.id], category: "交通", basis: "3人分の目安・長距離鉄道は別行" });
+      list(planOnlyAdmissions[day.id]).filter(row => scenarioId !== "scenario1" || !["plan:d1228:park-guell", "plan:d1229:flamenco", "plan:d1230:palau-guell", "plan:d0102:alcazar"].includes(row.id)).forEach((row) => lines.push({ ...row }));
+      if (scenarioId === "scenario1" && day.id === "d1228") lines.push({id:"plan:d1228:sant-pau",title:"サン・パウ病院・自由見学",amountEur:54,category:"観光",basis:"現行一般料金€18×3名。12/28の料金・入場枠は予約時に再確認",sourceUrl:"https://santpaubarcelona.org/en/visita/visita-lliure/",sourceLabel:"Sant Pau公式",checkedAt:"2026-09-13"});
+      if (scenarioId === "scenario1" && day.id === "d1229") lines.push({id:"plan:d1229:aqueduct-taxi",title:"水道橋往復タクシー",amountEur:90,category:"交通",basis:"3名で€60–90の目安。迎車・待機条件を含む実額は配車時に確認"});
+      if (scenarioId === "scenario1" && day.id === "d1228") lines.push({id:"plan:d1228:taxi-buffer",title:"観光間のタクシー追加枠",amountEur:90,category:"交通",basis:"3名・複数区間の計画予備費。市内交通枠€18と合わせ€108、実額は乗車時に記録"});
       if (day.id === tarragonaDayId) lines.push({ id: `plan:${day.id}:tarragona-rail`, title: "Barcelona–Tarragona往復", amountEur: 36, category: "交通", basis: "3名分の見積・年末ダイヤ発売後に更新" }, { id: `plan:${day.id}:tarragona-admission`, title: "Tarragona市立遺跡入場", amountEur: 36, category: "観光", basis: "3名分の見積・利用日の対象施設で更新" });
       usableBudgetRows.filter((row) => {
         const mappedDay = row.id === "montserrat" ? montserratDayId : (row.dayId || budgetDayMap[row.id]);
@@ -1244,7 +1365,7 @@
     [/Montserrat|Plaça Espanya|FGC|Aeri|Cremallera/, [{ label: "Montserrat公式｜営業時間", href: "https://www.montserratvisita.com/en/practical-information/opening-hours", checkedAt: "2026-08-16", scope: "山上施設の通常営業時間。天候と当日運行は出発前にも再確認" }, { label: "FGC Turistren公式", href: "https://turistren.cat/en/trains/montserrat-rack-railway-and-funiculars/", checkedAt: "2026-08-16", scope: "BarcelonaからMontserratへの鉄道・登山鉄道" }]],
     [/Tarragona|Tarraco|円形闘技場|Circ|城壁/, [{ label: "UNESCO｜Archaeological Ensemble of Tarraco", href: "https://whc.unesco.org/en/list/875", checkedAt: "2026-08-16", scope: "Tarracoの構成資産と世界遺産としての位置づけ" }, { label: "Tarragona Turisme公式", href: "https://www.tarragonaturisme.cat/en", checkedAt: "2026-08-16", scope: "市内観光と年末の実用情報。各施設時間は直前に再確認" }]],
     [/Córdoba|Cordoba|Mezquita|Judería/, [{ label: "Mezquita-Catedral公式", href: "https://mezquita-catedraldecordoba.es/en/", checkedAt: "2026-08-16", scope: "入場・通常営業時間・建物の公式情報。対象日の時間は予約時に再確認" }]],
-    [/Sagrada/, [{ label: "Sagrada Família公式", href: "https://sagradafamilia.org/en/tickets", checkedAt: "2026-08-16", scope: "入場券・見学条件。2026年末の枠は発売後に確定" }]],
+    [/Sagrada/, [{ label: "Sagrada Família公式", href: "https://sagradafamilia.org/en/tickets", checkedAt: "2026-08-16", scope: "一般の入場券・見学条件。予約日時は手元のチケットを確認" }]],
     [/Park Güell/, [{ label: "Park Güell公式", href: "https://parkguell.barcelona/en/planning-your-visit/prices-and-times", checkedAt: "2026-08-16", scope: "有料入場帯・料金・利用条件。枠は未購入" }]],
     [/Casa Milà|La Pedrera/, [{ label: "La Pedrera公式", href: "https://www.lapedrera.com/en/visits", checkedAt: "2026-08-16", scope: "見学種類・通常時間・予約" }]],
     [/Casa Batlló/, [{ label: "Casa Batlló公式", href: "https://www.casabatllo.es/en/online-tickets/", checkedAt: "2026-08-16", scope: "入場枠・利用条件" }]],
@@ -1263,10 +1384,10 @@
   function canonicalPresentation(item) {
     if (!item) return { facts: [], links: [], sources: [], needsOperationalSource: false };
     const place = placeById.get(item.placeId);
-    const booking = bookingById.get(item.bookingId);
+    const booking = bookingById(item.bookingId);
     const article = articleById.get(item.articleId || list(place?.articleIds)[0]);
     const sourceIds = [...new Set([...list(place?.visitInfo?.sourceIds), ...list(booking?.sourceIds)])];
-    const sources = sourceIds.map((sourceId) => sourceById.get(sourceId)).filter(Boolean).map((source) => ({ label: source.title || source.label || source.id, href: source.url || source.href || "", checkedAt: source.checkedAt || place?.visitInfo?.checkedAt || "再確認待ち", scope: source.scope || source.whatWasChecked || "" }));
+    const sources = sourceIds.map((sourceId) => sourceById.get(sourceId)).filter(source => source && /^https?:\/\//.test(source.url || source.href || "")).map((source) => ({ label: source.title || source.label || source.id, href: source.url || source.href || "", checkedAt: source.checkedAt || place?.visitInfo?.checkedAt || "再確認待ち", scope: source.scope || source.whatWasChecked || "" }));
     const isTransit = ["transfer", "transport", "flight", "airport", "station", "train"].includes(item.kind) || /乗継|保安検査|搭乗口|空港|駅/.test(item.title);
     const facts = [];
     if (booking) facts.push(["予約", `${booking.title}：${statusText(booking.status)}`]);
@@ -1276,6 +1397,8 @@
     return { facts, links, sources, needsOperationalSource: Boolean(isTransit || booking || place?.visitInfo || place?.officialUrl) };
   }
   function plannedSourcesFor(item) {
+    if (/Montserrat大聖堂/.test(item.title)) return [{ label: "Abbey公式", href: "https://abadiamontserrat.cat/es/seccio/santuari/horaris", checkedAt: "2026-09-14", scope: "通常時間。日曜・祝日は12:15再開。12/27の券在庫は未確認" }];
+    if (/Museum of Montserrat/.test(item.title)) return [{ label: "Museum公式", href: "https://www.museudemontserrat.com/es/visita/horariosytarifas/3", checkedAt: "2026-09-14", scope: "通常10:00–17:45。特別営業は直前確認" }];
     const checkedAt = "2026-08-17";
     const privateTicket = { label: "発券済みeチケット控え（非公開）", href: "", checkedAt: "2026-08-16", scope: "3名の便・日付・区間を確認。予約番号・航空券番号・旅客情報は公開しません" };
     const renfe = { label: "Renfe公式", href: "https://www.renfe.com/es/en", checkedAt, scope: "高速鉄道・Regionalの発売、運行、利用条件。採用便は発売後に再確認" };
@@ -1321,6 +1444,12 @@
     return null;
   }
   function detail(key) {
+    if (String(key).startsWith("booking-")) {
+      const booking = bookingById("sagrada");
+      const point = booking?.checkpoints.find((point) => key === `booking-${point.id}`);
+      if (!point) return null;
+      return { eyebrow: "入場情報", title: point.id === "sagrada-entry" ? "サグラダ・ファミリアを見学する" : "生誕の塔を見学する", status: "予約済み", note: bookingSummary(booking), facts: [["日付", jpDate(dayById.get(booking.relatedDayIds[0]))], ["予約時刻", point.time], ["入口", booking.entrance]], links: [], sources: [] };
+    }
     if (String(key).startsWith("planned-")) {
       const item = plannedDetailByKey.get(String(key));
       if (!item) return null;
@@ -1344,7 +1473,7 @@
     const item = list(trip.scheduleItems).find((row) => row.id === id);
     if (!item) return null;
     const place = placeById.get(item.placeId);
-    const booking = bookingById.get(item.bookingId);
+    const booking = bookingById(item.bookingId);
     const article = articleById.get(item.articleId || list(place?.articleIds)[0]);
     const sourceIds = [...new Set([...list(place?.visitInfo?.sourceIds), ...list(booking?.sourceIds)])];
     const canonicalSources = sourceIds.map((sourceId) => sourceById.get(sourceId)).filter(Boolean).map((source) => ({ label: source.title || source.label || source.id, href: source.url || source.href || "", checkedAt: source.checkedAt || place?.visitInfo?.checkedAt || "再確認待ち", scope: source.scope || source.whatWasChecked || "" }));
@@ -1365,7 +1494,7 @@
   }
 
   global.UXFullData = {
-    trip, flexScenarios, buildDays, buildGuide, buildBudget, buildBudgetPlan, detail, rowsForDay, tasksForDay, bookingsForDay,
+    trip, sightIdentity, selectedVisits, bookingById, bookingSummary, scenarioConstraint, flexScenarios, buildDays, buildGuide, buildBudget, buildBudgetPlan, detail, rowsForDay, tasksForDay, bookingsForDay,
     packingItems: list(trip.packingItems), budgetEstimates: list(trip.budgetEstimates), articles: list(trip.learningArticles), cityMeta, hotelStays, railBookings, closureFacts
   };
 })(window);

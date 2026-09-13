@@ -343,9 +343,10 @@ p { margin-bottom: 12px; }
 .money-summary span, .money-summary strong, .money-summary small { display: block; }
 .money-summary span, .money-summary small { color: var(--muted); font-size: .75rem; }
 .money-summary strong { margin: 7px 0 2px; font: 700 clamp(1.4rem,3vw,2rem) Georgia,serif; }
-.budget-hero { padding: clamp(24px,4vw,42px); display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 26px; align-items: end; border-radius: 22px; color: white; background: linear-gradient(135deg, var(--green), #275f50); box-shadow: var(--shadow); }
+.budget-hero { padding: clamp(24px,4vw,42px); display: grid; grid-template-columns: minmax(0,1.2fr) minmax(0,.8fr); gap: 26px; align-items: end; border-radius: 22px; color: white; background: linear-gradient(135deg, var(--green), #275f50); box-shadow: var(--shadow); }
 .budget-hero h2 { margin-bottom: 12px; font: 700 clamp(1.4rem,3vw,2rem) Georgia,serif; }
-.budget-hero > div > strong { display: block; font: 700 clamp(2.4rem,7vw,4.6rem) Georgia,serif; line-height: 1; }
+.budget-hero > div { min-width: 0; }
+.budget-hero .eyebrow { color: #d9ede6; }
 .budget-hero small { display: block; margin-top: 8px; color: #d9ede6; }
 .budget-per-person { min-width: 220px; padding: 18px; border: 1px solid rgba(255,255,255,.28); border-radius: 16px; background: rgba(255,255,255,.1); }
 .budget-per-person span, .budget-per-person strong, .budget-per-person small { display: block; }
@@ -365,7 +366,8 @@ p { margin-bottom: 12px; }
 .budget-category-row > strong { text-align: right; }
 .budget-category-row > strong small, .budget-line-money strong small { display: block; margin-top: 2px; color: var(--muted); font-size: inherit; font-weight: inherit; }
 .hero-dual-money, .budget-per-person { display: grid; gap: 2px; }
-.hero-dual-money strong { font: 700 clamp(2.1rem,6vw,4.1rem) Georgia,serif; line-height: 1.05; }
+.hero-dual-money strong { font: 700 clamp(1.8rem,3.2vw,2.8rem) Georgia,serif; line-height: 1.15; }
+@media (max-width: 900px) { .budget-hero { grid-template-columns: minmax(0,1fr); } }
 .budget-per-person strong { font-size: 1.8rem; }
 .daily-budget-money > strong, .daily-budget-money > small:first-of-type { font-size: .92rem; font-weight: 800; color: var(--ink); }
 .daily-budget-list { display: grid; gap: 9px; }
@@ -731,4 +733,76 @@ p { margin-bottom: 12px; }
   .ranked-card-image { aspect-ratio: 2 / 1; }
   .itinerary-jumpbar { top: var(--itinerary-header-height, 60px); }
   .itinerary-day, .timeline-item, .decision-point { scroll-margin-top: var(--itinerary-scroll-margin, 142px); }
+}
+
+/* Booking-consistent itinerary, 2026-09-13. */
+.trip-overview { overflow: hidden; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); margin-bottom: 28px; }
+.trip-overview > img { width: 100%; height: 100%; min-height: 240px; object-fit: cover; }
+.home-next-actions, .home-confirmed { margin-block: 32px; }
+.home-today { margin-bottom: 16px; }
+.booking-checkpoints { font-weight: 650; line-height: 1.8; }
+.day-photos { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 16px; margin-block: 18px; }
+.day-photos figure { margin: 0; min-width: 0; background: var(--mint-2); border-radius: 14px; overflow: hidden; }
+.day-photos img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; display: block; }
+.day-photos figcaption { padding: 10px 14px; font-size: .875rem; }
+.day-photos details > div { display: grid; gap: 12px; }
+.day-photos summary, .flex-decision > summary, .sheet summary { min-height: 44px; padding: 12px; cursor: pointer; font-weight: 650; }
+.day-theme { font-size: 1.15rem; }
+.day-summary { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; padding-block: 22px; }
+.day-summary p { margin-bottom: 16px; }
+.day-picker { grid-column: 1 / -1; display: flex; gap: 8px; align-items: center; }
+.day-picker label { display: flex; gap: 8px; align-items: center; flex: 1; min-width: 0; }
+.day-picker select { min-width: 0; width: 100%; min-height: 44px; border: 1px solid var(--line); border-radius: 8px; background: white; color: var(--ink); }
+.day-picker > button { flex-shrink: 0; }
+.preview-banner, .guide-context { padding: 16px; border: 2px solid #a26b30; border-radius: 14px; background: #fff2db; margin-bottom: 18px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.preview-banner { position: relative; }
+.scenario-option { min-width: 0; }
+.scenario-option p { font-size: 1rem; }
+button:disabled { opacity: .6; cursor: not-allowed; }
+.button, .nav-button, .day-button, .itinerary-jumpbar button, .subtab, .close-button { min-height: 44px; }
+:focus-visible { outline: 3px solid #b55d1b; outline-offset: 3px; }
+.timeline-card > p { font-size: 1rem; overflow-wrap: anywhere; }
+.itinerary-day, .timeline-card, .booking-card { min-width: 0; overflow-wrap: anywhere; }
+.itinerary-jumpdates button[aria-pressed="true"] { color: white; border-color: var(--green); background: var(--green); }
+.itinerary-jumpdates button[aria-pressed="true"] small { color: white; }
+.itinerary-day [hidden] { display: none !important; }
+.meal-practical { border-bottom: 1px solid var(--line); padding-bottom: 16px; margin-bottom: 20px; }
+@media (max-width: 767px) {
+  .trip-overview, .day-photos, .day-summary { grid-template-columns: minmax(0, 1fr); }
+  .trip-overview > img { min-height: 0; aspect-ratio: 16 / 9; }
+  .itinerary-day { padding: 16px; }
+  .itinerary-day-header { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .itinerary-day-actions { justify-content: flex-start; }
+  .day-picker label { display: block; font-size: .875rem; }
+  .day-picker { align-items: end; }
+  .screen { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
+  .sheet { max-height: calc(100dvh - 20px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
+}
+.itinerary-jumpbar > .preview-banner { grid-column: 1 / -1; margin: 0; padding: 8px 12px; font-size: .875rem; }
+.screen > .preview-banner { position: sticky; top: var(--itinerary-header-height, 70px); z-index: 23; }
+.image-fallback { padding: 28px 16px; background: var(--mint-2); color: var(--ink); }
+/* Match the existing mobile selectors: these controls previously remained 40px. */
+.itinerary-day-actions .button, .budget-line .button, .sheet .button { min-height: 44px; }
+a.button { display: inline-flex; align-items: center; }
+@media (max-width: 767px) {
+  body { font-size: 16px; }
+  .icon-action { min-width: 44px; min-height: 44px; }
+}
+#screen .itinerary-jumpdates small { white-space: nowrap; }
+.itinerary-jumpdates button { flex: 0 0 82px; }
+
+.day-summary [data-detail-origin] { scroll-margin-top: var(--itinerary-scroll-margin, 142px); }
+
+/* Photos remain available without displacing the selected day's first activity. */
+.day-overview > summary { min-height: 44px; padding: 10px 12px; cursor: pointer; font-weight: 650; }
+.day-overview { margin-bottom: 12px; }
+@media (max-width: 600px) {
+  .itinerary-screen-header { margin-bottom: 8px; }
+  .itinerary-screen-header p, .itinerary-screen-header .context-meta { display: none; }
+  .itinerary-day-header { gap: 8px; margin-bottom: 8px; padding-bottom: 8px; }
+  .itinerary-day-header h2 { font-size: 1.25rem; }
+  .day-photos { grid-template-columns: minmax(0, 1fr); }
 }

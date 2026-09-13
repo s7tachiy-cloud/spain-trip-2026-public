@@ -53,7 +53,14 @@ function renderText(value) {
 }
 
 function uniqueSourceIds(articleData) {
-  return [...new Set(articleData.sourceIds || [])].filter((id) => sourceMap.has(id));
+  const ids = new Set();
+  function collect(value) {
+    if (!value || typeof value !== "object") return;
+    if (Array.isArray(value.sourceIds)) value.sourceIds.forEach(id => ids.add(id));
+    Object.values(value).forEach(child => { if (child && typeof child === "object") collect(child); });
+  }
+  collect(articleData);
+  return [...ids].filter(id => sourceMap.has(id));
 }
 
 function sourceMarkers(ids = []) {
@@ -105,9 +112,23 @@ function renderArticle(articleData) {
   const cityHeroes = { madrid: "assets/madrid-hero-v1.png", toledo: "assets/madrid-hero-v1.png", tarragona: "assets/tarragona-hero-v2.png", montserrat: "assets/montserrat-hero-v2.png", cordoba: "assets/cordoba-hero-v2.png", barcelona: "assets/barcelona-hero-v1.png" };
   const hero = articleData.heroImage || (articleData.id === "sagrada" ? "assets/sagrada-interior.jpg" : cityHeroes[articleData.cityId] || "assets/barcelona-hero-v1.png");
   const heroAlt = articleData.heroImage ? `${articleData.title}を学ぶためのイラスト` : articleData.id === "sagrada" ? "サグラダ・ファミリア内部の柱と光" : `${cityLabel}の旅行イメージ`;
-  const visitDays = (articleData.visitDayIds || []).map((id) => (trip.days || []).find((day) => day.id === id)).filter(Boolean);
-  const visitLabel = visitDays.length ? visitDays.map((day) => `${Number(day.date.slice(5, 7))}/${Number(day.date.slice(8, 10))}`).join("・") : "訪問予定との接続なし";
-  const returnDay = visitDays[0]?.id || "d1227";
+  const bookingId = articleData.placeId === "sagrada" ? "sagrada" : null;
+  const booking = bookingId ? window.UXFullData?.bookingById(bookingId) : null;
+  const currentData = window.UXFullData;
+  const isCityOverview = articleData.id === `${articleData.cityId}-overview`;
+  const normalizeCity = value => String(value || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  const relatedPlaces = (trip.places || []).filter(entry => articleData.relatedPlaceIds?.includes(entry.id));
+  const currentVisits = currentData && !isCityOverview && (place || articleData.id === "gaudi-overview")
+    ? currentData.selectedVisits((place ? [place] : relatedPlaces).map(entry => entry.nameJa || entry.name || entry.id), "scenario1") : [];
+  const visitDayIds = bookingId ? booking?.relatedDayIds || [] : currentData
+    ? [...new Set(!isCityOverview && (place || articleData.id === "gaudi-overview") ? currentVisits.map(visit => visit.dayId)
+      : Object.values(currentData.buildDays({}, "scenario1")).filter(day => articleData.cityId && normalizeCity(day.city).includes(normalizeCity(articleData.cityId))).map(day => day.id))]
+    : articleData.visitDayIds || [];
+  const visitDays = visitDayIds.map((id) => (trip.days || []).find((day) => day.id === id)).filter(Boolean);
+  const visitLabel = visitDays.length ? visitDays.map((day) => `${Number(day.date.slice(5, 7))}/${Number(day.date.slice(8, 10))}`).join("・") : bookingId ? "予約状況の確認が必要" : "日付未定・追加候補";
+  const returnDay = visitDays[0]?.id;
+  const returnUrl = returnDay ? `index.html?day=${encodeURIComponent(returnDay)}&tab=guide` : "index.html?tab=guide";
+  document.querySelectorAll(".learn-header a").forEach((link) => { link.href = returnUrl; });
   const sourceIds = uniqueSourceIds(articleData);
   const deepSections = articleData.deepSections || [];
   const introParagraphs = String(articleData.intro?.summary || "").split(/\n\n+/);
@@ -125,14 +146,14 @@ function renderArticle(articleData) {
 
   document.title = `${articleData.title}｜行く前に学ぶ — Spain Trip`;
   learnRoot.innerHTML = `
-    <nav class="learn-breadcrumb" aria-label="現在位置"><a href="index.html?day=${encodeURIComponent(returnDay)}&tab=guide">ガイド</a> ／ ${escapeHtml(cityLabel)} ／ ${escapeHtml(place?.area || "都市全体")} ／ ${escapeHtml(articleData.title)}</nav>
+    <nav class="learn-breadcrumb" aria-label="現在位置"><a href="${escapeHtml(returnUrl)}">ガイド</a> ／ ${escapeHtml(cityLabel)} ／ ${escapeHtml(place?.area || "都市全体")} ／ ${escapeHtml(articleData.title)}</nav>
     <section class="learn-hero">
       <img src="${hero}" alt="${escapeHtml(heroAlt)}">
       <div class="learn-hero-copy">
         <span class="eyebrow">行く前に学ぶ · ${escapeHtml(articleData.kind)}</span>
         <h1>${escapeHtml(articleData.title)}</h1>
         <p>形や景色を見るだけで終わらせず、歴史・町の構造・文化の重なりを理解してから現地へ。読みたい深さを選べます。</p>
-        <div class="learn-meta"><span>訪問予定 ${escapeHtml(visitLabel)}</span><span>詳しい解説 ${deepSections.length}章</span><span>公式・一次出典 ${sourceIds.length}件</span>${articleData.heroImage ? "<span>表紙はAI生成の概念図</span>" : ""}</div>
+        <div class="learn-meta"><span>訪問予定 ${escapeHtml(visitLabel)}</span>${booking ? `<span>${escapeHtml(window.UXFullData.bookingSummary(booking))}</span>` : ""}<span>詳しい解説 ${deepSections.length}章</span><span>公式・一次出典 ${sourceIds.length}件</span>${articleData.heroImage ? "<span>表紙はAI生成の概念図</span>" : ""}</div>
       </div>
     </section>
     <nav class="reading-paths" aria-label="読み方を選ぶ">
@@ -172,7 +193,7 @@ function renderArticle(articleData) {
           <ol class="source-list">${sourceIds.map((id, index) => { const source = sourceMap.get(id); return `<li id="source-${escapeHtml(id)}"><a href="${escapeHtml(source.url)}" target="_blank" rel="noreferrer">[${index + 1}] ${escapeHtml(source.title)}</a><span>${escapeHtml(source.publisher)} · ${escapeHtml(source.type)} · 確認 ${escapeHtml(source.checkedAt)}</span></li>`; }).join("")}</ol>
         </section>
 
-        <footer class="learn-footer-action"><div><strong>次は、現地で使う短い情報へ</strong><p>ガイド詳細には入口・時間・観察順だけを残しています。</p></div><a class="button primary" href="index.html?day=${encodeURIComponent(returnDay)}&tab=guide">ガイドへ戻る</a></footer>
+        <footer class="learn-footer-action"><div><strong>次は、現地で使う短い情報へ</strong><p>ガイド詳細には入口・時間・観察順だけを残しています。</p></div><a class="button primary" href="${escapeHtml(returnUrl)}">ガイドへ戻る</a></footer>
       </article>
     </div>`;
 
@@ -189,7 +210,7 @@ function renderArticle(articleData) {
 
 if (!article) {
   document.title = "学習ガイドが見つかりません — Spain Trip";
-  learnRoot.innerHTML = `<section class="learn-not-found"><span class="eyebrow">ページが見つかりません</span><h1>この学習ガイドはまだありません</h1><p>ガイドへ戻り、別の場所を選んでください。</p><a class="button primary" href="index.html?day=d1227&tab=guide">ガイドへ戻る</a></section>`;
+  learnRoot.innerHTML = `<section class="learn-not-found"><span class="eyebrow">ページが見つかりません</span><h1>この学習ガイドはまだありません</h1><p>ガイドへ戻り、別の場所を選んでください。</p><a class="button primary" href="index.html?tab=guide">ガイドへ戻る</a></section>`;
 } else {
   renderArticle(article);
 }
