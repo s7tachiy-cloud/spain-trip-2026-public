@@ -23803,9 +23803,9 @@ window.TRIP = {
   },
   "uxRebuild03": {
     "source": "スケジュールデータ_v2.md",
-    "sourceFileId": "1KRH9ykTRoLyOOoHEWl_6futAFcC7JPoe",
+    "sourceFileId": "",
     "sourceModifiedAt": "2026-07-26T07:39:53.676Z",
-    "supplementFileId": "1uUDCk3CdjIHATHy-Ysza1yZdKLf0H7sr",
+    "supplementFileId": "",
     "status": "USER_REVIEW_REQUIRED",
     "mainItemIdsByDay": {
       "d1225": [
@@ -23974,8 +23974,8 @@ window.TRIP = {
   },
   "uxRebuild04": {
     "source": "CLI修正指示_ux-rebuild-04.md",
-    "sourceFileId": "1FGMEnC0NPJhcpfjmgF7gOsF3X3NoD7VY",
-    "auditFileId": "1njgJW56bN7elrYkjN0pQnPj312rLb6J1",
+    "sourceFileId": "",
+    "auditFileId": "",
     "scenarioKeys": [
       "delay30",
       "delay60",

@@ -70,7 +70,7 @@
   const hotelStays = [
     {
       id: "barcelona-front", stay: "Barcelona前半", dates: "2026/12/26–12/30", nights: 4,
-      status: "予約済み", recommendation: "Oriente Atiram Hotel Barcelona", bookingRef: "73528306312892", bookedAt: "2026-08-23", bookedBy: "家族が予約",
+      status: "予約済み", recommendation: "Oriente Atiram Hotel Barcelona", bookingRef: "非公開（予約控えで確認）", bookedAt: "2026-08-23", bookedBy: "家族が予約",
       checkIn: "12/26（土）14:00", checkOut: "12/30（水）12:00", checkInDeadline: "24:00（到着が0時を過ぎる場合は事前に施設へ連絡）",
       address: "La Rambla 45, 08002 Barcelona", phone: "+34 93 302 25 58", phoneSource: "公式サイト掲載（2026-09-13確認）",
       room: "トリプルルーム 1室・大人3名・禁煙", layout: "トリプルルーム（ベッド構成は予約確認書に記載なし）", size: "未確認",
@@ -85,7 +85,7 @@
     },
     {
       id: "madrid", stay: "Madrid", dates: "2026/12/30–2027/1/3", nights: 4,
-      status: "予約済み", recommendation: "Room Mate Mario", bookingRef: "73527586086268", bookedAt: "2026-08-22", bookedBy: "家族が予約",
+      status: "予約済み", recommendation: "Room Mate Mario", bookingRef: "非公開（予約控えで確認）", bookedAt: "2026-08-22", bookedBy: "家族が予約",
       checkIn: "12/30（水）15:00", checkOut: "1/3（日）12:00", checkInDeadline: "24:00（時間外チェックイン不可）",
       address: "Calle de Campomanes 4, 28013 Madrid", phone: "+34 915 488 548", phoneSource: "公式サイト掲載（2026-09-13確認）",
       room: "トリプルルーム 1室・大人3名・禁煙", layout: "Three single beds and Bathtub includedはリクエスト扱い・確約なし", size: "未確認",
@@ -100,7 +100,7 @@
     },
     {
       id: "barcelona-final", stay: "Barcelona最終泊", dates: "2027/1/3–1/4", nights: 1,
-      status: "予約済み", recommendation: "B&B HOTEL Barcelona Viladecans", bookingRef: "73527615564619", bookedAt: "2026-08-22", bookedBy: "家族が予約",
+      status: "予約済み", recommendation: "B&B HOTEL Barcelona Viladecans", bookingRef: "非公開（予約控えで確認）", bookedAt: "2026-08-22", bookedBy: "家族が予約",
       checkIn: "1/3（日）14:00", checkOut: "1/4（月）12:00", checkInDeadline: "24:00（受付終了。それ以降の到着は事前に施設へ連絡）",
       address: "Av. Olof Palme 24, 08840 Viladecans", phone: "+34 932 99 36 58", phoneSource: "公式サイト掲載（2026-09-13確認）",
       room: "トリプルルーム 1室・大人3名・禁煙", layout: "ベッド構成は予約確認書に記載なし", size: "未確認",
