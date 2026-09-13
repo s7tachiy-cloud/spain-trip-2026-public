@@ -72,7 +72,7 @@
       id: "barcelona-front", stay: "Barcelona前半", dates: "2026/12/26–12/30", nights: 4,
       status: "予約済み", recommendation: "Oriente Atiram Hotel Barcelona", bookingRef: "73528306312892", bookedAt: "2026-08-23", bookedBy: "家族が予約",
       checkIn: "12/26（土）14:00", checkOut: "12/30（水）12:00", checkInDeadline: "24:00（到着が0時を過ぎる場合は事前に施設へ連絡）",
-      address: "La Rambla 45, 08002 Barcelona", phone: null,
+      address: "La Rambla 45, 08002 Barcelona", phone: "+34 93 302 25 58", phoneSource: "公式サイト掲載（2026-09-13確認）",
       room: "トリプルルーム 1室・大人3名・禁煙", layout: "トリプルルーム（ベッド構成は予約確認書に記載なし）", size: "未確認",
       breakfast: "ビュッフェ朝食込み・提供時間は未確認", reception: "24時間",
       amount: { currency: "JPY", total: 209379, taxAtProperty: 17152 },
@@ -87,7 +87,7 @@
       id: "madrid", stay: "Madrid", dates: "2026/12/30–2027/1/3", nights: 4,
       status: "予約済み", recommendation: "Room Mate Mario", bookingRef: "73527586086268", bookedAt: "2026-08-22", bookedBy: "家族が予約",
       checkIn: "12/30（水）15:00", checkOut: "1/3（日）12:00", checkInDeadline: "24:00（時間外チェックイン不可）",
-      address: "Calle de Campomanes 4, 28013 Madrid", phone: null,
+      address: "Calle de Campomanes 4, 28013 Madrid", phone: "+34 915 488 548", phoneSource: "公式サイト掲載（2026-09-13確認）",
       room: "トリプルルーム 1室・大人3名・禁煙", layout: "Three single beds and Bathtub includedはリクエスト扱い・確約なし", size: "未確認",
       breakfast: "ビュッフェ朝食込み・07:00–12:00", reception: "24時間・荷物預かりあり",
       amount: { currency: "JPY", total: 199867, taxAtProperty: 0 },
@@ -102,7 +102,7 @@
       id: "barcelona-final", stay: "Barcelona最終泊", dates: "2027/1/3–1/4", nights: 1,
       status: "予約済み", recommendation: "B&B HOTEL Barcelona Viladecans", bookingRef: "73527615564619", bookedAt: "2026-08-22", bookedBy: "家族が予約",
       checkIn: "1/3（日）14:00", checkOut: "1/4（月）12:00", checkInDeadline: "24:00（受付終了。それ以降の到着は事前に施設へ連絡）",
-      address: "Av. Olof Palme 24, 08840 Viladecans", phone: null,
+      address: "Av. Olof Palme 24, 08840 Viladecans", phone: "+34 932 99 36 58", phoneSource: "公式サイト掲載（2026-09-13確認）",
       room: "トリプルルーム 1室・大人3名・禁煙", layout: "ベッド構成は予約確認書に記載なし", size: "未確認",
       breakfast: "コンチネンタルブレックファスト込み・06:00–10:00", reception: "24時間・24時間カフェ（コーヒー・紅茶無料）",
       amount: { currency: "JPY", total: 24890, taxAtProperty: 551 },
@@ -125,22 +125,24 @@
       id: "madrid-day-trip", route: "2027-01-02(土) Madrid Puerta de Atocha ⇄ Córdoba（往復）", timeWindow: "往路07:30前後発／復路17:15前後発", duration: "片道 約1時間45分〜2時間", stations: "Madrid Puerta de Atocha ⇄ Córdoba", operators: "Renfe AVE / iryo", passengers: "大人3名", luggage: "運行会社で異なる。購入会社決定後に確定（iryoは80×55×35cmの記載あり）", status: "iryoで発売中", constraint: "Córdoba が休業・運休・満席で成立しない場合だけ Toledo（Avant・片道約33分）へ切り替える。Toledo は代替であり第一候補ではない。Granada は今回行かない。"
     },
     {
-      id: "madrid-barcelona", route: "2027-01-03(日) Madrid Puerta de Atocha → Barcelona Sants", timeWindow: "16:30〜17:00発", duration: "約2時間45分〜3時間", stations: "Madrid Puerta de Atocha → Barcelona Sants", operators: "Renfe AVE / iryo / Ouigo", passengers: "大人3名", luggage: "運行会社で異なる。購入会社決定後に確定（iryoは80×55×35cmの記載あり）", status: "iryoで発売中", constraint: "到着後はB&B ViladecansまでRodalies R2 Sud約16分、またはタクシー約20〜25分。"
+      id: "madrid-barcelona", route: "2027-01-03(日) Madrid Puerta de Atocha → Barcelona Sants", timeWindow: "17:00前後発・20:30前後着", duration: "約2時間45分〜3時間", stations: "Madrid Puerta de Atocha → Barcelona Sants", operators: "Renfe AVE / iryo / Ouigo", passengers: "大人3名", luggage: "運行会社で異なる。購入会社決定後に確定（iryoは80×55×35cmの記載あり）", status: "iryoで発売中", constraint: "到着後はB&B ViladecansまでRodalies R2 Sud約16分、またはタクシー約20〜25分。"
     }
   ].map((booking) => ({
     ...booking,
     deadline: booking.id === "tarragona-return" ? "当日" : "早いほど安い・9/17に進捗確認",
     publicNote: "購入担当は父。購入後に家族へ予約内容を共有します。",
+    recommendedFare: "変更・取消できる運賃を選ぶ。ホテルは全て取消可なので列車も揃える。",
+    afterPurchase: "購入後: 予約番号は家族へ共有し、確認書は Google Drive「2026スペイン旅行 > 01_予約確認書 > 03_列車」へ。",
     releaseNote: booking.id === "tarragona-return"
       ? "2026-09-13確認：12/29 Tarragona往復は当日駅で購入。Rodalies／Regional券はRenfeアプリでも当日購入でき、事前手配は不要です。"
       : `2026-09-13確認：iryoは2027年通年分が発売中。父が公式サイトで希望時間帯の実際の列車を確認して購入します。${booking.id === "madrid-day-trip" ? "Madrid⇄Córdoba往復はiryoのAndalucía線で確認。" : "Ouigoは9/16発売（アプリは9/15先行）、対象は2026/12/13〜2027/8/1。"}Renfeは8/25時点で12/13までの発売で、その後の発売状況は不明。週1で確認し、9/17に購入の進捗を確認します。`,
     purchaseSites: (booking.id === "tarragona-return" ? [
       { label: "Renfe", href: "https://www.renfe.com/" }
     ] : [
-      { label: "Renfe", href: "https://www.renfe.com/" },
-      { label: "iryo", href: "https://iryo.eu/" },
-      { label: "Ouigo", href: "https://www.ouigo.com/es/" }
-    ].filter((site) => booking.id !== "madrid-day-trip" || site.label !== "Ouigo"))
+      { label: "iryo公式で買う", href: "https://iryo.eu/" },
+      { label: "Ouigo（9/16発売）", href: "https://www.ouigo.com/es" },
+      { label: "Trainlineで比較", href: "https://www.thetrainline.com/" }
+    ].filter((site) => booking.id !== "madrid-day-trip" || !site.label.startsWith("Ouigo")))
   }));
   const railBookingIds = { "tarragona-train": "tarragona-return", "iryo-out": "barcelona-madrid", "iryo-back": "madrid-barcelona" };
   for (const booking of list(trip.bookings)) {
@@ -150,9 +152,73 @@
       status: rail.id === "tarragona-return" ? "same_day" : "on_sale",
       lifecycle: rail.id === "tarragona-return" ? "same_day" : "bookable",
       purchaseMode: rail.id === "tarragona-return" ? "same_day" : "advance",
-      deadline: rail.deadline, publicNote: `${rail.releaseNote} ${rail.publicNote}`
+      visitDate: rail.route.slice(0, 10), visitTime: rail.timeWindow,
+      deadline: rail.deadline, publicNote: `${rail.route}、${rail.timeWindow}、大人3名。${rail.releaseNote} ${rail.publicNote}`
     });
   }
+  const bookingRowRules = [
+    ["sagrada", /サグラダ|Sagrada/i], ["parkguell", /グエル公園|Park Güell/i],
+    ["mila", /カサ・ミラ|Casa Milà/i], ["batllo", /カサ・バトリョ|Casa Batlló/i],
+    ["palau-musica", /カタルーニャ音楽堂/], ["prado", /プラド美術館/],
+    ["palace", /マドリード王宮/], ["reinasofia", /ソフィア王妃芸術センター/],
+    ["cordoba-mezquita", /^Mezquita-Catedral/], ["cordoba-alcazar", /^Alcázar/],
+    ["flamenco", /Tablao Cordobés/], ["seven-portes", /7 Portes/],
+    ["can-culleretes", /Can Culleretes/], ["nye-dinner", /Lhardy/],
+    ["la-campana", /La Campana/], ["casa-lucio", /Casa Lucio/],
+    ["casa-ciriaco", /Casa Ciriaco/], ["botin", /Botín/], ["la-bola", /La Bola/],
+    ["san-miguel", /Mercado de San Miguel/]
+  ];
+  const rowBookingIds = (item) => ["attraction", "meal", "event"].includes(item.kind)
+    ? bookingRowRules.filter(([, pattern]) => pattern.test(item.title)).map(([id]) => id) : [];
+  const timedTickets = new Set(["sagrada", "parkguell", "mila", "batllo", "palau-musica", "prado", "palace", "reinasofia", "cordoba-mezquita", "cordoba-alcazar"]);
+  const bookingRows = Object.entries(finalPlan.days || {}).flatMap(([dayId, day]) => day.items.map((item) => ({ ...item, dayId })));
+  for (const [id] of bookingRowRules) {
+    const rows = bookingRows.filter((item) => rowBookingIds(item).includes(id) && (!["sagrada", "parkguell", "mila", "batllo"].includes(id) || item.dayId === "d1228"));
+    if (!rows.length) continue;
+    const row = id === "flamenco" ? rows.find((item) => item.kind === "event") : rows[0];
+    let booking = list(trip.bookings).find((item) => item.id === id);
+    if (!booking) {
+      booking = { id, title: row.title.replace(/で.*$/, ""), status: "not_started", purchaseMode: "advance" };
+      trip.bookings.push(booking);
+    }
+    const place = list(trip.places).find((place) => bookingRowRules.find(([key]) => key === id)[1].test([place.name, place.title, place.nameJa, place.nameLocal].filter(Boolean).join(" ")));
+    booking.actionUrl ||= place?.officialUrl || place?.website || "";
+    booking.phone ||= place?.phone || null;
+    const existingSites = { "la-bola": "https://labola.es/", "cordoba-mezquita": "https://mezquita-catedraldecordoba.es/en/", "cordoba-alcazar": "https://www.turismodecordoba.org/alcazar-de-los-reyes-cristianos" };
+    booking.actionUrl ||= existingSites[id] || "";
+    const selectedNote = ["sagrada", "parkguell", "mila", "batllo"].includes(id) ? (row.note.split(/選択B[は：]/).pop() || row.note) : row.note;
+    const date = `${row.dayId.slice(1, 3) === "01" ? "2027" : "2026"}-${row.dayId.slice(1, 3)}-${row.dayId.slice(3)}`;
+    const flex = ["sagrada", "parkguell", "mila", "batllo", "seven-portes"].includes(id) ? " 12/27–29は天候と予約枠に合わせて日を動かす場合があります。変更時は予約日も揃えます。" : "";
+    Object.assign(booking, {
+      relatedDayIds: [...new Set(rows.map((item) => item.dayId))], relatedScheduleItemIds: [],
+      visitDate: date, visitTime: row.time, timedEntry: timedTickets.has(id),
+      lifecycle: /^(confirmed|purchased|予約済み|確定済み)$/.test(booking.lifecycle || booking.status || "") ? "confirmed" : timedTickets.has(id) ? "waiting_release" : "waiting_official",
+      deadline: timedTickets.has(id) ? "発売後すぐ" : id === "nye-dinner" ? "2026/11/15" : "2026/12/01",
+      publicNote: `${date} ${row.time}、大人3名。${selectedNote}${flex}`
+    });
+    if (id === "nye-dinner") booking.title = "Lhardy 年越しディナー";
+    if (id === "flamenco") booking.title = "Tablao Cordobés ディナー＋ショー";
+    if (id === "la-campana" || id === "san-miguel") booking.purchaseMode = "same_day";
+  }
+  for (const booking of list(trip.bookings)) {
+    if (["toledo-train", "toledo-cathedral", "santotome", "greco", "montjuic"].includes(booking.id)) {
+      booking.relatedDayIds = []; booking.relatedScheduleItemIds = [];
+      booking.publicNote = "基本旅程では予約しません。代替案に切り替える場合だけ営業・交通・入場条件を確認します。";
+      booking.itineraryActive = false;
+    }
+    if (booking.id === "barcelona-cathedral") {
+      booking.relatedDayIds = ["d1226"]; booking.relatedScheduleItemIds = [];
+      booking.visitDate = "2026-12-26"; booking.visitTime = "14:30";
+      booking.publicNote = "12/26 14:30、内部見学から王の広場・サン・ジャウマ広場へ。予約不要。土曜の観光入場は9:30–17:15、最終入場16:30。";
+      booking.itineraryActive = false;
+    }
+    if (booking.id === "montserrat-transport") {
+      booking.relatedDayIds = ["d1227", "d1228", "d1229"]; booking.relatedScheduleItemIds = [];
+      booking.publicNote = "基本は12/27の往復。12/27–29の天候で訪問日を選び、前夜・当日朝に交通と施設の運行を確認します。";
+    }
+    if (booking.id === "tarragona-train") booking.relatedDayIds = ["d1229"];
+  }
+  trip.bookings.push({ id: "cordoba-rail", title: "Madrid–Córdoba往復列車", status: "on_sale", lifecycle: "bookable", purchaseMode: "advance", relatedDayIds: ["d0102"], deadline: railBookings[2].deadline, publicNote: `1/2 ${railBookings[2].timeWindow}、大人3名。${railBookings[2].releaseNote} ${railBookings[2].publicNote}`, actionUrl: "https://iryo.eu/" });
   const closureFacts = [
     { place: "アルハンブラ宮殿（Granada）", fact: "年間の休館日は12/31と1/1の2日だけ。冬季（10/15〜3/31）は8:30〜18:00。", sourceLabel: "アルハンブラ宮殿公式｜営業時間・料金", sourceUrl: "https://www.alhambra-patronato.es/visitar/horarios-y-tarifas" },
     { place: "タラゴナ歴史博物館 MHT", fact: "祝日を除く月曜は全館休館。冬季（10/27〜3/31）は火〜金9:00〜20:00、土9:30〜20:00、日祝9:30〜14:30。1/1・12/24〜26・12/31は休館。12/28は月曜のためTarragonaを置かない。", sourceLabel: "Tarragona市公式｜MHT営業時間", sourceUrl: "https://www.tarragona.cat/patrimoni/museu-historia/visites/horaris" },
@@ -164,7 +230,7 @@
   };
   const hotelForItem = (dayId, item) => {
     if (dayId === "d1230" && /checkout|チェックアウト|荷物回収/i.test(item.title)) return hotelStays[0];
-    if (dayId === "d0103" && /checkout|チェックアウト/i.test(item.title)) return hotelStays[1];
+    if (dayId === "d0103" && /checkout|チェックアウト|荷物回収/i.test(item.title)) return hotelStays[1];
     return hotelByDay[dayId];
   };
 
@@ -282,7 +348,7 @@
       flexItem("07:00", "07:40", "meal", "ホテルのビュッフェ朝食", "開始時刻が間に合わなければ早朝サービスと前夜の買い置きへ切り替え、列車を優先する。"),
       flexItem("07:45", "09:45", "transfer", "ホテル → Barcelona Sants → Tarragona市内駅", "SantsからRegional系統でTarragona市内駅へ向かう。公表後の時刻を確認し、有効な乗車券を購入する。Camp de Tarragonaは使わない。"),
       flexItem("09:45", "10:00", "transfer", "Tarragona市内駅 → 円形闘技場", "徒歩でRambla Novaから中央遺跡群へ向かう。"),
-      flexItem("10:00", "12:30", "attraction", "円形闘技場（Amfiteatre）→ Balcó del Mediterrani → Circ／Pretori", "火曜の公式開館を当日確認し、中央部を徒歩でつなぐ。閉鎖施設があれば地中海のバルコニーと旧市街外観へ切り替える。"),
+      flexItem("10:00", "12:30", "attraction", "円形闘技場 → Balcó del Mediterrani → Circ／Pretori", "火曜の公式開館を当日確認し、中央部を徒歩でつなぐ。閉鎖施設があれば地中海のバルコニーと旧市街外観へ切り替える。"),
       flexItem("12:30", "13:00", "attraction", "Tarragona大聖堂とPart Alta", "20–30分。内部時間が合わなければ外観とPla de la Seu。"),
       flexItem("13:15", "14:30", "meal", "カルソッツとロメスコの昼食", "12/29のcalçots提供を確認し、なければ第一代替はEl Llagutなどの魚介のromesco（cassola de romesco）。満席ならPart Altaの営業店へ。"),
       flexItem("14:30", "16:45", "attraction", "城壁のPasseig Arqueològic → 余ればForum → 駅", "城壁を優先し、Forumは時間が余れば追加する。Pont del Diableへは広げず、帰路を守る。"),
@@ -485,6 +551,9 @@
     ["入国審査・荷物受取・税関", "入国審査・荷物受取・税関を済ませる"],
     ["BCN空港 → 市内（荷物受取後）", "荷物を受け取り、BCN空港から市内へ移動する"],
     ["休憩・身支度・遅延時の余裕", "ホテルで休憩し、身支度を整える"],
+    ["タクシーでホテルへ・荷物預け", "タクシーでホテルへ向かい、荷物を預ける"],
+    ["山上の短い散策・運行時だけSant Joan funicular", "山上を短く散策し、運行していればSant Joan funicularに乗る"],
+    ["デボド神殿で夕景", "デボド神殿で夕景を楽しむ"],
     ["Montserratへ行くか最終判断", "天候と体調を見てMontserratへ行くか決める"],
     ["ホテル → Plaça Espanya → Montserrat", "ホテルからPlaça Espanyaを経由してMontserratへ移動する"],
     ["Basilica → 黒い聖母 → 景観", "Montserrat修道院でBasilica → 黒い聖母 → 景観の順に見学する"],
@@ -553,22 +622,36 @@
       if (/ホテルで休憩/.test(core)) return "ホテルで休憩する";
       if (/チェックアウト.*荷物回収/.test(core)) return `${core.replace(/をチェックアウト.*$/, "")}をチェックアウトして荷物を回収する`;
       if (/移動・チェックイン/.test(core)) return `${core.replace(/へ移動・チェックイン.*$/, "")}へ移動してチェックインする`;
+      if (/^チェックイン・荷物整理$/.test(core)) return "ホテルにチェックインし、荷物を整理する";
       if (/チェックイン/.test(core)) return `${core.replace(/へチェックイン.*$/, "")}へチェックインする`;
       if (/荷物回収/.test(core)) return `${core.replace(/で荷物回収.*$/, "")}で荷物を回収する`;
       if (/荷物預け/.test(core)) return `${core.replace(/へ荷物預け.*$/, "")}へ荷物を預ける`;
     }
     if (kind === "attraction") {
+      if (/→/.test(title)) return title;
       if (/外観/.test(title)) return `${title.replace(/[（(]外観[）)]/, "")}の外観を見る`;
       return `${title}を見学する`;
     }
     if (kind === "event") return `${title}に参加する`;
     if (kind === "rest") return `${title}をとる`;
-    if (["transfer", "transport", "train", "flight"].includes(kind)) return `${title}へ移動する`;
+    if (["transfer", "transport", "train", "flight"].includes(kind)) {
+      if (/移動$/.test(title)) return `${title}する`;
+      if (/へ徒歩$/.test(title)) return `${title.replace(/へ徒歩$/, "")}へ歩く`;
+      return `${title.replace(/へ$/, "")}へ移動する`;
+    }
     return title;
   }
   function mealActionTitle(meal) {
     const original = travelerText(meal?.primary || "食事").trim();
-    if (hasActionEnding(original)) return original;
+    if (hasActionEnding(original) || /をとる$/.test(original)) return original;
+    if (/ホテルの.*(?:朝食|ブレックファスト)/.test(original)) return /コンチネンタル/.test(original) ? "ホテルで朝食をとる" : "ホテルでビュッフェ朝食をとる";
+    if (/で夕食$/.test(original)) return `${original}をとる`;
+    if (/選ぶ$/.test(original)) return `${original.replace(/選ぶ$/, "選んで")}昼食をとる`;
+    if (/Enrique Tomás.*持帰り夕食/.test(original)) return "Enrique Tomás Estación Atochaで持ち帰りの夕食を買う";
+    if (/Tablao Cordobés/.test(original)) return "Tablao Cordobésでショー前のディナーをとる";
+    if (/前夜に.*朝食/.test(original)) return "前夜に買った朝食を移動中または列車内でとる";
+    if (/カルソッツとロメスコ/.test(original)) return "カルソッツとロメスコの昼食";
+    if (/で年越しディナー$/.test(original)) return original;
     const period = /朝/.test(meal?.period) ? "朝食" : /昼/.test(meal?.period) ? "昼食" : /夜/.test(meal?.period) ? "夕食" : /軽食/.test(meal?.period) ? "軽食" : "食事";
     if (/当日確認/.test(original)) return `${original.replace(/を当日確認.*$/, "")}の空席を確認して${period}をとる`;
     if (/搭乗口に近い営業中店舗/.test(original)) return `${original}をとる`;
@@ -721,7 +804,7 @@
         if (day.id === "d0105" && /入国・荷物受取・帰宅移動/.test(item.title)) zone = "日本時間";
         title = scheduleActionTitle(title, item.kind);
         if (!detailKey.startsWith("meal-") && !detailKey.startsWith("hotel-")) plannedDetailByKey.set(detailKey, { dayId: day.id, title, kind: item.kind, status, note, time, end, zone, canonical });
-        return { time, end, kind: kindText(item.kind), title, zone, status, tone: toneFor(status), note, detail: detailKey, routeAfter: travelerText(connectionPlans[day.id]?.[item.title] || "") };
+        return { time, end, kind: kindText(item.kind), title, zone, status, bookingIds: rowBookingIds(item), sourceNote: item.note, hotelId: item.kind === "hotel" ? hotel?.id : null, tone: toneFor(status), note, detail: detailKey, routeAfter: travelerText(connectionPlans[day.id]?.[item.title] || "") };
       });
       const mealItems = selected.items.filter((item) => item.kind === "meal");
       const meals = mealItems.map((item, index) => {
