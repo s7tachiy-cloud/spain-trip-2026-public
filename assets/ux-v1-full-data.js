@@ -196,6 +196,12 @@
       deadline: timedTickets.has(id) ? "発売後すぐ" : id === "nye-dinner" ? "2026/11/15" : "2026/12/01",
       publicNote: `${date} ${row.time}、大人3名。${selectedNote}${flex}`
     });
+    if (id === "sagrada") Object.assign(booking, {
+      visitTime: "09:00", towerSlotTarget: "09:30–10:00", ownerId: "本人",
+      deadline: "発売開始（10月末ごろ）にすぐ購入", confirmationDate: "2026-10-28",
+      actionUrl: "https://sagradafamilia.org/en/sagrada-familia-and-tower",
+      publicNote: "公式「Sagrada Família + Tower」€36×3名。塔は生誕か受難の1本を選ぶ（上りエレベーター・下り階段・6歳未満不可・荷物はロッカー）。発売は訪問の約2か月前＝10月末。買う前に、父がすでに買っている券（3人分・12/27の可能性）が何かを確認し、重複購入しない。中央のイエスの塔は未公開。"
+    });
     if (id === "nye-dinner") booking.title = "Lhardy 年越しディナー";
     if (id === "flamenco") booking.title = "Tablao Cordobés ディナー＋ショー";
     if (id === "la-campana" || id === "san-miguel") booking.purchaseMode = "same_day";
@@ -688,6 +694,12 @@
     if (aDateTime && !bDateTime) return -1;
     if (!aDateTime && bDateTime) return 1;
     return (a.sequence ?? 999) - (b.sequence ?? 999);
+  });
+  const sagradaTask = list(trip.preparationTasks).find((task) => task.id === "task-sagrada");
+  if (sagradaTask) Object.assign(sagradaTask, {
+    deadline: "2026-10-28", ownerId: "本人", relatedDayIds: ["d1228"],
+    actionUrl: "https://sagradafamilia.org/en/sagrada-familia-and-tower",
+    informationNeeded: ["父の購入済み券（3人分・12/27の可能性）を買う前に確認し、重複購入しない", "12/28 09:00入場・塔09:30–10:00の公式 Sagrada Família + Tower（€36×3名＝€108）を発売開始（10月末ごろ）にすぐ購入", "生誕か受難の塔1本を選び、変更・取消条件を確認"]
   });
   const tasksForDay = (dayId) => list(trip.preparationTasks).filter((task) => list(task.relatedDayIds).includes(dayId));
   const bookingsForDay = (dayId) => list(trip.bookings).filter((booking) => list(booking.relatedDayIds).includes(dayId));
