@@ -208,5 +208,1657 @@
       849
     ],
     "modification": "Resized and JPEG encoded"
+  },
+  "almudena": {
+    "file": "assets/img/almudena.jpg",
+    "title": "File:Almudena Cathedral 2021 - West façade.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Almudena_Cathedral_2021_-_West_fa%C3%A7ade.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "Fernando",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/a/ad/Almudena_Cathedral_2021_-_West_fa%C3%A7ade.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      853
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "boqueria": {
+    "file": "assets/img/boqueria.jpg",
+    "title": "File:La Boqueria, Rambla, Barselona.JPG",
+    "page": "https://commons.wikimedia.org/wiki/File:La_Boqueria,_Rambla,_Barselona.JPG",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "МаратД",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/f/f6/La_Boqueria%2C_Rambla%2C_Barselona.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      960
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "casa-vicens": {
+    "file": "assets/img/casa-vicens.jpg",
+    "title": "File:Barcelona, casa Vicens (Antoni Gaudí) balcón.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Barcelona,_casa_Vicens_(Antoni_Gaud%C3%AD)_balc%C3%B3n.jpg",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "artist": "ctsnow",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/9/9c/Barcelona%2C_casa_Vicens_%28Antoni_Gaud%C3%AD%29_balc%C3%B3n.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1120,
+      745
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "columbus-monument": {
+    "file": "assets/img/columbus-monument.jpg",
+    "title": "File:Monument a Colom 2.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Monument_a_Colom_2.jpg",
+    "license": "CC BY-SA 3.0",
+    "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+    "artist": "Gena Haltmair",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/9/97/Monument_a_Colom_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      960,
+      1280
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "madrid-flamenco": {
+    "file": "assets/img/madrid-flamenco.jpg",
+    "title": "File:Flamenco, Madrid, clapping.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Flamenco,_Madrid,_clapping.jpg",
+    "license": "CC0",
+    "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "artist": "Gerda Arendt",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/f/f1/Flamenco%2C_Madrid%2C_clapping.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      955
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "palau-guell": {
+    "file": "assets/img/palau-guell.jpg",
+    "title": "File:Palau Güell, Barcelona 73.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Palau_G%C3%BCell,_Barcelona_73.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "Simon Burchell",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/2/26/Palau_G%C3%BCell%2C_Barcelona_73.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      960
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "plaza-mayor": {
+    "file": "assets/img/plaza-mayor.jpg",
+    "title": "File:Plaza Mayor de Madrid, Panorama 1.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Plaza_Mayor_de_Madrid,_Panorama_1.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "D.Rovchak",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Plaza_Mayor_de_Madrid%2C_Panorama_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      550
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "puerta-del-sol": {
+    "file": "assets/img/puerta-del-sol.jpg",
+    "title": "File:Puerta del Sol, Madrid.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Puerta_del_Sol,_Madrid.jpg",
+    "license": "CC BY 3.0 es",
+    "license_url": "https://creativecommons.org/licenses/by/3.0/es/deed.en",
+    "artist": "Manuel Mohedano Torres",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Puerta_del_Sol%2C_Madrid.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1024,
+      768
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "reina-sofia": {
+    "file": "assets/img/reina-sofia.jpg",
+    "title": "File:Sabatini Building, Museo Nacional Centro de Arte Reina Sofía 1.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Sabatini_Building,_Museo_Nacional_Centro_de_Arte_Reina_Sof%C3%ADa_1.jpg",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "artist": "Joseolgon",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/7/7c/Sabatini_Building%2C_Museo_Nacional_Centro_de_Arte_Reina_Sof%C3%ADa_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      853
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "san-francisco-el-grande": {
+    "file": "assets/img/san-francisco-el-grande.jpg",
+    "title": "File:Exterior - Real basilica de San Francisco el Grande - Madrid 03.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Exterior_-_Real_basilica_de_San_Francisco_el_Grande_-_Madrid_03.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "Javier Perez Montes",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/7/7a/Exterior_-_Real_basilica_de_San_Francisco_el_Grande_-_Madrid_03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      960
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "sant-pau": {
+    "file": "assets/img/sant-pau.jpg",
+    "title": "File:2014- Hospital Sant Pau, Barcelona, Spain ( Ank Kumar ) 03.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:2014-_Hospital_Sant_Pau,_Barcelona,_Spain_(_Ank_Kumar_)_03.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "Ank Kumar",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/5/5e/2014-_Hospital_Sant_Pau%2C_Barcelona%2C_Spain_%28_Ank_Kumar_%29_03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      943
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "tarragona-cathedral": {
+    "file": "assets/img/tarragona-cathedral.jpg",
+    "title": "File:Catedral basílica de Tarragona Detalle 33.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Catedral_bas%C3%ADlica_de_Tarragona_Detalle_33.jpg",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "artist": "Luis Miguel Bugallo Sánchez (Lmbuga)",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/0/07/Catedral_bas%C3%ADlica_de_Tarragona_Detalle_33.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      853
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "toledo": {
+    "file": "assets/img/toledo.jpg",
+    "title": "File:Tagus River Panorama - Toledo, Spain - Dec 2006.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Tagus_River_Panorama_-_Toledo,_Spain_-_Dec_2006.jpg",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "artist": "Diliff",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/f/fc/Tagus_River_Panorama_-_Toledo%2C_Spain_-_Dec_2006.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      525
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "albaicin-2": {
+    "file": "assets/img/albaicin-2.jpg",
+    "title": "File:Alhambra Granada Mirador san Nicolas.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Alhambra_Granada_Mirador_san_Nicolas.jpg",
+    "license": "Public domain",
+    "license_url": "",
+    "artist": "Jebulon",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/a/a1/Alhambra_Granada_Mirador_san_Nicolas.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      609
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "albaicin-3": {
+    "file": "assets/img/albaicin-3.jpg",
+    "title": "File:Carrera del Darro Granada Spain.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Carrera_del_Darro_Granada_Spain.jpg",
+    "license": "CC0",
+    "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "artist": "Jebulon",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/2/27/Carrera_del_Darro_Granada_Spain.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1120,
+      747
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "alhambra-2": {
+    "file": "assets/img/alhambra-2.jpg",
+    "title": "File:Fountain patio de los Leones Alhambra Granada Spain.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Fountain_patio_de_los_Leones_Alhambra_Granada_Spain.jpg",
+    "license": "CC0",
+    "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "artist": "Jebulon",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/f/f3/Fountain_patio_de_los_Leones_Alhambra_Granada_Spain.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      907
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "alhambra-3": {
+    "file": "assets/img/alhambra-3.jpg",
+    "title": "File:Granada - Generalife - Patio de la Acequia - 1.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Granada_-_Generalife_-_Patio_de_la_Acequia_-_1.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "Benjamin Smith",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/5/5b/Granada_-_Generalife_-_Patio_de_la_Acequia_-_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      854
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "almudena-2": {
+    "file": "assets/img/almudena-2.jpg",
+    "title": "File:Major nave of the Cathedral of Our Lady of La Almudena.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Major_nave_of_the_Cathedral_of_Our_Lady_of_La_Almudena.jpg",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "artist": "Joseolgon",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/5/57/Major_nave_of_the_Cathedral_of_Our_Lady_of_La_Almudena.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      853
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "barcelona-cathedral-gothic-2": {
+    "file": "assets/img/barcelona-cathedral-gothic-2.jpg",
+    "title": "File:Geese at the Cathedral Cloister in Barcelona.JPG",
+    "page": "https://commons.wikimedia.org/wiki/File:Geese_at_the_Cathedral_Cloister_in_Barcelona.JPG",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "Image tube",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/7/79/Geese_at_the_Cathedral_Cloister_in_Barcelona.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      960
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "barcelona-cathedral-gothic-3": {
+    "file": "assets/img/barcelona-cathedral-gothic-3.jpg",
+    "title": "File:Santa Maria del Mar interior C.JPG",
+    "page": "https://commons.wikimedia.org/wiki/File:Santa_Maria_del_Mar_interior_C.JPG",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "artist": "Dror Feitelson",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/c/c8/Santa_Maria_del_Mar_interior_C.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      960
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "boqueria-2": {
+    "file": "assets/img/boqueria-2.jpg",
+    "title": "File:Fruit Stall in Barcelona Market.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Fruit_Stall_in_Barcelona_Market.jpg",
+    "license": "CC BY-SA 3.0",
+    "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+    "artist": "By en:User:Daderot.",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/a/af/Fruit_Stall_in_Barcelona_Market.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1120,
+      744
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "boqueria-3": {
+    "file": "assets/img/boqueria-3.jpg",
+    "title": "File:Butcher's stall at the Mercat de St. Josep in Barcelona.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Butcher%27s_stall_at_the_Mercat_de_St._Josep_in_Barcelona.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "DuckWrangler97",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/f/fc/Butcher%27s_stall_at_the_Mercat_de_St._Josep_in_Barcelona.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      960
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "casa-batllo-2": {
+    "file": "assets/img/casa-batllo-2.jpg",
+    "title": "File:CasaBatllo rooftop chimneys.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:CasaBatllo_rooftop_chimneys.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "Sara Terrones",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/5/53/CasaBatllo_rooftop_chimneys.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      856
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "casa-mila-2": {
+    "file": "assets/img/casa-mila-2.jpg",
+    "title": "File:Chimneys on the rooftop terrace of Gaudi's La Pedrera in Barcelona.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Chimneys_on_the_rooftop_terrace_of_Gaudi%27s_La_Pedrera_in_Barcelona.jpg",
+    "license": "CC0",
+    "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "artist": "Bravodelnorte",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/f/f9/Chimneys_on_the_rooftop_terrace_of_Gaudi%27s_La_Pedrera_in_Barcelona.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      960
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "casa-mila-3": {
+    "file": "assets/img/casa-mila-3.jpg",
+    "title": "File:Casa Mila interior arches.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Casa_Mila_interior_arches.jpg",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "artist": "Cmglee at English Wikipedia",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/3/3f/Casa_Mila_interior_arches.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1024,
+      768
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "columbus-monument-2": {
+    "file": "assets/img/columbus-monument-2.jpg",
+    "title": "File:Barcelona palazzo porto.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Barcelona_palazzo_porto.jpg",
+    "license": "Public domain",
+    "license_url": "",
+    "artist": "Paolo da Reggio",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/f/fc/Barcelona_palazzo_porto.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      960
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "columbus-monument-3": {
+    "file": "assets/img/columbus-monument-3.jpg",
+    "title": "File:Spain -Barcelona, La Rambla and Mirador de Colom - panoramio.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Spain_-Barcelona,_La_Rambla_and_Mirador_de_Colom_-_panoramio.jpg",
+    "license": "CC BY 3.0",
+    "license_url": "https://creativecommons.org/licenses/by/3.0",
+    "artist": "Banja-Frans Mulder",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/4/40/Spain_-Barcelona%2C_La_Rambla_and_Mirador_de_Colom_-_panoramio.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      720
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "madrid-flamenco-2": {
+    "file": "assets/img/madrid-flamenco-2.jpg",
+    "title": "File:Flamenco guitar player.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Flamenco_guitar_player.jpg",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "artist": "Rich Anderson from Denton, United States",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/0/0c/Flamenco_guitar_player.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      1026
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "montjuic-2": {
+    "file": "assets/img/montjuic-2.jpg",
+    "title": "File:332 Telefèric de Montjuïc, cabines a l'estació inferior (Barcelona).jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:332_Telef%C3%A8ric_de_Montju%C3%AFc,_cabines_a_l%27estaci%C3%B3_inferior_(Barcelona).jpg",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "artist": "Enric",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/8/80/332_Telef%C3%A8ric_de_Montju%C3%AFc%2C_cabines_a_l%27estaci%C3%B3_inferior_%28Barcelona%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1120,
+      840
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "montjuic-3": {
+    "file": "assets/img/montjuic-3.jpg",
+    "title": "File:Barcelona-Teleferic-de-Puerto-03.JPG",
+    "page": "https://commons.wikimedia.org/wiki/File:Barcelona-Teleferic-de-Puerto-03.JPG",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "artist": "Asurnipal",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/6/68/Barcelona-Teleferic-de-Puerto-03.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      960
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "montserrat-3": {
+    "file": "assets/img/montserrat-3.jpg",
+    "title": "File:Aeri de Montserrat cable car.JPG",
+    "page": "https://commons.wikimedia.org/wiki/File:Aeri_de_Montserrat_cable_car.JPG",
+    "license": "CC BY-SA 3.0",
+    "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+    "artist": "Alma mater",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/4/4a/Aeri_de_Montserrat_cable_car.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      960
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "palau-guell-2": {
+    "file": "assets/img/palau-guell-2.jpg",
+    "title": "File:Palau Güell, Barcelona 21.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Palau_G%C3%BCell,_Barcelona_21.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "Simon Burchell",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/1/1b/Palau_G%C3%BCell%2C_Barcelona_21.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      960
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "palau-guell-3": {
+    "file": "assets/img/palau-guell-3.jpg",
+    "title": "File:Palau Güell (Barcelona) - 3.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Palau_G%C3%BCell_(Barcelona)_-_3.jpg",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "artist": "( Tomàs )",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/5/57/Palau_G%C3%BCell_%28Barcelona%29_-_3.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      878
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "palau-musica-2": {
+    "file": "assets/img/palau-musica-2.jpg",
+    "title": "File:Palau de la Musica May 2026-4.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Palau_de_la_Musica_May_2026-4.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "Alvesgaspar",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/4/4e/Palau_de_la_Musica_May_2026-4.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1120,
+      762
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "palau-musica-3": {
+    "file": "assets/img/palau-musica-3.jpg",
+    "title": "File:Palau de la Música Catalana (new facade) 03.JPG",
+    "page": "https://commons.wikimedia.org/wiki/File:Palau_de_la_M%C3%BAsica_Catalana_(new_facade)_03.JPG",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "artist": "Jordiferrer",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/7/70/Palau_de_la_M%C3%BAsica_Catalana_%28new_facade%29_03.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      960
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "park-guell-2": {
+    "file": "assets/img/park-guell-2.jpg",
+    "title": "File:Serpentine Bench in Park Güell (2924748275).jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Serpentine_Bench_in_Park_G%C3%BCell_(2924748275).jpg",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "artist": "Andy Mitchell from Glasgow, UK",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/0/0d/Serpentine_Bench_in_Park_G%C3%BCell_%282924748275%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      960
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "park-guell-3": {
+    "file": "assets/img/park-guell-3.jpg",
+    "title": "File:Ceiling mosaic, Park Güell, Barcelona.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Ceiling_mosaic,_Park_G%C3%BCell,_Barcelona.jpg",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "artist": "Delialendeczki",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/c/c3/Ceiling_mosaic%2C_Park_G%C3%BCell%2C_Barcelona.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1120,
+      744
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "plaza-mayor-2": {
+    "file": "assets/img/plaza-mayor-2.jpg",
+    "title": "File:Plaza Mayor de Madrid - 01.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Plaza_Mayor_de_Madrid_-_01.jpg",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "artist": "Carlos Delgado",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/5/58/Plaza_Mayor_de_Madrid_-_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      960
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "plaza-mayor-3": {
+    "file": "assets/img/plaza-mayor-3.jpg",
+    "title": "File:Arco de Cuchilleros (Madrid) 01.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Arco_de_Cuchilleros_(Madrid)_01.jpg",
+    "license": "CC BY-SA 3.0",
+    "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+    "artist": "Luis García (Zaqarbal)",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/f/ff/Arco_de_Cuchilleros_%28Madrid%29_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      960,
+      1280
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "prado-2": {
+    "file": "assets/img/prado-2.jpg",
+    "title": "File:Monumento a Goya-Exterior Museo Prado (7) (11983591996) (2).jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Monumento_a_Goya-Exterior_Museo_Prado_(7)_(11983591996)_(2).jpg",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "artist": "someone10x",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/5/55/Monumento_a_Goya-Exterior_Museo_Prado_%287%29_%2811983591996%29_%282%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      854,
+      1280
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "prado-3": {
+    "file": "assets/img/prado-3.jpg",
+    "title": "File:Las Meninas, by Diego Velázquez, from Prado in Google Earth.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Las_Meninas,_by_Diego_Vel%C3%A1zquez,_from_Prado_in_Google_Earth.jpg",
+    "license": "Public domain",
+    "license_url": "",
+    "artist": "Diego Velázquez",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/3/31/Las_Meninas%2C_by_Diego_Vel%C3%A1zquez%2C_from_Prado_in_Google_Earth.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1112,
+      1280
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "puerta-del-sol-2": {
+    "file": "assets/img/puerta-del-sol-2.jpg",
+    "title": "File:Puerta del Sol - Madrid - Km 0 - 001.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Puerta_del_Sol_-_Madrid_-_Km_0_-_001.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "Américo Toledano",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/2/27/Puerta_del_Sol_-_Madrid_-_Km_0_-_001.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1120,
+      732
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "puerta-del-sol-3": {
+    "file": "assets/img/puerta-del-sol-3.jpg",
+    "title": "File:Statue of the Bear and the Strawberry Tree “El Oso y el Madroño” in Madrid, Spain ( Ank Kumar, Infosys Limited) 03.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Statue_of_the_Bear_and_the_Strawberry_Tree_%E2%80%9CEl_Oso_y_el_Madro%C3%B1o%E2%80%9D_in_Madrid,_Spain_(_Ank_Kumar,_Infosys_Limited)_03.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "Ank Kumar",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/9/9f/Statue_of_the_Bear_and_the_Strawberry_Tree_%E2%80%9CEl_Oso_y_el_Madro%C3%B1o%E2%80%9D_in_Madrid%2C_Spain_%28_Ank_Kumar%2C_Infosys_Limited%29_03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      853
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "rastro-2": {
+    "file": "assets/img/rastro-2.jpg",
+    "title": "File:Monumento a Eloy Gonzalo - Plaza de Cascorro - Madrid 02.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Monumento_a_Eloy_Gonzalo_-_Plaza_de_Cascorro_-_Madrid_02.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "Javier Perez Montes",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/5/54/Monumento_a_Eloy_Gonzalo_-_Plaza_de_Cascorro_-_Madrid_02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      853,
+      1280
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "rastro-3": {
+    "file": "assets/img/rastro-3.jpg",
+    "title": "File:Rastro - Ribera de Curtidores - Madrid 02.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Rastro_-_Ribera_de_Curtidores_-_Madrid_02.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "Javier Perez Montes",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/6/66/Rastro_-_Ribera_de_Curtidores_-_Madrid_02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      853
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "reina-sofia-2": {
+    "file": "assets/img/reina-sofia-2.jpg",
+    "title": "File:Museo Reina Sofia, Madrid (6394654605).jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Museo_Reina_Sofia,_Madrid_(6394654605).jpg",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "artist": "Roy Luck",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/7/75/Museo_Reina_Sofia%2C_Madrid_%286394654605%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      853
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "retiro-2": {
+    "file": "assets/img/retiro-2.jpg",
+    "title": "File:Palacio de Cristal - 02.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Palacio_de_Cristal_-_02.jpg",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "artist": "Carlos Delgado",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/e/e5/Palacio_de_Cristal_-_02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      853
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "royal-palace-2": {
+    "file": "assets/img/royal-palace-2.jpg",
+    "title": "File:Throne Room (Royal Palace of Madrid) 3.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Throne_Room_(Royal_Palace_of_Madrid)_3.jpg",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "artist": "Joseolgon",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/9/96/Throne_Room_%28Royal_Palace_of_Madrid%29_3.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      853
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "royal-palace-3": {
+    "file": "assets/img/royal-palace-3.jpg",
+    "title": "File:Plaza de Oriente (Madrid) 06.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Plaza_de_Oriente_(Madrid)_06.jpg",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "artist": "ciukes",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/5/59/Plaza_de_Oriente_%28Madrid%29_06.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      851
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "sagrada-2": {
+    "file": "assets/img/sagrada-2.jpg",
+    "title": "File:Sagrada Familia, Nativity facade (2) (30477190154).jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Sagrada_Familia,_Nativity_facade_(2)_(30477190154).jpg",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "artist": "Richard Mortel from Riyadh, Saudi Arabia",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Sagrada_Familia%2C_Nativity_facade_%282%29_%2830477190154%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      848
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "sagrada-3": {
+    "file": "assets/img/sagrada-3.jpg",
+    "title": "File:Sagrada familia fachada tortuga terrestre 00001.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Sagrada_familia_fachada_tortuga_terrestre_00001.jpg",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "artist": "Poniol60",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/8/86/Sagrada_familia_fachada_tortuga_terrestre_00001.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      853,
+      1280
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "san-francisco-el-grande-2": {
+    "file": "assets/img/san-francisco-el-grande-2.jpg",
+    "title": "File:Real Basílica de San Francisco el Grande, Madrid, España, 2023-01-03, DD 31-33 HDR.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Real_Bas%C3%ADlica_de_San_Francisco_el_Grande,_Madrid,_Espa%C3%B1a,_2023-01-03,_DD_31-33_HDR.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "Diego Delso",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/9/9c/Real_Bas%C3%ADlica_de_San_Francisco_el_Grande%2C_Madrid%2C_Espa%C3%B1a%2C_2023-01-03%2C_DD_31-33_HDR.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1120,
+      760
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "sant-pau-2": {
+    "file": "assets/img/sant-pau-2.jpg",
+    "title": "File:153 Hospital de Sant Pau, galeries subterrànies.JPG",
+    "page": "https://commons.wikimedia.org/wiki/File:153_Hospital_de_Sant_Pau,_galeries_subterr%C3%A0nies.JPG",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "artist": "Enfo",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/8/85/153_Hospital_de_Sant_Pau%2C_galeries_subterr%C3%A0nies.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      960
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "sant-pau-3": {
+    "file": "assets/img/sant-pau-3.jpg",
+    "title": "File:Hospital Sant Pau panorama.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Hospital_Sant_Pau_panorama.jpg",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "artist": "Jesús Arpón",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/c/c8/Hospital_Sant_Pau_panorama.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      498
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "tarragona-cathedral-2": {
+    "file": "assets/img/tarragona-cathedral-2.jpg",
+    "title": "File:Cathedral of Tarragona 03.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Cathedral_of_Tarragona_03.jpg",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "artist": "Bernard Gagnon",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Cathedral_of_Tarragona_03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      1023
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "tarragona-cathedral-3": {
+    "file": "assets/img/tarragona-cathedral-3.jpg",
+    "title": "File:Cathedral of Tarragona - Main rose window - Catalonia 2014.JPG",
+    "page": "https://commons.wikimedia.org/wiki/File:Cathedral_of_Tarragona_-_Main_rose_window_-_Catalonia_2014.JPG",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "artist": "José Luiz",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/5/57/Cathedral_of_Tarragona_-_Main_rose_window_-_Catalonia_2014.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      967
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "tarragona-roman-2": {
+    "file": "assets/img/tarragona-roman-2.jpg",
+    "title": "File:Acueducto de les ferreres-2012 (3).JPG",
+    "page": "https://commons.wikimedia.org/wiki/File:Acueducto_de_les_ferreres-2012_(3).JPG",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "artist": "Alberto-g-rovi",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/7/7e/Acueducto_de_les_ferreres-2012_%283%29.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1120,
+      744
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "tarragona-roman-3": {
+    "file": "assets/img/tarragona-roman-3.jpg",
+    "title": "File:Roman circus - Tarragona - Catalonia 2014.JPG",
+    "page": "https://commons.wikimedia.org/wiki/File:Roman_circus_-_Tarragona_-_Catalonia_2014.JPG",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "artist": "José Luiz",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/9/92/Roman_circus_-_Tarragona_-_Catalonia_2014.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      853
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "temple-debod-2": {
+    "file": "assets/img/temple-debod-2.jpg",
+    "title": "File:Templo de Debod, Madrid, España, 2023-01-03, DD 89-91 HDR.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Templo_de_Debod,_Madrid,_Espa%C3%B1a,_2023-01-03,_DD_89-91_HDR.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "Diego Delso",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/4/41/Templo_de_Debod%2C_Madrid%2C_Espa%C3%B1a%2C_2023-01-03%2C_DD_89-91_HDR.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      853
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "toledo-2": {
+    "file": "assets/img/toledo-2.jpg",
+    "title": "File:El entierro del señor de Orgaz - El Greco.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:El_entierro_del_se%C3%B1or_de_Orgaz_-_El_Greco.jpg",
+    "license": "Public domain",
+    "license_url": "",
+    "artist": "El Greco",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/3/37/El_entierro_del_se%C3%B1or_de_Orgaz_-_El_Greco.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      960,
+      1280
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "dish-bocadillo-calamares": {
+    "file": "assets/img/dish-bocadillo-calamares.jpg",
+    "title": "File:Bocadillo de calamares-2009.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Bocadillo_de_calamares-2009.jpg",
+    "license": "CC BY 3.0",
+    "license_url": "https://creativecommons.org/licenses/by/3.0",
+    "artist": "Tamorlan",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/b/b0/Bocadillo_de_calamares-2009.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      853
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "dish-callos": {
+    "file": "assets/img/dish-callos.jpg",
+    "title": "File:Callos a la Madrileña spanish.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Callos_a_la_Madrile%C3%B1a_spanish.jpg",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "artist": "Javier Lastras",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/9/93/Callos_a_la_Madrile%C3%B1a_spanish.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1024,
+      683
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "dish-churros-chocolate": {
+    "file": "assets/img/dish-churros-chocolate.jpg",
+    "title": "File:Chocolate con churros en La Giralda.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Chocolate_con_churros_en_La_Giralda.jpg",
+    "license": "CC BY-SA 2.5",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.5",
+    "artist": "Unknown authorUnknown author",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/e/e6/Chocolate_con_churros_en_La_Giralda.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      521
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "dish-cochinillo": {
+    "file": "assets/img/dish-cochinillo.jpg",
+    "title": "File:Cochinillo asado-Madrid.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Cochinillo_asado-Madrid.jpg",
+    "license": "CC BY 3.0",
+    "license_url": "https://creativecommons.org/licenses/by/3.0",
+    "artist": "Tamorlan",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/0/07/Cochinillo_asado-Madrid.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      853
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "dish-cocido-madrileno": {
+    "file": "assets/img/dish-cocido-madrileno.jpg",
+    "title": "File:Cocido madrileño.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Cocido_madrile%C3%B1o.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "Smnt",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/5/55/Cocido_madrile%C3%B1o.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      893
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "dish-crema-catalana": {
+    "file": "assets/img/dish-crema-catalana.jpg",
+    "title": "File:Food in Catalonia 06.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Food_in_Catalonia_06.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "Kritzolina",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/4/49/Food_in_Catalonia_06.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      853
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "dish-escudella": {
+    "file": "assets/img/dish-escudella.jpg",
+    "title": "File:Plat amb dues pilotes d-una escudella i carn d-olla.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Plat_amb_dues_pilotes_d-una_escudella_i_carn_d-olla.jpg",
+    "license": "Public domain",
+    "license_url": "",
+    "artist": "Slastic",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/1/19/Plat_amb_dues_pilotes_d-una_escudella_i_carn_d-olla.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      960
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "dish-granada-tapas": {
+    "file": "assets/img/dish-granada-tapas.jpg",
+    "title": "File:Cerveza y tapa - Guadix.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Cerveza_y_tapa_-_Guadix.jpg",
+    "license": "CC BY-SA 2.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+    "artist": "Lee Kyung-joon",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/0/06/Cerveza_y_tapa_-_Guadix.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      960
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "dish-huevos-rotos": {
+    "file": "assets/img/dish-huevos-rotos.jpg",
+    "title": "File:Huevos rotos con jamón.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Huevos_rotos_con_jam%C3%B3n.jpg",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "artist": "jlastras",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/6/6f/Huevos_rotos_con_jam%C3%B3n.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1024,
+      768
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "dish-pa-amb-tomaquet": {
+    "file": "assets/img/dish-pa-amb-tomaquet.jpg",
+    "title": "File:Pa amb tomàquet - 001.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Pa_amb_tom%C3%A0quet_-_001.jpg",
+    "license": "Public domain",
+    "license_url": "",
+    "artist": "Mutari",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/1/1b/Pa_amb_tom%C3%A0quet_-_001.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      625
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "dish-paella": {
+    "file": "assets/img/dish-paella.jpg",
+    "title": "File:Paella de fruit de mer.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Paella_de_fruit_de_mer.jpg",
+    "license": "CC0",
+    "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "artist": "Wilfredor",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/6/6d/Paella_de_fruit_de_mer.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      896
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "dish-xocolata-desfeta": {
+    "file": "assets/img/dish-xocolata-desfeta.jpg",
+    "title": "File:Chocolate espeso.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Chocolate_espeso.jpg",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "artist": "LWY from Pasadena, USA",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/8/8d/Chocolate_espeso.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      862
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "meal-botin": {
+    "file": "assets/img/meal-botin.jpg",
+    "title": "File:2014 - Sobrino de Botín (Casa Botín) Restaurant, Madrid, Spain ( Ank Kumar ) 01.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:2014_-_Sobrino_de_Bot%C3%ADn_(Casa_Bot%C3%ADn)_Restaurant,_Madrid,_Spain_(_Ank_Kumar_)_01.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "Ank Kumar",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/e/ec/2014_-_Sobrino_de_Bot%C3%ADn_%28Casa_Bot%C3%ADn%29_Restaurant%2C_Madrid%2C_Spain_%28_Ank_Kumar_%29_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1120,
+      746
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "meal-lhardy": {
+    "file": "assets/img/meal-lhardy.jpg",
+    "title": "File:Restaurante Lhardy-2009.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Restaurante_Lhardy-2009.jpg",
+    "license": "CC BY 3.0",
+    "license_url": "https://creativecommons.org/licenses/by/3.0",
+    "artist": "Tamorlan",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/8/81/Restaurante_Lhardy-2009.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      853
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "meal-san-gines": {
+    "file": "assets/img/meal-san-gines.jpg",
+    "title": "File:Desayuno chocolate con churros chocolateria San Gines.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Desayuno_chocolate_con_churros_chocolateria_San_Gines.jpg",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "artist": "Nacho",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/d/d5/Desayuno_chocolate_con_churros_chocolateria_San_Gines.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1024,
+      764
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "meal-mercado-san-miguel": {
+    "file": "assets/img/meal-mercado-san-miguel.jpg",
+    "title": "File:Mercado de San Miguel - Madrid.png",
+    "page": "https://commons.wikimedia.org/wiki/File:Mercado_de_San_Miguel_-_Madrid.png",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "RL0919",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/b/ba/Mercado_de_San_Miguel_-_Madrid.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      960
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "meal-7-portes": {
+    "file": "assets/img/meal-7-portes.jpg",
+    "title": "File:Pijama (Restaurant 7 Portes de Barcelona).jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Pijama_(Restaurant_7_Portes_de_Barcelona).jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "Xavier Dengra",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/4/4a/Pijama_%28Restaurant_7_Portes_de_Barcelona%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      926
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "meal-can-culleretes": {
+    "file": "assets/img/meal-can-culleretes.jpg",
+    "title": "File:Can Culleretes, detall.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Can_Culleretes,_detall.jpg",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "artist": "Enfo",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/2/2b/Can_Culleretes%2C_detall.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      960
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "meal-cafe-opera": {
+    "file": "assets/img/meal-cafe-opera.jpg",
+    "title": "File:Cafè de l'Opera (La Rambla, 74, Barcelona) 01.JPG",
+    "page": "https://commons.wikimedia.org/wiki/File:Caf%C3%A8_de_l%27Opera_(La_Rambla,_74,_Barcelona)_01.JPG",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "Jordiferrer",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/b/be/Caf%C3%A8_de_l%27Opera_%28La_Rambla%2C_74%2C_Barcelona%29_01.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      960
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "meal-granja-viader": {
+    "file": "assets/img/meal-granja-viader.jpg",
+    "title": "File:466 Granja Viader, c. Xuclà 4-6 (Barcelona).jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:466_Granja_Viader,_c._Xucl%C3%A0_4-6_(Barcelona).jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "Enric",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/9/93/466_Granja_Viader%2C_c._Xucl%C3%A0_4-6_%28Barcelona%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      960
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "meal-la-bola": {
+    "file": "assets/img/meal-la-bola.jpg",
+    "title": "File:Madrid (RPS 07-10-2014) Taberna La Bola.png",
+    "page": "https://commons.wikimedia.org/wiki/File:Madrid_(RPS_07-10-2014)_Taberna_La_Bola.png",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "Raimundo Pastor",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/a/aa/Madrid_%28RPS_07-10-2014%29_Taberna_La_Bola.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      824
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "meal-casa-labra": {
+    "file": "assets/img/meal-casa-labra.jpg",
+    "title": "File:Casa Labra-2009.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Casa_Labra-2009.jpg",
+    "license": "CC BY 3.0",
+    "license_url": "https://creativecommons.org/licenses/by/3.0",
+    "artist": "Tamorlan",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/d/d0/Casa_Labra-2009.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      853
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "meal-casa-lucio": {
+    "file": "assets/img/meal-casa-lucio.jpg",
+    "title": "File:Casa Lucio en la Cava Baja (33023857980).jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Casa_Lucio_en_la_Cava_Baja_(33023857980).jpg",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "artist": "manuel m. v. from Valdemoro, Spain",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/0/0f/Casa_Lucio_en_la_Cava_Baja_%2833023857980%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      854
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "meal-el-xampanyet": {
+    "file": "assets/img/meal-el-xampanyet.jpg",
+    "title": "File:054 El Xampanyet, c. Montcada 22 (Barcelona).jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:054_El_Xampanyet,_c._Montcada_22_(Barcelona).jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "Enric",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/b/b6/054_El_Xampanyet%2C_c._Montcada_22_%28Barcelona%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      960
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "meal-cafe-de-oriente": {
+    "file": "assets/img/meal-cafe-de-oriente.jpg",
+    "title": "File:Café de Oriente (2).jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Caf%C3%A9_de_Oriente_(2).jpg",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "artist": "Eric Titcombe",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/8/88/Caf%C3%A9_de_Oriente_%282%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1120,
+      906
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "meal-la-cova-fumada": {
+    "file": "assets/img/meal-la-cova-fumada.jpg",
+    "title": "File:La Cova Fumada.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:La_Cova_Fumada.jpg",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "artist": "Cataleirxs",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/1/14/La_Cova_Fumada.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      960
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "read-tres-de-mayo": {
+    "file": "assets/img/read-tres-de-mayo.jpg",
+    "title": "File:El Tres de Mayo, by Francisco de Goya, from Prado thin black margin.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:El_Tres_de_Mayo,_by_Francisco_de_Goya,_from_Prado_thin_black_margin.jpg",
+    "license": "Public domain",
+    "license_url": "",
+    "artist": "El_Tres_de_Mayo,_by_Francisco_de_Goya,_from_Prado_in_Google_Earth.jpg: Francisco de Goya derivative work: Papa Lima Whiskey 2",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/f/fd/El_Tres_de_Mayo%2C_by_Francisco_de_Goya%2C_from_Prado_thin_black_margin.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      989
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "read-mezquita-cordoba": {
+    "file": "assets/img/read-mezquita-cordoba.jpg",
+    "title": "File:Mezquita cordoba arco interior.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Mezquita_cordoba_arco_interior.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "Alvaro.vinuela.carnicero",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/4/4a/Mezquita_cordoba_arco_interior.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      960
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "read-toledo-cathedral": {
+    "file": "assets/img/read-toledo-cathedral.jpg",
+    "title": "File:Exterior-Toledo-cathedral.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Exterior-Toledo-cathedral.jpg",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "artist": "Acediscovery",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/c/cd/Exterior-Toledo-cathedral.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      1024
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "read-sagrada-passion": {
+    "file": "assets/img/read-sagrada-passion.jpg",
+    "title": "File:Sagrada Família 2010.JPG",
+    "page": "https://commons.wikimedia.org/wiki/File:Sagrada_Fam%C3%ADlia_2010.JPG",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "artist": "Jopparn",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/b/b6/Sagrada_Fam%C3%ADlia_2010.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      857
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "read-sagrada-glass": {
+    "file": "assets/img/read-sagrada-glass.jpg",
+    "title": "File:Stained-glass windows of the Sagrada Família 2023 2.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Stained-glass_windows_of_the_Sagrada_Fam%C3%ADlia_2023_2.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "Smiley.toerist",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/d/d6/Stained-glass_windows_of_the_Sagrada_Fam%C3%ADlia_2023_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      853
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "read-sagrada-towers": {
+    "file": "assets/img/read-sagrada-towers.jpg",
+    "title": "File:Sagrada Familia Barcelona 2.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Sagrada_Familia_Barcelona_2.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "kallerna",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/8/8d/Sagrada_Familia_Barcelona_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      862
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "read-sagrada-magic-square": {
+    "file": "assets/img/read-sagrada-magic-square.jpg",
+    "title": "File:Magic Square - Sagrada Familia (3408718519).jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Magic_Square_-_Sagrada_Familia_(3408718519).jpg",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "artist": "Serge Melki from Indianapolis, USA",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/e/ec/Magic_Square_-_Sagrada_Familia_%283408718519%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      926
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "read-alhambra-muqarnas": {
+    "file": "assets/img/read-alhambra-muqarnas.jpg",
+    "title": "File:Muqarnas Dome, Alhambra, Granada 6 30 11 -architecture -islamic -palace (25092731377).jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Muqarnas_Dome,_Alhambra,_Granada_6_30_11_-architecture_-islamic_-palace_(25092731377).jpg",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "artist": "Sharon Mollerus",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/c/c4/Muqarnas_Dome%2C_Alhambra%2C_Granada_6_30_11_-architecture_-islamic_-palace_%2825092731377%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1120,
+      746
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "read-alhambra-calligraphy": {
+    "file": "assets/img/read-alhambra-calligraphy.jpg",
+    "title": "File:Alhambra wall detail.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Alhambra_wall_detail.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "Alexandre Buisse (Nattfodd)",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/0/08/Alhambra_wall_detail.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      851
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "read-alhambra-myrtles": {
+    "file": "assets/img/read-alhambra-myrtles.jpg",
+    "title": "File:Patio de los Arrayanes detail Alhambra Granada Spain.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Patio_de_los_Arrayanes_detail_Alhambra_Granada_Spain.jpg",
+    "license": "CC0",
+    "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "artist": "Jebulon",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/4/48/Patio_de_los_Arrayanes_detail_Alhambra_Granada_Spain.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      870
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "read-uvas": {
+    "file": "assets/img/read-uvas.jpg",
+    "title": "File:Las 12 uvas de Nochevieja. Las uvas de la suerte (España).jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Las_12_uvas_de_Nochevieja._Las_uvas_de_la_suerte_(Espa%C3%B1a).jpg",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "artist": "Juan Emilio Prades Bel",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/7/72/Las_12_uvas_de_Nochevieja._Las_uvas_de_la_suerte_%28Espa%C3%B1a%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      960
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "read-roscon": {
+    "file": "assets/img/read-roscon.jpg",
+    "title": "File:Roscón de Reyes Magos.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Rosc%C3%B3n_de_Reyes_Magos.jpg",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "artist": "Juan Emilio Prades Bel",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/1/18/Rosc%C3%B3n_de_Reyes_Magos.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      960
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "read-senyera": {
+    "file": "assets/img/read-senyera.jpg",
+    "title": "File:Balconies in Barcelona with Catalan flags.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Balconies_in_Barcelona_with_Catalan_flags.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "Horchatamivida",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/8/83/Balconies_in_Barcelona_with_Catalan_flags.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      960
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "read-manzana-discordia": {
+    "file": "assets/img/read-manzana-discordia.jpg",
+    "title": "File:Barcelona - Illa de la Discòrdia (1).jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Barcelona_-_Illa_de_la_Disc%C3%B2rdia_(1).jpg",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "artist": "Fred Romero",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/a/a1/Barcelona_-_Illa_de_la_Disc%C3%B2rdia_%281%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      853
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "read-gaudi-nature": {
+    "file": "assets/img/read-gaudi-nature.jpg",
+    "title": "File:Casa Batlló Balconies 1991.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Casa_Batll%C3%B3_Balconies_1991.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "JopkeB",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/7/71/Casa_Batll%C3%B3_Balconies_1991.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      863
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "read-atocha": {
+    "file": "assets/img/read-atocha.jpg",
+    "title": "File:Madrid Atocha entering station.png",
+    "page": "https://commons.wikimedia.org/wiki/File:Madrid_Atocha_entering_station.png",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "Mattsjc",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/2/2d/Madrid_Atocha_entering_station.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      960
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "read-guell-colony": {
+    "file": "assets/img/read-guell-colony.jpg",
+    "title": "File:Cripta de la Colònia Güell 2.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Cripta_de_la_Col%C3%B2nia_G%C3%BCell_2.jpg",
+    "license": "CC BY-SA 2.5",
+    "license_url": "https://creativecommons.org/licenses/by-sa/2.5",
+    "artist": "Till F. Teenck",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/7/77/Cripta_de_la_Col%C3%B2nia_G%C3%BCell_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1120,
+      840
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "almudena-3": {
+    "file": "assets/img/almudena-3.jpg",
+    "title": "File:Muralla árabe de Madrid 04.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Muralla_%C3%A1rabe_de_Madrid_04.jpg",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "artist": "Luis García (Zaqarbal)",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/3/30/Muralla_%C3%A1rabe_de_Madrid_04.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1120,
+      840
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "casa-batllo-3": {
+    "file": "assets/img/casa-batllo-3.jpg",
+    "title": "File:Casa Batllo Blue Tiles (5840785460).jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Casa_Batllo_Blue_Tiles_(5840785460).jpg",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "artist": "Tony Hisgett from Birmingham, UK",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Casa_Batllo_Blue_Tiles_%285840785460%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      821
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "casa-vicens-2": {
+    "file": "assets/img/casa-vicens-2.jpg",
+    "title": "File:Casa Vicens (7).jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Casa_Vicens_(7).jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "Canaan",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/0/04/Casa_Vicens_%287%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      853
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "retiro-3": {
+    "file": "assets/img/retiro-3.jpg",
+    "title": "File:Fuente de Cibeles, Plaza de Cibeles, Madrid, España, 2017-05-18, DD 10.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Fuente_de_Cibeles,_Plaza_de_Cibeles,_Madrid,_Espa%C3%B1a,_2017-05-18,_DD_10.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "Diego Delso",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/8/84/Fuente_de_Cibeles%2C_Plaza_de_Cibeles%2C_Madrid%2C_Espa%C3%B1a%2C_2017-05-18%2C_DD_10.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      688
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "dish-calcots": {
+    "file": "assets/img/dish-calcots.jpg",
+    "title": "File:Paret de calçots.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Paret_de_cal%C3%A7ots.jpg",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "artist": "Laia Solanellas from Reus, Catalonia",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/2/25/Paret_de_cal%C3%A7ots.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1181,
+      791
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "toledo-3": {
+    "file": "assets/img/toledo-3.jpg",
+    "title": "File:El Transparente en la Catedral de Toledo.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:El_Transparente_en_la_Catedral_de_Toledo.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "Mentxuwiki",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/7/7d/El_Transparente_en_la_Catedral_de_Toledo.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      960,
+      1280
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "meal-els-quatre-gats": {
+    "file": "assets/img/meal-els-quatre-gats.jpg",
+    "title": "File:2016 - Els Quatre Gats 02.JPG",
+    "page": "https://commons.wikimedia.org/wiki/File:2016_-_Els_Quatre_Gats_02.JPG",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "Jordiferrer",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/f/f2/2016_-_Els_Quatre_Gats_02.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      960
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "casa-vicens-3": {
+    "file": "assets/img/casa-vicens-3.jpg",
+    "title": "File:Vicens BCN (3).jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Vicens_BCN_(3).jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "Canaan",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/b/b1/Vicens_BCN_%283%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      853
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "dish-bombas": {
+    "file": "assets/img/dish-bombas.jpg",
+    "title": "File:Bomba - Salsa picante (Barcelona).JPG",
+    "page": "https://commons.wikimedia.org/wiki/File:Bomba_-_Salsa_picante_(Barcelona).JPG",
+    "license": "CC BY 3.0",
+    "license_url": "https://creativecommons.org/licenses/by/3.0",
+    "artist": "Tamorlan",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/b/b2/Bomba_-_Salsa_picante_%28Barcelona%29.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      853
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "montjuic": {
+    "file": "assets/img/montjuic.jpg",
+    "title": "File:Castell Montjuic, Barcelona (P1170657).jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Castell_Montjuic,_Barcelona_(P1170657).jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0/deed.en",
+    "artist": "Matti Blume",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/d/d1/Castell_Montjuic%2C_Barcelona_%28P1170657%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      960
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "meal-los-caracoles": {
+    "file": "assets/img/meal-los-caracoles.jpg",
+    "title": "File:Interior Restaurant Los Caracoles - Barcelona 07.JPG",
+    "page": "https://commons.wikimedia.org/wiki/File:Interior_Restaurant_Los_Caracoles_-_Barcelona_07.JPG",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "Jordiferrer",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/5/54/Interior_Restaurant_Los_Caracoles_-_Barcelona_07.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      960
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "park-guell": {
+    "file": "assets/img/park-guell.jpg",
+    "title": "File:Park Güell in Barcelona 06.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Park_G%C3%BCell_in_Barcelona_06.jpg",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "artist": "Ronny Siegel",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/a/ae/Park_G%C3%BCell_in_Barcelona_06.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      789,
+      1280
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "read-ambulance": {
+    "file": "assets/img/read-ambulance.jpg",
+    "title": "File:SAMUR ambulance.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:SAMUR_ambulance.jpg",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "artist": "Tiia Monto",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/d/d8/SAMUR_ambulance.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      864
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "read-airport": {
+    "file": "assets/img/read-airport.jpg",
+    "title": "File:Barcelona-El Prat International Airport (BCN), Terminal 1 (29993706328).jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Barcelona-El_Prat_International_Airport_(BCN),_Terminal_1_(29993706328).jpg",
+    "license": "CC BY 2.0",
+    "license_url": "https://creativecommons.org/licenses/by/2.0",
+    "artist": "Charles from Port Chester, New York",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/b/b5/Barcelona-El_Prat_International_Airport_%28BCN%29%2C_Terminal_1_%2829993706328%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      1037
+    ],
+    "modification": "Resized and JPEG encoded"
+  },
+  "read-farmacia-sign": {
+    "file": "assets/img/read-farmacia-sign.jpg",
+    "title": "File:Sign in Mallorca (near Cales de Mallorca, Manacor) - Farmacia Apotheke 01.jpg",
+    "page": "https://commons.wikimedia.org/wiki/File:Sign_in_Mallorca_(near_Cales_de_Mallorca,_Manacor)_-_Farmacia_Apotheke_01.jpg",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "artist": "Sukkoria",
+    "source_url": "https://upload.wikimedia.org/wikipedia/commons/f/f3/Sign_in_Mallorca_%28near_Cales_de_Mallorca%2C_Manacor%29_-_Farmacia_Apotheke_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "size": [
+      1280,
+      960
+    ],
+    "modification": "Resized and JPEG encoded"
   }
 }
